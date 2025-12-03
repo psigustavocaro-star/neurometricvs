@@ -105,8 +105,16 @@ export function AdminMenu() {
         >
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full shadow-lg border-2 border-white animate-pulse hover:animate-none">
-                        {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : <Shield className="h-6 w-6" />}
+                    <Button variant="destructive" size="icon" className="h-14 w-14 rounded-full shadow-lg border-2 border-white animate-pulse hover:animate-none overflow-hidden p-0">
+                        {loading ? (
+                            <Loader2 className="h-6 w-6 animate-spin" />
+                        ) : (
+                            <img
+                                src="/admin-icon.jpg"
+                                alt="Admin God Mode"
+                                className="w-full h-full object-cover"
+                            />
+                        )}
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">

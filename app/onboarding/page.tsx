@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
+import { PriceDisplay } from "@/components/pricing/price-display"
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -80,15 +81,16 @@ function OnboardingContent() {
             return
         }
 
-        // Handle Stripe Checkout for paid plans
+        // Handle Lemon Squeezy Checkout for paid plans
         try {
-            const response = await fetch('/api/stripe/checkout', {
+            const response = await fetch('/api/lemonsqueezy/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     plan: formData.plan,
                     email: formData.email,
-                    userId: signUpData.user?.id
+                    userId: signUpData.user?.id,
+                    name: formData.name
                 })
             })
 
@@ -358,8 +360,7 @@ function OnboardingContent() {
                                                             <p className="text-[10px] text-slate-500">Para uso personal</p>
                                                         </div>
                                                         <div className="text-right">
-                                                            <span className="font-bold text-slate-900">$9.990</span>
-                                                            <span className="text-[10px] text-slate-500 block">/mes</span>
+                                                            <PriceDisplay amount={10} />
                                                         </div>
                                                     </div>
                                                     <ul className="text-xs text-slate-600 space-y-1">
@@ -379,8 +380,7 @@ function OnboardingContent() {
                                                             <p className="text-[10px] text-slate-500">Para profesionales</p>
                                                         </div>
                                                         <div className="text-right">
-                                                            <span className="font-bold text-slate-900">$14.990</span>
-                                                            <span className="text-[10px] text-slate-500 block">/mes</span>
+                                                            <PriceDisplay amount={15} />
                                                         </div>
                                                     </div>
                                                     <ul className="text-xs text-slate-600 space-y-1">
@@ -405,14 +405,13 @@ function OnboardingContent() {
                                                             <p className="text-[10px] text-slate-500">Ahorro inteligente</p>
                                                         </div>
                                                         <div className="text-right mt-1">
-                                                            <span className="font-bold text-teal-900 text-lg">$60.000</span>
-                                                            <span className="text-[10px] text-slate-500 block">/año</span>
+                                                            <PriceDisplay amount={65} period="/año" />
                                                         </div>
                                                     </div>
                                                     <ul className="text-xs text-slate-600 space-y-1 mt-2">
                                                         <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> <strong>Paga 4 meses, recibe 12</strong></li>
                                                         <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Ahorra 65% vs Plan Clínico</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Solo $5.000 mensuales</li>
+                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Solo $5.41 mensuales</li>
                                                         <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Todo lo del Clínico</li>
                                                         <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Soporte VIP</li>
                                                     </ul>

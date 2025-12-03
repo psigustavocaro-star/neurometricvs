@@ -9,6 +9,7 @@ import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
 import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
 import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
+import { PriceDisplay } from "@/components/pricing/price-display"
 
 export default function LandingPage() {
   return (
@@ -215,7 +216,7 @@ export default function LandingPage() {
                 <div className="space-y-2">
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-slate-900">Planes Transparentes</h2>
                   <p className="max-w-[900px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Invierte en tu productividad. Cancela cuando quieras.
+                    Precios en USD. Conversión automática a tu moneda local.
                   </p>
                 </div>
               </div>
@@ -229,19 +230,18 @@ export default function LandingPage() {
                     <p className="text-slate-500 text-sm">Para comenzar</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <span className="text-4xl font-extrabold text-slate-900">$9.990</span>
-                    <span className="text-slate-500">/mes</span>
-                    <p className="text-xs text-teal-600 font-semibold mt-1">7 días gratis, luego facturación automática</p>
+                    <PriceDisplay amount={10} />
+                    <p className="text-xs text-teal-600 font-semibold mt-1">7 días gratis</p>
                   </div>
                   <ul className="mt-8 space-y-4 flex-1">
                     <li className="flex items-center text-sm text-slate-600">
                       <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Acceso a todos los tests
                     </li>
                     <li className="flex items-center text-sm text-slate-600">
-                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> PDFs con firma
+                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Corrección automática
                     </li>
-                    <li className="flex items-center text-sm text-slate-400">
-                      <div className="bg-slate-100 p-1 rounded-full mr-3"><X className="h-3 w-3 text-slate-400" /></div> Sin historial
+                    <li className="flex items-center text-sm text-slate-600">
+                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Informes en PDF
                     </li>
                   </ul>
                   <div className="mt-8">
@@ -256,29 +256,28 @@ export default function LandingPage() {
               <ScrollAnimation delay={150} className="h-full z-10">
                 <div className="flex flex-col p-6 bg-white shadow-2xl rounded-2xl border-2 border-teal-600 transform md:-translate-y-4 relative z-10 transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_20px_50px_rgba(15,118,110,0.2)] hover:z-50 h-full">
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">
-                    MÁS POPULAR
+                    RECOMENDADO
                   </div>
                   <div className="space-y-2 text-center">
                     <h3 className="text-xl font-bold text-slate-900">Clínico</h3>
-                    <p className="text-slate-500 text-sm">Para profesionales</p>
+                    <p className="text-slate-500 text-sm">Control total de pacientes</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <span className="text-5xl font-extrabold text-slate-900">$14.990</span>
-                    <span className="text-slate-500">/mes</span>
-                    <p className="text-xs text-teal-600 font-semibold mt-1">7 días gratis, luego facturación automática</p>
+                    <PriceDisplay amount={15} />
+                    <p className="text-xs text-teal-600 font-semibold mt-1">Prueba gratis de 7 días</p>
                   </div>
                   <ul className="mt-8 space-y-4 flex-1">
                     <li className="flex items-center text-sm text-slate-700 font-medium">
+                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> <strong>Gestión de Pacientes</strong>
+                    </li>
+                    <li className="flex items-center text-sm text-slate-700 font-medium">
+                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Historial y Evolución
+                    </li>
+                    <li className="flex items-center text-sm text-slate-700 font-medium">
+                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Envíos por WhatsApp/Email
+                    </li>
+                    <li className="flex items-center text-sm text-slate-700 font-medium">
                       <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Todo lo del Básico
-                    </li>
-                    <li className="flex items-center text-sm text-slate-700 font-medium">
-                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Gestión de Pacientes
-                    </li>
-                    <li className="flex items-center text-sm text-slate-700 font-medium">
-                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Historial clínico
-                    </li>
-                    <li className="flex items-center text-sm text-slate-700 font-medium">
-                      <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> Envíos automáticos
                     </li>
                   </ul>
                   <div className="mt-8">
@@ -297,36 +296,24 @@ export default function LandingPage() {
                 <div className="flex flex-col p-6 bg-white shadow-lg rounded-2xl border border-slate-100 transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:z-50 hover:border-teal-200 relative h-full group">
                   <div className="space-y-2 text-center">
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Pro Anual</h3>
-                    <p className="text-slate-500 text-sm">Ahorro inteligente</p>
+                    <p className="text-slate-500 text-sm">Ahorro Inteligente</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <span className="text-4xl font-extrabold text-slate-900">$60.000</span>
-                    <span className="text-slate-500">/año</span>
-                    <p className="text-xs text-teal-600 font-semibold mt-1">7 días gratis, luego facturación automática</p>
+                    <PriceDisplay amount={65} period="/año" />
+                    <p className="text-xs text-teal-600 font-semibold mt-1">Equivale a <span className="font-bold">$5.41/mes</span></p>
                   </div>
                   <div className="text-center text-xs text-green-600 font-bold mt-2 bg-green-50 inline-block mx-auto px-2 py-1 rounded-md">
-                    65% OFF
+                    AHORRAS 64%
                   </div>
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center text-sm text-slate-700">
-                      <div className="bg-green-100 p-1 rounded-full mr-2"><Check className="h-3 w-3 text-green-600" /></div> Paga 4 meses, recibe 12
-                    </li>
-                    <li className="flex items-center text-sm text-slate-700">
-                      <div className="bg-green-100 p-1 rounded-full mr-2"><Check className="h-3 w-3 text-green-600" /></div> Ahorra 65% vs Plan Clínico
-                    </li>
-                    <li className="flex items-center text-sm text-slate-700">
-                      <div className="bg-green-100 p-1 rounded-full mr-2"><Check className="h-3 w-3 text-green-600" /></div> Solo $5.000 mensuales
-                    </li>
-                  </ul>
                   <ul className="mt-8 space-y-4 flex-1">
+                    <li className="flex items-center text-sm text-slate-600">
+                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> <strong>4 meses de regalo</strong>
+                    </li>
                     <li className="flex items-center text-sm text-slate-600">
                       <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Todo lo del Clínico
                     </li>
                     <li className="flex items-center text-sm text-slate-600">
-                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Facturación anual
-                    </li>
-                    <li className="flex items-center text-sm text-slate-600">
-                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Soporte VIP
+                      <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> Soporte Prioritario
                     </li>
                   </ul>
                   <div className="mt-8">

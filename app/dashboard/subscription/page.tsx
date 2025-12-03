@@ -40,7 +40,7 @@ export default async function SubscriptionPage() {
                         <CardDescription>Para uso personal</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$9.990<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                        <div className="text-3xl font-bold mb-4">$12<span className="text-sm font-normal text-slate-500">/mes</span></div>
                         <ul className="space-y-2">
                             <li className="flex items-center text-sm text-slate-600">
                                 <Check className="h-4 w-4 text-green-500 mr-2" /> Acceso a todos los tests
@@ -67,7 +67,7 @@ export default async function SubscriptionPage() {
                         <CardDescription>Para profesionales</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$14.990<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                        <div className="text-3xl font-bold mb-4">$18<span className="text-sm font-normal text-slate-500">/mes</span></div>
                         <ul className="space-y-2">
                             <li className="flex items-center text-sm text-slate-600">
                                 <Check className="h-4 w-4 text-green-500 mr-2" /> Todo lo del Básico
@@ -107,7 +107,7 @@ export default async function SubscriptionPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$60.000<span className="text-sm font-normal text-slate-500">/año</span></div>
+                        <div className="text-3xl font-bold mb-4">$75<span className="text-sm font-normal text-slate-500">/año</span></div>
                         <ul className="mt-4 space-y-2 mb-4">
                             <li className="flex items-center text-sm text-slate-700">
                                 <Check className="h-4 w-4 text-green-500 mr-2" /> Paga 4 meses, recibe 12
@@ -116,7 +116,7 @@ export default async function SubscriptionPage() {
                                 <Check className="h-4 w-4 text-green-500 mr-2" /> Ahorra 65% vs Plan Clínico
                             </li>
                             <li className="flex items-center text-sm text-slate-700">
-                                <Check className="h-4 w-4 text-green-500 mr-2" /> Solo $5.000 mensuales
+                                <Check className="h-4 w-4 text-green-500 mr-2" /> Solo $6.25 mensuales
                             </li>
                         </ul>
                         <ul className="space-y-2">
