@@ -6,6 +6,7 @@ import { LoginModal } from "@/components/auth/login-modal"
 import { HeroCarousel } from "@/components/landing/hero-carousel"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
+import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
 import { Footer } from "@/components/layout/footer"
 import { ScrollIndicator } from "@/components/ui/scroll-indicator"
 
@@ -209,33 +210,8 @@ export default function LandingPage() {
               <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">
                 Avalado por profesionales de
               </p>
-              <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
-                {[
-                  { name: "Universidad de Chile", logo: "/logos/uchile.jpg" },
-                  { name: "Pontificia Universidad Católica de Chile", logo: "/logos/puc.png" },
-                  { name: "Universidad Nacional Autónoma de México", logo: "/logos/unam-full.png" },
-                  { name: "Clínica Las Condes", logo: "/logos/clinica-las-condes-v2.png" },
-                  { name: "Clínica Barcelona", logo: "/logos/clinica-barcelona.png" },
-                  { name: "Universidad de Buenos Aires", logo: "/logos/uba.png" },
-                  { name: "Mayo Clinic", logo: "/logos/mayo-clinic.png" },
-                ].map((item, index) => (
-                  <ScrollAnimation key={item.name} animation="fade-up" delay={index * 50}>
-                    <div
-                      className="group flex items-center gap-3 px-4 py-2 rounded-full transition-all duration-300 hover:bg-slate-50 hover:shadow-md cursor-default border border-transparent hover:border-slate-100"
-                    >
-                      <div className="relative h-10 w-10 flex-shrink-0 flex items-center justify-center">
-                        <img
-                          src={item.logo}
-                          alt={`Logo ${item.name}`}
-                          className="max-h-full max-w-full object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
-                        />
-                      </div>
-                      <span className="text-sm font-medium text-slate-500 group-hover:text-slate-900 transition-colors duration-300">
-                        {item.name}
-                      </span>
-                    </div>
-                  </ScrollAnimation>
-                ))}
+              <div className="mt-8">
+                <InstitutionsMarquee />
               </div>
             </ScrollAnimation>
           </div>
