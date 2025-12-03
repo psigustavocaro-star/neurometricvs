@@ -79,18 +79,18 @@ export default function LandingPage() {
                 </ScrollAnimation>
               </div>
 
-              <div className="mx-auto lg:mr-0 relative h-[800px] w-full max-w-[800px] hidden lg:flex items-center justify-center">
+              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[800px] w-full max-w-[800px] flex items-center justify-center mt-8 lg:mt-0">
                 <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
-                  <div className="scale-90 xl:scale-100 transition-transform">
+                  <div className="scale-75 md:scale-90 xl:scale-100 transition-transform origin-center">
                     <HeroCarousel />
                   </div>
                 </ScrollAnimation>
                 {/* Decorative elements */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[100px] opacity-20 z-0 pointer-events-none"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[60px] md:blur-[100px] opacity-20 z-0 pointer-events-none"></div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-8 left-0 w-full z-20 flex flex-col items-center justify-center gap-2">
+          <div className="w-full z-20 flex flex-col items-center justify-center gap-2 mt-12 md:absolute md:bottom-8 md:mt-0">
             <span className="text-sm md:text-base font-medium text-slate-500 animate-pulse text-center px-4">
               Descubre nuestros servicios y precios
             </span>
