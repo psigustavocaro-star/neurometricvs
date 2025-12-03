@@ -132,7 +132,7 @@ export default function LandingPage() {
               </ScrollAnimation>
 
               <ScrollAnimation animation="slide-in-right" delay={200}>
-                <div className="relative mx-auto w-full max-w-[400px] aspect-[9/19] bg-slate-900 rounded-[3rem] shadow-2xl border-[8px] border-slate-900 overflow-hidden">
+                <div className="relative mx-auto w-[260px] sm:w-[300px] md:w-full md:max-w-[400px] aspect-[9/19] bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl border-[6px] md:border-[8px] border-slate-900 overflow-hidden">
                   {/* Screen Content */}
                   <div className="absolute inset-0 bg-slate-50 flex flex-col">
                     {/* Mock Header */}
