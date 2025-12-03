@@ -28,8 +28,8 @@ export default function LandingPage() {
             <div className="grid gap-6 lg:grid-cols-[1fr_500px] lg:gap-6 xl:grid-cols-[1fr_700px] items-center">
               <div className="flex flex-col justify-center space-y-4 mt-8 md:-mt-24 lg:-mt-32 items-center text-center lg:items-start lg:text-left">
                 <ScrollAnimation animation="fade-up" delay={0}>
-                  <div className="inline-block rounded-full bg-teal-50/80 backdrop-blur-sm px-3 py-1 text-sm font-semibold text-teal-900 mb-2 shadow-sm border border-teal-100">
-                    Neuro Metrics Latinoamérica presentes en Chile, Argentina, Colombia, Perú, etc. Válidos en toda Latinoamérica
+                  <div className="inline-block rounded-full bg-slate-50/90 backdrop-blur-md px-4 py-1.5 text-sm font-medium text-slate-700 mb-4 shadow-sm border border-slate-200">
+                    <span className="mr-2">🌎</span> Neuro Metrics Latinoamérica: Presentes en Chile, Argentina, Colombia, Perú y toda la región.
                   </div>
                 </ScrollAnimation>
 
