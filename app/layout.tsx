@@ -16,6 +16,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Neurometrics",
   description: "Plataforma de gestión clínica para psicólogos",
+  openGraph: {
+    title: "Neurometrics - Gestión Clínica Inteligente",
+    description: "Plataforma integral para psicólogos y psiquiatras. Gestión de pacientes, tests automatizados y asistente IA.",
+    url: "https://neurometricslatam.com",
+    siteName: "Neurometrics",
+    locale: "es_ES",
+    type: "website",
+  },
 };
 
 export default async function RootLayout({
