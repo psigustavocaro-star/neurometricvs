@@ -79,9 +79,11 @@ export default function LandingPage() {
                 </ScrollAnimation>
               </div>
 
-              <div className="mx-auto lg:mr-0 relative h-[800px] w-full max-w-[800px] hidden lg:block">
-                <ScrollAnimation animation="scale-up" delay={200} duration={0.8}>
-                  <HeroCarousel />
+              <div className="mx-auto lg:mr-0 relative h-[800px] w-full max-w-[800px] hidden lg:flex items-center justify-center">
+                <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
+                  <div className="scale-90 xl:scale-100 transition-transform">
+                    <HeroCarousel />
+                  </div>
                 </ScrollAnimation>
                 {/* Decorative elements */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[100px] opacity-20 z-0 pointer-events-none"></div>

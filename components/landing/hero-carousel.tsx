@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Quote, CheckCircle2 } from 'lucide-react'
+import { Quote, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Slide {
     image: string
@@ -68,15 +68,18 @@ const slides: Slide[] = [
 export function HeroCarousel() {
     const [currentSlide, setCurrentSlide] = useState(0)
     const [direction, setDirection] = useState(0)
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
     useEffect(() => {
+        if (!isAutoPlaying) return
+
         const timer = setInterval(() => {
             setDirection(1)
             setCurrentSlide((prev) => (prev + 1) % slides.length)
         }, 6000)
 
         return () => clearInterval(timer)
-    }, [])
+    }, [isAutoPlaying])
 
     const variants = {
         enter: (direction: number) => ({
@@ -98,9 +101,39 @@ export function HeroCarousel() {
         })
     }
 
+    const nextSlide = () => {
+        setDirection(1)
+        setCurrentSlide((prev) => (prev + 1) % slides.length)
+        setIsAutoPlaying(false)
+    }
+
+    const prevSlide = () => {
+        setDirection(-1)
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+        setIsAutoPlaying(false)
+    }
+
     return (
         <div className="relative w-full h-full flex items-center justify-center perspective-1000">
-            <div className="relative w-[350px] md:w-[400px] h-[550px] md:h-[600px]">
+            {/* Navigation Arrows - Left */}
+            <button
+                onClick={prevSlide}
+                className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 backdrop-blur-md border border-white/50 text-slate-700 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 group"
+                aria-label="Anterior"
+            >
+                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Navigation Arrows - Right */}
+            <button
+                onClick={nextSlide}
+                className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 backdrop-blur-md border border-white/50 text-slate-700 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 group"
+                aria-label="Siguiente"
+            >
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+
+            <div className="relative w-[320px] md:w-[380px] h-[500px] md:h-[580px]">
                 <AnimatePresence initial={false} custom={direction}>
                     <motion.div
                         key={currentSlide}
@@ -116,16 +149,17 @@ export function HeroCarousel() {
                         }}
                         className="absolute inset-0 w-full h-full"
                     >
-                        <div className="relative w-full h-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/50 group">
+                        <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/20 group bg-slate-900">
                             {/* Image */}
                             <img
                                 src={slides[currentSlide].image}
                                 alt={slides[currentSlide].alt}
                                 className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                                loading="eager"
                             />
 
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+                            {/* Gradient Overlay - Stronger for readability */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90" />
 
                             {/* Content Card */}
                             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
@@ -135,21 +169,23 @@ export function HeroCarousel() {
                                     transition={{ delay: 0.3 }}
                                     className="relative z-10"
                                 >
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <span className="bg-teal-500/20 backdrop-blur-md border border-teal-500/30 text-teal-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="bg-teal-500/90 backdrop-blur-md text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                                             <CheckCircle2 className="w-3 h-3" /> Verificado
                                         </span>
-                                        <span className="text-xs font-medium text-slate-300">{slides[currentSlide].location}</span>
+                                        <span className="text-xs font-medium text-slate-300 flex items-center gap-1">
+                                            {slides[currentSlide].location}
+                                        </span>
                                     </div>
 
-                                    <Quote className="w-8 h-8 text-teal-400 mb-2 opacity-80" />
+                                    <Quote className="w-8 h-8 text-teal-400 mb-3 opacity-100" />
 
-                                    <p className="text-lg md:text-xl font-medium leading-snug mb-4 font-serif italic text-slate-100">
+                                    <p className="text-lg md:text-xl font-medium leading-relaxed mb-6 font-serif italic text-slate-100 drop-shadow-md">
                                         "{slides[currentSlide].quote}"
                                     </p>
 
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-base">{slides[currentSlide].author}</span>
+                                    <div className="flex flex-col border-l-2 border-teal-500 pl-4">
+                                        <span className="font-bold text-base text-white">{slides[currentSlide].author}</span>
                                         <span className="text-sm text-teal-400 font-medium">{slides[currentSlide].role}</span>
                                     </div>
                                 </motion.div>
@@ -159,27 +195,24 @@ export function HeroCarousel() {
                 </AnimatePresence>
             </div>
 
-            {/* Progress Indicators */}
-            <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 flex flex-col gap-3">
+            {/* Pagination Dots (Optional, subtle) */}
+            <div className="absolute -bottom-12 flex gap-2">
                 {slides.map((_, index) => (
-                    <div
+                    <button
                         key={index}
-                        className="relative h-12 w-1 rounded-full bg-slate-200/30 overflow-hidden cursor-pointer transition-all hover:bg-slate-200/50"
                         onClick={() => {
                             setDirection(index > currentSlide ? 1 : -1)
                             setCurrentSlide(index)
+                            setIsAutoPlaying(false)
                         }}
-                    >
-                        {index === currentSlide && (
-                            <motion.div
-                                layoutId="active-indicator"
-                                className="absolute top-0 left-0 w-full bg-teal-500"
-                                initial={{ height: "0%" }}
-                                animate={{ height: "100%" }}
-                                transition={{ duration: 6, ease: "linear" }}
-                            />
+                        className={cn(
+                            "w-2 h-2 rounded-full transition-all duration-300",
+                            index === currentSlide
+                                ? "bg-teal-600 w-6"
+                                : "bg-slate-300 hover:bg-teal-400"
                         )}
-                    </div>
+                        aria-label={`Ir a diapositiva ${index + 1}`}
+                    />
                 ))}
             </div>
         </div>
