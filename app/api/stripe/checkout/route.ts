@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 
-const PLAN_PRICES = {
-    basic: process.env.STRIPE_PRICE_ID_BASIC,
-    clinical: process.env.STRIPE_PRICE_ID_CLINICAL,
-    pro: process.env.STRIPE_PRICE_ID_PRO,
-};
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+    const PLAN_PRICES = {
+        basic: process.env.STRIPE_PRICE_ID_BASIC,
+        clinical: process.env.STRIPE_PRICE_ID_CLINICAL,
+        pro: process.env.STRIPE_PRICE_ID_PRO,
+    };
     try {
         const { plan, email, userId } = await req.json();
 

@@ -4,6 +4,8 @@ import { stripe } from "@/lib/stripe"
 import { createClient } from "@supabase/supabase-js"
 import Stripe from "stripe"
 
+export const dynamic = 'force-dynamic'
+
 // Initialize Supabase Admin client to bypass RLS
 const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,7 +14,7 @@ const supabaseAdmin = createClient(
 
 export async function POST(req: Request) {
     const body = await req.text()
-    const signature = headers().get("Stripe-Signature") as string
+    const signature = (await headers()).get("Stripe-Signature") as string
 
     let event: Stripe.Event
 
@@ -32,7 +34,7 @@ export async function POST(req: Request) {
         // Retrieve the subscription details from Stripe
         const subscription = await stripe.subscriptions.retrieve(
             session.subscription as string
-        )
+        ) as any
 
         if (!session?.metadata?.userId) {
             return new NextResponse("User id is required", { status: 400 })
@@ -71,7 +73,7 @@ export async function POST(req: Request) {
         // Handle recurring payments
         const subscription = await stripe.subscriptions.retrieve(
             session.subscription as string
-        )
+        ) as any
 
         const { error } = await supabaseAdmin
             .from("subscriptions")
