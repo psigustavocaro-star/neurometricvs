@@ -94,7 +94,7 @@ export default function LandingPage() {
             <span className="text-sm md:text-base font-medium text-slate-500 animate-pulse text-center px-4">
               Descubre nuestros servicios y precios
             </span>
-            <ScrollIndicator href="#mobile" className="relative bottom-0 left-0 transform-none" />
+            <ScrollIndicator href="#mobile" className="static transform-none" />
           </div>
         </section>
 
@@ -174,7 +174,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#testimonials" dark className="relative bottom-0 left-0 transform-none" />
+            <ScrollIndicator href="#testimonials" dark className="static transform-none" />
           </div>
         </section>
 
@@ -198,7 +198,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#trust" className="relative bottom-0 left-0 transform-none" />
+            <ScrollIndicator href="#trust" className="static transform-none" />
           </div>
         </section>
 
@@ -240,7 +240,7 @@ export default function LandingPage() {
             </ScrollAnimation>
           </div>
           <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#pricing" dark className="relative bottom-0 left-0 transform-none" />
+            <ScrollIndicator href="#pricing" dark className="static transform-none" />
           </div>
         </section>
 
@@ -370,7 +370,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#faq" dark className="relative bottom-0 left-0 transform-none" />
+            <ScrollIndicator href="#faq" dark className="static transform-none" />
           </div>
         </section>
         {/* FAQ Section */}
