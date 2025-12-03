@@ -12,7 +12,6 @@ export function Footer() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
                             <img src="/logo.png?v=2" alt="Neurometrics Logo" className="h-10 w-auto brightness-0 invert" />
-                            <span className="text-xl font-bold text-white tracking-tight">Neurometrics</span>
                         </div>
                         <p className="text-sm text-slate-400 leading-relaxed">
                             Transformando la evaluación psicológica con tecnología de vanguardia. Más de 10 años facilitando el trabajo clínico en Latinoamérica.
@@ -41,11 +40,11 @@ export function Footer() {
                     <div className="space-y-4">
                         <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Producto</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><Link href="#features" className="hover:text-teal-400 transition-colors">Características</Link></li>
-                            <li><Link href="#pricing" className="hover:text-teal-400 transition-colors">Precios</Link></li>
-                            <li><Link href="#testimonials" className="hover:text-teal-400 transition-colors">Testimonios</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Integraciones</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Actualizaciones</Link></li>
+                            <li><Link href="/#features" className="hover:text-teal-400 transition-colors">Características</Link></li>
+                            <li><Link href="/#pricing" className="hover:text-teal-400 transition-colors">Precios</Link></li>
+                            <li><Link href="/#testimonials" className="hover:text-teal-400 transition-colors">Testimonios</Link></li>
+                            <li><Link href="/integrations" className="hover:text-teal-400 transition-colors">Integraciones</Link></li>
+                            <li><Link href="/updates" className="hover:text-teal-400 transition-colors">Actualizaciones</Link></li>
                         </ul>
                     </div>
 
@@ -53,11 +52,11 @@ export function Footer() {
                     <div className="space-y-4">
                         <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Compañía</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Sobre Nosotros</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Carreras</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Blog</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Contacto</Link></li>
-                            <li><Link href="#" className="hover:text-teal-400 transition-colors">Prensa</Link></li>
+                            <li><Link href="/about" className="hover:text-teal-400 transition-colors">Sobre Nosotros</Link></li>
+                            <li><Link href="/careers" className="hover:text-teal-400 transition-colors">Carreras</Link></li>
+                            <li><Link href="/blog" className="hover:text-teal-400 transition-colors">Blog</Link></li>
+                            <li><Link href="/contact" className="hover:text-teal-400 transition-colors">Contacto</Link></li>
+                            <li><Link href="/press" className="hover:text-teal-400 transition-colors">Prensa</Link></li>
                         </ul>
                     </div>
 
@@ -85,10 +84,10 @@ export function Footer() {
                         © {new Date().getFullYear()} Neurometrics Inc. Todos los derechos reservados.
                     </p>
                     <div className="flex gap-6 justify-center md:justify-end text-xs text-slate-500">
-                        <Link href="#" className="hover:text-teal-400 transition-colors">Privacidad</Link>
-                        <Link href="#" className="hover:text-teal-400 transition-colors">Términos</Link>
-                        <Link href="#" className="hover:text-teal-400 transition-colors">Cookies</Link>
-                        <Link href="#" className="hover:text-teal-400 transition-colors">Seguridad</Link>
+                        <Link href="/legal/privacy" className="hover:text-teal-400 transition-colors">Privacidad</Link>
+                        <Link href="/legal/terms" className="hover:text-teal-400 transition-colors">Términos</Link>
+                        <Link href="/legal/cookies" className="hover:text-teal-400 transition-colors">Cookies</Link>
+                        <Link href="/legal/security" className="hover:text-teal-400 transition-colors">Seguridad</Link>
                     </div>
                 </div>
             </div>

@@ -41,6 +41,18 @@ export async function updateSession(request: NextRequest) {
         !user &&
         !request.nextUrl.pathname.startsWith('/login') &&
         !request.nextUrl.pathname.startsWith('/auth') &&
+        !request.nextUrl.pathname.startsWith('/onboarding') &&
+        !request.nextUrl.pathname.startsWith('/api') &&
+        !request.nextUrl.pathname.startsWith('/payment') &&
+        !request.nextUrl.pathname.startsWith('/coming-soon') &&
+        !request.nextUrl.pathname.startsWith('/integrations') &&
+        !request.nextUrl.pathname.startsWith('/updates') &&
+        !request.nextUrl.pathname.startsWith('/about') &&
+        !request.nextUrl.pathname.startsWith('/careers') &&
+        !request.nextUrl.pathname.startsWith('/blog') &&
+        !request.nextUrl.pathname.startsWith('/contact') &&
+        !request.nextUrl.pathname.startsWith('/press') &&
+        !request.nextUrl.pathname.startsWith('/legal') &&
         request.nextUrl.pathname !== '/'
     ) {
         // no user, potentially respond by redirecting the user to the login page

@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, FileText, Activity, ArrowUpRight } from "lucide-react"
+import { Users, FileText, Activity, ArrowUpRight, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { createClient } from "@/lib/supabase/server"
 
 export default async function DashboardPage() {
@@ -28,7 +29,14 @@ export default async function DashboardPage() {
                     <p className="text-slate-500">Bienvenido de nuevo, gestiona tu práctica desde aquí.</p>
                 </div>
                 <div className="flex gap-3">
-                    {/* Button removed as per requirements */}
+                    <form action="/dashboard/tests" className="relative hidden md:block">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Input
+                            name="q"
+                            placeholder="Buscar tests..."
+                            className="pl-9 w-[250px] bg-white border-slate-200 focus-visible:ring-teal-500"
+                        />
+                    </form>
                 </div>
             </div>
 
@@ -78,21 +86,28 @@ export default async function DashboardPage() {
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle>Mis tests favoritos</CardTitle>
                         <Button variant="ghost" size="sm" asChild className="text-teal-600 hover:text-teal-700 hover:bg-teal-50">
-                            <Link href="/dashboard/my-tests">Ver todos</Link>
+                            <Link href="/dashboard/tests">Ver todos</Link>
                         </Button>
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            {['PHQ-9 (Depresión)', 'GAD-7 (Ansiedad)', 'BDI-II (Depresión)', 'MOCA (Cognitivo)'].map((test, i) => (
-                                <div key={i} className="flex items-center p-4 border rounded-lg bg-slate-50">
-                                    <div className="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold mr-3">
-                                        {test.charAt(0)}
+                            {[
+                                { name: 'PHQ-9 (Depresión)', slug: 'phq-9' },
+                                { name: 'GAD-7 (Ansiedad)', slug: 'gad-7' },
+                                { name: 'BDI-II (Depresión)', slug: 'bdi-ii' },
+                                { name: 'MOCA (Cognitivo)', slug: 'moca' }
+                            ].map((test, i) => (
+                                <Link key={i} href={`/tests/${test.slug}`} className="group block">
+                                    <div className="flex items-center p-4 border rounded-lg bg-slate-50 group-hover:border-teal-200 group-hover:bg-teal-50 transition-all">
+                                        <div className="h-10 w-10 rounded-full bg-white border border-slate-100 flex items-center justify-center text-teal-700 font-bold mr-3 group-hover:scale-110 transition-transform shadow-sm">
+                                            {test.name.charAt(0)}
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-sm text-slate-900 group-hover:text-teal-900">{test.name.split(' (')[0]}</p>
+                                            <p className="text-xs text-slate-500 group-hover:text-teal-600">{test.name.split(' (')[1].replace(')', '')}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="font-medium text-sm">{test.split(' (')[0]}</p>
-                                        <p className="text-xs text-slate-500">{test.split(' (')[1].replace(')', '')}</p>
-                                    </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </CardContent>

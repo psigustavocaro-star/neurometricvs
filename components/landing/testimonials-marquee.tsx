@@ -49,7 +49,7 @@ export function TestimonialsMarquee() {
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
-            <div className="flex w-max animate-marquee gap-8 py-4">
+            <div className="flex w-max animate-marquee-slow gap-8 py-4">
                 {/* Original Set */}
                 {testimonials.map((t, i) => (
                     <TestimonialCard key={`original-${i}`} t={t} />

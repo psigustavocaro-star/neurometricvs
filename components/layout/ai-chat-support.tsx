@@ -6,26 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { X, Send, Loader2, Sparkles } from 'lucide-react'
+import { X, Send, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
 
-// Custom Psi Icon Component (SVG)
-const PsiIcon = ({ className }: { className?: string }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-    >
-        <path d="M12 2v20" />
-        <path d="M4 4c0 6 3 9 8 9s8-3 8-9" />
-    </svg>
-)
 
 interface Message {
     role: 'user' | 'assistant'
@@ -51,7 +37,8 @@ export function AIChatSupport({ user }: { user?: User | null }) {
         }
     }, [messages, isOpen])
 
-    if (!user) return null
+    // Removed user check to make it public
+    // if (!user) return null
 
     const handleSendMessage = async () => {
         if (!inputValue.trim()) return
@@ -107,63 +94,86 @@ export function AIChatSupport({ user }: { user?: User | null }) {
         >
             {isOpen && (
                 <Card className="w-80 md:w-96 shadow-2xl border-teal-100 animate-in slide-in-from-bottom-10 fade-in duration-300 cursor-default" onPointerDown={(e) => e.stopPropagation()}>
-                    <CardHeader className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-t-xl p-4 flex flex-row items-center justify-between space-y-0">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-white/20 p-1.5 rounded-full">
-                                <PsiIcon className="w-5 h-5 text-white" />
+                    <CardHeader className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-t-xl p-4 flex flex-row items-center justify-between space-y-0 shadow-md">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-white/20 p-1.5 rounded-xl backdrop-blur-sm border border-white/10 shadow-inner">
+                                <Image
+                                    src="/neurometrics-logo-small.png"
+                                    alt="Neurometrics Logo"
+                                    width={28}
+                                    height={28}
+                                    className="w-6 h-6 object-contain"
+                                />
                             </div>
                             <div>
-                                <CardTitle className="text-base font-bold">Neurometrics AI</CardTitle>
-                                <p className="text-xs text-teal-100 flex items-center gap-1">
-                                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                                    Soporte 24/7
+                                <CardTitle className="text-base font-bold tracking-tight">Chat IA</CardTitle>
+                                <p className="text-xs text-teal-50 font-medium opacity-90 flex items-center gap-1.5">
+                                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
+                                    Soporte digital
                                 </p>
                             </div>
                         </div>
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="text-white hover:bg-white/20 h-8 w-8 rounded-full"
+                            className="text-white hover:bg-white/20 h-8 w-8 rounded-full transition-colors"
                             onClick={() => setIsOpen(false)}
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-5 h-5" />
                         </Button>
                     </CardHeader>
-                    <CardContent className="p-0 bg-slate-50">
-                        <ScrollArea className="h-[350px] p-4" ref={scrollAreaRef}>
+                    <CardContent className="p-0 bg-slate-50/50 backdrop-blur-sm">
+                        <ScrollArea className="h-[400px] p-4" ref={scrollAreaRef}>
                             <div className="flex flex-col gap-3">
                                 {messages.map((msg, i) => (
                                     <div
                                         key={i}
                                         className={cn(
-                                            "max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm",
+                                            "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm transition-all",
                                             msg.role === 'user'
-                                                ? "bg-teal-600 text-white self-end rounded-br-none"
-                                                : "bg-white text-slate-700 self-start rounded-bl-none border border-slate-200"
+                                                ? "bg-gradient-to-br from-teal-600 to-teal-700 text-white self-end rounded-br-none shadow-teal-900/5"
+                                                : "bg-white text-slate-700 self-start rounded-bl-none border border-slate-100 shadow-slate-200/50"
                                         )}
                                     >
-                                        {msg.content}
+                                        {msg.role === 'assistant' ? (
+                                            <div className="text-sm leading-relaxed">
+                                                <ReactMarkdown
+                                                    components={{
+                                                        ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-2 space-y-1" {...props} />,
+                                                        ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-2 space-y-1" {...props} />,
+                                                        li: ({ node, ...props }) => <li className="pl-1" {...props} />,
+                                                        p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                                                        strong: ({ node, ...props }) => <strong className="font-semibold text-slate-900" {...props} />,
+                                                        a: ({ node, ...props }) => <a className="text-teal-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer" {...props} />,
+                                                    }}
+                                                >
+                                                    {msg.content}
+                                                </ReactMarkdown>
+                                            </div>
+                                        ) : (
+                                            msg.content
+                                        )}
                                     </div>
                                 ))}
                                 {isLoading && (
-                                    <div className="bg-white text-slate-700 self-start rounded-2xl rounded-bl-none border border-slate-200 px-4 py-2 shadow-sm flex items-center gap-2">
-                                        <Loader2 className="w-3 h-3 animate-spin text-teal-600" />
-                                        <span className="text-xs text-slate-400">Escribiendo...</span>
+                                    <div className="bg-white text-slate-700 self-start rounded-2xl rounded-bl-none border border-slate-100 px-4 py-3 shadow-sm flex items-center gap-2">
+                                        <Loader2 className="w-4 h-4 animate-spin text-teal-600" />
+                                        <span className="text-xs text-slate-400 font-medium">Escribiendo...</span>
                                     </div>
                                 )}
                             </div>
                         </ScrollArea>
-                        <div className="p-3 bg-white border-t border-slate-100 rounded-b-xl flex gap-2">
+                        <div className="p-3 bg-white border-t border-slate-100 rounded-b-xl flex gap-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.02)]">
                             <Input
                                 placeholder="Escribe tu consulta..."
-                                className="flex-1 border-slate-200 focus-visible:ring-teal-500"
+                                className="flex-1 border-slate-200 focus-visible:ring-teal-500 bg-slate-50 focus:bg-white transition-colors"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                             />
                             <Button
                                 size="icon"
-                                className="bg-teal-600 hover:bg-teal-700 text-white shrink-0"
+                                className="bg-teal-600 hover:bg-teal-700 text-white shrink-0 shadow-lg shadow-teal-600/20 transition-all active:scale-95"
                                 onClick={handleSendMessage}
                                 disabled={isLoading || !inputValue.trim()}
                             >
@@ -177,14 +187,23 @@ export function AIChatSupport({ user }: { user?: User | null }) {
             <Button
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "h-14 w-14 rounded-full shadow-xl transition-all duration-300 hover:scale-110",
-                    isOpen ? "bg-slate-200 text-slate-600 hover:bg-slate-300" : "bg-gradient-to-r from-teal-600 to-cyan-600 text-white hover:shadow-teal-500/30"
+                    "h-16 w-16 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 z-50 border-4 border-white/20 backdrop-blur-sm",
+                    isOpen
+                        ? "bg-white text-slate-600 hover:bg-slate-100 rotate-90"
+                        : "bg-gradient-to-br from-teal-500 via-teal-600 to-emerald-600 text-white hover:shadow-teal-500/50 animate-in zoom-in duration-300"
                 )}
             >
                 {isOpen ? (
-                    <X className="w-6 h-6" />
+                    <X className="w-8 h-8" />
                 ) : (
-                    <PsiIcon className="w-7 h-7" />
+                    <div className="relative w-9 h-9">
+                        <Image
+                            src="/neurometrics-logo-small.png"
+                            alt="Neurometrics Logo"
+                            fill
+                            className="object-contain brightness-0 invert drop-shadow-md"
+                        />
+                    </div>
                 )}
             </Button>
         </motion.div>

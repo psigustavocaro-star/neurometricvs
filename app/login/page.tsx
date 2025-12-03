@@ -1,4 +1,5 @@
 import { login, signup, resendConfirmation } from './actions'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,7 +19,7 @@ export default async function LoginPage(props: {
                     </CardDescription>
                 </CardHeader>
                 <form>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-6">
                         {searchParams?.error && (
                             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                                 <span className="block sm:inline">{searchParams.error}</span>
@@ -38,9 +39,19 @@ export default async function LoginPage(props: {
                             <Input id="password" name="password" type="password" required />
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-col gap-2">
-                        <Button formAction={login} className="w-full">Iniciar Sesión</Button>
-                        <Button formAction={signup} variant="outline" className="w-full">Registrarse</Button>
+                    <CardFooter className="flex flex-col gap-4">
+                        <Button formAction={login} className="w-full bg-teal-600 hover:bg-teal-700">Iniciar Sesión</Button>
+                        <div className="relative w-full">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t border-slate-200" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-white px-2 text-slate-500">O</span>
+                            </div>
+                        </div>
+                        <Link href="/onboarding" className="w-full">
+                            <Button variant="outline" className="w-full border-teal-600 text-teal-600 hover:bg-teal-50">Registrarse</Button>
+                        </Link>
                         <Button formAction={resendConfirmation} variant="ghost" className="w-full text-xs text-slate-500 hover:text-slate-900">
                             ¿No recibiste el correo? Reenviar confirmación
                         </Button>

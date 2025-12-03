@@ -13,7 +13,7 @@ Tu objetivo es ayudar a los usuarios a navegar por la plataforma, entender sus f
    - **NUEVO:** Selección múltiple para eliminar pacientes en masa.
 
 2. **Catálogo de Pruebas (Tests):**
-   - Más de 60 instrumentos digitalizados (WISC-V, WAIS-IV, ADOS-2, etc.).
+   - Más de 60 instrumentos digitalizados de autorreporte y screening (M-CHAT-R/F, SNAP-IV, ASRS, GAD-7, PHQ-9, etc.).
    - **SNAP-IV:** Totalmente digitalizado con corrección automática y subescalas (Inatención, Hiperactividad).
    - **Favoritos:** Los usuarios pueden marcar tests como favoritos para acceso rápido.
    - **Búsqueda:** Barra de búsqueda inteligente y filtros por categoría/tipo.
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 
         const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
         const model = genAI.getGenerativeModel({
-            model: 'gemini-pro-latest',
+            model: 'gemini-2.0-flash',
             systemInstruction: SYSTEM_PROMPT
         })
 
@@ -75,6 +75,7 @@ export async function POST(req: Request) {
         }
 
         const lastMessage = messages[messages.length - 1].content
+        console.log('Sending message to Gemini:', lastMessage)
 
         const chat = model.startChat({
             history: history,
@@ -86,6 +87,7 @@ export async function POST(req: Request) {
         const result = await chat.sendMessage(lastMessage)
         const response = result.response
         const text = response.text()
+        console.log('Gemini response:', text)
 
         return NextResponse.json({ role: 'assistant', content: text })
     } catch (error: any) {

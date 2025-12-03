@@ -8,11 +8,12 @@ import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
 import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
 import { Footer } from "@/components/layout/footer"
-import { ScrollIndicator } from "@/components/ui/scroll-indicator"
+import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
+      <VerticalNavbar />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -44,7 +45,7 @@ export default function LandingPage() {
                 <ScrollAnimation animation="fade-up" delay={300}>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                     <Button asChild size="lg" className="relative overflow-hidden bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg shadow-teal-700/20 rounded-full px-8 h-12 text-base group">
-                      <Link href="#pricing">
+                      <Link href="/onboarding">
                         <span className="relative z-10 flex items-center">Comenzar Prueba Gratis <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
                         <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
                       </Link>
@@ -91,7 +92,6 @@ export default function LandingPage() {
             <span className="text-sm md:text-base font-medium text-slate-500 animate-pulse text-center px-4">
               Descubre nuestros servicios y precios
             </span>
-            <ScrollIndicator href="#mobile" className="static transform-none" />
           </div>
         </section>
 
@@ -170,9 +170,6 @@ export default function LandingPage() {
               </ScrollAnimation>
             </div>
           </div>
-          <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#testimonials" dark className="static transform-none" />
-          </div>
         </section>
 
         {/* Testimonials Section (Relatos) */}
@@ -194,9 +191,6 @@ export default function LandingPage() {
               <TestimonialsMarquee />
             </div>
           </div>
-          <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#trust" className="static transform-none" />
-          </div>
         </section>
 
         {/* Trust Section */}
@@ -210,9 +204,6 @@ export default function LandingPage() {
                 <InstitutionsMarquee />
               </div>
             </ScrollAnimation>
-          </div>
-          <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#pricing" dark className="static transform-none" />
           </div>
         </section>
 
@@ -254,7 +245,9 @@ export default function LandingPage() {
                     </li>
                   </ul>
                   <div className="mt-8">
-                    <Button className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-xl h-12 transition-all shadow-md hover:shadow-lg">Elegir Básico</Button>
+                    <Button asChild className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-xl h-12 transition-all shadow-md hover:shadow-lg">
+                      <Link href="/onboarding?plan=basic">Elegir Básico</Link>
+                    </Button>
                   </div>
                 </div>
               </ScrollAnimation>
@@ -289,9 +282,11 @@ export default function LandingPage() {
                     </li>
                   </ul>
                   <div className="mt-8">
-                    <Button className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none rounded-xl h-12 shadow-lg shadow-teal-600/30 relative overflow-hidden group">
-                      <span className="relative z-10">Elegir Clínico</span>
-                      <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
+                    <Button asChild className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none rounded-xl h-12 shadow-lg shadow-teal-600/30 relative overflow-hidden group">
+                      <Link href="/onboarding?plan=clinical">
+                        <span className="relative z-10">Elegir Clínico</span>
+                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
+                      </Link>
                     </Button>
                   </div>
                 </div>
@@ -335,14 +330,13 @@ export default function LandingPage() {
                     </li>
                   </ul>
                   <div className="mt-8">
-                    <Button className="w-full bg-white border-2 border-slate-200 text-slate-900 hover:bg-slate-50 rounded-xl h-12 transition-all shadow-sm hover:shadow-md">Elegir Pro</Button>
+                    <Button asChild className="w-full bg-white border-2 border-slate-200 text-slate-900 hover:bg-slate-50 rounded-xl h-12 transition-all shadow-sm hover:shadow-md">
+                      <Link href="/onboarding?plan=pro">Elegir Pro</Link>
+                    </Button>
                   </div>
                 </div>
               </ScrollAnimation>
             </div>
-          </div>
-          <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <ScrollIndicator href="#faq" dark className="static transform-none" />
           </div>
         </section>
         {/* FAQ Section */}

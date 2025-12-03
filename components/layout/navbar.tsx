@@ -140,12 +140,17 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 <Link href="/#faq" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
                                     FAQ
                                 </Link>
-                                <div className="ml-4">
+                                <div className="ml-4 flex items-center gap-2">
                                     <LoginModal>
                                         <Button variant="ghost" className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors rounded-full hover:bg-teal-50">
                                             Ingresar
                                         </Button>
                                     </LoginModal>
+                                    <Link href="/onboarding">
+                                        <Button className="rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-md transition-all hover:scale-105 text-sm font-medium px-6">
+                                            Regístrate
+                                        </Button>
+                                    </Link>
                                 </div>
                             </>
                         )}
@@ -222,12 +227,17 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 >
                                     Precios
                                 </Link>
-                                <div className="px-2">
+                                <div className="px-2 flex flex-col gap-2">
                                     <LoginModal>
                                         <Button variant="ghost" className="w-full justify-start text-slate-600 font-medium px-2 hover:text-teal-700 hover:bg-teal-50">
                                             Ingresar
                                         </Button>
                                     </LoginModal>
+                                    <Link href="/onboarding" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <Button className="w-full justify-center rounded-lg bg-teal-600 hover:bg-teal-700 text-white shadow-sm">
+                                            Regístrate
+                                        </Button>
+                                    </Link>
                                 </div>
                             </div>
                         )}
