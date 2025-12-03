@@ -56,17 +56,6 @@ export async function POST(req: Request) {
             )
         }
 
-        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
-        const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
-            systemInstruction: SYSTEM_PROMPT
-        })
-
-        // Convert messages to Gemini format
-        // Gemini expects a history of parts, but for simplicity in this chat interface 
-        // we'll just send the last user message combined with context if needed, 
-        // or reconstruct the chat history.
-        // The simple chat.sendMessage(msg) is stateful if using startChat, 
         import { GoogleGenerativeAI } from '@google/generative-ai'
         import { NextResponse } from 'next/server'
 
@@ -130,13 +119,6 @@ Tu objetivo es ayudar a los usuarios a navegar por la plataforma, entender sus f
                     model: 'gemini-1.5-flash',
                     systemInstruction: SYSTEM_PROMPT
                 })
-
-                // Convert messages to Gemini format
-                // Gemini expects a history of parts, but for simplicity in this chat interface 
-                // we'll just send the last user message combined with context if needed, 
-                // or reconstruct the chat history.
-                // The simple chat.sendMessage(msg) is stateful if using startChat, 
-                // but here we are stateless per request.
 
                 // Construct history for startChat
                 let history = messages.slice(0, -1).map((m: any) => ({
