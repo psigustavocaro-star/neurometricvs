@@ -99,7 +99,7 @@ export function AdminMenu() {
         <motion.div
             drag
             dragMomentum={false}
-            className="fixed bottom-4 right-4 z-50 cursor-move"
+            className="fixed top-24 left-4 z-50 cursor-move"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
         >

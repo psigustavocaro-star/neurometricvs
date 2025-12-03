@@ -73,33 +73,12 @@ export async function POST(req: Request) {
         let history = messages.slice(0, -1).map((m: any) => ({
             role: m.role === 'user' ? 'user' : 'model',
             parts: [{ text: m.content }]
-        }))
-
-        // Gemini requires the first message to be from the user.
-        // If the history starts with a model message (e.g. the initial greeting), remove it.
-        if (history.length > 0 && history[0].role === 'model') {
-            history = history.slice(1)
-        }
-
-        const lastMessage = messages[messages.length - 1].content
-
-        const chat = model.startChat({
-            history: history,
-            generationConfig: {
-                maxOutputTokens: 500,
-            },
-        })
-
-        const result = await chat.sendMessage(lastMessage)
-        const response = result.response
-        const text = response.text()
-
         return NextResponse.json({ role: 'assistant', content: text })
-    } catch (error: any) {
-        console.error('Error in chat API:', error)
-        return NextResponse.json(
-            { error: `Gemini Error: ${error.message}` },
-            { status: 500 }
-        )
+        } catch (error: any) {
+            console.error('Error in chat API:', error)
+            return NextResponse.json(
+                { error: `Gemini Error: ${error.message}` },
+                { status: 500 }
+            )
+        }
     }
-}
