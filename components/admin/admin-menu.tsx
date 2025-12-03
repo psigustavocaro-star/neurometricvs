@@ -116,17 +116,7 @@ export function AdminMenu() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
-                    <DropdownMenuLabel className="text-xs text-slate-500">Datos Mock</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={handleGeneratePatients} disabled={loading}>
-                        <Users className="mr-2 h-4 w-4" />
-                        Generar 5 Pacientes
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleGenerateTest} disabled={loading}>
-                        <FileText className="mr-2 h-4 w-4" />
-                        Generar SNAP-IV (Random)
-                    </DropdownMenuItem>
 
-                    <DropdownMenuSeparator />
 
                     <DropdownMenuLabel className="text-xs text-slate-500">Cambiar Plan</DropdownMenuLabel>
                     <DropdownMenuItem onClick={() => handleSetPlan('basic')} disabled={loading}>
