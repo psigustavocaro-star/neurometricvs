@@ -19,6 +19,12 @@ export function PriceDisplay({ amount, period = '/mes', className = '' }: PriceD
             try {
                 // 1. Get User Location & Currency
                 const ipRes = await fetch('https://ipapi.co/json/')
+                
+                if (!ipRes.ok) {
+                    // Fail silently for rate limits or other issues, defaulting to USD
+                    return
+                }
+
                 const ipData = await ipRes.json()
                 const userCurrency = ipData.currency
 
@@ -27,6 +33,9 @@ export function PriceDisplay({ amount, period = '/mes', className = '' }: PriceD
 
                     // 2. Get Exchange Rate
                     const rateRes = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+                    
+                    if (!rateRes.ok) return
+
                     const rateData = await rateRes.json()
                     const rate = rateData.rates[userCurrency]
 
@@ -41,8 +50,9 @@ export function PriceDisplay({ amount, period = '/mes', className = '' }: PriceD
                         setLocalPrice(formatter.format(converted))
                     }
                 }
-            } catch (error) {
-                console.error('Error fetching currency:', error)
+            } catch {
+                // Fail silently and default to USD
+                // console.debug('Failed to fetch currency, defaulting to USD')
             } finally {
                 setLoading(false)
             }

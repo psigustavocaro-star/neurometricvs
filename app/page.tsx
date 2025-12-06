@@ -18,7 +18,7 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section id="hero" className="w-full pt-28 md:pt-32 lg:pt-36 pb-24 md:pb-28 overflow-hidden relative">
+        <section id="hero" className="w-full pt-10 md:pt-14 lg:pt-20 pb-24 md:pb-28 overflow-hidden relative">
           {/* Animated Mesh Background */}
           <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/50 via-white to-white">
             <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-teal-100/40 blur-[120px] animate-mesh mix-blend-multiply"></div>

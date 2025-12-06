@@ -45,6 +45,18 @@ function OnboardingContent() {
     const nextStep = () => setStep(prev => prev + 1)
     const prevStep = () => setStep(prev => prev - 1)
 
+    // Initialize Paddle
+    const [paddle, setPaddle] = useState<any>(null)
+
+    useEffect(() => {
+        import('@paddle/paddle-js').then(({ initializePaddle }) => {
+            initializePaddle({
+                token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!,
+                environment: process.env.NEXT_PUBLIC_PADDLE_ENV === 'production' ? 'production' : 'sandbox'
+            }).then(setPaddle)
+        })
+    }, [])
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
@@ -81,33 +93,30 @@ function OnboardingContent() {
             return
         }
 
-        // Handle Lemon Squeezy Checkout for paid plans
-        try {
-            const response = await fetch('/api/lemonsqueezy/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    plan: formData.plan,
-                    email: formData.email,
-                    userId: signUpData.user?.id,
-                    name: formData.name
+        // Handle Paddle Checkout
+        if (paddle) {
+            let priceId = ''
+            if (formData.plan === 'pro') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!
+            else if (formData.plan === 'clinical') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL!
+            else if (formData.plan === 'basic') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!
+
+            if (priceId) {
+                paddle.Checkout.open({
+                    items: [{ priceId, quantity: 1 }],
+                    customData: { userId: signUpData.user?.id },
+                    customer: { email: formData.email },
+                    settings: {
+                        displayMode: 'overlay',
+                        successUrl: `${window.location.origin}/payment/success`, // You might want to create this page
+                    }
                 })
-            })
-
-            if (!response.ok) {
-                const errorData = await response.text()
-                throw new Error(errorData || 'Error creating checkout session')
-            }
-
-            const { url } = await response.json()
-            if (url) {
-                window.location.href = url
+                // We don't stop loading here as the overlay opens
             } else {
-                throw new Error('No checkout URL returned')
+                setError('Error de configuración del plan. Contacta soporte.')
+                setIsLoading(false)
             }
-        } catch (err) {
-            console.error('Stripe error:', err)
-            setError('Error al iniciar el pago. Por favor intenta de nuevo o contacta soporte.')
+        } else {
+            setError('Error cargando el sistema de pagos. Por favor recarga la página.')
             setIsLoading(false)
         }
     }
