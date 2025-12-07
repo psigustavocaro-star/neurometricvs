@@ -40,7 +40,7 @@ export default async function RootLayout({
     .single();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} antialiased font-sans`}
       >
