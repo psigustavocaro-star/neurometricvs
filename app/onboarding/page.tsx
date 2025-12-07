@@ -347,7 +347,7 @@ function OnboardingContent() {
                                                 </RadioGroup>
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-0 pb-0 pt-4 justify-between mt-auto">
+                                        <CardFooter className="px-0 pb-6 pt-4 justify-between mt-auto">
                                             <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-4 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
@@ -454,16 +454,12 @@ function OnboardingContent() {
                                                 </div>
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-0 pb-0 pt-2 justify-between mt-auto">
+                                        <CardFooter className="px-6 pb-8 pt-4 md:px-8 md:pb-10 justify-between mt-auto">
                                             <Button type="button" variant="ghost" onClick={prevStep} className="h-10 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
-                                            <Button
-                                                type="button"
-                                                onClick={nextStep}
-                                                className="h-11 px-8 text-sm font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
-                                            >
-                                                Confirmar {formData.plan === 'pro' ? 'Plan Pro' : formData.plan === 'clinical' ? 'Plan Clínico' : formData.plan === 'basic' ? 'Plan Básico' : 'Gratuita'} <ChevronRight className="ml-2 w-4 h-4" />
+                                            <Button type="button" onClick={nextStep} disabled={!formData.plan} className="h-11 px-8 text-sm font-bold bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
+                                                {getPlanButtonText(formData.plan)} <ChevronRight className="ml-2 w-4 h-4" />
                                             </Button>
                                         </CardFooter>
                                     </motion.div>
@@ -538,7 +534,7 @@ function OnboardingContent() {
                                                 Al registrarte, aceptas nuestros <Link href="/legal/terms" target="_blank" className="text-teal-600 hover:underline font-medium">Términos</Link> y <Link href="/legal/privacy" target="_blank" className="text-teal-600 hover:underline font-medium">Política de Privacidad</Link>.
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-0 pb-0 pt-2 justify-between mt-auto">
+                                        <CardFooter className="px-6 pb-8 pt-4 md:px-8 md:pb-10 justify-between mt-auto">
                                             <Button type="button" variant="ghost" onClick={prevStep} className="h-10 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
@@ -547,10 +543,11 @@ function OnboardingContent() {
                                                 disabled={isLoading || !formData.email || !formData.password || !formData.confirmPassword || formData.password !== formData.confirmPassword}
                                                 className="h-11 px-8 text-sm font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
                                             >
-                                                {isLoading ?
-                                                    <Loader2 className="w-6 h-6 animate-spin" /> :
-                                                    (formData.plan === 'free' ? 'Comenzar Gratis' : 'Ir al Pago Seguro')
-                                                }
+                                                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                                                    <span className="flex items-center">
+                                                        {formData.plan === 'free' ? 'Comenzar Gratis' : 'Ir al Pago Seguro'} <ChevronRight className="ml-2 w-4 h-4" />
+                                                    </span>
+                                                )}
                                             </Button>
                                         </CardFooter>
                                     </motion.div>
