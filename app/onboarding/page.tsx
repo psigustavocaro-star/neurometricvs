@@ -26,6 +26,7 @@ function OnboardingContent() {
         primaryNeed: '',
         email: '',
         password: '',
+        confirmPassword: '',
         plan: 'pro' // Default to Pro
     })
 
@@ -426,14 +427,14 @@ function OnboardingContent() {
                                                 </div>
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-0 pb-0 pt-4 justify-between mt-auto">
-                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
+                                        <CardFooter className="px-0 pb-0 pt-2 justify-between mt-auto">
+                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-10 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
                                             <Button
                                                 type="button"
                                                 onClick={nextStep}
-                                                className="h-14 px-8 text-lg font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
+                                                className="h-11 px-8 text-sm font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
                                             >
                                                 Confirmar {formData.plan === 'pro' ? 'Plan Pro' : formData.plan === 'clinical' ? 'Plan Clínico' : formData.plan === 'basic' ? 'Plan Básico' : 'Gratuita'} <ChevronRight className="ml-2 w-4 h-4" />
                                             </Button>
@@ -452,14 +453,16 @@ function OnboardingContent() {
                                         transition={{ duration: 0.3 }}
                                         className="absolute inset-0 p-8 flex flex-col"
                                     >
-                                        <CardHeader className="px-0 pt-0 pb-8 text-center">
+                                        <CardHeader className="px-0 pt-0 pb-6 text-center">
                                             <CardTitle className="text-3xl text-teal-900 font-bold tracking-tight mb-2">Crea tu Cuenta</CardTitle>
-                                            <CardDescription className="text-lg text-slate-600">Estás a un paso de transformar tu práctica clínica.</CardDescription>
+                                            <CardDescription className="text-sm text-slate-600 max-w-md mx-auto">
+                                                Ingresa el correo y contraseña con los que accederás a tu cuenta. <span className="text-teal-600 font-medium">Estos serán tus credenciales de acceso permanente.</span>
+                                            </CardDescription>
                                         </CardHeader>
-                                        <CardContent className="px-6 md:px-12 flex-1 space-y-8 overflow-y-auto custom-scrollbar">
-                                            <div className="bg-teal-50/50 border border-teal-100 rounded-lg p-3 flex items-center gap-3 mb-4">
-                                                <ShieldCheck className="w-5 h-5 text-teal-600" />
-                                                <p className="text-xs text-teal-800 font-medium">Tus datos están seguros y encriptados.</p>
+                                        <CardContent className="px-6 md:px-12 flex-1 space-y-4 overflow-y-auto custom-scrollbar">
+                                            <div className="bg-teal-50/50 border border-teal-100 rounded-lg p-2.5 flex items-center gap-3 mb-4">
+                                                <ShieldCheck className="w-4 h-4 text-teal-600" />
+                                                <p className="text-[11px] text-teal-800 font-medium">Tus datos están protegidos con encriptación de nivel bancario.</p>
                                             </div>
                                             {error && (
                                                 <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-lg">
@@ -483,24 +486,39 @@ function OnboardingContent() {
                                                 <Input
                                                     id="password"
                                                     type="password"
-                                                    className="h-11 text-base bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                    className="h-10 text-base bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
                                                     value={formData.password}
                                                     onChange={(e) => handleInputChange('password', e.target.value)}
                                                     required
                                                 />
+                                                <p className="text-[10px] text-slate-500">Usa al menos 8 caracteres, una mayúscula y un número.</p>
                                             </div>
-                                            <div className="text-xs text-slate-500 text-center mt-6">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="confirmPassword" className="text-sm font-medium text-slate-700">Confirmar Contraseña</Label>
+                                                <Input
+                                                    id="confirmPassword"
+                                                    type="password"
+                                                    className={`h-10 text-base bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : ''}`}
+                                                    value={formData.confirmPassword}
+                                                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                                                    required
+                                                />
+                                                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                                                    <p className="text-[10px] text-red-500">Las contraseñas no coinciden.</p>
+                                                )}
+                                            </div>
+                                            <div className="text-[10px] text-slate-500 text-center mt-4">
                                                 Al registrarte, aceptas nuestros <Link href="/legal/terms" target="_blank" className="text-teal-600 hover:underline font-medium">Términos</Link> y <Link href="/legal/privacy" target="_blank" className="text-teal-600 hover:underline font-medium">Política de Privacidad</Link>.
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-0 pb-0 pt-4 justify-between mt-auto">
-                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
+                                        <CardFooter className="px-0 pb-0 pt-2 justify-between mt-auto">
+                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-10 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
                                             <Button
                                                 type="submit"
-                                                disabled={isLoading || !formData.email || !formData.password}
-                                                className="h-14 px-8 text-lg font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
+                                                disabled={isLoading || !formData.email || !formData.password || !formData.confirmPassword || formData.password !== formData.confirmPassword}
+                                                className="h-11 px-8 text-sm font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
                                             >
                                                 {isLoading ?
                                                     <Loader2 className="w-6 h-6 animate-spin" /> :
