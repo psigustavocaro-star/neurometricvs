@@ -70,7 +70,8 @@ function OnboardingContent() {
 
             if (!token) {
                 console.error('[Paddle] Error: Client Token is missing!')
-                setError('Error de configuración: Falta el token de pagos.')
+                // V2: Debug timestamp to verify new code is running
+                setError(`Error de configuración: Falta el token de pagos. (Rev: ${new Date().toISOString().split('T')[1].substring(0, 5)})`)
                 return
             }
 
@@ -93,6 +94,10 @@ function OnboardingContent() {
         setError(null)
 
         const supabase = createClient()
+
+        // DEBUG: Check if env vars are loaded correctly in the browser
+        // console.log('Supabase Config Debug:', { url: process.env.NEXT_PUBLIC_SUPABASE_URL })
+
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password,
@@ -384,7 +389,7 @@ function OnboardingContent() {
                                             <CardDescription className="text-base text-slate-600">Todos incluyen <strong>7 días de prueba gratis</strong>.</CardDescription>
                                         </CardHeader>
                                         <CardContent className="px-6 md:px-8 flex-1 overflow-y-auto custom-scrollbar">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 h-full content-center">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-4">
                                                 {/* Cuenta Gratuita */}
                                                 <div
                                                     className={`border-2 rounded-xl p-3 cursor-pointer transition-all flex flex-col h-full bg-white relative ${formData.plan === 'free' ? 'border-teal-600 shadow-lg scale-105 z-10' : 'border-slate-100 hover:border-teal-300 hover:shadow-md opacity-90 hover:opacity-100 text-left'}`}
