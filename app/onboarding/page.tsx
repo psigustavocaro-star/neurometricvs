@@ -205,7 +205,7 @@ function OnboardingContent() {
                         </Link>
                     </Button>
                     <form onSubmit={handleSubmit}>
-                        <div className="relative min-h-[600px] flex flex-col">
+                        <div className="relative min-h-[500px] flex flex-col">
                             <AnimatePresence mode='wait' custom={step}>
                                 {step === 1 && (
                                     <motion.div
