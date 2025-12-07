@@ -13,6 +13,16 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
+const getPlanButtonText = (plan: string) => {
+    switch (plan) {
+        case 'free': return 'Confirmar Plan Gratuito'
+        case 'basic': return 'Confirmar Plan Básico'
+        case 'clinical': return 'Confirmar Plan Clínico'
+        case 'pro': return 'Confirmar Plan Pro'
+        default: return 'Confirmar Plan'
+    }
+}
+
 function OnboardingContent() {
     const searchParams = useSearchParams()
     const [step, setStep] = useState(1)
@@ -123,7 +133,7 @@ function OnboardingContent() {
             if (priceId) {
                 console.log('[Paddle] Opening checkout for:', {
                     plan: formData.plan,
-                    priceId,
+                    priceId: priceId ? 'FOUND' : 'MISSING', // Masked for security in logs
                     email: formData.email,
                     userId: signUpData.user?.id
                 })
@@ -142,9 +152,9 @@ function OnboardingContent() {
             } else {
                 console.error('Missing Price ID for plan:', formData.plan)
                 console.log('Available Env Vars:', {
-                    basic: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
-                    clinical: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL,
-                    pro: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO
+                    basic: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC ? 'SET' : 'MISSING',
+                    clinical: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL ? 'SET' : 'MISSING',
+                    pro: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO ? 'SET' : 'MISSING'
                 })
                 setError('Error: No se encontró el ID del precio para este plan. Por favor contacta a soporte.')
                 setIsLoading(false)
