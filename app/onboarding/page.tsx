@@ -151,7 +151,7 @@ function OnboardingContent() {
                 <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] bg-cyan-200/20 rounded-full blur-[80px] animate-pulse delay-700" />
             </div>
 
-            <div className="w-full max-w-4xl z-10">
+            <div className="w-full max-w-3xl z-10">
                 {/* Progress Bar */}
                 <div className="mb-8">
                     <div className="flex justify-between text-[10px] font-semibold text-slate-500 mb-2 uppercase tracking-widest">
@@ -247,7 +247,7 @@ function OnboardingContent() {
                                                             <RadioGroupItem value={role} id={role} className="peer sr-only" />
                                                             <Label
                                                                 htmlFor={role}
-                                                                className="flex flex-col items-center justify-center rounded-xl border-2 border-slate-200 bg-white/50 p-4 hover:bg-white hover:border-teal-300 hover:shadow-md peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:text-teal-900 cursor-pointer transition-all h-24 w-full"
+                                                                className="flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white/50 p-2 hover:bg-white hover:border-teal-300 hover:shadow-md peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:text-teal-900 cursor-pointer transition-all h-14 w-full"
                                                             >
                                                                 <span className="text-sm font-bold text-center">{role}</span>
                                                             </Label>
