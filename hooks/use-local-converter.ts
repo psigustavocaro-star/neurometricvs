@@ -21,34 +21,24 @@ export function useLocalConverter(amountUSD: number) {
         const fetchConversion = async () => {
             try {
                 // 1. Detect User Currency
-                // using ipwho.is (free, no key, CORS friendly)
-                const ipResponse = await fetch('https://ipwho.is/')
-                if (!ipResponse.ok) throw new Error('Failed to detect currency')
-                const ipData = await ipResponse.json()
-
-                if (!ipData.success) {
-                    console.warn('[Currency] IP Detection failed:', ipData.message)
-                    // If we can't detect, defaulting to CLP for this specific user's context/demo 
-                    // or throw to fallback. Let's throw to retry/fallback.
-                    throw new Error('IP API Error: ' + ipData.message)
+                let userCurrency = 'CLP' // Default
+                try {
+                    const ipResponse = await fetch('https://ipwho.is/')
+                    if (!ipResponse.ok) throw new Error('Failed to detect currency')
+                    const ipData = await ipResponse.json()
+                    if (ipData.success && ipData.currency?.code) {
+                        userCurrency = ipData.currency.code
+                        console.log('[Currency] Detected:', userCurrency)
+                    }
+                } catch (ipError) {
+                    console.warn('[Currency] IP Detection failed (using fallback):', ipError)
                 }
-
-                const userCurrency = ipData.currency.code
-                console.log('[Currency] Detected:', userCurrency)
-
-                // If user is in USD zone, no need to convert (or we return null)
-                // DEBUG: Commented out to force check if API works even for USD (allows seeing flow)
-                /* if (userCurrency === 'USD') {
-                    setLocalPrice(null)
-                    setLoading(false)
-                    return
-                } */
 
                 // 2. Fetch Exchange Rates
                 let rate: number | undefined
                 let lastUpdated: string | undefined
 
-                // Special handling for CLP (Chile) to match local expectations (mindicador.cl)
+                // Special handling for CLP (Chile)
                 if (userCurrency === 'CLP') {
                     try {
                         const clpResponse = await fetch('https://mindicador.cl/api')
@@ -56,7 +46,6 @@ export function useLocalConverter(amountUSD: number) {
                             const clpData = await clpResponse.json()
                             if (clpData.dolar && clpData.dolar.valor) {
                                 rate = clpData.dolar.valor
-                                console.log('[Currency] Using Mindicador.cl rate:', rate)
                                 lastUpdated = clpData.dolar.fecha
                             }
                         }
@@ -67,12 +56,21 @@ export function useLocalConverter(amountUSD: number) {
 
                 // Fallback to global API if rate not found yet
                 if (!rate) {
-                    const ratesResponse = await fetch('https://open.er-api.com/v6/latest/USD')
-                    if (!ratesResponse.ok) throw new Error('Failed to fetch rates')
-                    const ratesData = await ratesResponse.json()
-                    rate = ratesData.rates[userCurrency]
-                    console.log('[Currency] Rate for', userCurrency, ':', rate)
-                    lastUpdated = ratesData.time_last_update_utc
+                    // Skip if currency is USD (rate 1)
+                    if (userCurrency === 'USD') {
+                        rate = 1
+                    } else {
+                        try {
+                            const ratesResponse = await fetch('https://open.er-api.com/v6/latest/USD')
+                            if (ratesResponse.ok) {
+                                const ratesData = await ratesResponse.json()
+                                rate = ratesData.rates[userCurrency]
+                                lastUpdated = ratesData.time_last_update_utc
+                            }
+                        } catch (e) {
+                            console.warn('[Currency] Global API fetch failed')
+                        }
+                    }
                 }
 
                 if (!rate) throw new Error(`Rate not found for ${userCurrency}`)
@@ -80,7 +78,7 @@ export function useLocalConverter(amountUSD: number) {
                 const convertedAmount = amountUSD * rate
 
                 // 3. Format
-                const formatter = new Intl.NumberFormat('es-CL', { // Forced locale for testing formatting
+                const formatter = new Intl.NumberFormat('es-CL', {
                     style: 'currency',
                     currency: userCurrency,
                     minimumFractionDigits: userCurrency === 'CLP' || userCurrency === 'JPY' ? 0 : 2,
@@ -95,7 +93,7 @@ export function useLocalConverter(amountUSD: number) {
                 })
 
             } catch (error) {
-                console.error('[Currency Converter] Error:', error)
+                console.warn('[Currency Converter] Non-critical error (using fallback):', error)
                 // Fallback: If everything fails, assume CLP context for this specific project requirements
                 // but use a hardcoded reasonable rate if real-time fails.
                 const fallbackRate = 975 // Conservative estimate
