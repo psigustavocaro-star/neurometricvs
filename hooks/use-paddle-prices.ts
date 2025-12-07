@@ -32,13 +32,25 @@ export function usePaddlePrices(priceId: string | null) {
 
                 if (paddleInstance) {
                     const priceData = await paddleInstance.PricePreview({
-                        items: [{ priceId, quantity: 1 }]
+                        items: [{ priceId, quantity: 1 }],
+                        address: { countryCode: 'CL' } // TODO: Remove this after verifying local pricing
                     })
 
+                    console.log('[Paddle] Price Data:', priceData)
                     const details = priceData.data.details.lineItems[0]
+                    let currencyCode = priceData.data.currencyCode as string
+                    let rawTotal = parseFloat(details.totals.total)
+
+                    const formatter = new Intl.NumberFormat('es-CL', {
+                        style: 'currency',
+                        currency: currencyCode,
+                        minimumFractionDigits: currencyCode === 'CLP' ? 0 : 2,
+                        maximumFractionDigits: currencyCode === 'CLP' ? 0 : 2,
+                    })
+
                     setPrice({
-                        currencyCode: priceData.data.currencyCode,
-                        amount: details.formattedTotals.total
+                        currencyCode: currencyCode,
+                        amount: formatter.format(rawTotal)
                     })
                 }
             } catch (error) {

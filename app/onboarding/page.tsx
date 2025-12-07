@@ -234,73 +234,114 @@ function OnboardingContent() {
                                         className="absolute inset-0 flex flex-col"
                                     >
                                         <CardHeader className="px-6 pt-6 pb-4 md:px-8 md:pt-8">
-                                            <CardTitle className="text-2xl text-teal-900 font-bold tracking-tight">Bienvenido a Neurometrics</CardTitle>
+                                            <CardTitle className="text-2xl text-teal-900 font-bold tracking-tight">Configura tu Firma Profesional</CardTitle>
                                             <CardDescription className="text-sm text-slate-600">
-                                                Completa tu perfil profesional. <span className="text-teal-600 font-medium">Esta información aparecerá automáticamente en tus informes.</span>
+                                                Así aparecerán tus datos al pie de cada informe generado. <span className="text-teal-600 font-medium">Asegúrate de que tus credenciales estén correctas.</span>
                                             </CardDescription>
                                         </CardHeader>
-                                        <CardContent className="px-6 md:px-8 flex-1 space-y-4 overflow-y-auto custom-scrollbar">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="name" className="text-sm font-medium text-slate-700">Nombre Completo</Label>
-                                                <Input
-                                                    id="name"
-                                                    placeholder="Ej. Dr. Juan Pérez"
-                                                    className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
-                                                    value={formData.name}
-                                                    onChange={(e) => handleInputChange('name', e.target.value)}
-                                                />
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="formation" className="text-sm font-medium text-slate-700">Formación / Título</Label>
-                                                    <Input
-                                                        id="formation"
-                                                        placeholder="Ej. Psicólogo Clínico"
-                                                        className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
-                                                        value={formData.formation}
-                                                        onChange={(e) => handleInputChange('formation', e.target.value)}
-                                                    />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="registryNumber" className="text-sm font-medium text-slate-700">N° Registro / Colegiatura</Label>
-                                                    <Input
-                                                        id="registryNumber"
-                                                        placeholder="Ej. 123456"
-                                                        className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
-                                                        value={formData.registryNumber}
-                                                        onChange={(e) => handleInputChange('registryNumber', e.target.value)}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="country" className="text-sm font-medium text-slate-700">País</Label>
-                                                <Input
-                                                    id="country"
-                                                    placeholder="Ej. Chile"
-                                                    className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
-                                                    value={formData.country}
-                                                    onChange={(e) => handleInputChange('country', e.target.value)}
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label className="text-sm font-medium text-slate-700">Soy...</Label>
-                                                <RadioGroup value={formData.role} onValueChange={(val) => handleInputChange('role', val)} className="grid grid-cols-3 gap-3">
-                                                    {['Psicólogo', 'Psiquiatra', 'Neurólogo'].map((role) => (
-                                                        <div key={role} className="h-full">
-                                                            <RadioGroupItem value={role} id={role} className="peer sr-only" />
-                                                            <Label
-                                                                htmlFor={role}
-                                                                className="flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white/50 p-2 hover:bg-white hover:border-teal-300 hover:shadow-md peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:text-teal-900 cursor-pointer transition-all h-14 w-full"
-                                                            >
-                                                                <span className="text-sm font-bold text-center">{role}</span>
-                                                            </Label>
+                                        <CardContent className="px-6 md:px-8 flex-1 overflow-y-auto custom-scrollbar relative">
+                                            <div className="flex flex-col md:flex-row gap-6 lg:gap-8 pb-16 md:pb-0">
+                                                {/* Left Column: Form */}
+                                                <div className="flex-1 space-y-4">
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="name" className="text-sm font-medium text-slate-700">Nombre Completo</Label>
+                                                        <Input
+                                                            id="name"
+                                                            placeholder="Ej. Dr. Juan Pérez"
+                                                            className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                            value={formData.name}
+                                                            onChange={(e) => handleInputChange('name', e.target.value)}
+                                                        />
+                                                    </div>
+
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="role" className="text-sm font-medium text-slate-700">Profesión Base</Label>
+                                                        <Input
+                                                            id="role"
+                                                            placeholder="Ej. Psicólogo, Médico Psiquiatra"
+                                                            className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                            value={formData.role}
+                                                            onChange={(e) => handleInputChange('role', e.target.value)}
+                                                        />
+                                                        <p className="text-[10px] text-slate-500">Tu título principal.</p>
+                                                    </div>
+
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="formation" className="text-sm font-medium text-slate-700">Especialidad / Post-grados (Opcional)</Label>
+                                                        <Input
+                                                            id="formation"
+                                                            placeholder="Ej. Mg. en Neuropsicología Clínica"
+                                                            className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                            value={formData.formation}
+                                                            onChange={(e) => handleInputChange('formation', e.target.value)}
+                                                        />
+                                                        <p className="text-[10px] text-slate-500">Se mostrará debajo de tu profesión.</p>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="registryNumber" className="text-sm font-medium text-slate-700">N° Registro</Label>
+                                                            <Input
+                                                                id="registryNumber"
+                                                                placeholder="Ej. 12.345"
+                                                                className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                                value={formData.registryNumber}
+                                                                onChange={(e) => handleInputChange('registryNumber', e.target.value)}
+                                                            />
                                                         </div>
-                                                    ))}
-                                                </RadioGroup>
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="country" className="text-sm font-medium text-slate-700">País</Label>
+                                                            <Input
+                                                                id="country"
+                                                                placeholder="Ej. Chile"
+                                                                className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                                value={formData.country}
+                                                                onChange={(e) => handleInputChange('country', e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Right Column: Signature Preview (Sticky for Desktop) */}
+                                                <div className="md:w-[280px] lg:w-[320px] shrink-0 order-first md:order-last mb-4 md:mb-0">
+                                                    <div className="md:sticky md:top-0 p-6 rounded-xl bg-gradient-to-br from-slate-50 to-white border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center space-y-4 min-h-[180px]">
+                                                        <div className="w-full flex justify-center mb-1 opacity-50">
+                                                            <div className="h-1 w-12 bg-slate-300 rounded-full" />
+                                                        </div>
+                                                        <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Vista Previa Firma</h4>
+
+                                                        <div className="font-serif text-slate-900 w-full px-2">
+                                                            <div className="text-lg font-bold text-slate-800 leading-tight">
+                                                                {formData.name || <span className="text-slate-300 italic">Nombre Profesional</span>}
+                                                            </div>
+                                                            <div className="text-sm font-medium text-teal-700 mt-1">
+                                                                {formData.role || <span className="text-slate-300 italic">Profesión</span>}
+                                                            </div>
+                                                            {(formData.formation || (!formData.role && !formData.formation)) && (
+                                                                <div className="text-xs text-slate-600 mt-0.5 max-w-[200px] mx-auto leading-tight">
+                                                                    {formData.formation || <span className="text-slate-300 italic">Especialidad</span>}
+                                                                </div>
+                                                            )}
+                                                            <div className="text-[10px] text-slate-500 mt-2 font-mono truncate">
+                                                                Reg: {formData.registryNumber || '...'} | {formData.country || '...'}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="w-full h-px bg-slate-100 mt-2" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Scroll Indicator Overlay (Mobile) */}
+                                            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none flex items-end justify-center pb-2 md:hidden">
+                                                <div className="flex flex-col items-center animate-bounce text-teal-600/80">
+                                                    <span className="text-[10px] font-medium mb-1">Desliza</span>
+                                                    <ChevronRight className="w-5 h-5 rotate-90" />
+                                                </div>
                                             </div>
                                         </CardContent>
-                                        <CardFooter className="px-6 pb-6 pt-4 md:px-8 md:pb-8 justify-end">
-                                            <Button type="button" onClick={nextStep} disabled={!formData.name || !formData.role || !formData.formation || !formData.registryNumber || !formData.country} className="h-11 px-6 text-sm font-medium bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
+                                        <CardFooter className="px-6 pb-6 pt-4 md:px-8 md:pb-8 justify-end bg-white/50 backdrop-blur-sm z-10 border-t border-white/20">
+                                            <Button type="button" onClick={nextStep} disabled={!formData.name || !formData.role || !formData.registryNumber || !formData.country} className="h-11 px-6 text-sm font-medium bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
                                                 Siguiente <ChevronRight className="ml-2 w-4 h-4" />
                                             </Button>
                                         </CardFooter>
