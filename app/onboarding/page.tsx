@@ -51,10 +51,29 @@ function OnboardingContent() {
 
     useEffect(() => {
         import('@paddle/paddle-js').then(({ initializePaddle }) => {
+            const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+            const env = process.env.NEXT_PUBLIC_PADDLE_ENV
+            console.log('[Paddle] Initializing with:', {
+                token: token ? `${token.substring(0, 5)}...` : 'MISSING',
+                env
+            })
+
+            if (!token) {
+                console.error('[Paddle] Error: Client Token is missing!')
+                setError('Error de configuración: Falta el token de pagos.')
+                return
+            }
+
             initializePaddle({
-                token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!,
-                environment: process.env.NEXT_PUBLIC_PADDLE_ENV === 'production' ? 'production' : 'sandbox'
-            }).then(setPaddle)
+                token: token!,
+                environment: env === 'production' ? 'production' : 'sandbox',
+                eventCallback: (data) => {
+                    console.log('[Paddle] Event:', data)
+                }
+            }).then((paddleInstance) => {
+                console.log('[Paddle] Initialized:', !!paddleInstance)
+                setPaddle(paddleInstance)
+            })
         })
     }, [])
 
@@ -102,6 +121,13 @@ function OnboardingContent() {
             else if (formData.plan === 'basic') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!
 
             if (priceId) {
+                console.log('[Paddle] Opening checkout for:', {
+                    plan: formData.plan,
+                    priceId,
+                    email: formData.email,
+                    userId: signUpData.user?.id
+                })
+
                 paddle.Checkout.open({
                     items: [{ priceId, quantity: 1 }],
                     customData: { userId: signUpData.user?.id },
@@ -109,6 +135,7 @@ function OnboardingContent() {
                     settings: {
                         displayMode: 'overlay',
                         successUrl: `${window.location.origin}/payment/success`,
+                        theme: 'light'
                     }
                 })
                 // We don't stop loading here as the overlay opens
