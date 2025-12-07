@@ -107,12 +107,18 @@ function OnboardingContent() {
                     customer: { email: formData.email },
                     settings: {
                         displayMode: 'overlay',
-                        successUrl: `${window.location.origin}/payment/success`, // You might want to create this page
+                        successUrl: `${window.location.origin}/payment/success`,
                     }
                 })
                 // We don't stop loading here as the overlay opens
             } else {
-                setError('Error de configuración del plan. Contacta soporte.')
+                console.error('Missing Price ID for plan:', formData.plan)
+                console.log('Available Env Vars:', {
+                    basic: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
+                    clinical: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL,
+                    pro: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO
+                })
+                setError('Error: No se encontró el ID del precio para este plan. Por favor contacta a soporte.')
                 setIsLoading(false)
             }
         } else {
@@ -431,7 +437,7 @@ function OnboardingContent() {
                                             <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-4 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
-                                            <Button type="button" onClick={nextStep} className="h-11 px-6 text-sm font-medium bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
+                                            <Button type="button" onClick={nextStep} className="h-11 px-8 text-sm font-medium bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105 rounded-full">
                                                 Confirmar {formData.plan === 'pro' ? 'Plan Pro' : formData.plan === 'clinical' ? 'Plan Clínico' : formData.plan === 'basic' ? 'Plan Básico' : 'Cuenta Gratuita'} <ChevronRight className="ml-2 w-4 h-4" />
                                             </Button>
                                         </CardFooter>
@@ -449,11 +455,11 @@ function OnboardingContent() {
                                         transition={{ duration: 0.3 }}
                                         className="absolute inset-0 p-8 flex flex-col"
                                     >
-                                        <CardHeader className="px-0 pt-0 pb-6">
-                                            <CardTitle className="text-2xl text-teal-900 font-bold tracking-tight">Crea tu Cuenta</CardTitle>
-                                            <CardDescription className="text-base text-slate-600">Estás a un paso de transformar tu práctica clínica.</CardDescription>
+                                        <CardHeader className="px-0 pt-0 pb-8 text-center">
+                                            <CardTitle className="text-3xl text-teal-900 font-bold tracking-tight mb-2">Crea tu Cuenta</CardTitle>
+                                            <CardDescription className="text-lg text-slate-600">Estás a un paso de transformar tu práctica clínica.</CardDescription>
                                         </CardHeader>
-                                        <CardContent className="px-6 md:px-8 flex-1 space-y-6 overflow-y-auto custom-scrollbar">
+                                        <CardContent className="px-6 md:px-12 flex-1 space-y-8 overflow-y-auto custom-scrollbar">
                                             <div className="bg-teal-50/50 border border-teal-100 rounded-lg p-3 flex items-center gap-3 mb-4">
                                                 <ShieldCheck className="w-5 h-5 text-teal-600" />
                                                 <p className="text-xs text-teal-800 font-medium">Tus datos están seguros y encriptados.</p>
@@ -486,15 +492,15 @@ function OnboardingContent() {
                                                     required
                                                 />
                                             </div>
-                                            <div className="text-xs text-slate-500 text-center mt-4">
-                                                Al registrarte, aceptas nuestros <Link href="#" className="text-teal-600 hover:underline font-medium">Términos</Link> y <Link href="#" className="text-teal-600 hover:underline font-medium">Política de Privacidad</Link>.
+                                            <div className="text-xs text-slate-500 text-center mt-6">
+                                                Al registrarte, aceptas nuestros <Link href="/legal/terms" target="_blank" className="text-teal-600 hover:underline font-medium">Términos</Link> y <Link href="/legal/privacy" target="_blank" className="text-teal-600 hover:underline font-medium">Política de Privacidad</Link>.
                                             </div>
                                         </CardContent>
                                         <CardFooter className="px-0 pb-0 pt-4 justify-between mt-auto">
                                             <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-4 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
-                                            <Button type="submit" disabled={isLoading || !formData.email || !formData.password} className="h-11 px-8 text-sm font-medium bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105 w-full md:w-auto">
+                                            <Button type="submit" disabled={isLoading || !formData.email || !formData.password} className="h-12 px-8 text-base font-medium bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 w-full rounded-full">
                                                 {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Comenzar Prueba Gratis'}
                                             </Button>
                                         </CardFooter>
