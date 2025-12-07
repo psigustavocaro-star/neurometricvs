@@ -142,7 +142,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 </Link>
                                 <div className="ml-4 flex items-center gap-2">
                                     <LoginModal>
-                                        <Button variant="ghost" className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors rounded-full hover:bg-teal-50">
+                                        <Button variant="ghost" suppressHydrationWarning={true} className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors rounded-full hover:bg-teal-50">
                                             Ingresar
                                         </Button>
                                     </LoginModal>
@@ -229,7 +229,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 </Link>
                                 <div className="px-2 flex flex-col gap-2">
                                     <LoginModal>
-                                        <Button variant="ghost" className="w-full justify-start text-slate-600 text-sm font-medium px-2 hover:text-teal-700 hover:bg-teal-50">
+                                        <Button variant="ghost" suppressHydrationWarning={true} className="w-full justify-start text-slate-600 text-sm font-medium px-2 hover:text-teal-700 hover:bg-teal-50">
                                             Ingresar
                                         </Button>
                                     </LoginModal>
