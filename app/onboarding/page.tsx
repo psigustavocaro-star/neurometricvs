@@ -143,9 +143,9 @@ function OnboardingContent() {
     }
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-slate-50">
+        <main className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-slate-50">
             {/* Bokeh Background */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0" aria-hidden="true">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-200/30 rounded-full blur-[100px] animate-pulse" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-200/30 rounded-full blur-[100px] animate-pulse delay-1000" />
                 <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] bg-cyan-200/20 rounded-full blur-[80px] animate-pulse delay-700" />
@@ -354,11 +354,11 @@ function OnboardingContent() {
                                                 >
                                                     <div className="mb-3">
                                                         <h3 className="font-bold text-base text-slate-900 leading-tight mb-0.5">Gratuita</h3>
-                                                        <p className="text-[10px] text-slate-500">Explora el potencial</p>
+                                                        <p className="text-[10px] text-slate-600">Explora el potencial</p>
                                                     </div>
                                                     <div className="mb-3">
                                                         <span className="text-2xl font-bold text-slate-900">$0</span>
-                                                        <span className="text-[10px] text-slate-500">/mes</span>
+                                                        <span className="text-[10px] text-slate-600">/mes</span>
                                                     </div>
                                                     <ul className="text-[10px] text-slate-600 space-y-1.5 flex-1">
                                                         <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Acceso a Tests</span></li>
@@ -373,7 +373,7 @@ function OnboardingContent() {
                                                 >
                                                     <div className="mb-3">
                                                         <h3 className="font-bold text-base text-slate-900 leading-tight mb-0.5">Básico</h3>
-                                                        <p className="text-[10px] text-slate-500">Para iniciar</p>
+                                                        <p className="text-[10px] text-slate-600">Para iniciar</p>
                                                     </div>
                                                     <div className="mb-3">
                                                         <PriceDisplay amount={10} className="text-2xl font-bold text-slate-900" />
@@ -391,7 +391,7 @@ function OnboardingContent() {
                                                 >
                                                     <div className="mb-3">
                                                         <h3 className="font-bold text-base text-slate-900 leading-tight mb-0.5">Clínico</h3>
-                                                        <p className="text-[10px] text-slate-500">Profesionales</p>
+                                                        <p className="text-[10px] text-slate-600">Profesionales</p>
                                                     </div>
                                                     <div className="mb-3">
                                                         <PriceDisplay amount={15} className="text-2xl font-bold text-slate-900" />
@@ -559,7 +559,7 @@ function OnboardingContent() {
                     </form>
                 </Card >
             </div >
-        </div >
+        </main >
     )
 }
 
