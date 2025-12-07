@@ -130,7 +130,7 @@ function OnboardingContent() {
 
                 paddle.Checkout.open({
                     items: [{ priceId, quantity: 1 }],
-                    customData: { userId: signUpData.user?.id },
+                    customData: { userId: signUpData.user?.id || '' },
                     customer: { email: formData.email },
                     settings: {
                         displayMode: 'overlay',

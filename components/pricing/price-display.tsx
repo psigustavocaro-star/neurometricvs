@@ -15,50 +15,51 @@ export function PriceDisplay({ amount, period = '/mes', className = '' }: PriceD
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchCurrency = async () => {
-            try {
-                // 1. Get User Location & Currency
-                const ipRes = await fetch('https://ipapi.co/json/')
-                
-                if (!ipRes.ok) {
-                    // Fail silently for rate limits or other issues, defaulting to USD
-                    return
-                }
+        // const fetchCurrency = async () => {
+        //     try {
+        //         // 1. Get User Location & Currency
+        //         const ipRes = await fetch('https://ipapi.co/json/')
+        //         
+        //         if (!ipRes.ok) {
+        //             // Fail silently for rate limits or other issues, defaulting to USD
+        //             return
+        //         }
+        //
+        //         const ipData = await ipRes.json()
+        //         const userCurrency = ipData.currency
+        //
+        //         if (userCurrency && userCurrency !== 'USD') {
+        //             setCurrencyCode(userCurrency)
+        //
+        //             // 2. Get Exchange Rate
+        //             const rateRes = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+        //             
+        //             if (!rateRes.ok) return
+        //
+        //             const rateData = await rateRes.json()
+        //             const rate = rateData.rates[userCurrency]
+        //
+        //             if (rate) {
+        //                 const converted = amount * rate
+        //                 // Format currency
+        //                 const formatter = new Intl.NumberFormat(ipData.languages?.split(',')[0] || 'es-CL', {
+        //                     style: 'currency',
+        //                     currency: userCurrency,
+        //                     maximumFractionDigits: 0
+        //                 })
+        //                 setLocalPrice(formatter.format(converted))
+        //             }
+        //         }
+        //     } catch {
+        //         // Fail silently and default to USD
+        //         // console.debug('Failed to fetch currency, defaulting to USD')
+        //     } finally {
+        //         setLoading(false)
+        //     }
+        // }
 
-                const ipData = await ipRes.json()
-                const userCurrency = ipData.currency
-
-                if (userCurrency && userCurrency !== 'USD') {
-                    setCurrencyCode(userCurrency)
-
-                    // 2. Get Exchange Rate
-                    const rateRes = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
-                    
-                    if (!rateRes.ok) return
-
-                    const rateData = await rateRes.json()
-                    const rate = rateData.rates[userCurrency]
-
-                    if (rate) {
-                        const converted = amount * rate
-                        // Format currency
-                        const formatter = new Intl.NumberFormat(ipData.languages?.split(',')[0] || 'es-CL', {
-                            style: 'currency',
-                            currency: userCurrency,
-                            maximumFractionDigits: 0
-                        })
-                        setLocalPrice(formatter.format(converted))
-                    }
-                }
-            } catch {
-                // Fail silently and default to USD
-                // console.debug('Failed to fetch currency, defaulting to USD')
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchCurrency()
+        // fetchCurrency()
+        setLoading(false)
     }, [amount])
 
     return (
