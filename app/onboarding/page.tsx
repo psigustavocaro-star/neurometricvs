@@ -151,7 +151,7 @@ function OnboardingContent() {
                 <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] bg-cyan-200/20 rounded-full blur-[80px] animate-pulse delay-700" />
             </div>
 
-            <div className="w-full max-w-2xl z-10">
+            <div className="w-full max-w-5xl z-10">
                 {/* Progress Bar */}
                 <div className="mb-8">
                     <div className="flex justify-between text-[10px] font-semibold text-slate-500 mb-2 uppercase tracking-widest">
@@ -177,7 +177,7 @@ function OnboardingContent() {
                         </Link>
                     </Button>
                     <form onSubmit={handleSubmit}>
-                        <div className="relative min-h-[520px]">
+                        <div className="relative min-h-[600px] flex flex-col">
                             <AnimatePresence mode='wait' custom={step}>
                                 {step === 1 && (
                                     <motion.div
@@ -241,15 +241,15 @@ function OnboardingContent() {
                                             </div>
                                             <div className="space-y-2">
                                                 <Label className="text-sm font-medium text-slate-700">Soy...</Label>
-                                                <RadioGroup value={formData.role} onValueChange={(val) => handleInputChange('role', val)} className="grid grid-cols-3 gap-2">
+                                                <RadioGroup value={formData.role} onValueChange={(val) => handleInputChange('role', val)} className="grid grid-cols-3 gap-3">
                                                     {['Psicólogo', 'Psiquiatra', 'Neurólogo'].map((role) => (
-                                                        <div key={role}>
+                                                        <div key={role} className="h-full">
                                                             <RadioGroupItem value={role} id={role} className="peer sr-only" />
                                                             <Label
                                                                 htmlFor={role}
-                                                                className="flex flex-col items-center justify-center rounded-lg border border-slate-200 bg-white/50 p-2 hover:bg-white hover:border-teal-300 hover:shadow-sm peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:text-teal-900 cursor-pointer transition-all h-full"
+                                                                className="flex flex-col items-center justify-center rounded-xl border-2 border-slate-200 bg-white/50 p-4 hover:bg-white hover:border-teal-300 hover:shadow-md peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:text-teal-900 cursor-pointer transition-all h-24 w-full"
                                                             >
-                                                                <span className="text-xs font-semibold">{role}</span>
+                                                                <span className="text-sm font-bold text-center">{role}</span>
                                                             </Label>
                                                         </div>
                                                     ))}
@@ -296,9 +296,9 @@ function OnboardingContent() {
                                                     ))}
                                                 </RadioGroup>
                                             </div>
-                                            <div className="space-y-3">
-                                                <Label className="text-sm font-medium text-slate-700">¿Qué es lo que más te quita tiempo?</Label>
-                                                <RadioGroup value={formData.primaryNeed} onValueChange={(val) => handleInputChange('primaryNeed', val)} className="space-y-2">
+                                            <div className="space-y-4">
+                                                <Label className="text-lg font-semibold text-slate-800">¿Qué es lo que más te quita tiempo?</Label>
+                                                <RadioGroup value={formData.primaryNeed} onValueChange={(val) => handleInputChange('primaryNeed', val)} className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                     {[
                                                         'Corrección manual de tests',
                                                         'Redacción de informes',
@@ -306,9 +306,14 @@ function OnboardingContent() {
                                                         'Gestión de agenda y citas',
                                                         'Facturación y cobros'
                                                     ].map((opt) => (
-                                                        <div key={opt} className="flex items-center space-x-3 border border-slate-200 bg-white/50 rounded-lg p-3 hover:bg-white hover:border-teal-300 cursor-pointer transition-all has-[:checked]:border-teal-600 has-[:checked]:bg-teal-50 has-[:checked]:shadow-sm">
-                                                            <RadioGroupItem value={opt} id={opt} className="text-teal-600" />
-                                                            <Label htmlFor={opt} className="flex-1 cursor-pointer text-sm text-slate-700 font-medium">{opt}</Label>
+                                                        <div key={opt} className="relative">
+                                                            <RadioGroupItem value={opt} id={opt} className="peer sr-only" />
+                                                            <Label
+                                                                htmlFor={opt}
+                                                                className="flex items-center space-x-3 border-2 border-slate-200 bg-white/50 rounded-xl p-4 hover:bg-white hover:border-teal-300 cursor-pointer transition-all peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:shadow-md h-full"
+                                                            >
+                                                                <span className="text-sm font-medium text-slate-700 peer-data-[state=checked]:text-teal-900">{opt}</span>
+                                                            </Label>
                                                         </div>
                                                     ))}
                                                 </RadioGroup>
@@ -341,94 +346,82 @@ function OnboardingContent() {
                                             <CardDescription className="text-base text-slate-600">Todos incluyen <strong>7 días de prueba gratis</strong>.</CardDescription>
                                         </CardHeader>
                                         <CardContent className="px-6 md:px-8 flex-1 overflow-y-auto custom-scrollbar">
-                                            <div className="grid grid-cols-1 gap-4">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-full content-center">
                                                 {/* Cuenta Gratuita */}
                                                 <div
-                                                    className={`border rounded-xl p-4 cursor-pointer transition-all ${formData.plan === 'free' ? 'border-teal-600 bg-teal-50 ring-1 ring-teal-600' : 'border-slate-200 hover:border-teal-300 hover:bg-slate-50'}`}
+                                                    className={`border-2 rounded-2xl p-4 cursor-pointer transition-all flex flex-col h-full bg-white relative ${formData.plan === 'free' ? 'border-teal-600 shadow-xl scale-105 z-10' : 'border-slate-100 hover:border-teal-300 hover:shadow-lg opacity-80 hover:opacity-100'}`}
                                                     onClick={() => handleInputChange('plan', 'free')}
                                                 >
-                                                    <div className="flex justify-between items-start mb-2">
-                                                        <div>
-                                                            <h3 className="font-bold text-slate-900">Cuenta Gratuita</h3>
-                                                            <p className="text-[10px] text-slate-500">Explora el catálogo</p>
-                                                        </div>
-                                                        <div className="text-right">
-                                                            <span className="font-bold text-slate-900">$0</span>
-                                                            <span className="text-[10px] text-slate-500 block">/mes</span>
-                                                        </div>
+                                                    <div className="mb-4">
+                                                        <h3 className="font-bold text-lg text-slate-900 leading-tight mb-1">Cuenta Gratuita</h3>
+                                                        <p className="text-xs text-slate-500">Explora el potencial</p>
                                                     </div>
-                                                    <ul className="text-xs text-slate-600 space-y-1">
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Acceso a la Sección de Tests</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Ver catálogo completo</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Ver ejemplos de informes</li>
+                                                    <div className="mb-4">
+                                                        <span className="text-3xl font-bold text-slate-900">$0</span>
+                                                        <span className="text-xs text-slate-500">/mes</span>
+                                                    </div>
+                                                    <ul className="text-xs text-slate-600 space-y-2 flex-1">
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Acceso a sección de Tests</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Catálogo completo</span></li>
                                                     </ul>
                                                 </div>
 
                                                 {/* Plan Básico */}
                                                 <div
-                                                    className={`border rounded-xl p-4 cursor-pointer transition-all ${formData.plan === 'basic' ? 'border-teal-600 bg-teal-50 ring-1 ring-teal-600' : 'border-slate-200 hover:border-teal-300 hover:bg-slate-50'}`}
+                                                    className={`border-2 rounded-2xl p-4 cursor-pointer transition-all flex flex-col h-full bg-white relative ${formData.plan === 'basic' ? 'border-teal-600 shadow-xl scale-105 z-10' : 'border-slate-100 hover:border-teal-300 hover:shadow-lg opacity-80 hover:opacity-100'}`}
                                                     onClick={() => handleInputChange('plan', 'basic')}
                                                 >
-                                                    <div className="flex justify-between items-start mb-2">
-                                                        <div>
-                                                            <h3 className="font-bold text-slate-900">Plan Básico</h3>
-                                                            <p className="text-[10px] text-slate-500">Para uso personal</p>
-                                                        </div>
-                                                        <div className="text-right">
-                                                            <PriceDisplay amount={10} />
-                                                        </div>
+                                                    <div className="mb-4">
+                                                        <h3 className="font-bold text-lg text-slate-900 leading-tight mb-1">Básico</h3>
+                                                        <p className="text-xs text-slate-500">Para iniciar</p>
                                                     </div>
-                                                    <ul className="text-xs text-slate-600 space-y-1">
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Acceso a todos los tests</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> PDFs con firma</li>
+                                                    <div className="mb-4">
+                                                        <PriceDisplay amount={10} className="text-3xl font-bold text-slate-900" />
+                                                    </div>
+                                                    <ul className="text-xs text-slate-600 space-y-2 flex-1">
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Acceso total a Tests</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>PDFs con firma</span></li>
                                                     </ul>
                                                 </div>
 
                                                 {/* Plan Clínico */}
                                                 <div
-                                                    className={`border rounded-xl p-4 cursor-pointer transition-all ${formData.plan === 'clinical' ? 'border-teal-600 bg-teal-50 ring-1 ring-teal-600' : 'border-slate-200 hover:border-teal-300 hover:bg-slate-50'}`}
+                                                    className={`border-2 rounded-2xl p-4 cursor-pointer transition-all flex flex-col h-full bg-white relative ${formData.plan === 'clinical' ? 'border-teal-600 shadow-xl scale-105 z-10' : 'border-slate-100 hover:border-teal-300 hover:shadow-lg opacity-80 hover:opacity-100'}`}
                                                     onClick={() => handleInputChange('plan', 'clinical')}
                                                 >
-                                                    <div className="flex justify-between items-start mb-2">
-                                                        <div>
-                                                            <h3 className="font-bold text-slate-900">Plan Clínico</h3>
-                                                            <p className="text-[10px] text-slate-500">Para profesionales</p>
-                                                        </div>
-                                                        <div className="text-right">
-                                                            <PriceDisplay amount={15} />
-                                                        </div>
+                                                    <div className="mb-4">
+                                                        <h3 className="font-bold text-lg text-slate-900 leading-tight mb-1">Clínico</h3>
+                                                        <p className="text-xs text-slate-500">Profesionales</p>
                                                     </div>
-                                                    <ul className="text-xs text-slate-600 space-y-1">
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Todo lo del Básico</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Gestión de Pacientes</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Historial clínico</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Envíos automáticos</li>
+                                                    <div className="mb-4">
+                                                        <PriceDisplay amount={15} className="text-3xl font-bold text-slate-900" />
+                                                    </div>
+                                                    <ul className="text-xs text-slate-600 space-y-2 flex-1">
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Todo lo del Básico</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Gestión Pacientes</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Historial clínico</span></li>
                                                     </ul>
                                                 </div>
 
                                                 {/* Pro Anual */}
                                                 <div
-                                                    className={`relative border rounded-xl p-4 cursor-pointer transition-all ${formData.plan === 'pro' ? 'border-teal-600 bg-teal-50 ring-1 ring-teal-600' : 'border-slate-200 hover:border-teal-300 hover:bg-slate-50'}`}
+                                                    className={`border-2 rounded-2xl p-4 cursor-pointer transition-all flex flex-col h-full bg-gradient-to-br from-teal-50 to-emerald-50 relative ${formData.plan === 'pro' ? 'border-teal-600 shadow-xl scale-105 z-10' : 'border-slate-100 hover:border-teal-300 hover:shadow-lg opacity-80 hover:opacity-100'}`}
                                                     onClick={() => handleInputChange('plan', 'pro')}
                                                 >
-                                                    <div className="absolute top-0 right-0 bg-teal-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-lg">RECOMENDADO</div>
-                                                    <div className="absolute top-8 right-4 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">65% OFF</div>
+                                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">RECOMENDADO</div>
 
-                                                    <div className="flex justify-between items-start mb-2">
-                                                        <div>
-                                                            <h3 className="font-bold text-teal-900">Pro Anual</h3>
-                                                            <p className="text-[10px] text-slate-500">Ahorro inteligente</p>
-                                                        </div>
-                                                        <div className="text-right mt-1">
-                                                            <PriceDisplay amount={65} period="/año" />
-                                                        </div>
+                                                    <div className="mb-4 mt-2">
+                                                        <h3 className="font-bold text-lg text-teal-900 leading-tight mb-1">Pro Anual</h3>
+                                                        <p className="text-xs text-emerald-600 font-semibold">Ahorra 65%</p>
                                                     </div>
-                                                    <ul className="text-xs text-slate-600 space-y-1 mt-2">
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> <strong>Paga 4 meses, recibe 12</strong></li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Ahorra 65% vs Plan Clínico</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Solo $5.41 mensuales</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Todo lo del Clínico</li>
-                                                        <li className="flex gap-2"><Check className="w-3 h-3 text-teal-600" /> Soporte VIP</li>
+                                                    <div className="mb-4">
+                                                        <PriceDisplay amount={65} period="/año" className="text-3xl font-bold text-teal-900" />
+                                                        <p className="text-[10px] text-teal-600 mt-1 font-medium">Solo $5.41/mes</p>
+                                                    </div>
+                                                    <ul className="text-xs text-slate-600 space-y-2 flex-1">
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Todo lo del Clínico</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Soporte VIP</span></li>
+                                                        <li className="flex gap-2 items-start"><Check className="w-4 h-4 text-teal-600 shrink-0" /> <span>Paga 4, recibe 12</span></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -497,11 +490,18 @@ function OnboardingContent() {
                                             </div>
                                         </CardContent>
                                         <CardFooter className="px-0 pb-0 pt-4 justify-between mt-auto">
-                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-4 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
+                                            <Button type="button" variant="ghost" onClick={prevStep} className="h-11 px-6 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100/50">
                                                 <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                             </Button>
-                                            <Button type="submit" disabled={isLoading || !formData.email || !formData.password} className="h-12 px-8 text-base font-medium bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 w-full rounded-full">
-                                                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Comenzar Prueba Gratis'}
+                                            <Button
+                                                type="submit"
+                                                disabled={isLoading || !formData.email || !formData.password}
+                                                className="h-14 px-8 text-lg font-bold bg-teal-600 hover:bg-teal-700 shadow-xl shadow-teal-600/20 transition-all hover:scale-105 rounded-full flex-1 ml-4"
+                                            >
+                                                {isLoading ?
+                                                    <Loader2 className="w-6 h-6 animate-spin" /> :
+                                                    (formData.plan === 'free' ? 'Comenzar Gratis' : 'Ir al Pago Seguro')
+                                                }
                                             </Button>
                                         </CardFooter>
                                     </motion.div>
