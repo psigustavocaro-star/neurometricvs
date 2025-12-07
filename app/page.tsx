@@ -230,7 +230,7 @@ export default function LandingPage() {
                     <p className="text-slate-500 text-sm">Para comenzar</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <PriceDisplay amount={10} />
+                    <PriceDisplay amount={10} priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC} />
                     <p className="text-xs text-teal-600 font-semibold mt-1">7 días gratis</p>
                   </div>
                   <ul className="mt-8 space-y-4 flex-1">
@@ -263,7 +263,7 @@ export default function LandingPage() {
                     <p className="text-slate-500 text-sm">Control total de pacientes</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <PriceDisplay amount={15} />
+                    <PriceDisplay amount={15} priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL} />
                     <p className="text-xs text-teal-600 font-semibold mt-1">Prueba gratis de 7 días</p>
                   </div>
                   <ul className="mt-8 space-y-4 flex-1">
@@ -299,7 +299,7 @@ export default function LandingPage() {
                     <p className="text-slate-500 text-sm">Ahorro Inteligente</p>
                   </div>
                   <div className="mt-4 text-center">
-                    <PriceDisplay amount={65} period="/año" />
+                    <PriceDisplay amount={65} period="/año" priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO} />
                     <p className="text-xs text-teal-600 font-semibold mt-1">Equivale a <span className="font-bold">$5.41/mes</span></p>
                   </div>
                   <div className="text-center text-xs text-green-600 font-bold mt-2 bg-green-50 inline-block mx-auto px-2 py-1 rounded-md">

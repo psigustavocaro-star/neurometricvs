@@ -419,7 +419,7 @@ function OnboardingContent() {
                                                         <p className="text-[10px] text-slate-600">Para iniciar</p>
                                                     </div>
                                                     <div className="mb-3">
-                                                        <PriceDisplay amount={10} className="text-2xl font-bold text-slate-900" />
+                                                        <PriceDisplay amount={10} className="text-2xl font-bold text-slate-900" priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC} />
                                                     </div>
                                                     <ul className="text-[10px] text-slate-600 space-y-1.5 flex-1">
                                                         <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Acceso total</span></li>
@@ -437,7 +437,7 @@ function OnboardingContent() {
                                                         <p className="text-[10px] text-slate-600">Profesionales</p>
                                                     </div>
                                                     <div className="mb-3">
-                                                        <PriceDisplay amount={15} className="text-2xl font-bold text-slate-900" />
+                                                        <PriceDisplay amount={15} className="text-2xl font-bold text-slate-900" priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL} />
                                                     </div>
                                                     <ul className="text-[10px] text-slate-600 space-y-1.5 flex-1">
                                                         <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Todo lo del Básico</span></li>
@@ -458,7 +458,7 @@ function OnboardingContent() {
                                                         <p className="text-[10px] text-emerald-600 font-semibold">Ahorra 65%</p>
                                                     </div>
                                                     <div className="mb-3">
-                                                        <PriceDisplay amount={65} period="/año" className="text-2xl font-bold text-teal-900" />
+                                                        <PriceDisplay amount={65} period="/año" className="text-2xl font-bold text-teal-900" priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO} />
                                                         <p className="text-[9px] text-teal-600 mt-0.5 font-medium">Solo $5.41/mes</p>
                                                     </div>
                                                     <ul className="text-[10px] text-slate-600 space-y-1.5 flex-1">
@@ -613,7 +613,7 @@ function OnboardingContent() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </form>
+                    </form >
                 </Card >
             </div >
         </main >
