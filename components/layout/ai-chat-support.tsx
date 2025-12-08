@@ -201,6 +201,7 @@ export function AIChatSupport({ user }: { user?: User | null }) {
                             src="/neurometrics-logo-small.png"
                             alt="Neurometrics Logo"
                             fill
+                            sizes="36px"
                             className="object-contain brightness-0 invert drop-shadow-md"
                         />
                     </div>

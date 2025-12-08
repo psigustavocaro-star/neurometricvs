@@ -2,47 +2,18 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, Quote } from "lucide-react"
-
-const testimonials = [
-    {
-        name: "Lic. Sofía Martínez",
-        role: "Psicóloga Clínica",
-        text: "Antes tardaba horas tabulando el PHQ-9 y otros tests. Ahora es instantáneo. Mis informes se ven mucho más profesionales.",
-        img: "/assets/v2/female-1.png"
-    },
-    {
-        name: "Dr. Carlos Ruiz",
-        role: "Neuropsicólogo",
-        text: "La funcionalidad de historial de pacientes es clave para ver la evolución del tratamiento. Muy recomendado.",
-        img: "/assets/v2/male-1.png"
-    },
-    {
-        name: "Ps. Laura Gómez",
-        role: "Terapeuta Familiar",
-        text: "Me encanta que pueda personalizar mi firma y logo. Mis pacientes reciben sus resultados automáticamente por correo.",
-        img: "/assets/v2/female-2.png"
-    },
-    {
-        name: "Dr. Roberto Fernández",
-        role: "Psiquiatra",
-        text: "La interfaz es limpia y fácil de usar. Mis pacientes mayores no tienen problemas para completar los tests en sus tablets.",
-        img: "/assets/v2/male-2.png"
-    },
-    {
-        name: "Lic. Andrea Torres",
-        role: "Psicóloga Infantil",
-        text: "El soporte técnico es excelente. Tuvimos una duda con la configuración y nos ayudaron en minutos. ¡Gracias Neurometrics!",
-        img: "/assets/v2/female-3.png"
-    },
-    {
-        name: "Ps. Javier Méndez",
-        role: "Psicólogo Organizacional",
-        text: "Ideal para evaluaciones masivas en empresas. He reducido mi tiempo de entrega de informes en un 50%.",
-        img: "/assets/v2/male-3.png"
-    }
-]
+import { useTranslations } from "next-intl"
 
 export function TestimonialsMarquee() {
+    const t = useTranslations('TestimonialsList');
+    const testimonialKeys = ['0', '1', '2', '3', '4', '5'] as const;
+    const testimonials = testimonialKeys.map(key => ({
+        name: t(`${key}.name`),
+        role: t(`${key}.role`),
+        text: t(`${key}.text`),
+        img: t(`${key}.img`)
+    }));
+
     return (
         <div className="w-full overflow-hidden relative">
             {/* Gradient Masks for smooth fade edges */}
@@ -63,7 +34,7 @@ export function TestimonialsMarquee() {
     )
 }
 
-function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
+function TestimonialCard({ t }: { t: { name: string, role: string, text: string, img: string } }) {
     return (
         <div className="w-[350px] md:w-[400px] flex-shrink-0">
             <Card className="border-none shadow-lg bg-slate-50 hover:shadow-xl transition-shadow h-full">

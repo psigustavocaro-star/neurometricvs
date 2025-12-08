@@ -1,9 +1,12 @@
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 export function Footer() {
+    const t = useTranslations('Footer');
+
     return (
         <footer className="bg-slate-900 text-slate-200 py-12 md:py-16 border-t border-slate-800">
             <div className="container px-4 md:px-6">
@@ -14,9 +17,10 @@ export function Footer() {
                             <img src="/logo.png?v=2" alt="Neurometrics Logo" className="h-10 w-auto brightness-0 invert" />
                         </div>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            Transformando la evaluación psicológica con tecnología de vanguardia. Más de 10 años facilitando el trabajo clínico en Latinoamérica.
+                            {t('description')}
                         </p>
                         <div className="flex gap-4 pt-2">
+                            {/* Social Links remain unchanged */}
                             <Link href="#" className="text-slate-400 hover:text-teal-400 transition-colors">
                                 <Facebook className="h-5 w-5" />
                                 <span className="sr-only">Facebook</span>
@@ -38,22 +42,19 @@ export function Footer() {
 
                     {/* Product Column */}
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Producto</h3>
+                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{t('product')}</h3>
                         <ul className="space-y-2 text-sm">
                             <li><Link href="/#features" className="hover:text-teal-400 transition-colors">Características</Link></li>
                             <li><Link href="/#pricing" className="hover:text-teal-400 transition-colors">Precios</Link></li>
                             <li><Link href="/#testimonials" className="hover:text-teal-400 transition-colors">Testimonios</Link></li>
-                            <li><Link href="/integrations" className="hover:text-teal-400 transition-colors">Integraciones</Link></li>
-                            <li><Link href="/updates" className="hover:text-teal-400 transition-colors">Actualizaciones</Link></li>
                         </ul>
                     </div>
 
                     {/* Company Column */}
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Compañía</h3>
+                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{t('company')}</h3>
                         <ul className="space-y-2 text-sm">
                             <li><Link href="/about" className="hover:text-teal-400 transition-colors">Sobre Nosotros</Link></li>
-                            <li><Link href="/careers" className="hover:text-teal-400 transition-colors">Carreras</Link></li>
                             <li><Link href="/blog" className="hover:text-teal-400 transition-colors">Blog</Link></li>
                             <li><Link href="/contact" className="hover:text-teal-400 transition-colors">Contacto</Link></li>
                             <li><Link href="/press" className="hover:text-teal-400 transition-colors">Prensa</Link></li>
@@ -62,7 +63,7 @@ export function Footer() {
 
                     {/* Newsletter Column */}
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">Mantente informado</h3>
+                        <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{t('newsletter')}</h3>
                         <p className="text-sm text-slate-400">
                             Suscríbete a nuestro boletín para recibir las últimas novedades en psicometría digital.
                         </p>
@@ -73,7 +74,7 @@ export function Footer() {
                                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus-visible:ring-teal-500"
                             />
                             <Button className="bg-teal-600 hover:bg-teal-700 text-white w-full">
-                                Suscribirse
+                                {t('subscribe')}
                             </Button>
                         </div>
                     </div>
@@ -86,8 +87,9 @@ export function Footer() {
                     <div className="flex gap-6 justify-center md:justify-end text-xs text-slate-500">
                         <Link href="/legal/privacy" className="hover:text-teal-400 transition-colors">Privacidad</Link>
                         <Link href="/legal/terms" className="hover:text-teal-400 transition-colors">Términos</Link>
+                        <Link href="/legal/refund" className="hover:text-teal-400 transition-colors">Reembolsos</Link>
                         <Link href="/legal/cookies" className="hover:text-teal-400 transition-colors">Cookies</Link>
-                        <Link href="/legal/security" className="hover:text-teal-400 transition-colors">Seguridad</Link>
+                        <Link href="/legal/security" className="hover:text-teal-400 transition-colors">{t('legal')}</Link>
                     </div>
                 </div>
             </div>

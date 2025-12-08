@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Quote, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface Slide {
     image: string
@@ -14,58 +15,11 @@ interface Slide {
     alt: string
 }
 
-const slides: Slide[] = [
-    {
-        image: "/assets/v2/male-1.png",
-        quote: "Experiencia y tecnología van de la mano. Neurometrics ha transformado mi consulta.",
-        author: "Dr. Ricardo Silva",
-        role: "Psiquiatra Senior",
-        location: "Chile 🇨🇱",
-        alt: "Médico senior de confianza"
-    },
-    {
-        image: "/assets/v2/female-1.png",
-        quote: "Informes listos en segundos. Puedo dedicar más tiempo a la terapia real.",
-        author: "Lic. Ana María López",
-        role: "Psicóloga Clínica",
-        location: "México 🇲🇽",
-        alt: "Psicóloga profesional"
-    },
-    {
-        image: "/assets/v2/female-2.png",
-        quote: "La interfaz es intuitiva y mis pacientes agradecen la modernidad.",
-        author: "Ps. Valentina Mendoza",
-        role: "Neuropsicóloga",
-        location: "Colombia 🇨🇴",
-        alt: "Terapia online"
-    },
-    {
-        image: "/assets/v2/male-2.png",
-        quote: "Automatizar la corrección de tests me ha devuelto horas de vida cada semana.",
-        author: "Dr. Alejandro Vega",
-        role: "Neurólogo",
-        location: "Argentina 🇦🇷",
-        alt: "Neurólogo especialista"
-    },
-    {
-        image: "/assets/v2/female-3.png",
-        quote: "Esencial para el seguimiento de mis pacientes jóvenes. Muy fácil de usar para ellos.",
-        author: "Dra. Carmen Rodríguez",
-        role: "Psiquiatra Infantil",
-        location: "Perú 🇵🇪",
-        alt: "Psiquiatría infantil"
-    },
-    {
-        image: "/assets/v2/male-3.png",
-        quote: "La precisión en los reportes forenses que genera es impresionante.",
-        author: "Lic. Diego Morales",
-        role: "Psicólogo Forense",
-        location: "España 🇪🇸",
-        alt: "Psicología forense"
-    }
-]
-
 export function HeroCarousel() {
+    const t = useTranslations('HeroCarousel')
+    const tGeneral = useTranslations('General')
+    const slides = t.raw('slides') as Slide[]
+
     const [currentSlide, setCurrentSlide] = useState(0)
     const [direction, setDirection] = useState(0)
     const [isAutoPlaying, setIsAutoPlaying] = useState(true)
@@ -79,7 +33,7 @@ export function HeroCarousel() {
         }, 6000)
 
         return () => clearInterval(timer)
-    }, [isAutoPlaying])
+    }, [isAutoPlaying, slides.length])
 
     const variants = {
         enter: (direction: number) => ({
@@ -171,7 +125,7 @@ export function HeroCarousel() {
                                 >
                                     <div className="flex items-center gap-2 mb-4">
                                         <span className="bg-teal-500/90 backdrop-blur-md text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                                            <CheckCircle2 className="w-3 h-3" /> Verificado
+                                            <CheckCircle2 className="w-3 h-3" /> {tGeneral('verificado')}
                                         </span>
                                         <span className="text-xs font-medium text-slate-300 flex items-center gap-1">
                                             {slides[currentSlide].location}

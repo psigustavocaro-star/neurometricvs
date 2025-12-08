@@ -4,16 +4,19 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Home, Smartphone, MessageSquare, Shield, CreditCard, HelpCircle } from 'lucide-react'
 
-const navItems = [
-    { id: 'hero', label: 'Inicio', icon: Home },
-    { id: 'mobile', label: 'Móvil', icon: Smartphone },
-    { id: 'testimonials', label: 'Relatos', icon: MessageSquare },
-    { id: 'trust', label: 'Confianza', icon: Shield },
-    { id: 'pricing', label: 'Planes', icon: CreditCard },
-    { id: 'faq', label: 'Ayuda', icon: HelpCircle },
-]
+import { useTranslations } from "next-intl"
 
 export function VerticalNavbar() {
+    const t = useTranslations('VerticalNavbar');
+
+    const navItems = [
+        { id: 'hero', label: t('hero'), icon: Home },
+        { id: 'mobile', label: t('mobile'), icon: Smartphone },
+        { id: 'testimonials', label: t('testimonials'), icon: MessageSquare },
+        { id: 'trust', label: t('trust'), icon: Shield },
+        { id: 'pricing', label: t('pricing'), icon: CreditCard },
+        { id: 'faq', label: t('faq'), icon: HelpCircle },
+    ]
     const [activeSection, setActiveSection] = useState('hero')
 
     useEffect(() => {
@@ -57,8 +60,8 @@ export function VerticalNavbar() {
                     <button
                         onClick={() => scrollToSection(id)}
                         className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${activeSection === id
-                                ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/30 scale-110'
-                                : 'bg-white text-slate-400 hover:text-teal-600 hover:bg-teal-50 shadow-md hover:scale-105'
+                            ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/30 scale-110'
+                            : 'bg-white text-slate-400 hover:text-teal-600 hover:bg-teal-50 shadow-md hover:scale-105'
                             }`}
                     >
                         <Icon className="w-4 h-4" />

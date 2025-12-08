@@ -2,6 +2,7 @@ import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 import { paddle } from "@/lib/paddle"
 import { createClient } from "@supabase/supabase-js"
+import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
 
 export const dynamic = 'force-dynamic'
 
@@ -38,9 +39,9 @@ export async function POST(req: Request) {
                 const priceId = data.items[0]?.price?.id;
                 let planName = 'basic';
 
-                if (priceId === process.env.PADDLE_PRICE_ID_PRO) planName = 'pro';
-                else if (priceId === process.env.PADDLE_PRICE_ID_CLINICAL) planName = 'clinical';
-                else if (priceId === process.env.PADDLE_PRICE_ID_BASIC) planName = 'basic';
+                if (priceId === PRICE_ID_PRO) planName = 'pro';
+                else if (priceId === PRICE_ID_CLINICAL) planName = 'clinical';
+                else if (priceId === PRICE_ID_BASIC) planName = 'basic';
 
                 // Upsert to Supabase
                 // NOTE: We are reusing 'stripe_' columns for Paddle data to avoid database schema migration.

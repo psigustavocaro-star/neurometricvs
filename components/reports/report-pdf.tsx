@@ -275,7 +275,7 @@ export const ReportPDF = ({ patient, profile, result, interpretation, chartData 
                             <View style={[styles.tableCol, { width: '30%' }]}><Text style={styles.tableCellHeader}>Interpretación</Text></View>
                         </View>
 
-                        {result.results_json?.details ? (
+                        {Array.isArray(result.results_json?.details) ? (
                             result.results_json.details.map((detail: any, index: number) => (
                                 <View key={index} style={styles.tableRow}>
                                     <View style={[styles.tableCol, { width: '50%' }]}><Text style={styles.tableCell}>{detail.title}</Text></View>

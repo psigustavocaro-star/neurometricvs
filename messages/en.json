@@ -1,0 +1,392 @@
+{
+    "Navbar": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "testimonials": "Testimonials",
+        "demo": "Watch Demo",
+        "login": "Login",
+        "register": "Sign Up",
+        "dashboard": "Dashboard",
+        "my_tests": "My Tests",
+        "search_tests": "Search Tests",
+        "patients": "Patients",
+        "subscription": "Subscription",
+        "profile": "Profile",
+        "home": "Home"
+    },
+    "VerticalNavbar": {
+        "hero": "Home",
+        "mobile": "Mobile",
+        "testimonials": "Stories",
+        "trust": "Trust",
+        "pricing": "Plans",
+        "faq": "Help"
+    },
+    "Hero": {
+        "title": "Your psychological, psychiatric, and neurological practice <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>simplified.</span>",
+        "subtitle": "Comprehensive platform for psychometricians and mental health professionals: automate tests, manage patients, and generate clinical reports in seconds.",
+        "cta_primary": "Start Free Trial",
+        "cta_secondary": "Watch Demo",
+        "trusted_by": "Trusted by +500 professionals"
+    },
+    "General": {
+        "verificado": "Verified",
+        "discover_services": "Discover our services and pricing",
+        "back_to_top": "Back to top"
+    },
+    "HeroCarousel": {
+        "slides": [
+            {
+                "image": "/assets/v2/male-1.png",
+                "quote": "Experience and technology go hand in hand. Neurometrics has transformed my practice.",
+                "author": "Dr. Ricardo Silva",
+                "role": "Senior Psychiatrist",
+                "location": "Chile 🇨🇱",
+                "alt": "Trusted senior doctor"
+            },
+            {
+                "image": "/assets/v2/female-1.png",
+                "quote": "Reports ready in seconds. I can dedicate more time to real therapy.",
+                "author": "Lic. Ana María López",
+                "role": "Clinical Psychologist",
+                "location": "Mexico 🇲🇽",
+                "alt": "Professional psychologist"
+            },
+            {
+                "image": "/assets/v2/female-2.png",
+                "quote": "The interface is intuitive and my patients appreciate the modernity.",
+                "author": "Ps. Valentina Mendoza",
+                "role": "Neuropsychologist",
+                "location": "Colombia 🇨🇴",
+                "alt": "Online therapy"
+            },
+            {
+                "image": "/assets/v2/male-2.png",
+                "quote": "Automating test scoring has given me back hours of life every week.",
+                "author": "Dr. Alejandro Vega",
+                "role": "Neurologist",
+                "location": "Argentina 🇦🇷",
+                "alt": "Specialist neurologist"
+            },
+            {
+                "image": "/assets/v2/female-3.png",
+                "quote": "Essential for tracking my young patients. Very easy for them to use.",
+                "author": "Dra. Carmen Rodríguez",
+                "role": "Child Psychiatrist",
+                "location": "Peru 🇵🇪",
+                "alt": "Child psychiatry"
+            },
+            {
+                "image": "/assets/v2/male-3.png",
+                "quote": "The precision in forensic reports it generates is impressive.",
+                "author": "Lic. Diego Morales",
+                "role": "Forensic Psychologist",
+                "location": "Spain 🇪🇸",
+                "alt": "Forensic psychology"
+            }
+        ]
+    },
+    "DemoModal": {
+        "title": "How Neurometrics Works",
+        "subtitle": "Automate your workflow in 4 simple steps.",
+        "preview": "Preview",
+        "cta": "Create Free Account"
+    },
+    "DemoPlayer": {
+        "patients": "Patients",
+        "new": "New",
+        "new_patient": "New Patient",
+        "analyzing": "Analyzing PHQ-9...",
+        "processing": "Processing answers...",
+        "report_ready": "Report Ready",
+        "generated_moment": "Generated just now",
+        "download_pdf": "Download PDF"
+    },
+    "Footer": {
+        "description": "Transforming psychological assessment with cutting-edge technology.",
+        "product": "Product",
+        "company": "Company",
+        "legal": "Legal",
+        "newsletter": "Stay informed",
+        "subscribe": "Subscribe"
+    },
+    "MobileSection": {
+        "badge": "Available on iOS and Android",
+        "title": "Take your practice <span class='gradient'>everywhere.</span>",
+        "description": "Our platform is optimized to work perfectly on any device. Your patients can answer tests comfortably from their phones, and you can review results instantly, wherever you are.",
+        "items": [
+            "Adaptive interface for any screen size",
+            "Touch-optimized tests",
+            "Fast loading on mobile networks",
+            "No need to install extra apps"
+        ],
+        "mock_next": "Next Question"
+    },
+    "Testimonials": {
+        "title": "Professional Stories",
+        "subtitle": "What our colleagues say about their experience."
+    },
+    "Trust": {
+        "label": "Trusted by professionals from"
+    },
+    "Pricing": {
+        "title": "Transparent Plans",
+        "subtitle": "Prices in USD. Automatic conversion to your local currency.",
+        "basic": {
+            "name": "Basic",
+            "description": "To start",
+            "trial": "7 days free",
+            "cta": "Choose Basic",
+            "features": [
+                "Access to all tests",
+                "Automatic scoring",
+                "PDF reports"
+            ]
+        },
+        "clinical": {
+            "badge": "RECOMMENDED",
+            "name": "Clinical",
+            "description": "Total patient control",
+            "trial": "7-day free trial",
+            "cta": "Choose Clinical",
+            "features": [
+                "Patient Management",
+                "History and Evolution",
+                "Send via WhatsApp/Email",
+                "Everything in Basic"
+            ]
+        },
+        "pro": {
+            "name": "Pro Annual",
+            "description": "Smart Savings",
+            "savings_info": "Equivalent to <span class='bold'>$5.41/mo</span>",
+            "savings_badge": "SAVE 64%",
+            "cta": "Choose Pro",
+            "features": [
+                "4 months free",
+                "Everything in Clinical",
+                "Priority Support"
+            ]
+        }
+    },
+    "FAQ": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "We resolve your main doubts.",
+        "items": [
+            {
+                "q": "Can I cancel my subscription at any time?",
+                "a": "Yes, absolutely. There are no forced contracts. You can cancel from your dashboard with a single click and your access will remain until the end of the billing cycle."
+            },
+            {
+                "q": "Are my patients' data safe?",
+                "a": "Security is our priority. We use bank-grade encryption and comply with health data protection regulations. No one but you has access to the files."
+            },
+            {
+                "q": "What tests are currently available?",
+                "a": "We have a growing library that includes PHQ-9, GAD-7, BDI-II, SCL-90-R, among others. We add new tests monthly based on community requests."
+            },
+            {
+                "q": "Do you offer plans for companies?",
+                "a": "Yes, for clinics and hospitals contact us for a tailored plan."
+            },
+            {
+                "q": "Are my data and my patients' data private?",
+                "a": "Absolutely. Your account is private and data is encrypted. We do not have access to your patients' clinical information."
+            },
+            {
+                "q": "Do you comply with data protection laws?",
+                "a": "Yes, our infrastructure complies with GDPR and HIPAA, guaranteeing maximum confidentiality and ethical security."
+            },
+            {
+                "q": "What happens if I cancel my subscription?",
+                "a": "Your data remains yours. You can export all your patients' and tests' information before closing your account."
+            },
+            {
+                "q": "Do you have support if something fails?",
+                "a": "Yes, we have a specialized technical support team available 24/7 to resolve any inconvenience immediately."
+            }
+        ]
+    },
+    "Dashboard": {
+        "title": "Dashboard",
+        "Subscription": {
+            "title": "Subscription",
+            "subtitle": "Manage your plan and payment method.",
+            "current_plan": "Current Plan",
+            "change_plan": "Change to",
+            "month": "/mo",
+            "year": "/yr",
+            "active_badge": "CURRENT",
+            "Plans": {
+                "Basic": {
+                    "name": "Basic Plan",
+                    "desc": "For personal use",
+                    "features": {
+                        "all_tests": "Access to all tests",
+                        "pdfs": "Signed PDFs"
+                    }
+                },
+                "Clinical": {
+                    "name": "Clinical Plan",
+                    "desc": "For professionals",
+                    "features": {
+                        "basic_includes": "Everything in Basic",
+                        "patient_mgmt": "Patient Management",
+                        "history": "Clinical history",
+                        "automation": "Automatic sending"
+                    }
+                },
+                "Pro": {
+                    "name": "Pro Annual",
+                    "desc": "Smart savings",
+                    "features": {
+                        "promo_1": "Pay 4 months, get 12",
+                        "promo_2": "Save 64% vs Clinical Plan",
+                        "promo_3": "Only $5.41 monthly",
+                        "clinical_includes": "Everything in Clinical",
+                        "billing": "Annual billing",
+                        "vip_support": "VIP Support"
+                    }
+                }
+            },
+            "PaymentMethod": {
+                "title": "Payment Method",
+                "desc": "Manage your cards and billing.",
+                "expires": "Expires on"
+            }
+        }
+    },
+    "About": {
+        "title": "Our Story",
+        "subtitle": "Born from real necessity in daily clinical practice.",
+        "story_title": "From the Clinic to Software",
+        "story_p1": "It all started in my own practice. As a health professional, I was constantly frustrated by the immense amount of time I wasted manually scoring tests, adding up scores, and writing repetitive reports. Those were valuable hours I wasn't dedicating to my patients.",
+        "story_p2": "I realized I wasn't alone; my colleagues shared the same administrative burnout. I understood that technology should be our ally, not a barrier. Thus Neurometrics was born: a platform designed by clinicians, for clinicians, with the mission to automate the tedious so we can refocus on the human aspect.",
+        "philosophy": {
+            "title": "Our Philosophy",
+            "scientific_rigor": {
+                "title": "Scientific Rigor",
+                "desc": "We do not sacrifice validity for immediacy. We base our tools on validated evidence."
+            },
+            "total_privacy": {
+                "title": "Total Privacy",
+                "desc": "Your data and your patients' data are sacred. We comply with international security standards."
+            },
+            "constant_innovation": {
+                "title": "Constant Innovation",
+                "desc": "We listen actively. The platform evolves based on what you need in your practice."
+            }
+        }
+    },
+    "TestimonialsList": {
+        "0": {
+            "name": "Lic. Sofia Martinez",
+            "role": "Clinical Psychologist",
+            "text": "I used to spend hours tabulating PHQ-9 and other tests. Now it's instant. My reports look much more professional.",
+            "img": "/assets/v2/female-1.png"
+        },
+        "1": {
+            "name": "Dr. Carlos Ruiz",
+            "role": "Neuropsychologist",
+            "text": "The patient history functionality is key to seeing treatment evolution. Highly recommended.",
+            "img": "/assets/v2/male-1.png"
+        },
+        "2": {
+            "name": "Ps. Laura Gomez",
+            "role": "Family Therapist",
+            "text": "I love that I can customize my signature and logo. My patients receive their results automatically by email.",
+            "img": "/assets/v2/female-2.png"
+        },
+        "3": {
+            "name": "Dr. Roberto Fernandez",
+            "role": "Psychiatrist",
+            "text": "The interface is clean and easy to use. My older patients have no problems completing the tests on their tablets.",
+            "img": "/assets/v2/male-2.png"
+        },
+        "4": {
+            "name": "Lic. Andrea Torres",
+            "role": "Child Psychologist",
+            "text": "Technical support is excellent. We had a doubt with the configuration and they helped us in minutes. Thanks Neurometrics!",
+            "img": "/assets/v2/female-3.png"
+        },
+        "5": {
+            "name": "Ps. Javier Mendez",
+            "role": "Organizational Psychologist",
+            "text": "Ideal for massive evaluations in companies. I have reduced my report delivery time by 50%.",
+            "img": "/assets/v2/male-3.png"
+        }
+    },
+    "Legal": {
+        "last_updated": "Last updated: December 2025",
+        "Privacy": {
+            "title": "Privacy Policy",
+            "intro_title": "1. Introduction",
+            "intro_body": "At Neurometrics, we take the privacy of your data and that of your patients very seriously. This policy describes how we collect, use, and protect your personal information.",
+            "info_title": "2. Information we collect",
+            "info_body": "We collect information you provide directly to us, such as your name, email, professional information, and billing data. We also process patient data you enter into the platform, acting as data processors.",
+            "usage_title": "3. Use of information",
+            "usage_body": "We use the information to provide, maintain, and improve our services, process transactions, and communicate with you.",
+            "security_title": "4. Data security",
+            "security_body": "We implement technical and organizational security measures to protect your data, including encryption in transit and at rest.",
+            "rights_title": "5. Your rights",
+            "rights_body": "You have the right to access, correct, or delete your personal information. You can exercise these rights by contacting us through our support."
+        },
+        "Terms": {
+            "title": "Terms and Conditions",
+            "intro": "Neurometrics is a digital services platform (hereinafter, \"The Provider\").",
+            "acceptance_title": "1. Acceptance of terms",
+            "acceptance_body": "By accessing and using Neurometrics, you agree to be bound by these Terms and Conditions. If you do not agree, do not use our services.",
+            "use_title": "2. Service use",
+            "use_body": "You agree to use the platform only for lawful and professional purposes. You are responsible for maintaining the confidentiality of your account and password.",
+            "ip_title": "3. Intellectual property",
+            "ip_body": "All content, software, and technology of Neurometrics are the exclusive property of our company and are protected by intellectual property laws.",
+            "liability_title": "4. Limitation of liability",
+            "liability_body": "Neurometrics provides the platform \"as is\". We do not guarantee that the service will be uninterrupted or error-free. We are not responsible for clinical decisions made based on our reports.",
+            "modifications_title": "5. Modifications",
+            "modifications_body": "We reserve the right to modify these terms at any time. We will notify you of significant changes."
+        },
+        "Refund": {
+            "title": "Refund Policy",
+            "trial_title": "1. Free Trial Period",
+            "trial_body": "We offer a 7-day free trial period for all our new plans. During this time, you can cancel your subscription at any time at no cost.",
+            "cancellation_title": "2. Cancellation Policy",
+            "cancellation_body": "You can cancel your subscription at any time from your dashboard. Cancellation will be effective at the end of the current billing cycle. You will have access to the service until the end of that cycle.",
+            "refunds_title": "3. Refunds",
+            "refunds_body": "As we offer a free trial period to evaluate the service, we generally do not offer refunds for payments already processed, except as required by law or in exceptional circumstances (e.g., technical errors attributable to our platform).",
+            "contact_body": "If you believe there has been a billing error, please contact us immediately at support@neurometricslatam.com to review your case.",
+            "changes_title": "4. Plan Changes",
+            "changes_body": "If you switch from one plan to another, the price adjustment will be prorated automatically on your next invoice."
+        },
+        "Cookies": {
+            "title": "Cookies Policy",
+            "what_title": "1. What are cookies?",
+            "what_body": "Cookies are small text files stored on your device when you visit our website.",
+            "how_title": "2. How we use cookies",
+            "how_body": "We use cookies to:",
+            "list_1": "Keep you signed in.",
+            "list_2": "Remember your preferences.",
+            "list_3": "Analyze the usage of our site to improve it.",
+            "types_title": "3. Types of cookies",
+            "essential": "Essential: Necessary for the basic functioning of the site.",
+            "analytical": "Analytical: Help us understand how users interact with the platform.",
+            "control_title": "4. Control of cookies",
+            "control_body": "You can configure your browser to reject all cookies or to indicate when a cookie is sent. However, some service functions may not work properly without them."
+        },
+        "Security": {
+            "title": "Security",
+            "subtitle": "How we protect your data and your patients' data.",
+            "encryption_title": "Encryption",
+            "encryption_desc": "Data encrypted in transit (TLS 1.2+) and at rest (AES-256).",
+            "infra_title": "Infrastructure",
+            "infra_desc": "Hosted on secure AWS servers with ISO 27001 certifications.",
+            "compliance_title": "Compliance",
+            "compliance_desc": "Designed following HIPAA and GDPR standards.",
+            "access_title": "Access and Authentication",
+            "access_body": "We use secure authentication via Supabase, with support for strong passwords and, soon, two-factor authentication (2FA).",
+            "backup_title": "Backups",
+            "backup_body": "We perform daily automatic backups of all databases to prevent data loss.",
+            "report_title": "Vulnerability Reporting",
+            "report_body": "If you find a security vulnerability, please report it immediately to security@neurometrics.com."
+        }
+    }
+}

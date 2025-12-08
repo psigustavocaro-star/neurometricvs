@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { generateMockPatients, setSubscriptionPlan, generateMockTestResult } from '@/app/admin/actions'
+import { generateMockPatients, setSubscriptionPlan, generateMockTestResult } from '@/app/[locale]/admin/actions'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import {

@@ -15,7 +15,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { loginAction, signupAction, resendAction } from '@/app/actions/auth'
+import { loginAction, signupAction, resendAction } from '@/app/[locale]/actions/auth'
 import { Loader2 } from 'lucide-react'
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
