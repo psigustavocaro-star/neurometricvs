@@ -93,7 +93,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                     <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <img src="/logo.png?v=3" alt="Neurometrics Logo" className="h-10 w-auto relative z-10 transition-transform group-hover:scale-105" />
+                            <img src="/logo.png?v=3" alt="Neurometrics Logo" className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105" />
                         </div>
                     </Link>
 
