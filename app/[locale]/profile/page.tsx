@@ -25,7 +25,7 @@ export default async function ProfilePage() {
 
     return (
         <div className="container pt-24 pb-10 md:pt-32">
-            <ProfileForm profile={profile} subscription={subscription} email={user.email} />
+            <ProfileForm profile={profile} subscription={subscription} user={user} />
         </div>
     )
 }

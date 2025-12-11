@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Plus, User } from "lucide-react"
 import { PatientList } from "@/components/patients/patient-list"
 
+export const revalidate = 0 // Always fetch fresh data
+
 export default async function PatientsPage() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()

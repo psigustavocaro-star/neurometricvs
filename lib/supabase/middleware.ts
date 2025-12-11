@@ -2,8 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@/lib/config'
 
-export async function updateSession(request: NextRequest) {
-    let supabaseResponse = NextResponse.next({
+export async function updateSession(request: NextRequest, response?: NextResponse) {
+    let supabaseResponse = response ?? NextResponse.next({
         request,
     })
 
@@ -37,23 +37,37 @@ export async function updateSession(request: NextRequest) {
     const { data } = await supabase.auth.getUser()
     const user = data?.user
 
+    // Normalize path to handle locales (strip /es or /en)
+    let path = request.nextUrl.pathname
+    if (path.startsWith('/es/') || path === '/es') path = path.replace(/^\/es/, '') || '/'
+    else if (path.startsWith('/en/') || path === '/en') path = path.replace(/^\/en/, '') || '/'
+
+    // Admin Security Check
+    if (path.startsWith('/admin')) {
+        if (!user || user.email !== 'psi.gustavocaro@gmail.com') {
+            const url = request.nextUrl.clone()
+            url.pathname = '/'
+            return NextResponse.redirect(url)
+        }
+    }
+
     if (
         !user &&
-        !request.nextUrl.pathname.startsWith('/login') &&
-        !request.nextUrl.pathname.startsWith('/auth') &&
-        !request.nextUrl.pathname.startsWith('/onboarding') &&
-        !request.nextUrl.pathname.startsWith('/api') &&
-        !request.nextUrl.pathname.startsWith('/payment') &&
-        !request.nextUrl.pathname.startsWith('/coming-soon') &&
-        !request.nextUrl.pathname.startsWith('/integrations') &&
-        !request.nextUrl.pathname.startsWith('/updates') &&
-        !request.nextUrl.pathname.startsWith('/about') &&
-        !request.nextUrl.pathname.startsWith('/careers') &&
-        !request.nextUrl.pathname.startsWith('/blog') &&
-        !request.nextUrl.pathname.startsWith('/contact') &&
-        !request.nextUrl.pathname.startsWith('/press') &&
-        !request.nextUrl.pathname.startsWith('/legal') &&
-        request.nextUrl.pathname !== '/'
+        !path.startsWith('/login') &&
+        !path.startsWith('/auth') &&
+        !path.startsWith('/onboarding') &&
+        !path.startsWith('/api') &&
+        !path.startsWith('/payment') &&
+        !path.startsWith('/coming-soon') &&
+        !path.startsWith('/integrations') &&
+        !path.startsWith('/updates') &&
+        !path.startsWith('/about') &&
+        !path.startsWith('/careers') &&
+        !path.startsWith('/blog') &&
+        !path.startsWith('/contact') &&
+        !path.startsWith('/press') &&
+        !path.startsWith('/legal') &&
+        path !== '/'
     ) {
         // no user, potentially respond by redirecting the user to the login page
         const url = request.nextUrl.clone()

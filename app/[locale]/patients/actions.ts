@@ -88,3 +88,30 @@ export async function deletePatient(id: string) {
 
     revalidatePath('/patients')
 }
+
+export async function updatePatient(id: string, formData: FormData) {
+    const supabase = await createClient()
+
+    const fullName = formData.get('fullName') as string
+    const birthDate = formData.get('birthDate') as string
+    const gender = formData.get('gender') as string
+    const email = formData.get('email') as string
+
+    const { error } = await supabase
+        .from('patients')
+        .update({
+            full_name: fullName,
+            birth_date: birthDate || null,
+            gender: gender,
+            contact_email: email || null,
+        })
+        .eq('id', id)
+
+    if (error) {
+        return { error: 'Could not update patient' }
+    }
+
+    revalidatePath(`/patients/${id}`)
+    revalidatePath('/patients')
+    return { success: true }
+}

@@ -198,3 +198,215 @@ export async function setSubscriptionPlan(plan: 'basic' | 'clinical' | 'pro') {
     revalidatePath('/dashboard')  // Revalidate Dashboard
     return { success: true, plan }
 }
+
+// Generate comprehensive mock data for testing all features
+export async function generateCompleteMockData() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user || user.email !== 'psi.gustavocaro@gmail.com') {
+        return { error: 'Unauthorized' }
+    }
+
+    try {
+        // 1. Create 5 patients with complete profiles
+        const mockPatients = [
+            {
+                full_name: 'María González Pérez',
+                age: 34,
+                gender: 'female',
+                birth_date: '1990-03-15',
+                email: 'maria.gonzalez@email.com',
+                contact_email: 'maria.gonzalez@email.com',
+                phone: '+56 9 8765 4321',
+                profile_id: user.id,
+                diagnosis: 'Trastorno Depresivo Mayor',
+                notes: 'Paciente con episodio depresivo recurrente. Buena adherencia al tratamiento.',
+                occupation: 'Profesora',
+                education: 'Universitaria',
+                marital_status: 'Casada',
+            },
+            {
+                full_name: 'Carlos Rodríguez Silva',
+                age: 67,
+                gender: 'male',
+                birth_date: '1957-08-22',
+                email: 'carlos.rodriguez@email.com',
+                contact_email: 'carlos.rodriguez@email.com',
+                phone: '+56 9 7654 3210',
+                profile_id: user.id,
+                diagnosis: 'Deterioro Cognitivo Leve',
+                notes: 'Evaluación neuropsicológica completa.',
+                occupation: 'Jubilado',
+                education: 'Universitaria',
+                marital_status: 'Casado',
+            },
+            {
+                full_name: 'Ana Martínez López',
+                age: 28,
+                gender: 'female',
+                birth_date: '1996-11-08',
+                email: 'ana.martinez@email.com',
+                contact_email: 'ana.martinez@email.com',
+                phone: '+56 9 6543 2109',
+                profile_id: user.id,
+                diagnosis: 'Trastorno de Ansiedad',
+                notes: 'Alta motivación al cambio.',
+                occupation: 'Diseñadora',
+                education: 'Universitaria',
+                marital_status: 'Soltera',
+            },
+            {
+                full_name: 'Roberto Silva Morales',
+                age: 45,
+                gender: 'male',
+                birth_date: '1979-05-30',
+                email: 'roberto.silva@email.com',
+                contact_email: 'roberto.silva@email.com',
+                phone: '+56 9 5432 1098',
+                profile_id: user.id,
+                diagnosis: 'TDAH Adulto',
+                notes: 'En proceso de ajuste.',
+                occupation: 'Gerente',
+                education: 'Universitaria',
+                marital_status: 'Divorciado',
+            },
+            {
+                full_name: 'Laura Fernández Castro',
+                age: 16,
+                gender: 'female',
+                birth_date: '2008-02-14',
+                email: 'laura.fernandez@email.com',
+                contact_email: 'laura.fernandez@email.com',
+                phone: '+56 9 4321 0987',
+                profile_id: user.id,
+                diagnosis: 'Ansiedad Social',
+                notes: 'Progreso gradual.',
+                occupation: 'Estudiante',
+                education: 'Secundaria',
+                marital_status: 'Soltera',
+            },
+        ]
+
+        const { data: createdPatients, error: patientsError } = await supabase
+            .from('patients')
+            .insert(mockPatients)
+            .select()
+
+        if (patientsError) throw patientsError
+
+        let totalSessions = 0
+        let totalTests = 0
+        let totalRecords = 0
+        let totalGenograms = 0
+
+        // 2. Create sessions, tests, and records for each patient
+        for (const patient of createdPatients || []) {
+            // Create 3-5 sessions per patient
+            const sessionCount = 3 + Math.floor(Math.random() * 3)
+            const sessions = []
+            for (let i = 0; i < sessionCount; i++) {
+                sessions.push({
+                    patient_id: patient.id,
+                    profile_id: user.id,
+                    session_date: new Date(Date.now() - (sessionCount - i) * 14 * 24 * 60 * 60 * 1000).toISOString(),
+                    duration: 50,
+                    session_type: 'individual',
+                    notes: `Sesión ${i + 1}: Trabajando en objetivos terapéuticos. ${patient.diagnosis}`,
+                    mood_rating: 3 + Math.floor(Math.random() * 3),
+                })
+            }
+            await supabase.from('sessions').insert(sessions)
+            totalSessions += sessions.length
+
+            // Create clinical record
+            await supabase.from('clinical_records').insert({
+                patient_id: patient.id,
+                profile_id: user.id,
+                motivo_consulta: `Consulta por ${patient.diagnosis}`,
+                antecedentes_personales: 'Sin antecedentes relevantes',
+                antecedentes_familiares: 'Familia sin antecedentes psiquiátricos',
+                diagnostico_inicial: patient.diagnosis,
+                plan_tratamiento: 'Terapia semanal',
+            })
+            totalRecords++
+
+            // Create genogram
+            await supabase.from('genograms').insert({
+                patient_id: patient.id,
+                profile_id: user.id,
+                data: {
+                    nodes: [
+                        { id: 'patient', name: patient.full_name, gender: patient.gender, x: 400, y: 300 },
+                        { id: 'mother', name: 'Madre', gender: 'female', x: 350, y: 150 },
+                        { id: 'father', name: 'Padre', gender: 'male', x: 450, y: 150 },
+                    ],
+                    edges: []
+                }
+            })
+            totalGenograms++
+
+            // Create 2 test results per patient
+            const tests = [
+                {
+                    patient_id: patient.id,
+                    profile_id: user.id,
+                    test_type: 'PHQ-9',
+                    results_json: {
+                        score: 10 + Math.floor(Math.random() * 10),
+                        label: 'Moderado',
+                        date: new Date().toISOString()
+                    }
+                },
+                {
+                    patient_id: patient.id,
+                    profile_id: user.id,
+                    test_type: 'GAD-7',
+                    results_json: {
+                        score: 8 + Math.floor(Math.random() * 10),
+                        label: 'Leve-Moderado',
+                        date: new Date().toISOString()
+                    }
+                }
+            ]
+            await supabase.from('test_results').insert(tests)
+            totalTests += tests.length
+        }
+
+        revalidatePath('/dashboard')
+        revalidatePath('/patients')
+
+        return {
+            success: true,
+            message: `✓ Datos generados: ${createdPatients?.length} pacientes, ${totalSessions} sesiones, ${totalTests} tests, ${totalRecords} registros clínicos, ${totalGenograms} genogramas`
+        }
+    } catch (error: any) {
+        console.error('Error generating mock data:', error)
+        return { success: false, error: error.message }
+    }
+}
+
+export async function clearAllMockData() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user || user.email !== 'psi.gustavocaro@gmail.com') {
+        return { error: 'Unauthorized' }
+    }
+
+    try {
+        // Delete in reverse order of dependencies
+        await supabase.from('genograms').delete().eq('profile_id', user.id)
+        await supabase.from('test_results').delete().eq('profile_id', user.id)
+        await supabase.from('clinical_records').delete().eq('profile_id', user.id)
+        await supabase.from('sessions').delete().eq('profile_id', user.id)
+        await supabase.from('patients').delete().eq('profile_id', user.id)
+
+        revalidatePath('/dashboard')
+        revalidatePath('/patients')
+
+        return { success: true, message: '✓ Todos los datos han sido eliminados' }
+    } catch (error: any) {
+        return { success: false, error: error.message }
+    }
+}

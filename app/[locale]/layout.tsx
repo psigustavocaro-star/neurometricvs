@@ -27,7 +27,13 @@ export const metadata: Metadata = {
     url: "https://neurometricslatam.com",
     siteName: "Neurometrics",
     locale: "es_ES",
+    locale: "es_ES",
     type: "website",
+  },
+  icons: {
+    icon: "/neurometrics-logo-small.png",
+    shortcut: "/neurometrics-logo-small.png",
+    apple: "/neurometrics-logo-small.png",
   },
 };
 

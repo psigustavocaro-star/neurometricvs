@@ -6,10 +6,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-export function ProfileForm({ profile, subscription, email }: { profile: any, subscription?: any, email?: string }) {
+export function ProfileForm({ profile, subscription, user }: { profile: any, subscription?: any, user?: any }) {
     const [message, setMessage] = useState<string | null>(null)
+    const [fullName, setFullName] = useState(profile?.full_name || '')
+    const [specialty, setSpecialty] = useState(profile?.specialty || '')
+    const [registry, setRegistry] = useState(profile?.registry_number || '')
+    const [signature, setSignature] = useState('')
+
+    // Generate default signature from User Metadata (only qualifications)
+    const getDefaultSignature = () => {
+        if (profile?.signature_url) return profile.signature_url
+
+        const metadata = user?.user_metadata || {}
+        const formation = metadata.formation || '' // Formation/Specialty only
+
+        return formation
+    }
+
+    // Initialize signature state on mount
+    useEffect(() => {
+        setSignature(getDefaultSignature())
+    }, [profile, user])
 
     async function handleSubmit(formData: FormData) {
         const result = await updateProfile(formData)
@@ -35,11 +54,11 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                             <Label>Email</Label>
-                            <Input value={email || ''} disabled className="bg-slate-50" />
+                            <Input value={user?.email || ''} disabled className="bg-slate-50" />
                         </div>
                         <div className="space-y-2">
                             <Label>Miembro desde</Label>
-                            <Input value={new Date(profile?.created_at || Date.now()).toLocaleDateString()} disabled className="bg-slate-50" />
+                            <Input value={new Date(user?.created_at || Date.now()).toLocaleDateString('es-ES')} disabled className="bg-slate-50" />
                         </div>
                     </CardContent>
                 </Card>
@@ -68,7 +87,7 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                                     <div>
                                         <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Renovación</p>
                                         <p className="text-sm font-semibold text-slate-700">
-                                            {renewalDate ? renewalDate.toLocaleDateString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                                            {renewalDate ? renewalDate.toLocaleDateString('es-ES') : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('es-ES')}
                                         </p>
                                     </div>
                                     <div>
@@ -81,8 +100,8 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                                         <p className="text-xs text-slate-500 uppercase tracking-wider font-medium">Último Pago</p>
                                         <p className="text-sm font-semibold text-slate-700">
                                             {renewalDate
-                                                ? new Date(renewalDate.getTime() - (subscription?.plan === 'pro' ? 365 : 30) * 24 * 60 * 60 * 1000).toLocaleDateString()
-                                                : new Date().toLocaleDateString()
+                                                ? new Date(renewalDate.getTime() - (subscription?.plan === 'pro' ? 365 : 30) * 24 * 60 * 60 * 1000).toLocaleDateString('es-ES')
+                                                : new Date().toLocaleDateString('es-ES')
                                             }
                                         </p>
                                     </div>
@@ -111,7 +130,8 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                             <Input
                                 id="fullName"
                                 name="fullName"
-                                defaultValue={profile?.full_name || ''}
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
                                 required
                             />
                         </div>
@@ -121,7 +141,8 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                                 <Input
                                     id="registryNumber"
                                     name="registryNumber"
-                                    defaultValue={profile?.registry_number || ''}
+                                    value={registry}
+                                    onChange={(e) => setRegistry(e.target.value)}
                                     required
                                 />
                             </div>
@@ -130,24 +151,56 @@ export function ProfileForm({ profile, subscription, email }: { profile: any, su
                                 <Input
                                     id="specialty"
                                     name="specialty"
-                                    defaultValue={profile?.specialty || ''}
+                                    value={specialty}
+                                    onChange={(e) => setSpecialty(e.target.value)}
                                     required
                                 />
                             </div>
                         </div>
-                        <div className="space-y-2">
+
+                        <div className="space-y-4">
                             <Label htmlFor="signatureUrl">Firma para Informes</Label>
-                            <p className="text-[0.8rem] text-slate-500 mb-2">
-                                Ingresa el texto que deseas que aparezca al pie de los informes (ej. post-títulos, cargo, número de registro).
-                            </p>
-                            <Textarea
-                                id="signatureUrl"
-                                name="signatureUrl"
-                                defaultValue={profile?.signature_url || ''}
-                                placeholder="Psicólogo Clínico - Magíster en Neuropsicología&#10;Reg. Colegio: 12345"
-                                className="min-h-[80px]"
-                            />
+
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <div className="flex-1 space-y-2">
+                                    <p className="text-[0.8rem] text-slate-500 mb-2">
+                                        Ingresa <strong>SOLO</strong> tus credenciales académicas o títulos adicionales. Tu nombre, especialidad y registro se agregarán automáticamente.
+                                    </p>
+                                    <Textarea
+                                        id="signatureUrl"
+                                        name="signatureUrl"
+                                        value={signature}
+                                        onChange={(e) => setSignature(e.target.value)}
+                                        placeholder="Magíster en Neuropsicología&#10;Diplomado en Rorschach"
+                                        className="min-h-[120px] font-sans"
+                                    />
+                                </div>
+
+                                {/* Preview Box */}
+                                <div className="md:w-[440px] shrink-0">
+                                    <div className="bg-white p-6 border border-slate-200 shadow-sm rounded-lg flex flex-col items-center justify-center h-full">
+                                        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-6 w-full text-center">Vista Previa (Informe)</p>
+
+                                        <div className="font-serif text-center text-slate-900 w-full">
+                                            {/* Signature Line */}
+                                            <div className="w-48 h-px bg-slate-900 mx-auto mb-3"></div>
+
+                                            {/* Header Info */}
+                                            <p className="font-bold text-sm leading-tight mb-1">{fullName || 'Nombre Profesional'}</p>
+                                            <p className="text-xs leading-tight mb-0.5">{specialty || 'Especialidad'}</p>
+                                            <p className="text-xs leading-tight mb-0.5">Nº Registro {registry || 'XXXXXX'}</p>
+                                            <p className="text-xs leading-tight mb-2">Correo: {user?.email || 'email@ejemplo.com'}</p>
+
+                                            {/* Custom Content */}
+                                            <div className="text-xs leading-snug whitespace-pre-wrap text-slate-700">
+                                                {signature || <span className="opacity-30 italic">Títulos adicionales...</span>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         {message && (
                             <p className={`text-sm ${message.includes('error') ? 'text-red-500' : 'text-green-500'}`}>
                                 {message}

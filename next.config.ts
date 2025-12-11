@@ -4,10 +4,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['@react-pdf/renderer'],
-  experimental: {
-    esmExternals: 'loose'
-  },
+
+  transpilePackages: ['@react-pdf/renderer'],
+
   typescript: {
     ignoreBuildErrors: true,
   },

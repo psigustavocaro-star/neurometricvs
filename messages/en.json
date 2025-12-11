@@ -23,8 +23,8 @@
         "faq": "Help"
     },
     "Hero": {
-        "title": "Your psychological, psychiatric, and neurological practice <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>simplified.</span>",
-        "subtitle": "Comprehensive platform for psychometricians and mental health professionals: automate tests, manage patients, and generate clinical reports in seconds.",
+        "title": "The Ultimate <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Clinical Suite</span> for Mental Health.",
+        "subtitle": "Professional software for psychologists and psychiatrists. Advanced clinical records, test scoring, and an AI Co-pilot that empowers your practice.",
         "cta_primary": "Start Free Trial",
         "cta_secondary": "Watch Demo",
         "trusted_by": "Trusted by +500 professionals"
@@ -95,12 +95,12 @@
     "DemoPlayer": {
         "patients": "Patients",
         "new": "New",
-        "new_patient": "New Patient",
-        "analyzing": "Analyzing PHQ-9...",
-        "processing": "Processing answers...",
-        "report_ready": "Report Ready",
+        "new_patient": "New Clinical Session",
+        "analyzing": "AI Analyzing Session...",
+        "processing": "Generating Cultural Rx...",
+        "report_ready": "Insights Ready",
         "generated_moment": "Generated just now",
-        "download_pdf": "Download PDF"
+        "download_pdf": "View AI Analysis"
     },
     "Footer": {
         "description": "Transforming psychological assessment with cutting-edge technology.",
@@ -144,16 +144,16 @@
             ]
         },
         "clinical": {
-            "badge": "RECOMMENDED",
-            "name": "Clinical",
-            "description": "Total patient control",
+            "badge": "MOST POPULAR",
+            "name": "Professional Suite",
+            "description": "Your complete digital office",
             "trial": "7-day free trial",
-            "cta": "Choose Clinical",
+            "cta": "Choose Professional",
             "features": [
-                "Patient Management",
-                "History and Evolution",
-                "Send via WhatsApp/Email",
-                "Everything in Basic"
+                "Complete Clinical Records",
+                "Session Management & Notes",
+                "AI Co-Pilot (Session Analysis)",
+                "Cultural Prescriptions (Movies/Books)"
             ]
         },
         "pro": {

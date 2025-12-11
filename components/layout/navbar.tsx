@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 // ... imports
 import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
+import { WeatherTimeWidget } from "@/components/layout/weather-time-widget"
 import { LayoutDashboard, Users, CreditCard, UserCircle, LogOut, Search, FileText, Home, Globe, ChevronDown } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
@@ -78,7 +79,6 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
     const dashboardLinks = [
         { name: t("home"), href: "/", icon: Home },
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
-        { name: t("my_tests"), href: "/dashboard/my-tests", icon: FileText },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
         ...((plan === 'clinical' || plan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
         { name: t("subscription"), href: "/dashboard/subscription", icon: CreditCard },
@@ -161,6 +161,9 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
+
+                        {/* Weather Widget */}
+                        {currentUser && <WeatherTimeWidget />}
 
                         {/* Auth Buttons */}
                         {currentUser ? (

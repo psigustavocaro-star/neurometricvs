@@ -23,8 +23,8 @@
         "faq": "Ayuda"
     },
     "Hero": {
-        "title": "Tu práctica psicológica, psiquiátrica y neurológica <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>simplificada.</span>",
-        "subtitle": "Plataforma integral para psicómetras y profesionales de salud mental: automatiza tests, gestiona pacientes y genera informes clínicos en segundos.",
+        "title": "La Suite Clínica <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Definitiva</span> para Salud Mental.",
+        "subtitle": "Software profesional para psicólogos, psiquiatras y neurólogos. Ficha clínica avanzada, corrección de tests y un Co-piloto IA que potencia tu práctica.",
         "cta_primary": "Comenzar Prueba Gratis",
         "cta_secondary": "Ver Demo",
         "trusted_by": "Usado por +500 profesionales"
@@ -95,12 +95,12 @@
     "DemoPlayer": {
         "patients": "Pacientes",
         "new": "Nuevo",
-        "new_patient": "Nuevo Paciente",
-        "analyzing": "Analizando PHQ-9...",
-        "processing": "Procesando respuestas...",
-        "report_ready": "Informe Listo",
+        "new_patient": "Nueva Sesión Clínica",
+        "analyzing": "IA Analizando Sesión...",
+        "processing": "Generando Recetas Culturales...",
+        "report_ready": "Insights Listos",
         "generated_moment": "Generado hace un momento",
-        "download_pdf": "Descargar PDF"
+        "download_pdf": "Ver Análisis IA"
     },
     "MobileSection": {
         "badge": "Disponible en iOS y Android",
@@ -136,16 +136,16 @@
             ]
         },
         "clinical": {
-            "badge": "RECOMENDADO",
-            "name": "Clínico",
-            "description": "Control total de pacientes",
+            "badge": "MÁS POPULAR",
+            "name": "Suite Profesional",
+            "description": "Tu consultorio digital completo",
             "trial": "Prueba gratis de 7 días",
-            "cta": "Elegir Clínico",
+            "cta": "Elegir Suite Profesional",
             "features": [
-                "Gestión de Pacientes",
-                "Historial y Evolución",
-                "Envíos por WhatsApp/Email",
-                "Todo lo del Básico"
+                "Ficha Clínica Completa & Anamnesis",
+                "Gestión de Sesiones & Notas",
+                "Co-Piloto IA (Análisis de Sesiones)",
+                "Recetas Culturales (Cine/Libros)"
             ]
         },
         "pro": {

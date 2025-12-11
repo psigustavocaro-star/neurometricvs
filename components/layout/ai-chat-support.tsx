@@ -86,10 +86,14 @@ export function AIChatSupport({ user }: { user?: User | null }) {
         }
     }
 
+    const isDraggingRef = useRef(false)
+
     return (
         <motion.div
             drag
             dragMomentum={false}
+            onDragStart={() => { isDraggingRef.current = true }}
+            onDragEnd={() => { setTimeout(() => { isDraggingRef.current = false }, 150) }}
             className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 cursor-move"
         >
             {isOpen && (
@@ -185,7 +189,14 @@ export function AIChatSupport({ user }: { user?: User | null }) {
             )}
 
             <Button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={(e) => {
+                    if (isDraggingRef.current) {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        return
+                    }
+                    setIsOpen(!isOpen)
+                }}
                 className={cn(
                     "h-16 w-16 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 z-50 border-4 border-white/20 backdrop-blur-sm",
                     isOpen

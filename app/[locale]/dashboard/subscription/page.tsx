@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
+import { SubscribeButton } from "@/components/dashboard/subscription/subscribe-button"
+import { SubscriptionStatusAlert } from "@/components/dashboard/subscription/subscription-status-alert"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check, CreditCard } from "lucide-react"
 import { getTranslations } from 'next-intl/server'
@@ -26,6 +28,7 @@ export default async function SubscriptionPage() {
 
     return (
         <div className="space-y-8">
+            <SubscriptionStatusAlert />
             <div>
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
                 <p className="text-slate-500">{t('subtitle')}</p>
@@ -53,9 +56,13 @@ export default async function SubscriptionPage() {
                         </ul>
                     </CardContent>
                     <CardFooter>
-                        <Button variant={currentPlan === 'basic' ? 'outline' : 'default'} disabled={currentPlan === 'basic'} className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-transparent">
-                            {currentPlan === 'basic' ? t('current_plan') : `${t('change_plan')} ${t('Plans.Basic.name')}`}
-                        </Button>
+                        <SubscribeButton
+                            planId="basic"
+                            price={10}
+                            planName={t('Plans.Basic.name')}
+                            currentPlan={currentPlan}
+                            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-transparent"
+                        />
                     </CardFooter>
                 </Card>
 
@@ -86,9 +93,13 @@ export default async function SubscriptionPage() {
                         </ul>
                     </CardContent>
                     <CardFooter>
-                        <Button variant={currentPlan === 'clinical' ? 'outline' : 'default'} disabled={currentPlan === 'clinical'} className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-transparent">
-                            {currentPlan === 'clinical' ? t('current_plan') : `${t('change_plan')} ${t('Plans.Clinical.name')}`}
-                        </Button>
+                        <SubscribeButton
+                            planId="clinical"
+                            price={15}
+                            planName={t('Plans.Clinical.name')}
+                            currentPlan={currentPlan}
+                            className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-transparent"
+                        />
                     </CardFooter>
                 </Card>
 
@@ -134,13 +145,13 @@ export default async function SubscriptionPage() {
                         </ul>
                     </CardContent>
                     <CardFooter>
-                        <Button
-                            variant={currentPlan === 'pro' ? 'outline' : 'default'}
-                            disabled={currentPlan === 'pro'}
+                        <SubscribeButton
+                            planId="pro"
+                            price={65}
+                            planName={t('Plans.Pro.name')}
+                            currentPlan={currentPlan}
                             className={`w-full ${currentPlan !== 'pro' ? 'bg-green-600 hover:bg-green-700' : 'disabled:bg-transparent'}`}
-                        >
-                            {currentPlan === 'pro' ? t('current_plan') : `${t('change_plan')} ${t('Plans.Pro.name')}`}
-                        </Button>
+                        />
                     </CardFooter>
                 </Card>
             </div>

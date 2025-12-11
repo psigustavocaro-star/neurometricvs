@@ -336,6 +336,7 @@ export const ReportPDF = ({ patient, profile, result, interpretation, chartData 
                         <Text style={styles.signatureName}>{profile.full_name}</Text>
                         <Text style={styles.signatureDetail}>{profile.specialty || 'Psicólogo Clínico'}</Text>
                         {profile.registry_number && <Text style={styles.signatureDetail}>Nº Registro {profile.registry_number}</Text>}
+                        {profile.email && <Text style={styles.signatureDetail}>Correo: {profile.email}</Text>}
                         {profile.signature_url && (
                             <Text style={styles.signatureCustom}>
                                 {profile.signature_url}
