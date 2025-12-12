@@ -1,8 +1,8 @@
 {
     "Navbar": {
-        "features": "Features",
+        "features": "What We Offer",
         "pricing": "Pricing",
-        "testimonials": "Testimonials",
+        "testimonials": "Testimonios",
         "demo": "Watch Demo",
         "login": "Login",
         "register": "Sign Up",
@@ -280,41 +280,76 @@
     },
     "TestimonialsList": {
         "0": {
-            "name": "Lic. Sofia Martinez",
+            "name": "Dr. Elena Vaquerizo",
             "role": "Clinical Psychologist",
-            "text": "I used to spend hours tabulating PHQ-9 and other tests. Now it's instant. My reports look much more professional.",
-            "img": "/assets/v2/female-1.png"
+            "text": "Before, I spent hours tabulating the PHQ-9. Now it's instant, and the new visual graphs are excellent for explaining progress to the patient.",
+            "img": "/assets/v3/female-1.png"
         },
         "1": {
-            "name": "Dr. Carlos Ruiz",
-            "role": "Neuropsychologist",
-            "text": "The patient history functionality is key to seeing treatment evolution. Highly recommended.",
-            "img": "/assets/v2/male-1.png"
+            "name": "Dr. Samuel Cohen",
+            "role": "Neurologist",
+            "text": "The cognitive assessment suite is robust. It allows me to detect mild impairment much earlier than with traditional methods.",
+            "img": "/assets/v3/male-1.png"
         },
         "2": {
-            "name": "Ps. Laura Gomez",
-            "role": "Family Therapist",
-            "text": "I love that I can customize my signature and logo. My patients receive their results automatically by email.",
-            "img": "/assets/v2/female-2.png"
+            "name": "Mariana Castillo",
+            "role": "Occupational Therapist",
+            "text": "The platform's customization is incredible. I can adapt the reports to what I really need to communicate to families.",
+            "img": "/assets/v3/female-2.png"
         },
         "3": {
-            "name": "Dr. Roberto Fernandez",
+            "name": "Dr. Alberto Rossi",
             "role": "Psychiatrist",
-            "text": "The interface is clean and easy to use. My older patients have no problems completing the tests on their tablets.",
-            "img": "/assets/v2/male-2.png"
+            "text": "The AI assistant for pre-filling the anamnesis is like having an extra resident. Saved me at least 20 mins per patient.",
+            "img": "/assets/v3/male-2.png"
         },
         "4": {
-            "name": "Lic. Andrea Torres",
+            "name": "Dr. Patricia Solis",
             "role": "Child Psychologist",
-            "text": "Technical support is excellent. We had a doubt with the configuration and they helped us in minutes. Thanks Neurometrics!",
-            "img": "/assets/v2/female-3.png"
+            "text": "Kids love the tablet interface. It's much less intimidating than pen and paper.",
+            "img": "/assets/v3/female-3.png"
         },
         "5": {
-            "name": "Ps. Javier Mendez",
+            "name": "Lucas Mendez",
             "role": "Organizational Psychologist",
-            "text": "Ideal for massive evaluations in companies. I have reduced my report delivery time by 50%.",
-            "img": "/assets/v2/male-3.png"
+            "text": "Managing massive organizational climate assessments has never been easier. The aggregated reports are a gem.",
+            "img": "/assets/v3/male-3.png"
         }
+    },
+    "FeaturesPage": {
+        "title": "Solutions that Transform Clinical Practice",
+        "subtitle": "Every tool has been designed with the real workflow of a mental health professional in mind.",
+        "ClinicalRecords": {
+            "title": "Smart Clinical Records",
+            "desc": "Forget paper and obsolete systems. Our clinical records allow you to register sessions, background, and evolution with a clean and fast interface.",
+            "benefit": "Save 15 minutes per patient"
+        },
+        "TestAutomation": {
+            "title": "Automatic Test Scoring",
+            "desc": "Complete library with PHQ-9, GAD-7, BDI-II, and more. The patient answers on their device and you receive scored results instantly.",
+            "benefit": "100% free of human errors"
+        },
+        "AICopilot": {
+            "title": "AI Co-Pilot",
+            "desc": "An assistant that analyzes your session notes and suggests clinical insights, detects risk patterns, and helps you write more complete reports.",
+            "benefit": "Like having an expert colleague beside you"
+        },
+        "PatientPortal": {
+            "title": "Patient Portal",
+            "desc": "Your patients can view their upcoming appointments, assigned tasks, and complete assessments from a secure and private space.",
+            "benefit": "Improves treatment adherence"
+        }
+    },
+    "PricingPage": {
+        "title": "Invest in Your Peace of Mind",
+        "subtitle": "Simple and transparent plans. No hidden costs.",
+        "faq_title": "Billing Questions",
+        "cta_trial": "Try 14 days free"
+    },
+    "TestimonialsPage": {
+        "title": "What the Community Says",
+        "subtitle": "Hundreds of professionals trust Neurometrics to modernize their practice.",
+        "join_community": "Join +500 colleagues who have already digitized their practice."
     },
     "Legal": {
         "last_updated": "Last updated: December 2025",

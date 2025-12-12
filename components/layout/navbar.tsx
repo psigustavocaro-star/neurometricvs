@@ -122,13 +122,13 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                 <Link href="/" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
                                     {t('home')}
                                 </Link>
-                                <Link href="/#features" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/features" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
                                     {t('features')}
                                 </Link>
-                                <Link href="/#pricing" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/pricing" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
                                     {t('pricing')}
                                 </Link>
-                                <Link href="/#testimonials" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/testimonials" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
                                     {t('testimonials')}
                                 </Link>
                             </>
@@ -232,8 +232,8 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                             I'll verify via view_file if I need to.
                             But standard mobile menu logic is fairly generic.
                         */}
-                        <Link href="/#features" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('features')}</Link>
-                        <Link href="/#pricing" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('pricing')}</Link>
+                        <Link href="/features" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('features')}</Link>
+                        <Link href="/pricing" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('pricing')}</Link>
                     </div>
                 </div>
             )}
