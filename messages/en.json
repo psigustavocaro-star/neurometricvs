@@ -326,7 +326,7 @@
         },
         "TestAutomation": {
             "title": "Automatic Test Scoring",
-            "desc": "Complete library with PHQ-9, GAD-7, BDI-II, and more. The patient answers on their device and you receive scored results instantly.",
+            "desc": "Complete library with PHQ-9, GAD-7, BDI-II, etc. Apply them in-session or send a secure link for the patient to answer on their device. Instant results.",
             "benefit": "100% free of human errors"
         },
         "AICopilot": {

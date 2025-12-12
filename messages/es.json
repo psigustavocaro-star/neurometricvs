@@ -326,7 +326,7 @@
         },
         "TestAutomation": {
             "title": "Corrección Automática de Tests",
-            "desc": "Biblioteca completa con PHQ-9, GAD-7, BDI-II y más. El paciente responde en su dispositivo y tú recibes los resultados baremados al instante.",
+            "desc": "Biblioteca completa (PHQ-9, GAD-7, etc). Aplícalos en consulta desde tu pantalla o envía un link seguro para que el paciente responda en su dispositivo. Resultados inmediatos.",
             "benefit": "100% libre de errores humanos"
         },
         "AICopilot": {
