@@ -343,7 +343,11 @@
             "liability_title": "4. Limitación de responsabilidad",
             "liability_body": "Neurometrics proporciona la plataforma \"tal cual\". No garantizamos que el servicio sea ininterrumpido o libre de errores. No somos responsables de decisiones clínicas tomadas basándose en nuestros informes.",
             "modifications_title": "5. Modificaciones",
-            "modifications_body": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Le notificaremos sobre cambios significativos."
+            "modifications_body": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Le notificaremos sobre cambios significativos.",
+            "mor_title": "6. Comerciante Registrado (Merchant of Record)",
+            "mor_body": "El proceso de pedido es realizado por nuestro revendedor en línea Paddle.com. Paddle.com es el Comerciante Registrado (Merchant of Record) para todos nuestros pedidos. Paddle maneja todas las consultas de servicio al cliente relacionadas con pagos y gestiona las devoluciones.",
+            "support_title": "7. Contacto y Soporte",
+            "support_body": "Para soporte técnico, dudas sobre su cuenta o asistencia con pagos, puede contactarnos directamente a soporte@neurometricslatam.com. Estamos disponibles para resolver cualquier inquietud."
         },
         "Refund": {
             "title": "Política de Reembolso",

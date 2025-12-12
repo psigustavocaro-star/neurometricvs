@@ -30,8 +30,15 @@ export default function TermsPage() {
                             <h3>{t('liability_title')}</h3>
                             <p>{t('liability_body')}</p>
 
+
                             <h3>{t('modifications_title')}</h3>
                             <p>{t('modifications_body')}</p>
+
+                            <h3>{t('mor_title')}</h3>
+                            <p>{t('mor_body')}</p>
+
+                            <h3>{t('support_title')}</h3>
+                            <p>{t('support_body')}</p>
                         </div>
                     </div>
                 </div>
