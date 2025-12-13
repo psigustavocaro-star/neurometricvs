@@ -12,6 +12,7 @@ import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { DemoModal } from "@/components/landing/demo-modal"
+import { FeaturesSection } from "@/components/landing/features-section"
 
 export default function LandingPage() {
   const tHero = useTranslations('Hero');
@@ -110,77 +111,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Mobile Friendly Section */}
-        <section id="mobile" className="w-full py-12 md:py-24 bg-white relative overflow-hidden">
-          <div className="container px-4 md:px-6 relative z-10">
-            <div className="grid gap-12 lg:grid-cols-2 items-center">
-              <ScrollAnimation animation="slide-in-left">
-                <div className="space-y-6">
-                  <div className="inline-block rounded-full bg-teal-50 px-3 py-1 text-sm font-semibold text-teal-700 border border-teal-100">
-                    {tMobile('badge')}
-                  </div>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-slate-900">
-                    <span dangerouslySetInnerHTML={{ __html: tMobile.raw('title') }} />
-                  </h2>
-                  <p className="text-slate-600 md:text-xl leading-relaxed">
-                    {tMobile('description')}
-                  </p>
-                  <ul className="space-y-4 pt-4">
-                    {tMobile.raw('items').map((item: any, i: number) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                          <Check className="h-3.5 w-3.5 text-green-600" />
-                        </div>
-                        <span className="text-slate-700 font-medium">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation animation="slide-in-right" delay={200}>
-                <div className="relative mx-auto w-[220px] sm:w-[280px] md:w-full md:max-w-[400px] aspect-[9/19] bg-slate-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl border-[4px] md:border-[8px] border-slate-900 overflow-hidden">
-                  {/* Screen Content */}
-                  <div className="absolute inset-0 bg-slate-50 flex flex-col">
-                    {/* Mock Header */}
-                    <div className="h-14 bg-white border-b border-slate-100 flex items-center px-4 justify-between">
-                      <div className="w-6 h-6 rounded-full bg-teal-100"></div>
-                      <div className="w-24 h-3 rounded-full bg-slate-100"></div>
-                      <div className="w-6 h-6 rounded-full bg-slate-100"></div>
-                    </div>
-                    {/* Mock Body */}
-                    <div className="p-6 space-y-6 flex-1 overflow-hidden relative">
-                      <div className="space-y-2">
-                        <div className="h-6 w-3/4 bg-slate-200 rounded animate-pulse"></div>
-                        <div className="h-4 w-1/2 bg-slate-100 rounded animate-pulse"></div>
-                      </div>
-
-                      <div className="space-y-3">
-                        {[1, 2, 3, 4].map(i => (
-                          <div key={i} className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm flex items-center gap-3">
-                            <div className={`w-4 h-4 rounded-full border-2 ${i === 2 ? 'border-teal-500 bg-teal-500' : 'border-slate-300'}`}></div>
-                            <div className="h-2 w-2/3 bg-slate-100 rounded"></div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <div className="h-12 w-full bg-slate-900 rounded-xl shadow-lg flex items-center justify-center text-white text-sm font-medium">
-                          {tMobile('mock_next')}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-slate-900 rounded-b-xl"></div>
-                </div>
-                {/* Decorative blob behind phone */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] bg-teal-200/30 blur-3xl -z-10 rounded-full"></div>
-              </ScrollAnimation>
-            </div>
-          </div>
-        </section>
+        {/* Features Section (What We Offer) */}
+        <FeaturesSection />
 
         {/* Testimonials Section (Relatos) */}
         <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-slate-50/50 relative overflow-hidden">

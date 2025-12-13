@@ -17,15 +17,17 @@ import { DocumentsGenerator } from './documents-generator'
 import { PatientOverview } from './patient-overview'
 import { GuidedGenogramBuilder } from './guided-genogram-builder'
 import { AnamnesisSummary } from './anamnesis-summary'
+import { SentTestsList } from '@/components/patients/sent-tests-list'
 
 interface PatientDashboardProps {
     patient: any // Typed from Supabase
     clinicalRecord: ClinicalRecord | null
     sessions: (ClinicalSession & { ai_insights?: AIInsight | null })[]
     testResults: any[] // Typed from Supabase
+    testAssignments?: any[]
 }
 
-export function PatientDashboard({ patient, clinicalRecord, sessions, testResults }: PatientDashboardProps) {
+export function PatientDashboard({ patient, clinicalRecord, sessions, testResults, testAssignments = [] }: PatientDashboardProps) {
     const [activeTab, setActiveTab] = useState('summary')
 
     return (
@@ -62,7 +64,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             {sessions.length} Sesiones
                         </Badge>
                         <Badge variant="secondary" className="bg-slate-50 text-slate-600 border-slate-100">
-                            {testResults.length} Tests
+                            {testResults.length} Tests Comp.
+                        </Badge>
+                        <Badge variant="secondary" className="bg-slate-50 text-teal-600 border-teal-100">
+                            {testAssignments.filter(t => t.status === 'pending').length} Pendientes
                         </Badge>
                     </div>
                 </div>
@@ -70,6 +75,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
 
             {/* Integrated Tabs */}
             <Tabs defaultValue="overview" className="flex-1 flex flex-col overflow-hidden" onValueChange={setActiveTab}>
+                {/* ... (TabsList unchanged) ... */}
                 <div className="flex-none border-b border-slate-100 px-6 bg-slate-50/50">
                     <TabsList className="h-12 w-full justify-start gap-6 bg-transparent p-0">
                         <TabsTrigger
@@ -152,7 +158,11 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                     </TabsContent>
 
                     <TabsContent value="tests" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-6">
+                        <div className="h-full overflow-y-auto p-6 space-y-8">
+                            {/* New Sent Tests Section */}
+                            <SentTestsList assignments={testAssignments} patientId={patient.id} />
+
+                            {/* Existing Completed Tests Section */}
                             <PatientHistory results={testResults} patientId={patient.id} />
                         </div>
                     </TabsContent>

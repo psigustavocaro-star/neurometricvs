@@ -167,6 +167,21 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         console.warn('Clinical Sessions fetch failed')
     }
 
+
+    // 4. Fetch Remote Test Assignments (Safely)
+    let testAssignments: any[] = []
+    try {
+        const { data: assignments } = await supabase
+            .from('test_assignments')
+            .select('*')
+            .eq('patient_id', id)
+            .order('created_at', { ascending: false })
+
+        if (assignments) testAssignments = assignments
+    } catch (e) {
+        console.warn('Test Assignments fetch failed (migration missing?)')
+    }
+
     return (
         <div className="container pt-24 pb-10">
             <div className="mb-4">
@@ -182,6 +197,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                 clinicalRecord={clinicalRecord}
                 sessions={sessions}
                 testResults={testResults || []}
+                testAssignments={testAssignments}
             />
         </div>
     )

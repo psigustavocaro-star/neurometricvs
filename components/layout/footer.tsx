@@ -38,6 +38,24 @@ export function Footer() {
                                 <span className="sr-only">LinkedIn</span>
                             </Link>
                         </div>
+
+                        {/* Professional Emails */}
+                        <div className="pt-4 space-y-2 border-t border-slate-800 mt-4">
+                            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Canales de Atención</h4>
+                            <a href="mailto:contacto@neurometricslatam.com" className="flex items-center gap-2 text-sm text-slate-400 hover:text-teal-400 transition-colors">
+                                <Mail className="h-3 w-3" /> contacto@neurometricslatam.com
+                            </a>
+                            <a href="mailto:soporte@neurometricslatam.com" className="flex items-center gap-2 text-sm text-slate-400 hover:text-teal-400 transition-colors">
+                                <Mail className="h-3 w-3" /> soporte@neurometricslatam.com
+                            </a>
+                            <a href="mailto:pagos@neurometricslatam.com" className="flex items-center gap-2 text-sm text-slate-400 hover:text-teal-400 transition-colors">
+                                <Mail className="h-3 w-3" /> pagos@neurometricslatam.com
+                            </a>
+                            <div className="flex items-center gap-2 text-xs text-slate-600">
+                                <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                                Envíos automáticos desde: notificaciones@
+                            </div>
+                        </div>
                     </div>
 
                     {/* Product Column */}
