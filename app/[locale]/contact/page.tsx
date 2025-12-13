@@ -56,8 +56,8 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-slate-900">Email</h3>
-                                        <p className="text-slate-600">contacto@neurometrics.com</p>
-                                        <p className="text-slate-600">soporte@neurometrics.com</p>
+                                        <p className="text-slate-600">contacto@neurometricslatam.com</p>
+                                        <p className="text-slate-600">soporte@neurometricslatam.com</p>
                                     </div>
                                 </div>
 

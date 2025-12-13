@@ -17,9 +17,9 @@ export default function PressPage() {
                         <div className="bg-teal-50 p-8 rounded-2xl text-center">
                             <h3 className="text-xl font-bold text-teal-900 mb-2">¿Eres periodista?</h3>
                             <p className="text-teal-700 mb-4">Contáctanos para entrevistas o información adicional.</p>
-                            <a href="mailto:prensa@neurometrics.com">
+                            <a href="mailto:contacto@neurometricslatam.com">
                                 <Button className="bg-teal-600 hover:bg-teal-700 text-white">
-                                    prensa@neurometrics.com
+                                    contacto@neurometricslatam.com
                                 </Button>
                             </a>
                         </div>
