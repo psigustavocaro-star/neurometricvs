@@ -3,6 +3,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
+import { sendEmail } from '@/lib/email'
+
 /**
  * Assigns a test to a patient, generating a unique token/link.
  * Only authenticated professionals can call this.
@@ -13,15 +15,13 @@ export async function assignTest(patientId: string, testId: string) {
 
     if (!user) return { error: 'Not authenticated' }
 
-    // Check if patient exists AND belongs to user (using the RLS policy indirectly or explicit check)
-    // We also need the Email to send the link
+    // Check if patient exists AND belongs to user
     const { data: patient } = await supabase
         .from('patients')
         .select('id, contact_email, full_name, profile_id')
         .eq('id', patientId)
         .single()
 
-    // Explicit security check (redundant with RLS but good for logic)
     if (!patient || patient.profile_id !== user.id) {
         return { error: 'Patient not found or unauthorized' }
     }
@@ -34,12 +34,30 @@ export async function assignTest(patientId: string, testId: string) {
             test_id: testId,
             status: 'pending'
         })
-        .select('token') // Return the generated UUID token
+        .select('token')
         .single()
 
     if (error || !assignment) {
         console.error(error)
         return { error: 'Could not create assignment' }
+    }
+
+    // Send Email
+    if (patient.contact_email) {
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://neurometricslatam.com'
+        const link = `${baseUrl}/t/${assignment.token}`
+
+        await sendEmail({
+            to: patient.contact_email,
+            subject: `Te han enviado una evaluación: ${testId.toUpperCase()}`,
+            html: `
+                <h1>Hola ${patient.full_name},</h1>
+                <p>Tu profesional te ha asignado una evaluación en Neurometrics.</p>
+                <p>Por favor, completa el test en el siguiente enlace:</p>
+                <a href="${link}" style="background-color: #0d9488; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Comenzar Evaluación</a>
+                <p><small>Si el botón no funciona, copia este link: ${link}</small></p>
+            `
+        })
     }
 
     revalidatePath(`/patients/${patientId}`)

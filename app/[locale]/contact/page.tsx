@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Mail, MapPin, Phone, Loader2, CheckCircle2 } from "lucide-react"
-import { useFormState, useFormStatus } from "react-dom"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import { submitContactForm } from "./actions"
 import { useEffect, useRef } from "react"
 
@@ -28,7 +29,7 @@ function SubmitButton() {
 }
 
 export default function ContactPage() {
-    const [state, formAction] = useFormState(submitContactForm, { message: '', errors: {} })
+    const [state, formAction] = useActionState(submitContactForm, { message: '', errors: {} })
     const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
@@ -61,27 +62,9 @@ export default function ContactPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center shrink-0">
-                                        <Phone className="w-5 h-5 text-teal-600" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-slate-900">Teléfono</h3>
-                                        <p className="text-slate-600">+56 2 2345 6789</p>
-                                        <p className="text-sm text-slate-500">Lun-Vie, 9:00 - 18:00 CLT</p>
-                                    </div>
-                                </div>
 
-                                <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center shrink-0">
-                                        <MapPin className="w-5 h-5 text-teal-600" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-slate-900">Oficina</h3>
-                                        <p className="text-slate-600">Av. Providencia 1234, Of. 505</p>
-                                        <p className="text-slate-600">Providencia, Santiago, Chile</p>
-                                    </div>
-                                </div>
+
+
                             </div>
                         </div>
 

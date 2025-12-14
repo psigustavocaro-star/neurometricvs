@@ -2,16 +2,18 @@
 
 import { useState } from 'react'
 import { ClinicalSession, AIInsight } from '@/types/clinical'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { createSession, updateSession, generateAIInsights } from "@/app/[locale]/patients/clinical-actions"
-import { AIInsightsDisplay } from './ai-insights-display'
 import { FirstSessionForm } from './first-session-form'
+import { SessionTimeline } from './session-timeline'
+import { ClinicalCopilot } from './clinical-copilot'
+import { VoiceRecorder } from './voice-recorder'
 import { toast } from "sonner"
-import { Loader2, Plus, Calendar, Clock, Sparkles, FileText } from "lucide-react"
+import { Loader2, Plus, Calendar, Save, ArrowLeft } from "lucide-react"
 
 interface SessionManagerProps {
     patientId: string
@@ -22,7 +24,13 @@ interface SessionManagerProps {
 
 export function SessionManager({ patientId, sessions, patientName, embedded }: SessionManagerProps) {
     const [showFirstSessionForm, setShowFirstSessionForm] = useState(sessions.length === 0)
-    const [selectedSessionId, setSelectedSessionId] = useState<string | 'new' | null>(sessions.length > 0 ? sessions[0].id : null)
+    // Default to 'new' if we have sessions but want to encourage input, OR select latest.
+    // User wants to see sessions, so let's default to no selection (overview) or latest.
+    // Let's default to 'new' so they can prep the next session immediately, or latest if they are reviewing.
+    // Actually user says "see sessions we have to date", implying a view first.
+    // So let's select the latest session by default if exists.
+    const [selectedSessionId, setSelectedSessionId] = useState<string | 'new' | null>(sessions.length > 0 ? sessions[0].id : 'new')
+
     const [loading, setLoading] = useState(false)
     const [analyzing, setAnalyzing] = useState(false)
 
@@ -61,9 +69,9 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
             if (selectedSessionId === 'new') {
                 await createSession(patientId, formData)
                 toast.success("Sesión creada correctamente")
-                // Reset to show list? Usually we'd select the new one, but revalidation happens.
-                // For simplified UX, we just wait for revalidation or reset.
-                setSelectedSessionId(null)
+                // In a real app we'd get the ID back to select it, but revalidation handles UI update
+                // We'll keep 'new' mode or reset
+                setFormData({ ...formData, notes: '' })
             } else if (selectedSessionId) {
                 await updateSession(selectedSessionId, formData)
                 toast.success("Sesión actualizada")
@@ -75,13 +83,17 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
         }
     }
 
-    const handleAIAnalysis = async () => {
-        if (!selectedSessionId || selectedSessionId === 'new') return
+    const handleAIAnalysis = async (approach: string) => {
+        if (!selectedSessionId || selectedSessionId === 'new') {
+            toast.error("Guarda la sesión antes de analizar")
+            return
+        }
         setAnalyzing(true)
         try {
-            await generateAIInsights(selectedSessionId)
-            toast.success("Análisis IA completado")
+            await generateAIInsights(selectedSessionId, approach)
+            toast.success("Análisis IA generado con enfoque " + approach)
         } catch (error) {
+            console.error(error)
             toast.error("Error al generar análisis")
         } finally {
             setAnalyzing(false)
@@ -92,162 +104,135 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
 
     const handleFirstSessionComplete = () => {
         setShowFirstSessionForm(false)
-        toast.success("¡Primera sesión completada! Recargando...")
-        // Refresh the page to show the new session
+        toast.success("¡Primera sesión completada!")
         window.location.reload()
     }
 
-    // Show first session form if no sessions exist
+    // Special First Session Flow
     if (showFirstSessionForm) {
         return (
-            <FirstSessionForm
-                patientId={patientId}
-                patientName={patientName}
-                onComplete={handleFirstSessionComplete}
-            />
+            <div className="h-full overflow-y-auto bg-slate-50/50 p-6">
+                <FirstSessionForm
+                    patientId={patientId}
+                    patientName={patientName}
+                    onComplete={handleFirstSessionComplete}
+                />
+            </div>
         )
     }
 
     return (
-        <div className={`grid md:grid-cols-[300px_1fr] h-full ${embedded ? '' : 'gap-6 h-[600px]'}`}>
-            {/* Left: Session List Sidebar */}
-            <div className="flex flex-col border-r border-slate-200 bg-slate-50/50 h-full">
-                <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-white sticky top-0 z-10">
-                    <span className="font-semibold text-slate-700 text-sm">Historial</span>
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_320px] h-full overflow-hidden bg-slate-50">
+
+            {/* 1. Timeline (Left) */}
+            <div className="hidden lg:flex flex-col border-r border-slate-200 bg-white h-full overflow-hidden">
+                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10 shrink-0">
+                    <span className="font-bold text-slate-800 text-sm tracking-tight">Línea de Tiempo</span>
                     <Button size="sm" variant="ghost" onClick={handleNewSession} className="h-8 w-8 p-0 hover:bg-teal-50 hover:text-teal-600 rounded-full">
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-5 h-5" />
                     </Button>
                 </div>
                 <ScrollArea className="flex-1">
-                    <div className="divide-y divide-slate-100">
-                        {sessions.length === 0 && <div className="p-8 text-xs text-slate-400 text-center">Sin historial.</div>}
-                        {sessions.map((session) => (
-                            <button
-                                key={session.id}
-                                onClick={() => handleSelectSession(session)}
-                                className={`w-full text-left px-4 py-3 hover:bg-white transition-all border-l-2 text-sm relative group ${selectedSessionId === session.id
-                                    ? 'bg-white border-teal-500 shadow-sm z-10'
-                                    : 'bg-transparent border-transparent text-slate-500'
-                                    }`}
-                            >
-                                <div className={`font-medium mb-0.5 ${selectedSessionId === session.id ? 'text-teal-700' : 'text-slate-700'}`}>
-                                    {new Date(session.date).toLocaleDateString(undefined, { day: '2-digit', month: 'short' })}
+                    <SessionTimeline
+                        sessions={sessions}
+                        selectedSessionId={selectedSessionId}
+                        onSelectSession={handleSelectSession}
+                    />
+                </ScrollArea>
+            </div>
+
+            {/* 2. Main Workspace (Center) */}
+            <div className="flex flex-col h-full bg-white overflow-hidden relative shadow-sm z-0">
+                {/* Mobile Header for Timeline Toggle could go here */}
+
+                <div className="flex-none px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white/80 backdrop-blur-sm sticky top-0 z-20">
+                    <div>
+                        <h2 className="text-lg font-bold text-slate-900">
+                            {selectedSessionId === 'new' ? `Nueva Sesión` : `Sesión del ${new Date(formData.date!).toLocaleDateString()}`}
+                        </h2>
+                        {selectedSessionId === 'new' && <p className="text-xs text-slate-500">Registrando evolución</p>}
+                    </div>
+                    <Button onClick={handleSave} disabled={loading} className="bg-teal-600 hover:bg-teal-700 text-white shadow-sm transition-all hover:scale-105">
+                        {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                        <Save className="w-4 h-4 mr-2" />
+                        {selectedSessionId === 'new' ? 'Registrar' : 'Guardar Cambios'}
+                    </Button>
+                </div>
+
+                <ScrollArea className="flex-1">
+                    <div className="p-8 max-w-3xl mx-auto space-y-8 pb-32">
+
+                        {/* Editor Config */}
+                        <div className="grid grid-cols-3 gap-6">
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Fecha</label>
+                                <Input
+                                    type="date"
+                                    value={formData.date}
+                                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                                    className="bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Duración</label>
+                                <Input
+                                    type="number"
+                                    value={formData.duration}
+                                    onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) })}
+                                    className="bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Tipo</label>
+                                <select
+                                    className="flex h-10 w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-colors"
+                                    value={formData.type}
+                                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                >
+                                    <option value="Sesión Regular">Sesión Regular</option>
+                                    <option value="Evaluación">Evaluación</option>
+                                    <option value="Crisis">Crisis</option>
+                                    <option value="Cierre">Cierre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Note Editor */}
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center">
+                                <label className="text-sm font-bold text-slate-700">Notas de Evolución</label>
+                                <div className="scale-90 origin-right">
+                                    <VoiceRecorder
+                                        onTranscriptionComplete={(text) => setFormData(prev => ({
+                                            ...prev,
+                                            notes: prev.notes ? `${prev.notes}\n\n${text}` : text
+                                        }))}
+                                    />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs opacity-80 truncate max-w-[120px]">{session.type}</span>
-                                    {session.ai_insights && <Sparkles className="w-3 h-3 text-indigo-400" />}
-                                </div>
-                            </button>
-                        ))}
+                            </div>
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-teal-50/50 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
+                                <Textarea
+                                    value={formData.notes}
+                                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                                    className="min-h-[400px] p-6 text-base leading-relaxed border-slate-200 focus:border-teal-400 focus:ring-0 shadow-sm rounded-xl resize-none bg-white"
+                                    placeholder="Comienza a escribir o usa el micrófono para transcribir la sesión..."
+                                />
+                            </div>
+                        </div>
+
                     </div>
                 </ScrollArea>
             </div>
 
-            {/* Right: Editor / Details Area */}
-            <div className="flex flex-col h-full bg-white overflow-hidden relative">
-                {selectedSessionId ? (
-                    <>
-                        {/* Toolbar */}
-                        <div className="flex-none p-4 border-b border-slate-100 flex justify-between items-center bg-white">
-                            <div>
-                                <h3 className="font-bold text-slate-800">{selectedSessionId === 'new' ? 'Nueva Sesión' : 'Detalles de Sesión'}</h3>
-                                <p className="text-xs text-slate-400">{patientName}</p>
-                            </div>
-                            <div className="flex gap-2">
-                                {selectedSessionId !== 'new' && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={handleAIAnalysis}
-                                        disabled={analyzing}
-                                        className="text-indigo-600 border-indigo-200 hover:bg-indigo-50 h-8 text-xs"
-                                    >
-                                        {analyzing ? <Loader2 className="w-3 h-3 animate-spin mr-1.5" /> : <Sparkles className="w-3 h-3 mr-1.5" />}
-                                        {analyzing ? 'Analizando...' : 'Analizar (IA)'}
-                                    </Button>
-                                )}
-                                <Button size="sm" onClick={handleSave} disabled={loading} className="bg-teal-600 hover:bg-teal-700 h-8 text-xs px-4 shadow-sm">
-                                    {loading && <Loader2 className="w-3 h-3 animate-spin mr-1.5" />}
-                                    Guardar
-                                </Button>
-                            </div>
-                        </div>
-
-                        {/* Content Scroll */}
-                        <ScrollArea className="flex-1">
-                            <div className="p-8 max-w-3xl mx-auto space-y-8">
-                                {/* Metadata Row */}
-                                <div className="flex gap-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
-                                    <div className="space-y-1 flex-1">
-                                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fecha</label>
-                                        <Input
-                                            type="date"
-                                            value={formData.date}
-                                            className="bg-white border-slate-200 h-9 transition-colors focus:border-teal-300"
-                                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="space-y-1 w-24">
-                                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Mins.</label>
-                                        <Input
-                                            type="number"
-                                            value={formData.duration}
-                                            className="bg-white border-slate-200 h-9 transition-colors focus:border-teal-300"
-                                            onChange={(e) => {
-                                                const val = parseInt(e.target.value)
-                                                setFormData({ ...formData, duration: isNaN(val) ? 0 : val })
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="space-y-1 w-40">
-                                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tipo</label>
-                                        <select
-                                            className="flex h-9 w-full rounded-md border border-slate-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-teal-300"
-                                            value={formData.type}
-                                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                        >
-                                            <option value="Sesión Regular">Regular</option>
-                                            <option value="Evaluación">Evaluación</option>
-                                            <option value="Crisis">Crisis</option>
-                                            <option value="Cierre">Cierre</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                {/* Editor */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                                        <FileText className="w-4 h-4 text-slate-400" /> Notas Clínicas
-                                    </label>
-                                    <Textarea
-                                        value={formData.notes}
-                                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                        className="min-h-[300px] font-mono text-sm leading-relaxed p-4 bg-white border-slate-200 focus:border-teal-300 focus:ring-0 shadow-sm rounded-md resize-y"
-                                        placeholder="Escribe aquí el desarrollo de la sesión... (Soporta Markdown básico)"
-                                    />
-                                </div>
-
-                                {/* AI Results */}
-                                {selectedSession?.ai_insights && (
-                                    <div className="animate-in fade-in slide-in-from-bottom-5 duration-700">
-                                        <div className="flex items-center gap-2 mb-4">
-                                            <Sparkles className="w-5 h-5 text-indigo-500" />
-                                            <h3 className="text-lg font-bold text-slate-800">Insights de Inteligencia Artificial</h3>
-                                        </div>
-                                        <AIInsightsDisplay insight={selectedSession.ai_insights} />
-                                    </div>
-                                )}
-                            </div>
-                        </ScrollArea>
-                    </>
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-slate-300">
-                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                            <Calendar className="w-8 h-8 opacity-50" />
-                        </div>
-                        <p className="font-medium text-slate-400">Selecciona una sesión para ver detalles</p>
-                    </div>
-                )}
+            {/* 3. Clinical Copilot (Right) */}
+            <div className="hidden lg:block h-full border-l border-slate-200 bg-white z-10 shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.05)]">
+                <ClinicalCopilot
+                    sessionId={selectedSessionId === 'new' ? undefined : selectedSessionId || undefined}
+                    insight={selectedSession?.ai_insights}
+                    onAnalyze={handleAIAnalysis}
+                    loading={analyzing}
+                />
             </div>
         </div>
     )

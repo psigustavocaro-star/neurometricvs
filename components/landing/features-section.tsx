@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl"
 import { MockClinicalRecords } from "@/components/landing/mocks/mock-clinical-records"
 import { MockTestScoring } from "@/components/landing/mocks/mock-test-scoring"
 import { MockAICopilot } from "@/components/landing/mocks/mock-ai-copilot"
-import { MockPatientPortal } from "@/components/landing/mocks/mock-patient-portal"
-import { Zap, Brain, FileText, Users, CheckCircle2 } from "lucide-react"
+import { MockMobileApp } from "@/components/landing/mocks/mock-mobile-app"
+import { Zap, Brain, FileText, Smartphone, CheckCircle2 } from "lucide-react"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export function FeaturesSection() {
@@ -40,12 +40,12 @@ export function FeaturesSection() {
             alignment: 'left'
         },
         {
-            key: 'PatientPortal',
-            icon: Users,
+            key: 'MobileAccess',
+            icon: Smartphone,
             color: 'text-teal-400',
             bgColor: 'bg-teal-500/10',
             borderColor: 'border-teal-500/20',
-            component: <MockPatientPortal />,
+            component: <MockMobileApp />,
             alignment: 'right'
         }
     ]
@@ -97,17 +97,23 @@ export function FeaturesSection() {
                             </div>
 
                             {/* Visual Display */}
-                            <div className="flex-1 w-full perspective-1000">
-                                <div className={`
+                            <div className="flex-1 w-full perspective-1000 flex justify-center">
+                                {feature.key === 'MobileAccess' ? (
+                                    <div className="transform transition-transform duration-700 hover:scale-[1.05] hover:rotate-y-6">
+                                        {feature.component}
+                                    </div>
+                                ) : (
+                                    <div className={`
                                     relative aspect-video rounded-2xl border border-slate-200 bg-slate-50/50 shadow-2xl overflow-hidden
                                     transform transition-all duration-700 hover:scale-[1.02] hover:border-teal-200 hover:shadow-teal-900/10
                                     group
                                 `}>
-                                    <div className="w-full h-full p-6 flex items-center justify-center relative z-10">
-                                        {feature.component}
+                                        <div className="w-full h-full p-6 flex items-center justify-center relative z-10">
+                                            {feature.component}
+                                        </div>
+                                        <div className="absolute inset-0 bg-[linear-gradient(rgba(13,148,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(13,148,136,0.03)_1px,transparent_1px)] bg-[size:20px_20px] opacity-30 z-0" />
                                     </div>
-                                    <div className="absolute inset-0 bg-[linear-gradient(rgba(13,148,136,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(13,148,136,0.03)_1px,transparent_1px)] bg-[size:20px_20px] opacity-30 z-0" />
-                                </div>
+                                )}
                             </div>
                         </div>
                     </ScrollAnimation>

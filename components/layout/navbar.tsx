@@ -168,9 +168,24 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                         {/* Auth Buttons */}
                         {currentUser ? (
                             <div className="flex items-center gap-3 pl-2">
-                                <span className="text-sm font-medium text-slate-700">
-                                    {currentUser.email?.split('@')[0]}
-                                </span>
+                                <Link href="/profile" className="flex items-center gap-2 hover:bg-slate-50 rounded-full pr-3 pl-1 py-1 transition-colors group">
+                                    <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 bg-teal-50 flex items-center justify-center">
+                                        {currentUser.user_metadata?.avatar_url ? (
+                                            <img
+                                                src={currentUser.user_metadata?.avatar_url}
+                                                alt="Avatar"
+                                                className="h-full w-full object-cover"
+                                            />
+                                        ) : (
+                                            <span className="text-xs font-bold text-teal-700">
+                                                {currentUser.email?.substring(0, 2).toUpperCase()}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700">
+                                        {currentUser.user_metadata?.full_name?.split(' ')[0] || currentUser.email?.split('@')[0]}
+                                    </span>
+                                </Link>
                                 <Button
                                     variant="ghost"
                                     size="icon"

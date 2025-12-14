@@ -135,19 +135,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Trust Section */}
-        <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-white relative overflow-hidden">
-          <div className="container px-4 md:px-6 relative z-10">
-            <ScrollAnimation animation="fade-in">
-              <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">
-                {tTrust('label')}
-              </p>
-              <div className="mt-8">
-                <InstitutionsMarquee />
-              </div>
-            </ScrollAnimation>
-          </div>
-        </section>
+
 
         {/* Pricing Section */}
         <section id="pricing" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-slate-50/50 relative overflow-hidden">
@@ -276,6 +264,20 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
+
+          {/* Trust Section (Moved) */}
+          <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-white relative overflow-hidden">
+            <div className="container px-4 md:px-6 relative z-10">
+              <ScrollAnimation animation="fade-in">
+                <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">
+                  {tTrust('label')}
+                </p>
+                <div className="mt-8">
+                  <InstitutionsMarquee />
+                </div>
+              </ScrollAnimation>
+            </div>
+          </section>
 
           {/* Back to Top Indicator */}
           <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">

@@ -40,14 +40,30 @@ export async function submitContactForm(prevState: ContactState, formData: FormD
     }
 
     const { name, lastname, email, subject, message } = validatedFields.data;
-    // Simulation only (Resend removed as requested)
-    console.log('[Contact Form] Simulation:', { name, lastname, email, subject, message })
 
-    // In a real implementation with Workspace, we would use nodemailer here.
-    // For now, return success so the UI feedback works.
+    // Send email to Support (The App Owner)
+    // We send FROM the user (via our system) TO our support email
+    // But since we can only send FROM our verified domain, we set 'from' correctly inside sendEmail logic (default)
+    // and use the user's email as Reply-To (if we supported it, but our simple logic doesn't yet).
+    // For now, simpler: Send TO support, with user details in body.
+
+    // We import sendEmail dynamically or top-level. (Going to add import top level first)
+    const { sendEmail } = await import('@/lib/email')
+
+    await sendEmail({
+        to: 'contacto@neurometricslatam.com',
+        subject: `[Web Contacto] ${subject}`,
+        html: `
+            <h3>Nuevo mensaje de contacto web</h3>
+            <p><strong>De:</strong> ${name} ${lastname || ''} (${email})</p>
+            <p><strong>Asunto:</strong> ${subject}</p>
+            <hr />
+            <p>${message.replace(/\n/g, '<br>')}</p>
+        `
+    })
 
     return {
         success: true,
-        message: '¡Mensaje enviado (Simulación)! En producción esto se conectará a tu Google Workspace.'
+        message: '¡Mensaje enviado correctamente! Te responderemos a la brevedad.'
     }
 }

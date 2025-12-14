@@ -1,4 +1,4 @@
-import { mockTests } from "@/lib/data/mock-tests"
+import { testsCatalog as mockTests } from "@/lib/data/tests-catalog"
 import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"

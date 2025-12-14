@@ -11,7 +11,7 @@ export interface Test {
     isPremium?: boolean
 }
 
-export const mockTests: Test[] = [
+export const testsCatalog: Test[] = [
     // Neurodesarrollo
     {
         id: "m-chat-r-f",

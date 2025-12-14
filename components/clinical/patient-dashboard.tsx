@@ -1,153 +1,217 @@
 'use client'
 
 import { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ClinicalRecord, ClinicalSession, AIInsight } from '@/types/clinical'
-import { PatientHistory } from '@/components/patients/patient-history'
-import { EditPatientSheet } from '@/components/patients/edit-patient-sheet'
-import { AnamnesisForm } from './anamnesis-form'
 import { SessionManager } from './session-manager'
 import { TreatmentPlan } from './treatment-plan'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CalendarDays, Clock, Activity, FileText, Files } from 'lucide-react'
-
 import { DocumentsGenerator } from './documents-generator'
-import { PatientOverview } from './patient-overview'
 import { GuidedGenogramBuilder } from './guided-genogram-builder'
-import { AnamnesisSummary } from './anamnesis-summary'
+import { PatientOverview } from './patient-overview'
+import { PatientHistory } from '@/components/patients/patient-history'
 import { SentTestsList } from '@/components/patients/sent-tests-list'
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import {
+    LayoutDashboard,
+    MessageSquare,
+    FileText,
+    Network,
+    Files,
+    Settings,
+    Calendar,
+    Clock,
+    AlertCircle,
+    ChevronRight,
+    Plus
+} from 'lucide-react'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 interface PatientDashboardProps {
-    patient: any // Typed from Supabase
+    patient: any
     clinicalRecord: ClinicalRecord | null
     sessions: (ClinicalSession & { ai_insights?: AIInsight | null })[]
-    testResults: any[] // Typed from Supabase
+    testResults: any[]
     testAssignments?: any[]
 }
 
+type ViewState = 'overview' | 'session_manager' | 'tests' | 'documents' | 'genogram' | 'treatment'
+
 export function PatientDashboard({ patient, clinicalRecord, sessions, testResults, testAssignments = [] }: PatientDashboardProps) {
-    const [activeTab, setActiveTab] = useState('summary')
+    const [currentView, setCurrentView] = useState<ViewState>('overview')
+    const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null)
+
+    // Helper to switch views
+    const handleViewChange = (view: ViewState) => {
+        setCurrentView(view)
+        setSelectedSessionId(null) // Reset session selection when changing modules
+    }
 
     return (
+        <div className="flex h-[calc(100vh-6rem)] bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden">
 
-        <div className="flex flex-col h-[calc(100vh-8rem)] bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            {/* Unified Header */}
-            <div className="flex-none p-6 border-b border-slate-100 bg-white">
-                <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Avatar className="h-14 w-14 border border-slate-100">
-                            <AvatarFallback className="bg-teal-50 text-teal-700 font-bold text-lg">
+            {/* --- LEFT SIDEBAR: THE CHART (Expediente) --- */}
+            <aside className="w-80 border-r border-slate-200 bg-slate-50 flex flex-col flex-none z-20 shadow-md">
+
+                {/* 1. Patient Identity Card */}
+                <div className="p-6 bg-white border-b border-slate-200 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-teal-500"></div>
+                    <div className="flex items-center gap-4 mb-4">
+                        <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-1 ring-slate-100">
+                            <AvatarFallback className="bg-slate-800 text-white font-bold text-xl">
                                 {patient.full_name.substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
                         <div>
-                            <h1 className="text-xl font-bold text-slate-900 tracking-tight">{patient.full_name}</h1>
-                            <div className="flex items-center gap-3 text-xs font-medium text-slate-500 mt-1">
-                                <span className="flex items-center gap-1">
-                                    <CalendarDays className="w-3.5 h-3.5" />
-                                    {patient.birth_date || 'Fecha N/A'}
-                                </span>
-                                <span className="w-1 h-1 bg-slate-200 rounded-full" />
-                                <span>{patient.gender === 'male' ? 'Masculino' : 'Femenino'}</span>
-                                <span className="w-1 h-1 bg-slate-200 rounded-full" />
-                                <span>{patient.contact_email || 'Sin Email'}</span>
-                            </div>
+                            <h2 className="font-bold text-slate-900 leading-tight text-lg">{patient.full_name}</h2>
+                            <p className="text-xs text-slate-500 font-mono mt-1">ID: {patient.id.substring(0, 8)}...</p>
                         </div>
                     </div>
 
-                    <div className="flex gap-2 items-center">
-                        <EditPatientSheet patient={patient} />
-                        <div className="h-6 w-px bg-slate-200 mx-1"></div>
-                        <Badge variant="secondary" className="bg-slate-50 text-slate-600 border-slate-100">
+                    <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
+                        <div>
+                            <span className="block text-slate-400 text-[10px] uppercase font-bold">Edad</span>
+                            <span className="font-semibold text-slate-700">
+                                {patient.birth_date ? `${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()} años` : '-'}
+                            </span>
+                        </div>
+                        <div>
+                            <span className="block text-slate-400 text-[10px] uppercase font-bold">Diagnóstico</span>
+                            <span className="font-semibold text-teal-700 truncate block" title={clinicalRecord?.diagnosis || 'En Evaluación'}>
+                                {clinicalRecord?.diagnosis || 'En Evaluación'}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Alerts/Status Tags */}
+                    <div className="flex gap-2 mt-4 flex-wrap">
+                        <Badge variant="outline" className="bg-white text-xs font-normal border-slate-200">
                             {sessions.length} Sesiones
                         </Badge>
-                        <Badge variant="secondary" className="bg-slate-50 text-slate-600 border-slate-100">
-                            {testResults.length} Tests Comp.
-                        </Badge>
-                        <Badge variant="secondary" className="bg-slate-50 text-teal-600 border-teal-100">
-                            {testAssignments.filter(t => t.status === 'pending').length} Pendientes
+                        <Badge variant="outline" className="bg-white text-xs font-normal border-slate-200">
+                            Activo
                         </Badge>
                     </div>
                 </div>
-            </div>
 
-            {/* Integrated Tabs */}
-            <Tabs defaultValue="overview" className="flex-1 flex flex-col overflow-hidden" onValueChange={setActiveTab}>
-                {/* ... (TabsList unchanged) ... */}
-                <div className="flex-none border-b border-slate-100 px-6 bg-slate-50/50">
-                    <TabsList className="h-12 w-full justify-start gap-6 bg-transparent p-0">
-                        <TabsTrigger
-                            value="overview"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Resumen Clínico
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="history"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Historia & Anamnesis
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="sessions"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Sesiones
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="tests"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Evaluaciones
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="plan"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Plan & Tratamiento
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="documents"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Documentos IA
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="genogram"
-                            className="h-12 rounded-none border-b-2 border-transparent px-0 pb-0 pt-0 font-medium text-slate-500 data-[state=active]:border-teal-600 data-[state=active]:text-teal-700 data-[state=active]:shadow-none bg-transparent hover:text-slate-700 transition"
-                        >
-                            Genograma
-                        </TabsTrigger>
-                    </TabsList>
+                {/* 2. Primary Navigation (Modules) */}
+                <nav className="p-2 grid grid-cols-4 gap-1 border-b border-slate-200 bg-white">
+                    <Button
+                        variant={currentView === 'overview' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex flex-col h-14 gap-1 rounded-md ${currentView === 'overview' ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                        onClick={() => handleViewChange('overview')}
+                        title="Resumen"
+                    >
+                        <LayoutDashboard className="w-5 h-5" />
+                        <span className="text-[9px] font-bold">Resumen</span>
+                    </Button>
+                    <Button
+                        variant={currentView === 'session_manager' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex flex-col h-14 gap-1 rounded-md ${currentView === 'session_manager' ? 'bg-teal-600 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                        onClick={() => handleViewChange('session_manager')}
+                        title="Sesiones"
+                    >
+                        <MessageSquare className="w-5 h-5" />
+                        <span className="text-[9px] font-bold">Clínica</span>
+                    </Button>
+                    <Button
+                        variant={currentView === 'tests' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex flex-col h-14 gap-1 rounded-md ${currentView === 'tests' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                        onClick={() => handleViewChange('tests')}
+                        title="Evaluaciones"
+                    >
+                        <Files className="w-5 h-5" />
+                        <span className="text-[9px] font-bold">Tests</span>
+                    </Button>
+                    <Button
+                        variant={currentView === 'documents' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex flex-col h-14 gap-1 rounded-md ${currentView === 'documents' ? 'bg-amber-600 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                        onClick={() => handleViewChange('documents')}
+                        title="Documentos"
+                    >
+                        <FileText className="w-5 h-5" />
+                        <span className="text-[9px] font-bold">Docs</span>
+                    </Button>
+                </nav>
+
+                {/* 3. The "Chart" Timeline (Historial Clinico) */}
+                <div className="flex-1 flex flex-col min-h-0 bg-slate-50">
+                    <div className="px-4 py-3 flex justify-between items-center text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200/50">
+                        <span>Historial Clínico</span>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-200 rounded-full" onClick={() => handleViewChange('session_manager')}>
+                            <Plus className="w-4 h-4" />
+                        </Button>
+                    </div>
+
+                    <ScrollArea className="flex-1">
+                        <div className="divide-y divide-slate-100">
+                            {sessions.map(session => (
+                                <button
+                                    key={session.id}
+                                    onClick={() => {
+                                        setCurrentView('session_manager')
+                                        // We might verify session selection logic later
+                                    }}
+                                    className="w-full text-left p-4 hover:bg-white transition-colors group relative"
+                                >
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-teal-400 transition-colors" />
+                                    <div className="flex justify-between items-start mb-1">
+                                        <span className="font-bold text-slate-700 text-sm">
+                                            {format(new Date(session.date), "d MMM yyyy", { locale: es })}
+                                        </span>
+                                        <span className="text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-sm">
+                                            {session.type}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-slate-500 truncate pr-4">
+                                        {session.notes || "Sin notas registradas..."}
+                                    </p>
+                                </button>
+                            ))}
+                            {sessions.length === 0 && (
+                                <div className="p-8 text-center text-xs text-slate-400 italic">
+                                    No hay historial registrado.
+                                </div>
+                            )}
+                        </div>
+                    </ScrollArea>
                 </div>
+            </aside>
 
-                <div className="flex-1 overflow-hidden bg-white relative">
-                    <TabsContent value="overview" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-0">
+            {/* --- RIGHT: MAIN WORKSPACE --- */}
+            <main className="flex-1 bg-slate-100/50 relative overflow-hidden flex flex-col min-w-0">
+
+                {/* View Content Switcher */}
+                <div className="flex-1 overflow-hidden relative">
+
+                    {/* View: OVERVIEW */}
+                    {currentView === 'overview' && (
+                        <div className="h-full overflow-y-auto w-full">
                             <PatientOverview
                                 patient={patient}
-                                lastSession={sessions[0]} // Most recent
+                                lastSession={sessions[0]}
                                 diagnosis={clinicalRecord?.diagnosis || 'En evaluación'}
-                                onStartSession={() => setActiveTab('sessions')}
+                                onStartSession={() => handleViewChange('session_manager')}
                             />
                         </div>
-                    </TabsContent>
+                    )}
 
-                    <TabsContent value="history" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-6">
-                            <AnamnesisSummary
-                                clinicalRecord={clinicalRecord}
-                                sessions={sessions}
-                                patient={patient}
-                            />
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="sessions" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-hidden p-0">
-                            {/* Session Manager needs to handle its own full height */}
+                    {/* View: CLINICAL SESSION MANAGER */}
+                    {currentView === 'session_manager' && (
+                        <div className="h-full w-full bg-white">
+                            {/* Note: SessionManager already has its own layout. 
+                                 We might want to hide its specific sidebar if we use the global one, 
+                                 but user requested "Ecosystem" inside.
+                                 Let's keep SessionManager as is for now, but ensure it fits. 
+                                 Actually, let's embed it fully. 
+                              */}
                             <SessionManager
                                 patientId={patient.id}
                                 sessions={sessions}
@@ -155,52 +219,45 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                 embedded={true}
                             />
                         </div>
-                    </TabsContent>
+                    )}
 
-                    <TabsContent value="tests" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-6 space-y-8">
-                            {/* New Sent Tests Section */}
-                            <SentTestsList assignments={testAssignments} patientId={patient.id} />
-
-                            {/* Existing Completed Tests Section */}
-                            <PatientHistory results={testResults} patientId={patient.id} />
+                    {/* View: TESTS */}
+                    {currentView === 'tests' && (
+                        <div className="h-full overflow-y-auto p-8 w-full">
+                            <div className="max-w-5xl mx-auto space-y-8">
+                                <section>
+                                    <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                        <Network className="w-5 h-5 text-indigo-600" />
+                                        Evaluaciones Pendientes (Test Remotos)
+                                    </h2>
+                                    <SentTestsList assignments={testAssignments} patientId={patient.id} />
+                                </section>
+                                <Separator />
+                                <section>
+                                    <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                        <Files className="w-5 h-5 text-slate-600" />
+                                        Historial de Resultados
+                                    </h2>
+                                    <PatientHistory results={testResults} patientId={patient.id} />
+                                </section>
+                            </div>
                         </div>
-                    </TabsContent>
+                    )}
 
-                    <TabsContent value="plan" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-6">
-                            <TreatmentPlan
-                                patientId={patient.id}
-                                initialDiagnosis={clinicalRecord?.diagnosis}
-                                clinicalRecordId={clinicalRecord?.id}
-                                embedded={true}
-                            />
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="documents" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-y-auto p-6">
+                    {/* View: DOCUMENTS */}
+                    {currentView === 'documents' && (
+                        <div className="h-full overflow-y-auto p-6 w-full bg-white">
                             <DocumentsGenerator
                                 patientId={patient.id}
                                 patientName={patient.full_name}
                             />
                         </div>
-                    </TabsContent>
+                    )}
 
-                    <TabsContent value="genogram" className="h-full m-0 p-0 outline-none data-[state=active]:flex flex-col">
-                        <div className="h-full overflow-hidden p-6">
-                            <GuidedGenogramBuilder
-                                patientName={patient.full_name}
-                                patientGender={patient.gender}
-                                onSave={(data) => {
-                                    // TODO: Save genogram data to Supabase
-                                    console.log('Genogram saved:', data)
-                                }}
-                            />
-                        </div>
-                    </TabsContent>
                 </div>
-            </Tabs >
-        </div >
+
+            </main>
+
+        </div>
     )
 }

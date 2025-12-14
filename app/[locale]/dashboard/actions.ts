@@ -13,7 +13,8 @@ export async function getDashboardStats() {
         { data: allPatients },
         { count: totalPatients },
         { data: recentTests },
-        { data: subscription }
+        { data: subscription },
+        { data: userProfile }
     ] = await Promise.all([
         // 1. Fetch ALL recent patients
         supabase
@@ -36,13 +37,23 @@ export async function getDashboardStats() {
             .order('created_at', { ascending: false })
             .limit(10),
 
-        // 4. Get Subscription Plan
+        // 4. Fetch subscription status
         supabase
             .from('subscriptions')
             .select('plan')
             .eq('user_id', user.id)
+            .eq('status', 'active')
+            .maybeSingle(),
+
+        // 5. Get User Profile
+        supabase
+            .from('profiles')
+            .select('full_name, avatar_url')
+            .eq('id', user.id)
             .single()
     ])
+
+    const profile = userProfile as any
 
     return {
         totalPatients: totalPatients || 0,
@@ -50,6 +61,8 @@ export async function getDashboardStats() {
         allPatients: allPatients || [],
         recentTests: recentTests || [],
         subscriptionPlan: subscription?.plan || 'basic',
-        user_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario'
+        user_name: profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario',
+        avatar_url: profile?.avatar_url
     }
 }
+

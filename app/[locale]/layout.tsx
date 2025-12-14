@@ -72,7 +72,9 @@ export default async function RootLayout({
           <Navbar user={user} plan={subscription?.plan} />
           <AIChatSupport user={user} />
           {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
-          {children}
+          <main className="lg:pl-24 transition-all duration-300">
+            {children}
+          </main>
           <Toaster />
         </NextIntlClientProvider>
       </body>

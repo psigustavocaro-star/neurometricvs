@@ -334,10 +334,10 @@
             "desc": "Un asistente que analiza tus notas de sesión y sugiere insights clínicos, detecta patrones de riesgo y te ayuda a redactar informes más completos.",
             "benefit": "Como tener un colega experto al lado"
         },
-        "PatientPortal": {
-            "title": "Portal de Paciente",
-            "desc": "Tus pacientes pueden ver sus próximas citas, tareas asignadas y completar evaluaciones desde un espacio seguro y privado.",
-            "benefit": "Mejora la adherencia al tratamiento"
+        "MobileAccess": {
+            "title": "Profesional en Movimiento",
+            "desc": "Lleva tu consulta contigo. Aplica tests, revisa expedientes y gestiona tu agenda desde cualquier dispositivo móvil con nuestra interfaz optimizada.",
+            "benefit": "100% Responsive"
         }
     },
     "PricingPage": {

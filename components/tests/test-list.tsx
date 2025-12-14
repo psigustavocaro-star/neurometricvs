@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/ui/search-bar"
 import { FileText, ArrowRight, Star, Clock, Activity, Trash2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { mockTests } from "@/lib/data/mock-tests"
+import { testsCatalog as mockTests } from "@/lib/data/tests-catalog"
 
 export function TestList() {
     const [searchTerm, setSearchTerm] = useState("")

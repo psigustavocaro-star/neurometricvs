@@ -10,7 +10,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { createSession, updateClinicalRecord } from "@/app/[locale]/patients/clinical-actions"
 import { toast } from "sonner"
-import { Loader2, AlertCircle, CheckCircle2 } from "lucide-react"
+import { Loader2, AlertCircle, CheckCircle2, ArrowLeft, Sparkles } from "lucide-react"
+import { VoiceRecorder } from "./voice-recorder"
+import { generateAIInsights } from "@/app/[locale]/patients/clinical-actions"
 
 interface FirstSessionFormProps {
     patientId: string
@@ -72,7 +74,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
         }
     }
 
-    const handleSaveSession = async () => {
+    const handleSaveSession = async (analyze: boolean = false) => {
         if (sessionData.notes.trim().length === 0) {
             toast.error("Por favor agrega notas de la sesión")
             return
@@ -80,10 +82,19 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
         setSaving(true)
         try {
-            await createSession(patientId, sessionData)
-            toast.success("Primera sesión registrada exitosamente")
+            const newSession = await createSession(patientId, sessionData)
+
+            if (analyze && newSession?.id) {
+                toast.info("Generando análisis inicial con IA...")
+                await generateAIInsights(newSession.id, 'Integrativo')
+                toast.success("Análisis generado exitosamente")
+            } else {
+                toast.success("Primera sesión registrada exitosamente")
+            }
+
             onComplete()
         } catch (error) {
+            console.error(error)
             toast.error("Error al guardar sesión")
         } finally {
             setSaving(false)
@@ -148,7 +159,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                                     value={anamnesisData[section.id as keyof typeof anamnesisData]}
                                                     onChange={(e) => handleAnamnesisChange(section.id, e.target.value)}
                                                     placeholder={section.placeholder}
-                                                    className="min-h-[120px] bg-slate-50 border-slate-200 focus:border-teal-300 resize-y"
+                                                    className="min-h-[200px] bg-slate-50 border-slate-200 focus:border-teal-300 resize-y"
                                                 />
                                             </div>
                                         </AccordionContent>
@@ -206,8 +217,14 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                             </div>
                         </div>
 
+
                         <div className="space-y-2">
-                            <Label>Notas Clínicas *</Label>
+                            <div className="flex justify-between items-center">
+                                <Label>Notas Clínicas *</Label>
+                                <VoiceRecorder
+                                    onTranscriptionComplete={(text) => handleSessionChange('notes', sessionData.notes + (sessionData.notes ? '\n\n' : '') + text)}
+                                />
+                            </div>
                             <Textarea
                                 value={sessionData.notes}
                                 onChange={(e) => handleSessionChange('notes', e.target.value)}
@@ -216,21 +233,35 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                             />
                         </div>
 
-                        <div className="flex justify-between mt-6">
+                        <div className="flex justify-between mt-6 pt-4 border-t border-slate-100">
                             <Button
-                                variant="outline"
+                                variant="ghost"
                                 onClick={() => setStep('anamnesis')}
+                                className="text-slate-400 hover:text-slate-600"
                             >
+                                <ArrowLeft className="w-4 h-4 mr-2" />
                                 Volver a Historia
                             </Button>
-                            <Button
-                                onClick={handleSaveSession}
-                                disabled={saving}
-                                className="bg-teal-600 hover:bg-teal-700"
-                            >
-                                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                Completar Primera Sesión
-                            </Button>
+
+                            <div className="flex gap-3">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => handleSaveSession(false)} // Saves without analyzing
+                                    disabled={saving}
+                                    className="border-teal-200 text-teal-700 hover:bg-teal-50"
+                                >
+                                    Guardar Borrador
+                                </Button>
+                                <Button
+                                    onClick={() => handleSaveSession(true)}
+                                    disabled={saving}
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:scale-105 transition-all"
+                                >
+                                    {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                    <Sparkles className="w-4 h-4 mr-2" />
+                                    Completar & Analizar Situación
+                                </Button>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>

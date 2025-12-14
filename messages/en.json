@@ -334,10 +334,10 @@
             "desc": "An assistant that analyzes your session notes and suggests clinical insights, detects risk patterns, and helps you write more complete reports.",
             "benefit": "Like having an expert colleague beside you"
         },
-        "PatientPortal": {
-            "title": "Patient Portal",
-            "desc": "Your patients can view their upcoming appointments, assigned tasks, and complete assessments from a secure and private space.",
-            "benefit": "Improves treatment adherence"
+        "MobileAccess": {
+            "title": "Professional on the Go",
+            "desc": "Take your practice with you. Apply tests, review records, and manage your schedule from any mobile device with our optimized interface.",
+            "benefit": "100% Responsive"
         }
     },
     "PricingPage": {

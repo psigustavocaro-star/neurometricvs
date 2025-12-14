@@ -8,7 +8,7 @@ import { SearchBar } from "@/components/ui/search-bar"
 
 import { FileText, ArrowRight, Star, Clock, Activity } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { mockTests, Test } from "@/lib/data/mock-tests"
+import { testsCatalog as mockTests, Test } from "@/lib/data/tests-catalog"
 import { cn } from "@/lib/utils"
 
 import { PatientSelectorDialog } from "@/components/tests/patient-selector-dialog"

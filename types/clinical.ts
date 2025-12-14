@@ -49,6 +49,8 @@ export interface AIInsight {
     clinical_path_suggestions: string[]
     recommendations: CulturalRecommendation[]
     risk_assessment?: string
+    therapeutic_tools?: string[]
+    clinical_approach?: string
 }
 
 export interface CulturalRecommendation {

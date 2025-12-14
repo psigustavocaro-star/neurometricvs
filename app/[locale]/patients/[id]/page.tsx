@@ -4,102 +4,9 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { PatientDashboard } from '@/components/clinical/patient-dashboard'
 
-// Mock patient data
-const getMockPatient = (id: string) => {
-    const mockData: Record<string, any> = {
-        'mock-1': {
-            id: 'mock-1',
-            full_name: 'María González Pérez',
-            age: 34,
-            gender: 'female',
-            birth_date: '1990-03-15',
-            email: 'maria.gonzalez@email.com',
-            contact_email: 'maria.gonzalez@email.com',
-            phone: '+56 9 8765 4321',
-            diagnosis: 'Trastorno Depresivo Mayor',
-            notes: 'Paciente con episodio depresivo recurrente. Buena adherencia al tratamiento. Muestra mejoría progresiva en últimas sesiones.',
-            occupation: 'Profesora de Educación Básica',
-            education: 'Universitaria Completa',
-            marital_status: 'Casada',
-            sessions_count: 24,
-            created_at: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
-            last_session: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        'mock-2': {
-            id: 'mock-2',
-            full_name: 'Carlos Rodríguez Silva',
-            age: 67,
-            gender: 'male',
-            birth_date: '1957-08-22',
-            email: 'carlos.rodriguez@email.com',
-            contact_email: 'carlos.rodriguez@email.com',
-            phone: '+56 9 7654 3210',
-            diagnosis: 'Deterioro Cognitivo Leve',
-            notes: 'Evaluación neuropsicológica completa. Seguimiento trimestral para monitorear evolución cognitiva. Familia muy comprometida.',
-            occupation: 'Jubilado (Ex-Ingeniero)',
-            education: 'Universitaria Completa',
-            marital_status: 'Casado',
-            sessions_count: 16,
-            created_at: new Date(Date.now() - 240 * 24 * 60 * 60 * 1000).toISOString(),
-            last_session: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        'mock-3': {
-            id: 'mock-3',
-            full_name: 'Ana Martínez López',
-            age: 28,
-            gender: 'female',
-            birth_date: '1996-11-08',
-            email: 'ana.martinez@email.com',
-            contact_email: 'ana.martinez@email.com',
-            phone: '+56 9 6543 2109',
-            diagnosis: 'Trastorno de Ansiedad Generalizada',
-            notes: 'Paciente joven con alta motivación al cambio. Responde bien a terapia cognitivo-conductual. Practica técnicas de relajación regularmente.',
-            occupation: 'Diseñadora Gráfica',
-            education: 'Universitaria Completa',
-            marital_status: 'Soltera',
-            sessions_count: 12,
-            created_at: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
-            last_session: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        'mock-4': {
-            id: 'mock-4',
-            full_name: 'Roberto Silva Morales',
-            age: 45,
-            gender: 'male',
-            birth_date: '1979-05-30',
-            email: 'roberto.silva@email.com',
-            contact_email: 'roberto.silva@email.com',
-            phone: '+56 9 5432 1098',
-            diagnosis: 'Trastorno por Déficit de Atención (TDAH Adulto)',
-            notes: 'Diagnóstico tardío de TDAH. En proceso de ajuste de medicación. Mejora significativa en organización y productividad laboral.',
-            occupation: 'Gerente de Proyectos',
-            education: 'Universitaria Completa',
-            marital_status: 'Divorciado',
-            sessions_count: 18,
-            created_at: new Date(Date.now() - 150 * 24 * 60 * 60 * 1000).toISOString(),
-            last_session: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-        'mock-5': {
-            id: 'mock-5',
-            full_name: 'Laura Fernández Castro',
-            age: 16,
-            gender: 'female',
-            birth_date: '2008-02-14',
-            email: 'laura.fernandez@email.com',
-            contact_email: 'laura.fernandez@email.com',
-            phone: '+56 9 4321 0987',
-            diagnosis: 'Trastorno de Ansiedad Social',
-            notes: 'Adolescente con dificultades en interacción social. Asiste con madre. Progreso gradual en exposición a situaciones sociales.',
-            occupation: 'Estudiante Secundaria',
-            education: 'Secundaria en Curso',
-            marital_status: 'Soltera',
-            sessions_count: 15,
-            created_at: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
-            last_session: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        }
-    }
-    return mockData[id] || null
-}
+
+
+
 
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const supabase = await createClient()
@@ -113,7 +20,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         .single()
 
     // Use mock data if patient doesn't exist
-    const patientData = patient || getMockPatient(id)
+    const patientData = patient
 
     if (!patientData) {
         return (
@@ -162,7 +69,9 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             .eq('patient_id', id)
             .order('date', { ascending: false })
 
-        if (sess) sessions = sess
+        if (sess) {
+            sessions = sess
+        }
     } catch (e) {
         console.warn('Clinical Sessions fetch failed')
     }
@@ -186,8 +95,8 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         <div className="container pt-24 pb-10">
             <div className="mb-4">
                 <Button variant="ghost" asChild className="mb-2 pl-0 hover:bg-transparent hover:text-teal-600">
-                    <Link href="/patients">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Pacientes
+                    <Link href="/dashboard">
+                        <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Dashboard
                     </Link>
                 </Button>
             </div>
