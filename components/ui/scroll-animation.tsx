@@ -9,6 +9,7 @@ interface ScrollAnimationProps {
     animation?: "fade-up" | "fade-in" | "slide-in-right" | "slide-in-left" | "scale-up"
     delay?: number
     duration?: number
+    viewport?: { once?: boolean; margin?: string; amount?: "some" | "all" | number }
 }
 
 export function ScrollAnimation({
@@ -16,7 +17,8 @@ export function ScrollAnimation({
     className,
     animation = "fade-up",
     delay = 0,
-    duration = 0.5
+    duration = 0.5,
+    viewport = { once: true, margin: "-50px" }
 }: ScrollAnimationProps) {
 
     const getVariants = () => {
@@ -58,7 +60,7 @@ export function ScrollAnimation({
         <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={viewport}
             variants={getVariants()}
             transition={{
                 duration: duration,

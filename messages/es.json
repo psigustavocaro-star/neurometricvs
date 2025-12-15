@@ -124,6 +124,8 @@
     "Pricing": {
         "title": "Planes Transparentes",
         "subtitle": "Precios en USD. Conversión automática a tu moneda local.",
+        "whats_included": "Qué incluye",
+        "close": "Cerrar",
         "basic": {
             "name": "Básico",
             "description": "Para comenzar",
@@ -283,37 +285,37 @@
             "name": "Dra. Elena Vaquerizo",
             "role": "Psicóloga Clínica",
             "text": "Antes tardaba horas tabulando el PHQ-9. Ahora es instantáneo y las nuevas gráficas visuales son excelentes para explicar el progreso al paciente.",
-            "img": "/assets/v3/female-1.png"
+            "img": "/assets/v4/female-1.png"
         },
         "1": {
             "name": "Dr. Samuel Cohen",
             "role": "Neurólogo",
             "text": "La suite de evaluación cognitiva es robusta. Me permite detectar deterioro leve mucho antes que con métodos tradicionales.",
-            "img": "/assets/v3/male-1.png"
+            "img": "/assets/v4/male-1.png"
         },
         "2": {
             "name": "Lic. Mariana Castillo",
             "role": "Terapeuta Ocupacional",
             "text": "La personalización de la plataforma es increíble. Puedo adaptar los informes a lo que realmente necesito comunicar a las familias.",
-            "img": "/assets/v3/female-2.png"
+            "img": "/assets/v4/female-2.png"
         },
         "3": {
             "name": "Dr. Alberto Rossi",
             "role": "Psiquiatra",
             "text": "El asistente de IA para pre-llenar la anamnesis es como tener un residente extra. Me ahorra al menos 20 minutos por paciente.",
-            "img": "/assets/v3/male-2.png"
+            "img": "/assets/v4/male-2.png"
         },
         "4": {
             "name": "Dra. Patricia Solís",
             "role": "Psicóloga Infantil",
             "text": "A los niños les encanta la interfaz en la tablet. Es mucho menos intimidante que el papel y lápiz.",
-            "img": "/assets/v3/female-3.png"
+            "img": "/assets/v4/female-3.png"
         },
         "5": {
             "name": "Ps. Lucas Méndez",
             "role": "Psicólogo Organizacional",
             "text": "Gestionar evaluaciones masivas de clima laboral nunca fue tan fácil. Los reportes agregados son una joya.",
-            "img": "/assets/v3/male-3.png"
+            "img": "/assets/v4/male-3.png"
         }
     },
     "FeaturesPage": {

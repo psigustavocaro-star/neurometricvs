@@ -10,9 +10,9 @@ import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
 import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
 import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
-import { PriceDisplay } from "@/components/pricing/price-display"
 import { DemoModal } from "@/components/landing/demo-modal"
 import { FeaturesSection } from "@/components/landing/features-section"
+import { PricingSection } from "@/components/landing/pricing-section"
 
 export default function LandingPage() {
   const tHero = useTranslations('Hero');
@@ -29,35 +29,37 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
       <VerticalNavbar />
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section id="hero" className="w-full pt-10 md:pt-14 lg:pt-20 pb-24 md:pb-28 overflow-hidden relative">
-          {/* Animated Mesh Background */}
-          <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/50 via-white to-white">
-            <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-teal-100/40 blur-[120px] animate-mesh mix-blend-multiply"></div>
-            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-cyan-100/40 blur-[100px] animate-mesh animation-delay-2000 mix-blend-multiply"></div>
-          </div>
+      <main className="flex-1 relative bg-white dark:bg-slate-950 transition-colors duration-300">
+        {/* Unified Background Grid - Continuous Flow */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] dark:opacity-5" />
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-teal-200/20 dark:bg-teal-900/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-200/20 dark:bg-indigo-900/10 blur-[100px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute bottom-[10%] left-[20%] w-[40%] h-[40%] rounded-full bg-indigo-200/20 dark:bg-slate-800/10 blur-[100px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
+        </div>
 
+        {/* Hero Section */}
+        <section id="hero" className="w-full pt-10 md:pt-14 lg:pt-20 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
           <div className="container px-4 md:px-6 relative z-10">
 
-            <div className="grid gap-6 lg:grid-cols-[1fr_500px] lg:gap-6 xl:grid-cols-[1fr_700px] items-center">
-              <div className="flex flex-col justify-center space-y-4 mt-8 md:-mt-24 lg:-mt-32 items-center text-center lg:items-start lg:text-left">
+            <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-center">
+              <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl/none text-slate-900 drop-shadow-sm text-balance">
+                  <h1 className="text-4xl font-extrabold dark:font-bold tracking-tight sm:text-5xl xl:text-7xl/none text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-balance max-w-3xl">
                     <span dangerouslySetInnerHTML={{ __html: tHero.raw('title') }} />
                   </h1>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={200}>
-                  <p className="max-w-[700px] text-slate-600 md:text-xl leading-relaxed text-balance mx-auto lg:mx-0">
+                  <p className="max-w-[650px] text-slate-600 dark:text-slate-400 md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-medium dark:font-light">
                     {tHero('subtitle')}
                   </p>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={300}>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto">
                     <Button asChild size="lg" className="relative overflow-hidden bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg shadow-teal-700/20 rounded-full px-8 h-12 text-base group">
                       <Link href="/onboarding">
                         <span className="relative z-10 flex items-center">{tHero('cta_primary')} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
@@ -115,11 +117,11 @@ export default function LandingPage() {
         <FeaturesSection />
 
         {/* Testimonials Section (Relatos) */}
-        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-slate-50/50 relative overflow-hidden">
-          {/* Floating Background Elements */}
+        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden">
+          {/* Floating Background Elements - Kept for vibe but transparent wrapper */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-white rounded-full blur-3xl opacity-60"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-60"></div>
+            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-white/40 rounded-full blur-3xl opacity-60"></div>
+            <div className="absolute bottom-[10%] right-[5%] w-80 h-80 bg-blue-50/40 rounded-full blur-3xl opacity-60"></div>
           </div>
 
           <div className="container px-4 md:px-6 relative z-10">
@@ -138,124 +140,23 @@ export default function LandingPage() {
 
 
         {/* Pricing Section */}
-        <section id="pricing" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-slate-50/50 relative overflow-hidden">
-          <div className="container px-4 md:px-6 relative z-10">
-            <ScrollAnimation>
-              <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-slate-900">{tPricing('title')}</h2>
-                  <p className="max-w-[900px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    {tPricing('subtitle')}
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimation>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8 items-start max-w-5xl mx-auto perspective-1000">
-              {/* Plan Básico */}
-              <ScrollAnimation delay={0} className="h-full">
-                <div className="flex flex-col p-6 bg-white shadow-lg rounded-2xl border border-slate-100 transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:z-50 hover:border-teal-200 relative h-full group">
-                  <div className="space-y-2 text-center">
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">{tPricing('basic.name')}</h3>
-                    <p className="text-slate-500 text-sm">{tPricing('basic.description')}</p>
-                  </div>
-                  <div className="mt-4 text-center">
-                    <PriceDisplay amount={10} priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC} />
-                    <p className="text-xs text-teal-600 font-semibold mt-1">{tPricing('basic.trial')}</p>
-                  </div>
-                  <ul className="mt-8 space-y-4 flex-1">
-                    {tPricing.raw('basic.features').map((feature: any, i: number) => (
-                      <li key={i} className="flex items-center text-sm text-slate-600">
-                        <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8">
-                    <Button asChild className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-xl h-12 transition-all shadow-md hover:shadow-lg">
-                      <Link href="/onboarding?plan=basic">{tPricing('basic.cta')}</Link>
-                    </Button>
-                  </div>
-                </div>
-              </ScrollAnimation>
-
-              {/* Plan Clínico */}
-              <ScrollAnimation delay={150} className="h-full z-10">
-                <div className="flex flex-col p-6 bg-white shadow-2xl rounded-2xl border-2 border-teal-600 transform md:-translate-y-4 relative z-10 transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_20px_50px_rgba(15,118,110,0.2)] hover:z-50 h-full">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">
-                    {tPricing('clinical.badge')}
-                  </div>
-                  <div className="space-y-2 text-center">
-                    <h3 className="text-xl font-bold text-slate-900">{tPricing('clinical.name')}</h3>
-                    <p className="text-slate-500 text-sm">{tPricing('clinical.description')}</p>
-                  </div>
-                  <div className="mt-4 text-center">
-                    <PriceDisplay amount={15} priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL} />
-                    <p className="text-xs text-teal-600 font-semibold mt-1">{tPricing('clinical.trial')}</p>
-                  </div>
-                  <ul className="mt-8 space-y-4 flex-1">
-                    {tPricing.raw('clinical.features').map((feature: any, i: number) => (
-                      <li key={i} className="flex items-center text-sm text-slate-700 font-medium">
-                        <div className="bg-teal-50 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-teal-700" /></div> {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8">
-                    <Button asChild className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none rounded-xl h-12 shadow-lg shadow-teal-600/30 relative overflow-hidden group">
-                      <Link href="/onboarding?plan=clinical">
-                        <span className="relative z-10">{tPricing('clinical.cta')}</span>
-                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </ScrollAnimation>
-
-              {/* Plan Pro */}
-              <ScrollAnimation delay={300} className="h-full">
-                <div className="flex flex-col p-6 bg-white shadow-lg rounded-2xl border border-slate-100 transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:z-50 hover:border-teal-200 relative h-full group">
-                  <div className="space-y-2 text-center">
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">{tPricing('pro.name')}</h3>
-                    <p className="text-slate-500 text-sm">{tPricing('pro.description')}</p>
-                  </div>
-                  <div className="mt-4 text-center">
-                    <PriceDisplay amount={65} period="/año" priceId={process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO} />
-                    <p className="text-xs text-teal-600 font-semibold mt-1"> <span dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} /></p>
-                  </div>
-                  <div className="text-center text-xs text-green-600 font-bold mt-2 bg-green-50 inline-block mx-auto px-2 py-1 rounded-md">
-                    {tPricing('pro.savings_badge')}
-                  </div>
-                  <ul className="mt-8 space-y-4 flex-1">
-                    {tPricing.raw('pro.features').map((feature: any, i: number) => (
-                      <li key={i} className="flex items-center text-sm text-slate-600">
-                        <div className="bg-green-100 p-1 rounded-full mr-3"><Check className="h-3 w-3 text-green-600" /></div> {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8">
-                    <Button asChild className="w-full bg-white border-2 border-slate-200 text-slate-900 hover:bg-slate-50 rounded-xl h-12 transition-all shadow-sm hover:shadow-md">
-                      <Link href="/onboarding?plan=pro">{tPricing('pro.cta')}</Link>
-                    </Button>
-                  </div>
-                </div>
-              </ScrollAnimation>
-            </div>
-          </div>
-        </section>
+        <PricingSection />
         {/* FAQ Section */}
-        <section id="faq" className="w-full pt-12 md:pt-24 pb-48 md:pb-64 bg-white relative overflow-hidden">
+        <section id="faq" className="w-full pt-12 md:pt-24 pb-48 md:pb-64 bg-transparent relative overflow-hidden">
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900">{tFAQ('title')}</h2>
-                <p className="mt-4 text-slate-500 md:text-lg">{tFAQ('subtitle')}</p>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900 dark:text-white">{tFAQ('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 md:text-lg">{tFAQ('subtitle')}</p>
               </div>
             </ScrollAnimation>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
               {tFAQ.raw('items').map((faq: any, i: number) => (
                 <ScrollAnimation key={i} delay={i * 50}>
-                  <Card className="border border-slate-100 shadow-md bg-slate-50 transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-white hover:border-teal-200 relative group h-full">
+                  <Card className="border border-slate-100 dark:border-slate-800 shadow-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-white dark:hover:bg-slate-900 hover:border-teal-200 dark:hover:border-teal-800 relative group h-full">
                     <CardContent className="p-6">
-                      <h3 className="font-bold text-slate-900 mb-2 group-hover:text-teal-700 transition-colors">{faq.q}</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
+                      <h3 className="font-bold text-slate-900 dark:text-white mb-2 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors">{faq.q}</h3>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                         {faq.a}
                       </p>
                     </CardContent>
@@ -266,7 +167,7 @@ export default function LandingPage() {
           </div>
 
           {/* Trust Section (Moved) */}
-          <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-white relative overflow-hidden">
+          <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-transparent relative overflow-hidden">
             <div className="container px-4 md:px-6 relative z-10">
               <ScrollAnimation animation="fade-in">
                 <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">

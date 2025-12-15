@@ -6,17 +6,19 @@ import { Calendar, Bell, ChevronRight, User, Stethoscope, Video, Mic } from "luc
 export function MockMobileApp() {
     return (
         <div className="w-full h-full flex items-center justify-center py-8">
-            {/* Mobile Frame - Larger and more premium */}
-            <div className="w-[280px] h-[550px] bg-slate-900 rounded-[3rem] border-[8px] border-slate-900 shadow-2xl overflow-hidden relative ring-1 ring-slate-800/50">
-                {/* Dynamic Island / Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-30 flex items-center justify-center">
-                    <div className="w-16 h-4 bg-black rounded-full grid place-items-center">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500/50 animate-pulse" />
+            {/* Mobile Frame - Clean iPhone 15 Pro Style */}
+            <div className="w-[300px] h-[620px] bg-black rounded-[55px] border-[8px] border-slate-900 shadow-2xl overflow-hidden relative ring-1 ring-white/20">
+                {/* Dynamic Island */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-30 flex items-center justify-center pointer-events-none">
+                    <div className="w-[80px] h-[20px] bg-black rounded-full grid place-items-center relative">
+                        {/* Camera/Sensor indicators */}
+                        <div className="absolute right-3 w-3 h-3 rounded-full bg-[#1a1a1a]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500/20" />
                     </div>
                 </div>
 
-                {/* Status Bar */}
-                <div className="h-12 bg-slate-50 w-full absolute top-0 z-20" />
+                {/* Status Bar Overlay */}
+                <div className="h-14 w-full absolute top-0 z-20 bg-gradient-to-b from-black/0 to-transparent pointer-events-none" />
 
                 {/* App Content */}
                 <div className="w-full h-full bg-slate-50 overflow-hidden flex flex-col font-sans">
@@ -28,7 +30,7 @@ export function MockMobileApp() {
                             <h3 className="text-slate-900 font-bold text-lg leading-tight">Dr. Gustavo</h3>
                         </div>
                         <div className="w-10 h-10 bg-slate-100 rounded-full border border-slate-200 flex items-center justify-center relative">
-                            <img src="/assets/v2/male-1.png" alt="Profile" className="w-full h-full object-cover rounded-full opacity-90" />
+                            <img src="/assets/v2/dr-profile.png" alt="Profile" className="w-full h-full object-cover rounded-full opacity-90" />
                             <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white" />
                         </div>
                     </div>
@@ -36,7 +38,7 @@ export function MockMobileApp() {
                     {/* Scrollable Body */}
                     <div className="flex-1 overflow-hidden relative p-4 space-y-4">
 
-                        {/* Up Next Card */}
+                        {/* Latest Assessment Card - Removed Scheduling */}
                         <motion.div
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -44,18 +46,22 @@ export function MockMobileApp() {
                             className="bg-indigo-600 rounded-2xl p-4 text-white shadow-lg shadow-indigo-600/20 relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-3 opacity-10">
-                                <Video className="w-24 h-24 text-white" />
+                                <Stethoscope className="w-24 h-24 text-white" />
                             </div>
                             <div className="relative z-10">
-                                <span className="inline-block px-2 py-0.5 rounded bg-white/20 text-[10px] font-medium mb-3 backdrop-blur-sm">En 10 minutos</span>
-                                <h4 className="font-bold text-lg mb-0.5">Sesión con M. Rodríguez</h4>
-                                <p className="text-indigo-200 text-xs mb-4">Terapia Cognitivo Conductual</p>
+                                <span className="inline-block px-2 py-0.5 rounded bg-white/20 text-[10px] font-medium mb-3 backdrop-blur-sm">Último Resultado</span>
+                                <h4 className="font-bold text-lg mb-0.5">M. Rodríguez</h4>
+                                <p className="text-indigo-200 text-xs mb-4">Evaluación PHQ-9 & GAD-7</p>
 
                                 <div className="flex gap-2">
-                                    <button className="flex-1 bg-white text-indigo-700 py-2 rounded-xl text-xs font-bold text-center">Iniciar Video</button>
-                                    <button className="w-9 h-9 bg-indigo-500 rounded-xl flex items-center justify-center text-white border border-indigo-400">
-                                        <Mic className="w-4 h-4" />
-                                    </button>
+                                    <div className="flex-1 bg-white/10 rounded-xl p-2 border border-white/10 backdrop-blur-sm">
+                                        <p className="text-[10px] text-indigo-200 uppercase tracking-wider font-bold">Depresión</p>
+                                        <p className="text-xl font-bold">12 <span className="text-[10px] font-normal opacity-70">Moderado</span></p>
+                                    </div>
+                                    <div className="flex-1 bg-white/10 rounded-xl p-2 border border-white/10 backdrop-blur-sm">
+                                        <p className="text-[10px] text-indigo-200 uppercase tracking-wider font-bold">Ansiedad</p>
+                                        <p className="text-xl font-bold">08 <span className="text-[10px] font-normal opacity-70">Leve</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>

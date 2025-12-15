@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
 import { WeatherTimeWidget } from "@/components/layout/weather-time-widget"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LayoutDashboard, Users, CreditCard, UserCircle, LogOut, Search, FileText, Home, Globe, ChevronDown } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
@@ -86,7 +87,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
     ]
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/50 py-2' : 'bg-transparent py-4'}`}>
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-sm border-b border-slate-200/50 dark:border-slate-800/50 py-2' : 'bg-transparent py-4'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-14 md:h-16">
                     {/* Logo */}
@@ -108,54 +109,57 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                         className={cn(
                                             "px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2",
                                             pathname === link.href
-                                                ? "bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200"
-                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                                ? "bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200 dark:bg-teal-900/20 dark:text-teal-400 dark:ring-teal-800"
+                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                                         )}
                                     >
                                         <span className="truncate">{link.name}</span>
                                     </Link>
                                 ))}
-                                <div className="h-6 w-px bg-slate-200 mx-2" />
+                                <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
                             </>
                         ) : (
                             <>
-                                <Link href="/" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
                                     {t('home')}
                                 </Link>
-                                <Link href="/features" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/features" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
                                     {t('features')}
                                 </Link>
-                                <Link href="/pricing" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/pricing" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
                                     {t('pricing')}
                                 </Link>
-                                <Link href="/testimonials" className="text-slate-600 hover:text-teal-600 font-medium px-4 py-2 transition-colors">
+                                <Link href="/testimonials" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
                                     {t('testimonials')}
                                 </Link>
                             </>
                         )}
+
+                        <ThemeToggle />
+                        <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="ml-2 text-slate-500 font-bold hover:text-teal-600 outline-none"
+                                    className="ml-2 text-slate-500 font-bold hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 outline-none"
                                     data-testid="language-switcher-trigger"
                                 >
                                     <Globe className="h-4 w-4 mr-1" />
                                     {locale.toUpperCase()} <ChevronDown className="h-3 w-3 ml-1 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-[120px]">
+                            <DropdownMenuContent align="end" className="w-[120px] dark:bg-slate-950 dark:border-slate-800">
                                 <DropdownMenuItem
                                     onClick={() => router.replace(pathname, { locale: 'es' })}
-                                    className={cn("cursor-pointer", locale === 'es' && "bg-teal-50 text-teal-700 font-medium")}
+                                    className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'es' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
                                 >
                                     🇪🇸 Español
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     onClick={() => router.replace(pathname, { locale: 'en' })}
-                                    className={cn("cursor-pointer", locale === 'en' && "bg-teal-50 text-teal-700 font-medium")}
+                                    className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'en' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
                                 >
                                     🇺🇸 English
                                 </DropdownMenuItem>

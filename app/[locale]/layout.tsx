@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
 import "../globals.css";
+import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { createClient } from "@/lib/supabase/server";
 import { AIChatSupport } from "@/components/layout/ai-chat-support";
@@ -12,10 +13,11 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
-const inter = Inter({
+const fontSans = Lato({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
+  weight: ["100", "300", "400", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
     url: "https://neurometricslatam.com",
     siteName: "Neurometrics",
     locale: "es_ES",
-    locale: "es_ES",
+
     type: "website",
   },
   icons: {
@@ -66,16 +68,18 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${inter.variable} antialiased font-sans`}
+        className={`${fontSans.variable} antialiased font-sans`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Navbar user={user} plan={subscription?.plan} />
-          <AIChatSupport user={user} />
-          {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
-          <main className="lg:pl-24 transition-all duration-300">
-            {children}
-          </main>
-          <Toaster />
+          <Providers>
+            <Navbar user={user} plan={subscription?.plan} />
+            <AIChatSupport user={user} />
+            {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
+            <main className="transition-all duration-300">
+              {children}
+            </main>
+            <Toaster />
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -100,7 +100,7 @@ export function AIChatSupport({ user }: { user?: User | null }) {
                 <Card className="w-80 md:w-96 shadow-2xl border-teal-100 animate-in slide-in-from-bottom-10 fade-in duration-300 cursor-default" onPointerDown={(e) => e.stopPropagation()}>
                     <CardHeader className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-t-xl p-4 flex flex-row items-center justify-between space-y-0 shadow-md">
                         <div className="flex items-center gap-3">
-                            <div className="bg-white/20 p-1.5 rounded-xl backdrop-blur-sm border border-white/10 shadow-inner">
+                            <div className="bg-white dark:bg-black p-1.5 rounded-xl backdrop-blur-sm border border-white/10 shadow-inner shrink-0">
                                 <Image
                                     src="/neurometrics-logo-small.png"
                                     alt="Neurometrics Logo"
@@ -110,7 +110,7 @@ export function AIChatSupport({ user }: { user?: User | null }) {
                                 />
                             </div>
                             <div>
-                                <CardTitle className="text-base font-bold tracking-tight">Chat IA</CardTitle>
+                                <CardTitle className="text-base font-bold tracking-tight">Neurometrics IA</CardTitle>
                                 <p className="text-xs text-teal-50 font-medium opacity-90 flex items-center gap-1.5">
                                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
                                     Soporte digital

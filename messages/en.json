@@ -132,6 +132,8 @@
     "Pricing": {
         "title": "Transparent Plans",
         "subtitle": "Prices in USD. Automatic conversion to your local currency.",
+        "whats_included": "What's included",
+        "close": "Close",
         "basic": {
             "name": "Basic",
             "description": "To start",

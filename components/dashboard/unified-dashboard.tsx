@@ -17,7 +17,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
     const [searchTerm, setSearchTerm] = useState('')
 
     // Filter patients based on search
-    const filteredPatients = stats.recentPatients.filter((p: any) =>
+    const filteredPatients = (stats.recentPatients || []).filter((p: any) =>
         p.full_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
@@ -231,7 +231,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         {/* Feed Items (Simulated from all activities) */}
                         <div className="relative pl-4 border-l border-slate-200 space-y-6">
 
-                            {stats.recentActivity.map((activity: any, i: number) => (
+                            {(stats.recentActivity || []).map((activity: any, i: number) => (
                                 <div key={i} className="relative">
                                     <div className="absolute -left-[21px] top-0 w-3 h-3 rounded-full border-2 border-white ring-1 ring-slate-200 bg-slate-400"></div>
                                     <p className="text-xs font-medium text-slate-800 mb-0.5">{activity.description}</p>
