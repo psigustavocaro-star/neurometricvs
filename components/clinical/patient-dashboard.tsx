@@ -199,6 +199,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                 lastSession={sessions[0]}
                                 diagnosis={clinicalRecord?.diagnosis || 'En evaluación'}
                                 onStartSession={() => handleViewChange('session_manager')}
+                                sessions={sessions}
                             />
                         </div>
                     )}

@@ -2,17 +2,26 @@
 
 import { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
-import { Mic, Square, Loader2 } from "lucide-react"
+import { Mic, Square, Loader2, Sparkles } from "lucide-react"
 import { toast } from "sonner"
 
 interface VoiceRecorderProps {
     onTranscriptionComplete: (text: string) => void
+    onSummaryComplete?: (summary: string) => void
+    patientName?: string
     isProcessing?: boolean
 }
 
-export function VoiceRecorder({ onTranscriptionComplete, isProcessing: externalProcessing }: VoiceRecorderProps) {
+export function VoiceRecorder({
+    onTranscriptionComplete,
+    onSummaryComplete,
+    patientName,
+    isProcessing: externalProcessing
+}: VoiceRecorderProps) {
     const [isRecording, setIsRecording] = useState(false)
     const [isTranscribing, setIsTranscribing] = useState(false)
+    const [isSummarizing, setIsSummarizing] = useState(false)
+    const [lastTranscription, setLastTranscription] = useState<string | null>(null)
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
     const chunksRef = useRef<Blob[]>([])
 
@@ -71,6 +80,7 @@ export function VoiceRecorder({ onTranscriptionComplete, isProcessing: externalP
             }
 
             const data = await response.json()
+            setLastTranscription(data.text)
             onTranscriptionComplete(data.text)
             toast.success("Transcripción completada")
         } catch (error) {
@@ -81,33 +91,93 @@ export function VoiceRecorder({ onTranscriptionComplete, isProcessing: externalP
         }
     }
 
+    const generateSummary = async () => {
+        if (!lastTranscription) {
+            toast.error("No hay transcripción para resumir")
+            return
+        }
+
+        setIsSummarizing(true)
+        try {
+            const response = await fetch('/api/summarize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: lastTranscription,
+                    patientName: patientName
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error('Summarization failed')
+            }
+
+            const data = await response.json()
+            if (onSummaryComplete) {
+                onSummaryComplete(data.summary)
+            }
+            toast.success("Resumen IA generado")
+        } catch (error) {
+            console.error('Summarization error:', error)
+            toast.error("Error al generar resumen")
+        } finally {
+            setIsSummarizing(false)
+        }
+    }
+
     const isProcessing = isTranscribing || externalProcessing
 
     return (
-        <Button
-            type="button"
-            variant={isRecording ? "destructive" : "outline"}
-            size="sm"
-            onClick={isRecording ? stopRecording : startRecording}
-            disabled={isProcessing}
-            className={`gap-2 transition-all ${isRecording ? 'animate-pulse' : ''}`}
-        >
-            {isProcessing ? (
-                <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Transcribiendo...
-                </>
-            ) : isRecording ? (
-                <>
-                    <Square className="h-4 w-4 fill-current" />
-                    Detener Grabación
-                </>
-            ) : (
-                <>
-                    <Mic className="h-4 w-4" />
-                    Grabar Notas
-                </>
+        <div className="flex items-center gap-2">
+            <Button
+                type="button"
+                variant={isRecording ? "destructive" : "outline"}
+                size="sm"
+                onClick={isRecording ? stopRecording : startRecording}
+                disabled={isProcessing || isSummarizing}
+                className={`gap-2 transition-all ${isRecording ? 'animate-pulse' : ''}`}
+            >
+                {isProcessing ? (
+                    <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Transcribiendo...
+                    </>
+                ) : isRecording ? (
+                    <>
+                        <Square className="h-4 w-4 fill-current" />
+                        Detener
+                    </>
+                ) : (
+                    <>
+                        <Mic className="h-4 w-4" />
+                        Grabar
+                    </>
+                )}
+            </Button>
+
+            {lastTranscription && onSummaryComplete && (
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={generateSummary}
+                    disabled={isSummarizing || isProcessing}
+                    className="gap-2 text-purple-600 border-purple-200 hover:bg-purple-50"
+                >
+                    {isSummarizing ? (
+                        <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Resumiendo...
+                        </>
+                    ) : (
+                        <>
+                            <Sparkles className="h-4 w-4" />
+                            Resumir IA
+                        </>
+                    )}
+                </Button>
             )}
-        </Button>
+        </div>
     )
 }
+

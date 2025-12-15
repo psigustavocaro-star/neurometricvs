@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
 import { Providers } from "@/app/providers";
-import { Navbar } from "@/components/layout/navbar";
+import { ConditionalNavbar } from "@/components/layout/conditional-navbar";
 import { createClient } from "@/lib/supabase/server";
 import { AIChatSupport } from "@/components/layout/ai-chat-support";
 import { AdminMenu } from "@/components/admin/admin-menu";
@@ -13,11 +13,11 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
-const fontSans = Lato({
+const fontSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
-  weight: ["100", "300", "400", "700", "900"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -72,7 +72,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <Navbar user={user} plan={subscription?.plan} />
+            <ConditionalNavbar user={user} plan={subscription?.plan} />
             <AIChatSupport user={user} />
             {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
             <main className="transition-all duration-300">

@@ -5,7 +5,7 @@ import { Brain, Sparkles, MessageSquare, Plus } from "lucide-react"
 
 export function MockAICopilot() {
     return (
-        <div className="w-full h-full bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50 ring-1 ring-slate-900/5">
+        <div className="w-full h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-900/5 dark:ring-white/5">
             {/* AI Header */}
             <div className="h-20 bg-gradient-to-r from-indigo-600 to-indigo-800 flex items-center px-6 justify-between relative shadow-md shrink-0">
                 <div

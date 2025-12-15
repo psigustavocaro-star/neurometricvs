@@ -14,18 +14,18 @@ export function InstitutionsMarquee() {
     return (
         <div className="w-full overflow-hidden relative">
             {/* Gradient Masks */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-10"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
 
             <div className="flex gap-12 w-max animate-infinite-scroll hover:pause">
                 {/* Double the list for seamless loop */}
                 {[...institutions, ...institutions].map((item, i) => (
-                    <div key={i} className="flex flex-col items-center justify-center grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
-                        <div className="h-12 w-auto flex items-center justify-center">
+                    <div key={i} className="flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                        <div className="h-16 w-32 flex items-center justify-center bg-white p-2 rounded-lg shadow-sm">
                             <img
                                 src={item.logo}
                                 alt={`Logo ${item.name}`}
-                                className="h-full w-auto object-contain max-w-[150px] dark:brightness-0 dark:invert"
+                                className="h-full w-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                             />
                         </div>
                     </div>

@@ -35,7 +35,16 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
     useEffect(() => {
         setMounted(true)
         setCurrentUser(user)
-    }, [user])
+
+        // Double-check session on mount
+        const checkSession = async () => {
+            const { data: { user: sessionUser } } = await supabase.auth.getUser()
+            if (sessionUser) {
+                setCurrentUser(sessionUser)
+            }
+        }
+        checkSession()
+    }, [user, supabase])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -77,13 +86,10 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
         router.replace(pathname, { locale: nextLocale });
     }
 
-    const dashboardLinks = [
+    // Simplified navbar links - detailed navigation is in the Workstation sidebar
+    const navLinks = [
         { name: t("home"), href: "/", icon: Home },
-        { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
-        { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
-        ...((plan === 'clinical' || plan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
-        { name: t("subscription"), href: "/dashboard/subscription", icon: CreditCard },
-        { name: t("profile"), href: "/profile", icon: UserCircle },
+        { name: "Workstation", href: "/dashboard", icon: LayoutDashboard },
     ]
 
     return (
@@ -94,7 +100,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                     <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <img src="/logo.png?v=3" alt="Neurometrics Logo" className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105" />
+                            <img src="/logo.png?v=3" alt="Neurometrics Logo" className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" />
                         </div>
                     </Link>
 
@@ -102,7 +108,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                     <div className="hidden md:flex items-center space-x-1">
                         {currentUser ? (
                             <>
-                                {dashboardLinks.map((link) => (
+                                {navLinks.map((link) => (
                                     <Link
                                         key={link.href}
                                         href={link.href}
@@ -244,15 +250,15 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
 
             {/* Mobile Menu Content (Simplified re-implementation) */}
             {isMobileMenuOpen && (
-                <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-lg absolute w-full">
+                <div className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-lg absolute w-full">
                     <div className="px-4 pt-2 pb-6 space-y-2">
                         {/* Mobile links implementation omitted for brevity in this specific fix, keeping existing structure would be best if I had full content, but I will assume critical desktop functionality is priority for demo. 
                             Actually, I should check if I can keep the existing mobile menu logic. 
                             I'll verify via view_file if I need to.
                             But standard mobile menu logic is fairly generic.
                         */}
-                        <Link href="/features" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('features')}</Link>
-                        <Link href="/pricing" className="block px-3 py-2 text-slate-600" onClick={() => setIsMobileMenuOpen(false)}>{t('pricing')}</Link>
+                        <Link href="/features" className="block px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400" onClick={() => setIsMobileMenuOpen(false)}>{t('features')}</Link>
+                        <Link href="/pricing" className="block px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400" onClick={() => setIsMobileMenuOpen(false)}>{t('pricing')}</Link>
                     </div>
                 </div>
             )}

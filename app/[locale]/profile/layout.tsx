@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/layout/app-shell"
 import { createClient } from "@/lib/supabase/server"
 
-export default async function DashboardLayout({
+export default async function ProfileLayout({
     children,
 }: {
     children: React.ReactNode
@@ -26,4 +26,3 @@ export default async function DashboardLayout({
         </AppShell>
     )
 }
-

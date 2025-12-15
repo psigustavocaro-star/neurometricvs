@@ -127,8 +127,8 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900">{tTests('title')}</h2>
-                <p className="mt-4 text-slate-500 md:text-lg">{tTests('subtitle')}</p>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900 dark:text-white">{tTests('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 md:text-lg">{tTests('subtitle')}</p>
               </div>
             </ScrollAnimation>
             <div className="mt-12">

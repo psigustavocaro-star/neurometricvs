@@ -201,14 +201,17 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
                                 <label className="text-sm font-bold text-slate-700">Notas de Evolución</label>
-                                <div className="scale-90 origin-right">
-                                    <VoiceRecorder
-                                        onTranscriptionComplete={(text) => setFormData(prev => ({
-                                            ...prev,
-                                            notes: prev.notes ? `${prev.notes}\n\n${text}` : text
-                                        }))}
-                                    />
-                                </div>
+                                <VoiceRecorder
+                                    patientName={patientName}
+                                    onTranscriptionComplete={(text) => setFormData(prev => ({
+                                        ...prev,
+                                        notes: prev.notes ? `${prev.notes}\n\n${text}` : text
+                                    }))}
+                                    onSummaryComplete={(summary) => setFormData(prev => ({
+                                        ...prev,
+                                        notes: prev.notes ? `${prev.notes}\n\n---\n## Resumen IA\n${summary}` : `## Resumen IA\n${summary}`
+                                    }))}
+                                />
                             </div>
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-teal-50/50 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />

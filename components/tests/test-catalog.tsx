@@ -57,7 +57,7 @@ export function TestCatalog() {
                         placeholder="Buscar test por nombre, categoría o descripción..."
                         className="w-full md:w-96"
                     />
-                    <div className="text-sm text-slate-500 font-medium">
+                    <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                         {filteredTests.length} {filteredTests.length === 1 ? 'test encontrado' : 'tests encontrados'}
                     </div>
                 </div>
@@ -67,7 +67,7 @@ export function TestCatalog() {
                         <select
                             value={activeCategory}
                             onChange={(e) => setActiveCategory(e.target.value)}
-                            className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-10 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-teal-300 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                            className="w-full appearance-none rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2.5 pr-10 text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm transition-colors hover:border-teal-300 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
                         >
                             <option value="all">Todas las categorías</option>
                             {categories
@@ -90,7 +90,7 @@ export function TestCatalog() {
                         <select
                             value={activeAge}
                             onChange={(e) => setActiveAge(e.target.value)}
-                            className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-4 py-2.5 pr-10 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-teal-300 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                            className="w-full appearance-none rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2.5 pr-10 text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm transition-colors hover:border-teal-300 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
                         >
                             <option value="all">Todas las edades</option>
                             {ageRanges
@@ -119,15 +119,15 @@ export function TestCatalog() {
                         transition={{ duration: 0.3 }}
                         layout
                     >
-                        <Card className="group hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-teal-200 overflow-hidden relative h-full flex flex-col">
+                        <Card className="group hover:shadow-lg transition-all duration-300 border-slate-200 dark:border-slate-700 dark:bg-slate-900 hover:border-teal-200 dark:hover:border-teal-700 overflow-hidden relative h-full flex flex-col">
                             <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                             <CardHeader className="pb-3">
                                 <div className="flex flex-wrap gap-2 mb-2 pr-8">
-                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-teal-50 text-teal-700 border-transparent">
+                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 border-transparent">
                                         {test.category}
                                     </div>
-                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors bg-blue-50 text-blue-700 border-transparent">
+                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-transparent">
                                         {test.ageRange}
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@ export function TestCatalog() {
                                     </button>
                                 </div>
 
-                                <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors flex items-center gap-2">
+                                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors flex items-center gap-2">
                                     <Link href={`/dashboard/tests/${test.id}`} className="hover:underline decoration-teal-500 underline-offset-4">
                                         {test.name}
                                     </Link>
@@ -151,7 +151,7 @@ export function TestCatalog() {
                             </CardHeader>
 
                             <CardContent className="flex-1 flex flex-col justify-end">
-                                <div className="flex items-center gap-4 text-xs text-slate-500 mb-4 bg-white/50 p-2 rounded-lg border border-slate-100">
+                                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4 bg-white/50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
                                     <div className="flex items-center gap-1">
                                         <Clock className="h-3.5 w-3.5" /> {test.duration}
                                     </div>
@@ -174,10 +174,10 @@ export function TestCatalog() {
 
                 {filteredTests.length === 0 && (
                     <div className="col-span-full text-center py-16">
-                        <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="bg-slate-50 dark:bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                             <FileText className="h-8 w-8 text-slate-300" />
                         </div>
-                        <h3 className="text-lg font-medium text-slate-900">No se encontraron tests</h3>
+                        <h3 className="text-lg font-medium text-slate-900 dark:text-white">No se encontraron tests</h3>
                         <p className="text-slate-500">Intenta ajustar tus filtros de búsqueda.</p>
                         <Button
                             variant="link"

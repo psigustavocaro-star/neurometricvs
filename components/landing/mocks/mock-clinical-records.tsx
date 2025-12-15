@@ -21,9 +21,9 @@ export function MockClinicalRecords() {
     }, [])
 
     return (
-        <div className="w-full h-full bg-white rounded-2xl border border-slate-100 overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50 ring-1 ring-slate-900/5">
+        <div className="w-full h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-900/5 dark:ring-white/5">
             {/* Toolbar */}
-            <div className="h-16 bg-slate-50/80 border-b border-slate-100 flex items-center px-8 justify-between shrink-0 backdrop-blur-sm">
+            <div className="h-16 bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700 flex items-center px-8 justify-between shrink-0 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
                     <div className="h-3 w-3 rounded-full bg-red-400/80 shadow-sm" />
                     <div className="h-3 w-3 rounded-full bg-amber-400/80 shadow-sm" />

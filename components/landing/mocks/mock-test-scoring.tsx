@@ -38,8 +38,8 @@ export function MockTestScoring() {
                 </div>
             </div>
 
-            <div className="flex-1 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/20 flex flex-col justify-center items-center">
-                <div className="scale-125 origin-center w-full flex justify-center p-6">
+            <div className="flex-1 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/40 flex flex-col justify-center items-center">
+                <div className="w-full flex justify-center p-6">
                     <AnimatePresence mode="wait">
                         {step === 0 && (
                             <motion.div
@@ -55,17 +55,17 @@ export function MockTestScoring() {
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex justify-between items-center"
+                                        className="bg-white dark:bg-slate-800/80 p-3 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm flex justify-between items-center backdrop-blur-sm"
                                     >
                                         <div className="space-y-2">
-                                            <div className="h-2.5 w-32 bg-slate-100 dark:bg-slate-800 rounded-full" />
-                                            <div className="h-2 w-20 bg-slate-50 dark:bg-slate-800/50 rounded-full" />
+                                            <div className="h-2 w-24 bg-slate-200 dark:bg-slate-600 rounded-md" />
+                                            <div className="h-1.5 w-16 bg-slate-100 dark:bg-slate-700 rounded-md" />
                                         </div>
                                         <div className="flex gap-2">
                                             {[0, 1, 2, 3].map(opt => (
                                                 <div key={opt} className={cn(
-                                                    "w-4 h-4 rounded-full border border-slate-200 dark:border-slate-700 transition-colors duration-500",
-                                                    opt === 2 ? "bg-teal-500 border-teal-500 dark:bg-teal-500 dark:border-teal-500 scale-110" : "bg-transparent"
+                                                    "w-3 h-3 rounded-full border border-slate-300 dark:border-slate-600 transition-colors duration-500",
+                                                    opt === 2 ? "bg-teal-500 border-teal-500 dark:bg-teal-500 dark:border-teal-400 scale-110 shadow-sm" : "bg-slate-50 dark:bg-slate-800"
                                                 )} />
                                             ))}
                                         </div>
@@ -139,7 +139,7 @@ export function MockTestScoring() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                                className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-teal-100 dark:border-teal-500/30 shadow-xl shadow-teal-900/5 dark:shadow-black/50 relative overflow-hidden w-full max-w-[320px]"
+                                className="bg-white dark:bg-slate-950 rounded-2xl p-8 border border-teal-100 dark:border-teal-500/30 shadow-xl shadow-teal-900/5 dark:shadow-black/50 relative overflow-hidden w-full max-w-[320px]"
                             >
                                 <motion.div
                                     className="absolute -right-4 -top-4 bg-teal-50 dark:bg-teal-900/20 w-32 h-32 rounded-full blur-2xl"

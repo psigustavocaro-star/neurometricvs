@@ -81,12 +81,19 @@ export function PricingSection() {
                                 <div
                                     onClick={() => handleCardClick(plan.key)}
                                     className={cn(
-                                        "flex flex-col p-8 rounded-2xl border transition-all duration-300 ease-out relative h-full cursor-pointer group",
-                                        "bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none",
+                                        "flex flex-col p-6 md:p-8 rounded-2xl border transition-all duration-300 ease-out relative h-full cursor-pointer group",
+                                        // Light Mode
+                                        "bg-white shadow-xl hover:shadow-2xl",
+                                        // Dark Mode: 100% Solid to hide background artifacts
+                                        "dark:bg-slate-900 dark:shadow-none",
                                         isSelected
-                                            ? "ring-2 ring-teal-500 border-teal-500 transform scale-[1.03] shadow-2xl z-30"
-                                            : "border-slate-100 dark:border-slate-800 hover:scale-[1.02] hover:shadow-2xl hover:z-20 hover:border-teal-100 dark:hover:border-teal-800",
-                                        isClinical && !isSelected && "border-teal-500 shadow-teal-900/10 dark:shadow-teal-900/20 md:-translate-y-6 z-10"
+                                            ? "border-teal-500 dark:border-teal-500 ring-1 ring-teal-500 dark:ring-teal-500 z-30"
+                                            : cn(
+                                                "border-slate-200 dark:border-slate-800",
+                                                "hover:border-teal-300 dark:hover:border-slate-700 hover:-translate-y-1"
+                                            ),
+                                        // Clinical Card tweaks
+                                        isClinical && !isSelected && "border-teal-100 dark:border-teal-900/30 md:-translate-y-4 z-10"
                                     )}
                                 >
                                     {isClinical && (
@@ -149,7 +156,7 @@ export function PricingSection() {
                                         <Button
                                             asChild
                                             className={cn(
-                                                "w-full rounded-xl h-12 transition-all shadow-md hover:shadow-lg font-medium",
+                                                "w-full rounded-xl h-12 transition-all shadow-md hover:shadow-lg font-medium relative overflow-hidden",
                                                 isClinical
                                                     ? "bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none shadow-lg shadow-teal-600/20"
                                                     : plan.key === 'pro'

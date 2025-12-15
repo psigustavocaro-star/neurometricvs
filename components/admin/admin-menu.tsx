@@ -51,7 +51,7 @@ export function AdminMenu() {
             dragMomentum={false}
             onDragStart={() => { isDraggingRef.current = true }}
             onDragEnd={() => { setTimeout(() => { isDraggingRef.current = false }, 150) }}
-            className="fixed top-24 left-4 z-50 cursor-move"
+            className="fixed bottom-28 right-6 z-50 cursor-move"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
         >

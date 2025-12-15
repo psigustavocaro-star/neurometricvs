@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { ChevronRight, ChevronLeft, CheckCircle2, Save } from 'lucide-react'
+import { ChevronRight, ChevronLeft, CheckCircle2, Save, Shuffle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { saveTestResult } from '@/app/[locale]/tests/actions'
@@ -24,13 +24,27 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
     const [answers, setAnswers] = useState<Record<string, number>>({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isCompleted, setIsCompleted] = useState(false)
-    const [finalScore, setFinalScore] = useState<any>(null) // Local result state
+    const [finalScore, setFinalScore] = useState<any>(null)
     const router = useRouter()
 
     const totalSteps = test.questions.length
     const progress = ((currentStep) / totalSteps) * 100
 
     const currentQuestion = test.questions[currentStep]
+
+    // Generate random answers for all questions (for testing purposes)
+    const fillRandomData = () => {
+        const randomAnswers: Record<string, number> = {}
+        test.questions.forEach((question) => {
+            if (question.options && question.options.length > 0) {
+                const randomIndex = Math.floor(Math.random() * question.options.length)
+                randomAnswers[question.id] = question.options[randomIndex].value
+            }
+        })
+        setAnswers(randomAnswers)
+        setCurrentStep(totalSteps - 1) // Go to last question
+        toast.success("Datos aleatorios generados. Revisa y finaliza la evaluación.")
+    }
 
     const handleAnswer = (val: string) => {
         setAnswers(prev => ({ ...prev, [currentQuestion.id]: parseInt(val) }))
@@ -51,7 +65,7 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
     }
 
     const calculateAndSave = async () => {
-        // Calculation logic (duplicated from previous runner for now, needs consolidating)
+        // Calculation logic
         let totalScore = 0
         Object.values(answers).forEach(v => totalScore += v)
 
@@ -130,6 +144,19 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
                 <Progress value={progress} className="h-2" />
             </div>
 
+            {/* Random Data Generator Button */}
+            <div className="flex justify-end">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={fillRandomData}
+                    className="text-amber-600 border-amber-200 hover:bg-amber-50 hover:text-amber-700"
+                >
+                    <Shuffle className="w-4 h-4 mr-2" />
+                    Generar datos aleatorios
+                </Button>
+            </div>
+
             {/* Question Card */}
             <AnimatePresence mode='wait'>
                 <motion.div
@@ -206,3 +233,4 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
         </div>
     )
 }
+

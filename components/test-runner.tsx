@@ -1,6 +1,6 @@
 'use client'
 
-import { StepByStepTestRunner } from '@/components/clinical/step-by-step-test-runner'
+import { ListTestRunner } from '@/components/clinical/list-test-runner'
 import { TestDefinition } from '@/types/test'
 import { useSearchParams } from 'next/navigation'
 
@@ -9,9 +9,10 @@ export function TestRunner({ test }: { test: TestDefinition }) {
     const patientId = searchParams.get('patientId')
 
     return (
-        <StepByStepTestRunner
+        <ListTestRunner
             test={test}
             patientId={patientId || undefined}
         />
     )
 }
+

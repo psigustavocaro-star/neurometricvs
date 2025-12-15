@@ -20,10 +20,14 @@ export function PriceDisplay({ amount, period = '/mes', className = '', priceId 
 
     return (
         <div className={`flex flex-col items-center ${className}`}>
-            <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-slate-900">${amount}</span>
-                <span className="text-lg font-bold text-slate-500">USD</span>
-                <span className="text-slate-500 text-sm ml-1">{period}</span>
+            <div className="flex items-baseline justify-center gap-1">
+                <span className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    ${amount}
+                </span>
+                <span className="text-xl font-bold text-slate-500 dark:text-slate-400">
+                    USD
+                </span>
+                {period && <span className="text-sm font-medium text-slate-400 dark:text-slate-500">{period}</span>}
             </div>
 
             {/* Reference Price Badge */}

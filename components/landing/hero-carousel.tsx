@@ -105,7 +105,6 @@ export function HeroCarousel() {
                     >
                         <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.3)] border border-slate-200/50 group bg-slate-900 ring-1 ring-white/20">
                             {/* Image with slight zoom effect on hover */}
-                            {/* Image with slight zoom effect on hover */}
                             <img
                                 src={slides[currentSlide].image}
                                 alt={slides[currentSlide].alt}
@@ -141,9 +140,6 @@ export function HeroCarousel() {
                                     </div>
 
                                     <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                                        <div className="w-10 h-10 rounded-full bg-teal-600 flex items-center justify-center font-bold text-white shadow-inner">
-                                            {slides[currentSlide].author.charAt(0)}
-                                        </div>
                                         <div className="flex flex-col">
                                             <span className="font-bold text-base text-white tracking-tight">{slides[currentSlide].author}</span>
                                             <span className="text-sm text-teal-400 font-medium tracking-wide">{slides[currentSlide].role}</span>

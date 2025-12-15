@@ -15,10 +15,7 @@ export function TestimonialsMarquee() {
     }));
 
     return (
-        <div className="w-full overflow-hidden relative">
-            {/* Gradient Masks for smooth fade edges - Adaptive Dark Mode */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-slate-950 dark:via-slate-950/80 dark:to-transparent z-10 pointer-events-none"></div>
+        <div className="w-full overflow-hidden relative [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
 
             <div className="flex w-max animate-marquee-slow gap-8 py-4">
                 {/* Original Set */}
@@ -36,8 +33,8 @@ export function TestimonialsMarquee() {
 
 function TestimonialCard({ t }: { t: { name: string, role: string, text: string, img: string } }) {
     return (
-        <div className="w-[350px] md:w-[400px] flex-shrink-0">
-            <Card className="border-none shadow-lg bg-slate-50 dark:bg-slate-900/50 dark:border dark:border-slate-800 hover:shadow-xl transition-shadow h-full backdrop-blur-sm">
+        <div className="w-[290px] md:w-[400px] flex-shrink-0">
+            <Card className="border-none shadow-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:shadow-xl transition-shadow h-full">
                 <CardContent className="p-6 flex flex-col gap-4 h-full">
                     <div className="flex gap-1 text-yellow-400">
                         {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-4 h-4 fill-current" />)}
