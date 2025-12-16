@@ -12,7 +12,7 @@ export function VerticalNavbar() {
     const navItems = [
         { id: 'hero', label: t('hero'), icon: Home },
         { id: 'mobile', label: t('mobile'), icon: Smartphone },
-        { id: 'testimonials', label: t('testimonials'), icon: MessageSquare },
+        { id: '/#testimonials', label: t('testimonials'), icon: MessageSquare },
         { id: 'trust', label: t('trust'), icon: Shield },
         { id: 'pricing', label: t('pricing'), icon: CreditCard },
         { id: 'faq', label: t('faq'), icon: HelpCircle },

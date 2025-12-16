@@ -119,7 +119,7 @@ export async function generateAIInsights(sessionId: string, approach: string = '
 
     // 2. Call Gemini
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash', generationConfig: { responseMimeType: "application/json" } })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash', generationConfig: { responseMimeType: "application/json" } })
 
     const prompt = `
     Actúa como un Supervisor Clínico Experto y "Cultural Therapist".
@@ -215,23 +215,34 @@ export async function generateProfessionalReport(
 ) {
     const supabase = await createClient()
 
-    // 1. Fetch Full Context
-    const { data: patient } = await supabase
+    // 1. Fetch patient data (separate queries to avoid schema relationship issues)
+    const { data: patient, error: patientError } = await supabase
         .from('patients')
-        .select(`
-        *,
-        clinical_records(*),
-        test_results(*),
-        clinical_sessions(*)
-            `)
+        .select('*')
         .eq('id', patientId)
         .single()
 
-    if (!patient) throw new Error('Patient not found')
+    if (!patient) throw new Error(`Patient not found: ${patientError?.message || 'No data returned'}`)
+
+    // Fetch related data separately
+    const [clinicalRecordsRes, testResultsRes, sessionsRes] = await Promise.all([
+        supabase.from('clinical_records').select('*').eq('patient_id', patientId).single(),
+        supabase.from('test_results').select('*').eq('patient_id', patientId),
+        supabase.from('clinical_sessions').select('*').eq('patient_id', patientId).order('date', { ascending: false })
+    ])
+
+    // Merge data
+    const patientWithData = {
+        ...patient,
+        clinical_records: clinicalRecordsRes.data,
+        test_results: testResultsRes.data || [],
+        clinical_sessions: sessionsRes.data || []
+    }
+
     if (!process.env.GOOGLE_API_KEY) throw new Error('API Key missing')
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }) // Standard text model for reports
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }) // Standard text model for reports
 
     // 2. Construct Prompt based on Type
     let systemPrompt = ''
@@ -239,19 +250,19 @@ export async function generateProfessionalReport(
 
     const patientContext = `
     PACIENTE:
-    - Nombre: ${patient.full_name}
-    - Fecha Nacimiento: ${patient.birth_date} (Edad calculada: ${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()})
-    - Género: ${patient.gender}
+    - Nombre: ${patientWithData.full_name}
+    - Fecha Nacimiento: ${patientWithData.birth_date} (Edad calculada: ${new Date().getFullYear() - new Date(patientWithData.birth_date).getFullYear()})
+    - Género: ${patientWithData.gender}
     
     HISTORIAL CLÍNICO:
-    - Diagnóstico Actual: ${patient.clinical_records?.diagnosis || 'En evaluación'}
-    - Anamnesis: ${JSON.stringify(patient.clinical_records?.anamnesis || {})}
+    - Diagnóstico Actual: ${patientWithData.clinical_records?.diagnosis || 'En evaluación'}
+    - Anamnesis: ${JSON.stringify(patientWithData.clinical_records?.anamnesis || {})}
     
     SESIONES RECIENTES:
-    ${patient.clinical_sessions?.slice(0, 5).map((s: any) => `- [${new Date(s.date).toLocaleDateString()}] (${s.type}): ${s.notes?.substring(0, 200)}...`).join('\n')}
+    ${patientWithData.clinical_sessions?.slice(0, 5).map((s: any) => `- [${new Date(s.date).toLocaleDateString()}] (${s.type}): ${s.notes?.substring(0, 200)}...`).join('\n')}
     
     RESULTADOS DE TESTS:
-    ${patient.test_results?.map((t: any) => `- [${t.test_id}]: Score ${t.results_json?.score} (${t.results_json?.label})`).join('\n')}
+    ${patientWithData.test_results?.map((t: any) => `- [${t.test_id}]: Score ${t.results_json?.score} (${t.results_json?.label})`).join('\n')}
     `
 
     if (type === 'clinical_report') {

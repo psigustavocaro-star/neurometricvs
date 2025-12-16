@@ -114,6 +114,13 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
     const commonOptions = test.questions[0]?.options || []
 
     if (isCompleted && finalScore) {
+        // Calculate max possible score
+        const maxPossibleScore = test.questions.reduce((acc, q) => {
+            const maxOpt = q.options ? Math.max(...q.options.map(o => Number(o.value))) : 0
+            return acc + maxOpt
+        }, 0)
+        const percentageScore = Math.round((finalScore.score / maxPossibleScore) * 100)
+
         return (
             <Card className="w-full max-w-4xl mx-auto text-center py-10">
                 <CardContent className="space-y-6">
@@ -123,6 +130,25 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
                     <div>
                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Evaluación Completada</h2>
                         <p className="text-slate-500 dark:text-slate-400">Los resultados han sido registrados.</p>
+                    </div>
+
+                    {/* Score Summary */}
+                    <div className={cn(
+                        "max-w-sm mx-auto p-6 rounded-xl border-2",
+                        finalScore.color === 'green' && "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800",
+                        finalScore.color === 'red' && "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800",
+                        finalScore.color === 'yellow' && "bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800",
+                        finalScore.color === 'orange' && "bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-800",
+                    )}>
+                        <p className="text-4xl font-bold text-slate-800 dark:text-white">{finalScore.score}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">de {maxPossibleScore} puntos ({percentageScore}%)</p>
+                        <p className={cn(
+                            "text-lg font-semibold mt-2",
+                            finalScore.color === 'green' && "text-green-600 dark:text-green-400",
+                            finalScore.color === 'red' && "text-red-600 dark:text-red-400",
+                            finalScore.color === 'yellow' && "text-yellow-600 dark:text-yellow-400",
+                            finalScore.color === 'orange' && "text-orange-600 dark:text-orange-400",
+                        )}>{finalScore.label}</p>
                     </div>
 
                     {/* Subscale Results */}
@@ -161,13 +187,14 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
                             onClick={() => resultId && router.push(`/reports/${resultId}`)}
                             disabled={!resultId}
                         >
-                            Generar Informe
+                            Ver Informe Profesional
                         </Button>
                     </div>
                 </CardContent>
             </Card>
         )
     }
+
 
     return (
         <div className="w-full max-w-5xl mx-auto space-y-6 py-6 px-4">

@@ -44,8 +44,8 @@ export default function BlogPage() {
             <main className="flex-1 pt-24 pb-12">
                 <div className="container px-4 md:px-6">
                     <div className="max-w-3xl mx-auto text-center mb-12">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-4">Blog Neurometrics</h1>
-                        <p className="text-xl text-slate-600">Últimas noticias sobre neurociencia, psicometría y salud mental.</p>
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Blog Neurometrics</h1>
+                        <p className="text-xl text-slate-600 dark:text-slate-300">Últimas noticias sobre neurociencia, psicometría y salud mental.</p>
                         <p className="text-sm text-slate-400 mt-2">Actualizado diariamente desde fuentes globales.</p>
                     </div>
 
@@ -77,7 +77,7 @@ export default function BlogPage() {
                                             <CardTitle className="text-lg group-hover:text-teal-700 transition-colors line-clamp-2">{article.title}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="flex-1">
-                                            <p className="text-slate-500 text-sm line-clamp-3">
+                                            <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-3">
                                                 {article.description}
                                             </p>
                                         </CardContent>

@@ -4,7 +4,6 @@ import "../globals.css";
 import { Providers } from "@/app/providers";
 import { ConditionalNavbar } from "@/components/layout/conditional-navbar";
 import { createClient } from "@/lib/supabase/server";
-import { AIChatSupport } from "@/components/layout/ai-chat-support";
 import { AdminMenu } from "@/components/admin/admin-menu";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -73,7 +72,6 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ConditionalNavbar user={user} plan={subscription?.plan} />
-            <AIChatSupport user={user} />
             {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
             <main className="transition-all duration-300">
               {children}

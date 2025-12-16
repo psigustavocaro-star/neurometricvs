@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Home } from 'lucide-react'
 import { PatientDashboard } from '@/components/clinical/patient-dashboard'
 
 
@@ -92,22 +92,24 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
     }
 
     return (
-        <div className="container pt-20 pb-6">
-            <div className="mb-2">
-                <Button variant="ghost" asChild className="pl-0 hover:bg-transparent hover:text-teal-600">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+            <div className="container py-4">
+                <Button variant="ghost" asChild className="mb-4 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 -ml-2">
                     <Link href="/dashboard">
                         <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Dashboard
                     </Link>
                 </Button>
             </div>
 
-            <PatientDashboard
-                patient={patientData}
-                clinicalRecord={clinicalRecord}
-                sessions={sessions}
-                testResults={testResults || []}
-                testAssignments={testAssignments}
-            />
+            <div className="container py-6">
+                <PatientDashboard
+                    patient={patientData}
+                    clinicalRecord={clinicalRecord}
+                    sessions={sessions}
+                    testResults={testResults || []}
+                    testAssignments={testAssignments}
+                />
+            </div>
         </div>
     )
 }

@@ -8,7 +8,7 @@ export interface Option {
 export interface Question {
     id: string
     text: string
-    type: QuestionType
+    type?: QuestionType
     options?: Option[]
     min?: number
     max?: number
@@ -19,6 +19,7 @@ export interface ScoringRange {
     max: number
     label: string
     color: string
+    description?: string
 }
 
 export interface Subscale {
@@ -26,17 +27,22 @@ export interface Subscale {
     name: string
     questionIds: string[]
     scoringType?: 'sum' | 'average'
-    ranges: ScoringRange[]
+    ranges?: ScoringRange[]
+    description?: string
 }
 
 export interface TestDefinition {
     id: string
     title: string
     description: string
+    instructions?: string
+    authors?: string
+    reference?: string
     questions: Question[]
     scoring?: {
         type?: 'sum' | 'average'
         ranges: ScoringRange[]
+        interpretation?: string
     }
     subscales?: Subscale[]
 }

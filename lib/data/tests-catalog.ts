@@ -95,6 +95,17 @@ export const testsCatalog: Test[] = [
         questions: 25,
         ageRange: "18+ años"
     },
+    {
+        id: "caras-r",
+        name: "CARAS-R",
+        description: "Test de Percepción de Diferencias para evaluar atención visual y control de impulsividad. Ref: Thurstone, L.L. y Yela, M. (2012)",
+        category: "TDAH",
+        type: "Atención Visual",
+        duration: "3 min",
+        questions: 60,
+        isFavorite: true,
+        ageRange: "6-18 años"
+    },
 
     // Problemas Psicosociales / Conducta
     {
@@ -120,13 +131,14 @@ export const testsCatalog: Test[] = [
         ageRange: "8-18 años"
     },
     {
-        id: "scared-padres",
+        id: "scared",
         name: "SCARED (Padres)",
-        description: "Reporte de padres para evaluar trastornos de ansiedad en sus hijos. Ref: Birmaher, B., et al. (1997)",
+        description: "Reporte de padres para evaluar trastornos de ansiedad en sus hijos. 5 subescalas: Pánico, TAG, Separación, Social, Escolar. Ref: Birmaher, B., et al. (1997)",
         category: "Ansiedad",
         type: "Heteroreporte",
         duration: "10-15 min",
         questions: 41,
+        isFavorite: true,
         ageRange: "8-18 años"
     },
     {

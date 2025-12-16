@@ -23,8 +23,8 @@
         "faq": "Ayuda"
     },
     "Hero": {
-        "title": "La Suite Clínica <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Definitiva</span> para Salud Mental.",
-        "subtitle": "Software profesional para psicólogos, psiquiatras y neurólogos. Ficha clínica avanzada, corrección de tests y un Co-piloto IA que potencia tu práctica.",
+        "title": "Tu Suite Clínica Digital <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Integral</span> para Salud Mental.",
+        "subtitle": "Software profesional para psicólogos, psiquiatras y neurólogos. Ficha clínica avanzada, corrección automática de tests y herramientas digitales que potencian tu práctica.",
         "cta_primary": "Comenzar Prueba Gratis",
         "cta_secondary": "Ver Demo",
         "trusted_by": "Usado por +500 profesionales"
@@ -96,11 +96,11 @@
         "patients": "Pacientes",
         "new": "Nuevo",
         "new_patient": "Nueva Sesión Clínica",
-        "analyzing": "IA Analizando Sesión...",
-        "processing": "Generando Recetas Culturales...",
-        "report_ready": "Insights Listos",
+        "analyzing": "Procesando Sesión...",
+        "processing": "Generando Recomendaciones...",
+        "report_ready": "Informe Listo",
         "generated_moment": "Generado hace un momento",
-        "download_pdf": "Ver Análisis IA"
+        "download_pdf": "Ver Informe PDF"
     },
     "MobileSection": {
         "badge": "Disponible en iOS y Android",
@@ -146,8 +146,8 @@
             "features": [
                 "Ficha Clínica Completa & Anamnesis",
                 "Gestión de Sesiones & Notas",
-                "Co-Piloto IA (Análisis de Sesiones)",
-                "Recetas Culturales (Cine/Libros)"
+                "Análisis de Datos Clínicos",
+                "Recomendaciones Culturales"
             ]
         },
         "pro": {
@@ -302,7 +302,7 @@
         "3": {
             "name": "Dr. Alberto Rossi",
             "role": "Psiquiatra",
-            "text": "El asistente de IA para pre-llenar la anamnesis es como tener un residente extra. Me ahorra al menos 20 minutos por paciente.",
+            "text": "La herramienta de pre-llenado de anamnesis es como tener un asistente extra. Me ahorra al menos 20 minutos por paciente.",
             "img": "/assets/v4/male-2.png"
         },
         "4": {
@@ -332,14 +332,19 @@
             "benefit": "100% libre de errores humanos"
         },
         "AICopilot": {
-            "title": "Co-Piloto con IA",
-            "desc": "Un asistente que analiza tus notas de sesión y sugiere insights clínicos, detecta patrones de riesgo y te ayuda a redactar informes más completos.",
-            "benefit": "Como tener un colega experto al lado"
+            "title": "Gestión Clínica Integra",
+            "desc": "Un sistema que centraliza tus notas de sesión, visualiza el progreso del paciente y estructura tus informes profesionales automáticamente.",
+            "benefit": "Tu consultorio digital completo"
         },
         "MobileAccess": {
             "title": "Profesional en Movimiento",
             "desc": "Lleva tu consulta contigo. Aplica tests, revisa expedientes y gestiona tu agenda desde cualquier dispositivo móvil con nuestra interfaz optimizada.",
             "benefit": "100% Responsive"
+        },
+        "PatientPortal": {
+            "title": "Evaluación Móvil Simplificada",
+            "desc": "Interfaz adaptable para tablets y celulares. Aplica tests en consulta o permite que el paciente responda cómodamente desde su dispositivo sin instalaciones.",
+            "benefit": "Accesibilidad Universal"
         }
     },
     "PricingPage": {

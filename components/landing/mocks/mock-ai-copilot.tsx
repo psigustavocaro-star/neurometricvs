@@ -1,13 +1,14 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Brain, Sparkles, MessageSquare, Plus } from "lucide-react"
+import { FileText, ClipboardList, Plus } from "lucide-react"
 
 export function MockAICopilot() {
     return (
         <div className="w-full h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col shadow-2xl shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-900/5 dark:ring-white/5">
             {/* AI Header */}
-            <div className="h-20 bg-gradient-to-r from-indigo-600 to-indigo-800 flex items-center px-6 justify-between relative shadow-md shrink-0">
+            {/* Header */}
+            <div className="h-20 bg-gradient-to-r from-teal-600 to-teal-800 flex items-center px-6 justify-between relative shadow-md shrink-0">
                 <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
@@ -16,16 +17,16 @@ export function MockAICopilot() {
                 />
                 <div className="flex items-center gap-4 relative z-10">
                     <div className="bg-white/10 p-2.5 rounded-xl border border-white/20 backdrop-blur-md shadow-inner">
-                        <Brain className="h-5 w-5 text-indigo-50" />
+                        <FileText className="h-5 w-5 text-teal-50" />
                     </div>
                     <div>
-                        <span className="text-white text-base font-bold tracking-wide block leading-none mb-1">Co-Piloto IA</span>
-                        <span className="text-indigo-200 text-[10px] uppercase tracking-wider font-medium">Asistente Clínico</span>
+                        <span className="text-white text-base font-bold tracking-wide block leading-none mb-1">Panel Clínico</span>
+                        <span className="text-teal-200 text-[10px] uppercase tracking-wider font-medium">Gestión de Casos</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 bg-indigo-950/30 px-3 py-1.5 rounded-full border border-indigo-400/30 backdrop-blur-sm relative z-10">
+                <div className="flex items-center gap-2 bg-teal-950/30 px-3 py-1.5 rounded-full border border-teal-400/30 backdrop-blur-sm relative z-10">
                     <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.6)]" />
-                    <span className="text-[11px] text-indigo-50 font-semibold tracking-wide">En línea</span>
+                    <span className="text-[11px] text-teal-50 font-semibold tracking-wide">Sistema Activo</span>
                 </div>
             </div>
 
@@ -37,20 +38,20 @@ export function MockAICopilot() {
                 {/* User Message */}
                 <div className="flex gap-4 justify-end relative z-10">
                     <div className="bg-white text-slate-700 text-sm p-5 rounded-3xl rounded-tr-none max-w-[85%] border border-slate-200 shadow-sm leading-relaxed">
-                        Paciente menciona insomnio recurrente y falta de concentración durante el trabajo, lo que afecta su rendimiento.
+                        Nota de sesión: Paciente menciona insomnio recurrente y falta de concentración durante el trabajo.
                     </div>
                     <div className="w-8 h-8 rounded-full bg-slate-200 border-2 border-white shadow-sm shrink-0" />
                 </div>
 
-                {/* AI Thinking */}
+                {/* System Output */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
                     className="flex gap-4 relative z-10"
                 >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30 border-2 border-white">
-                        <Sparkles className="h-5 w-5 text-white" />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/30 border-2 border-white">
+                        <ClipboardList className="h-5 w-5 text-white" />
                     </div>
                     <div className="space-y-4 max-w-[90%]">
                         <motion.div
@@ -59,22 +60,22 @@ export function MockAICopilot() {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 1, type: "spring", stiffness: 200 }}
                         >
-                            <div className="absolute left-0 top-0 w-1.5 h-full bg-gradient-to-b from-indigo-500 to-violet-500" />
-                            <p className="font-bold mb-3 text-indigo-700 flex items-center gap-2 text-xs uppercase tracking-wider">
-                                <Brain className="w-3.5 h-3.5" /> Análisis Clínico Preliminar
+                            <div className="absolute left-0 top-0 w-1.5 h-full bg-gradient-to-b from-teal-500 to-emerald-500" />
+                            <p className="font-bold mb-3 text-teal-700 flex items-center gap-2 text-xs uppercase tracking-wider">
+                                <FileText className="w-3.5 h-3.5" /> Resumen del Caso
                             </p>
                             <ul className="space-y-3 list-none pl-1">
                                 <li className="flex items-start gap-3">
-                                    <span className="w-2 h-2 rounded-full bg-indigo-100 border border-indigo-300 mt-1.5 shrink-0" />
-                                    <span>Síntomas sugieren posible <b>Trastorno de Ansiedad Generalizada (TAG)</b>.</span>
+                                    <span className="w-2 h-2 rounded-full bg-teal-100 border border-teal-300 mt-1.5 shrink-0" />
+                                    <span>Sintomatología compatible con <b>TAG (CIE-10 F41.1)</b>.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="w-2 h-2 rounded-full bg-indigo-100 border border-indigo-300 mt-1.5 shrink-0" />
-                                    <span>Se recomienda administrar escala <b>GAD-7</b> para objetivar sintomatología.</span>
+                                    <span className="w-2 h-2 rounded-full bg-teal-100 border border-teal-300 mt-1.5 shrink-0" />
+                                    <span>Acción sugerida: Aplicar escala <b>GAD-7</b>.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="w-2 h-2 rounded-full bg-indigo-100 border border-indigo-300 mt-1.5 shrink-0" />
-                                    <span>Evaluar impacto funcional en el ámbito laboral.</span>
+                                    <span className="w-2 h-2 rounded-full bg-teal-100 border border-teal-300 mt-1.5 shrink-0" />
+                                    <span>Evaluar impacto funcional laboral.</span>
                                 </li>
                             </ul>
                         </motion.div>

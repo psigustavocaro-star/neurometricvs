@@ -55,7 +55,7 @@ export async function updateSession(request: NextRequest, response?: NextRespons
         !path.startsWith('/onboarding') &&
         !path.startsWith('/api') &&
         !path.startsWith('/payment') &&
-        !path.startsWith('/coming-soon') &&
+
         !path.startsWith('/integrations') &&
         !path.startsWith('/updates') &&
         !path.startsWith('/about') &&

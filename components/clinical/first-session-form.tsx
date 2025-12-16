@@ -11,8 +11,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { createSession, updateClinicalRecord } from "@/app/[locale]/patients/clinical-actions"
 import { toast } from "sonner"
 import { Loader2, AlertCircle, CheckCircle2, ArrowLeft, Sparkles } from "lucide-react"
-import { VoiceRecorder } from "./voice-recorder"
-import { generateAIInsights } from "@/app/[locale]/patients/clinical-actions"
 
 interface FirstSessionFormProps {
     patientId: string
@@ -84,11 +82,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
         try {
             const newSession = await createSession(patientId, sessionData)
 
-            if (analyze && newSession?.id) {
-                toast.info("Generando análisis inicial con IA...")
-                await generateAIInsights(newSession.id, 'Integrativo')
-                toast.success("Análisis generado exitosamente")
-            } else {
+            if (newSession?.id) {
                 toast.success("Primera sesión registrada exitosamente")
             }
 
@@ -113,9 +107,9 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-6">
-            <Alert className="border-teal-200 bg-teal-50">
-                <AlertCircle className="h-4 w-4 text-teal-600" />
-                <AlertDescription className="text-teal-900">
+            <Alert className="border-teal-200 dark:border-teal-800 bg-teal-50 dark:bg-teal-950/50">
+                <AlertCircle className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+                <AlertDescription className="text-teal-900 dark:text-teal-100">
                     <strong>Primera Sesión de {patientName}</strong>
                     <br />
                     Para comenzar el tratamiento, necesitamos completar la historia clínica del paciente.
@@ -124,12 +118,12 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
             {/* Progress Indicator */}
             <div className="flex items-center justify-center gap-4 mb-8">
-                <div className={`flex items-center gap-2 ${step === 'anamnesis' ? 'text-teal-600' : 'text-green-600'}`}>
+                <div className={`flex items-center gap-2 ${step === 'anamnesis' ? 'text-teal-600 dark:text-teal-400' : 'text-green-600 dark:text-green-400'}`}>
                     {step === 'session' ? <CheckCircle2 className="w-5 h-5" /> : <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center"><span className="text-xs font-bold">1</span></div>}
                     <span className="font-medium">Historia Clínica</span>
                 </div>
-                <div className="w-16 h-0.5 bg-slate-200"></div>
-                <div className={`flex items-center gap-2 ${step === 'session' ? 'text-teal-600' : 'text-slate-400'}`}>
+                <div className="w-16 h-0.5 bg-slate-200 dark:bg-slate-700"></div>
+                <div className={`flex items-center gap-2 ${step === 'session' ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-slate-500'}`}>
                     <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center">
                         <span className="text-xs font-bold">2</span>
                     </div>
@@ -148,9 +142,9 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                     <CardContent>
                         <Accordion type="multiple" defaultValue={['presentIllness', 'personalHistory']} className="w-full space-y-4">
                             {anamnesissections.map((section) => (
-                                <div key={section.id} className="border border-slate-200 rounded-lg bg-white overflow-hidden">
+                                <div key={section.id} className="border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 overflow-hidden">
                                     <AccordionItem value={section.id} className="border-0 px-4">
-                                        <AccordionTrigger className="hover:text-teal-600 hover:no-underline font-medium text-slate-800 py-4">
+                                        <AccordionTrigger className="hover:text-teal-600 dark:hover:text-teal-400 hover:no-underline font-medium text-slate-800 dark:text-slate-200 py-4">
                                             {section.title} {section.required && <span className="text-red-500 ml-1">*</span>}
                                         </AccordionTrigger>
                                         <AccordionContent>
@@ -159,7 +153,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                                     value={anamnesisData[section.id as keyof typeof anamnesisData]}
                                                     onChange={(e) => handleAnamnesisChange(section.id, e.target.value)}
                                                     placeholder={section.placeholder}
-                                                    className="min-h-[200px] bg-slate-50 border-slate-200 focus:border-teal-300 resize-y"
+                                                    className="min-h-[200px] bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:border-teal-300 dark:focus:border-teal-600 resize-y dark:text-white dark:placeholder-slate-500"
                                                 />
                                             </div>
                                         </AccordionContent>
@@ -212,7 +206,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                     value={sessionData.type}
                                     onChange={(e) => handleSessionChange('type', e.target.value)}
                                     disabled
-                                    className="bg-slate-50"
+                                    className="bg-slate-50 dark:bg-slate-800 dark:text-slate-400"
                                 />
                             </div>
                         </div>
@@ -221,9 +215,6 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
                                 <Label>Notas Clínicas *</Label>
-                                <VoiceRecorder
-                                    onTranscriptionComplete={(text) => handleSessionChange('notes', sessionData.notes + (sessionData.notes ? '\n\n' : '') + text)}
-                                />
                             </div>
                             <Textarea
                                 value={sessionData.notes}
@@ -233,11 +224,11 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                             />
                         </div>
 
-                        <div className="flex justify-between mt-6 pt-4 border-t border-slate-100">
+                        <div className="flex justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <Button
                                 variant="ghost"
                                 onClick={() => setStep('anamnesis')}
-                                className="text-slate-400 hover:text-slate-600"
+                                className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
                             >
                                 <ArrowLeft className="w-4 h-4 mr-2" />
                                 Volver a Historia
@@ -246,9 +237,9 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                             <div className="flex gap-3">
                                 <Button
                                     variant="outline"
-                                    onClick={() => handleSaveSession(false)} // Saves without analyzing
+                                    onClick={() => handleSaveSession(false)}
                                     disabled={saving}
-                                    className="border-teal-200 text-teal-700 hover:bg-teal-50"
+                                    className="border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/50"
                                 >
                                     Guardar Borrador
                                 </Button>
@@ -259,7 +250,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                 >
                                     {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                     <Sparkles className="w-4 h-4 mr-2" />
-                                    Completar & Analizar Situación
+                                    Completar Sesión
                                 </Button>
                             </div>
                         </div>

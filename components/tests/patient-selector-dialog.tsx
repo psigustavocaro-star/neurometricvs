@@ -94,6 +94,16 @@ export function PatientSelectorDialog({ testId, testName, trigger, open: control
                 </DialogHeader>
 
                 <div className="space-y-4 py-4">
+                    {/* Botón de nuevo paciente siempre visible */}
+                    <Button
+                        variant="outline"
+                        className="w-full border-dashed border-2 hover:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-all"
+                        onClick={() => router.push('/patients/new')}
+                    >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Añadir Nuevo Paciente
+                    </Button>
+
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                         <Input
@@ -128,10 +138,7 @@ export function PatientSelectorDialog({ testId, testName, trigger, open: control
                             ))
                         ) : (
                             <div className="text-center py-8">
-                                <p className="text-slate-500 mb-2">No se encontraron pacientes.</p>
-                                <Button variant="outline" size="sm" onClick={() => router.push('/patients/new')}>
-                                    <Plus className="mr-2 h-4 w-4" /> Crear Nuevo Paciente
-                                </Button>
+                                <p className="text-slate-500">No se encontraron pacientes con ese nombre.</p>
                             </div>
                         )}
                     </div>

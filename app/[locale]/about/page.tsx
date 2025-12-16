@@ -11,8 +11,8 @@ export default function AboutPage() {
             <main className="flex-1 pt-24 pb-12">
                 <div className="container px-4 md:px-6">
                     <div className="max-w-3xl mx-auto text-center mb-16">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">{t('title')}</h1>
-                        <p className="text-xl text-slate-500 leading-relaxed font-light">
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">{t('title')}</h1>
+                        <p className="text-xl text-slate-500 dark:text-slate-300 leading-relaxed font-light">
                             {t('subtitle')}
                         </p>
                     </div>
@@ -43,7 +43,7 @@ export default function AboutPage() {
                     </div>
 
                     <div className="max-w-5xl mx-auto">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-10 text-center">{t('philosophy.title')}</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-10 text-center">{t('philosophy.title')}</h2>
                         <div className="grid sm:grid-cols-3 gap-8">
                             <div className="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow">
                                 <div className="text-4xl mb-4 bg-blue-50 w-12 h-12 flex items-center justify-center rounded-xl">🔬</div>

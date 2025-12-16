@@ -43,7 +43,7 @@ export function PriceDisplay({ amount, period = '/mes', className = '', priceId 
                             <span className="ml-1 text-[10px] mobile-hidden font-normal text-teal-500/80">(aprox.)</span>
 
                             {/* Tooltip with rate */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                                 1 USD ≈ {new Intl.NumberFormat('es-CL', { maximumFractionDigits: 2 }).format(localPrice.rate)} {localPrice.currency}
                             </div>
                         </span>

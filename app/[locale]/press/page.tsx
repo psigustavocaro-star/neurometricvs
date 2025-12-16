@@ -10,7 +10,7 @@ export default function PressPage() {
             <main className="flex-1 pt-24 pb-12">
                 <div className="container px-4 md:px-6">
                     <div className="max-w-3xl mx-auto text-center mb-12">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-4">Prensa y Medios</h1>
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Prensa y Medios</h1>
                     </div>
 
                     <div className="max-w-4xl mx-auto">

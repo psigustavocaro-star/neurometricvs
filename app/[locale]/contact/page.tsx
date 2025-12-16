@@ -45,8 +45,8 @@ export default function ContactPage() {
                 <div className="container px-4 md:px-6">
                     <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
                         <div>
-                            <h1 className="text-4xl font-bold text-slate-900 mb-6">Contáctanos</h1>
-                            <p className="text-xl text-slate-600 mb-8">
+                            <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">Contáctanos</h1>
+                            <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
                                 Estamos aquí para responder tus dudas sobre la plataforma, precios o soporte técnico.
                             </p>
 
@@ -56,9 +56,9 @@ export default function ContactPage() {
                                         <Mail className="w-5 h-5 text-teal-600" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-slate-900">Email</h3>
-                                        <p className="text-slate-600">contacto@neurometricslatam.com</p>
-                                        <p className="text-slate-600">soporte@neurometricslatam.com</p>
+                                        <h3 className="font-semibold text-slate-900 dark:text-white">Email</h3>
+                                        <p className="text-slate-600 dark:text-slate-300">contacto@neurometricslatam.com</p>
+                                        <p className="text-slate-600 dark:text-slate-300">soporte@neurometricslatam.com</p>
                                     </div>
                                 </div>
 

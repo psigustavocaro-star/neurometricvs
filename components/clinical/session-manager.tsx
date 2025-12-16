@@ -7,11 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { createSession, updateSession, generateAIInsights } from "@/app/[locale]/patients/clinical-actions"
+import { createSession, updateSession } from "@/app/[locale]/patients/clinical-actions"
 import { FirstSessionForm } from './first-session-form'
 import { SessionTimeline } from './session-timeline'
-import { ClinicalCopilot } from './clinical-copilot'
-import { VoiceRecorder } from './voice-recorder'
 import { toast } from "sonner"
 import { Loader2, Plus, Calendar, Save, ArrowLeft } from "lucide-react"
 
@@ -32,7 +30,6 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
     const [selectedSessionId, setSelectedSessionId] = useState<string | 'new' | null>(sessions.length > 0 ? sessions[0].id : 'new')
 
     const [loading, setLoading] = useState(false)
-    const [analyzing, setAnalyzing] = useState(false)
 
     // Form State
     const [formData, setFormData] = useState<Partial<ClinicalSession>>({
@@ -83,22 +80,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
         }
     }
 
-    const handleAIAnalysis = async (approach: string) => {
-        if (!selectedSessionId || selectedSessionId === 'new') {
-            toast.error("Guarda la sesión antes de analizar")
-            return
-        }
-        setAnalyzing(true)
-        try {
-            await generateAIInsights(selectedSessionId, approach)
-            toast.success("Análisis IA generado con enfoque " + approach)
-        } catch (error) {
-            console.error(error)
-            toast.error("Error al generar análisis")
-        } finally {
-            setAnalyzing(false)
-        }
-    }
+
 
     const selectedSession = sessions.find(s => s.id === selectedSessionId)
 
@@ -122,7 +104,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_320px] h-full overflow-hidden bg-slate-50">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-full overflow-hidden bg-slate-50">
 
             {/* 1. Timeline (Left) */}
             <div className="hidden lg:flex flex-col border-r border-slate-200 bg-white h-full overflow-hidden">
@@ -201,17 +183,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
                                 <label className="text-sm font-bold text-slate-700">Notas de Evolución</label>
-                                <VoiceRecorder
-                                    patientName={patientName}
-                                    onTranscriptionComplete={(text) => setFormData(prev => ({
-                                        ...prev,
-                                        notes: prev.notes ? `${prev.notes}\n\n${text}` : text
-                                    }))}
-                                    onSummaryComplete={(summary) => setFormData(prev => ({
-                                        ...prev,
-                                        notes: prev.notes ? `${prev.notes}\n\n---\n## Resumen IA\n${summary}` : `## Resumen IA\n${summary}`
-                                    }))}
-                                />
+
                             </div>
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-teal-50/50 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
@@ -228,15 +200,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
                 </ScrollArea>
             </div>
 
-            {/* 3. Clinical Copilot (Right) */}
-            <div className="hidden lg:block h-full border-l border-slate-200 bg-white z-10 shadow-[-10px_0_30px_-15px_rgba(0,0,0,0.05)]">
-                <ClinicalCopilot
-                    sessionId={selectedSessionId === 'new' ? undefined : selectedSessionId || undefined}
-                    insight={selectedSession?.ai_insights}
-                    onAnalyze={handleAIAnalysis}
-                    loading={analyzing}
-                />
-            </div>
+
         </div>
     )
 }

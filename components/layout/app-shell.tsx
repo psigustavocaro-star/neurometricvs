@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import {
@@ -254,6 +255,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     {children}
                 </div>
             </main>
+
+            {/* Floating Support Assistant */}
+            <NeurometricaSupportBot />
         </div>
     )
 }

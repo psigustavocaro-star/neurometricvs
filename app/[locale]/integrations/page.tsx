@@ -10,8 +10,8 @@ export default function IntegrationsPage() {
             <main className="flex-1 pt-24 pb-12">
                 <div className="container px-4 md:px-6">
                     <div className="max-w-3xl mx-auto text-center mb-12">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-4">Integraciones</h1>
-                        <p className="text-xl text-slate-600">Conecta Neurometrics con tus herramientas favoritas.</p>
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Integraciones</h1>
+                        <p className="text-xl text-slate-600 dark:text-slate-300">Conecta Neurometrics con tus herramientas favoritas.</p>
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
@@ -24,7 +24,7 @@ export default function IntegrationsPage() {
                                 <CardDescription>Sincroniza tus citas automáticamente.</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-slate-500">Próximamente podrás ver tus evaluaciones programadas directamente en tu calendario.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Visualiza tus evaluaciones programadas directamente en tu calendario.</p>
                             </CardContent>
                         </Card>
 
@@ -37,7 +37,7 @@ export default function IntegrationsPage() {
                                 <CardDescription>Envía recordatorios por WhatsApp.</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-slate-500">Automatiza el envío de enlaces de evaluación a través de WhatsApp.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Automatiza el envío de enlaces de evaluación a través de WhatsApp.</p>
                             </CardContent>
                         </Card>
 
@@ -50,7 +50,7 @@ export default function IntegrationsPage() {
                                 <CardDescription>Respaldo de informes en la nube.</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-slate-500">Exporta automáticamente los PDFs firmados a tu carpeta personal en la nube.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Exporta automáticamente los PDFs firmados a tu carpeta personal en la nube.</p>
                             </CardContent>
                         </Card>
                     </div>

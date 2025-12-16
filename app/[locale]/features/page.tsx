@@ -51,7 +51,7 @@ export default function FeaturesPage() {
     ]
 
     return (
-        <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-500/30">
+        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 selection:bg-teal-500/30">
             <VerticalNavbar />
             <main className="flex-1 relative overflow-hidden">
                 {/* Background Gradients (Futuristic Light) */}
@@ -65,10 +65,10 @@ export default function FeaturesPage() {
                     <div className="inline-block mb-4 px-3 py-1 rounded-full bg-white border border-teal-100 text-xs font-semibold text-teal-600 shadow-sm">
                         Feature Tour
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 mb-6 tracking-tight">
+                    <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 dark:from-teal-400 dark:to-indigo-400 mb-6 tracking-tight">
                         {t('title')}
                     </h1>
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
                         {t('subtitle')}
                     </p>
                 </section>
@@ -85,10 +85,10 @@ export default function FeaturesPage() {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h2 className="text-4xl font-bold text-slate-800 tracking-tight">
+                                    <h2 className="text-4xl font-bold text-slate-800 dark:text-white tracking-tight">
                                         {t(`${feature.key}.title`)}
                                     </h2>
-                                    <p className="text-lg text-slate-600 leading-relaxed border-l-2 border-teal-100 pl-6">
+                                    <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed border-l-2 border-teal-100 dark:border-teal-900 pl-6">
                                         {t(`${feature.key}.desc`)}
                                     </p>
                                 </div>
