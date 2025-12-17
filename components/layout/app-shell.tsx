@@ -9,6 +9,8 @@ import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
+import { AdminTools } from '@/components/admin/admin-tools'
+import { useAdminStore } from '@/lib/stores/admin-store'
 import {
     LayoutDashboard,
     Users,
@@ -20,7 +22,8 @@ import {
     ChevronRight,
     Menu,
     X,
-    Globe
+    Globe,
+    ExternalLink
 } from "lucide-react"
 
 interface AppShellProps {
@@ -36,9 +39,29 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const router = useRouter()
     const supabase = createClient()
 
+    // Persistent Sidebar State
     const [isCollapsed, setIsCollapsed] = useState(false)
+
+    // Load state from local storage on mount
+    useEffect(() => {
+        const stored = localStorage.getItem('sidebar-collapsed')
+        if (stored) {
+            setIsCollapsed(JSON.parse(stored))
+        }
+    }, [])
+
+    // Save state to local storage on change
+    const toggleSidebar = (collapsed: boolean) => {
+        setIsCollapsed(collapsed)
+        localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
+    }
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+    // Admin Simulation
+    const { currentPlan, isSimulating } = useAdminStore()
+    const effectivePlan = isSimulating ? currentPlan : plan
 
     const handleLocaleChange = () => {
         const nextLocale = locale === 'es' ? 'en' : 'es'
@@ -48,7 +71,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
-        ...((plan === 'clinical' || plan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
+        ...((effectivePlan === 'clinical' || effectivePlan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
         { name: t("subscription"), href: "/dashboard/subscription", icon: CreditCard },
         { name: t("profile"), href: "/profile", icon: UserCircle },
     ]
@@ -72,7 +95,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             {/* Desktop Sidebar */}
             <aside
                 className={cn(
-                    "hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 ease-in-out",
+                    "hidden md:flex flex-col fixed left-0 top-0 h-full z-40 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 ease-in-out",
                     isCollapsed ? "w-20" : "w-64"
                 )}
             >
@@ -81,28 +104,47 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     "h-20 flex items-center border-b border-slate-100 dark:border-slate-800",
                     isCollapsed ? "justify-center px-2" : "px-5"
                 )}>
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shrink-0 shadow-lg shadow-teal-600/30 ring-2 ring-white/20">
-                            <img
-                                src="/neurometrics-logo-small.png"
-                                alt="Logo"
-                                className="w-7 h-7 object-contain brightness-0 invert"
-                            />
-                        </div>
+                    <div className="flex items-center gap-3 group">
+                        <Link href="/dashboard">
+                            <div className="relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-105 cursor-pointer">
+                                {/* Calypso Backlight/Glow Effect */}
+                                <div className="absolute inset-0 bg-cyan-500/40 blur-lg rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                {/* Main Container */}
+                                <div className="relative w-full h-full bg-slate-950 border border-cyan-500/30 rounded-xl flex items-center justify-center shadow-inner shadow-cyan-900/50 backdrop-blur-sm z-10">
+                                    {/* Colored Logo using Mask */}
+                                    <div
+                                        className="w-9 h-9 bg-gradient-to-br from-white via-cyan-400 to-teal-500 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]"
+                                        style={{
+                                            maskImage: 'url(/neurometrics-logo-small.png)',
+                                            maskSize: 'contain',
+                                            maskRepeat: 'no-repeat',
+                                            maskPosition: 'center',
+                                            WebkitMaskImage: 'url(/neurometrics-logo-small.png)',
+                                            WebkitMaskSize: 'contain',
+                                            WebkitMaskRepeat: 'no-repeat',
+                                            WebkitMaskPosition: 'center'
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </Link>
                         {!isCollapsed && (
                             <div className="flex flex-col">
-                                <span className="text-lg font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
-                                    Workstation
-                                </span>
-                                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                                    Neurometrics Latam
-                                </span>
+                                <Link href="/dashboard" className="flex flex-col">
+                                    <span className="text-[15px] font-bold text-slate-900 dark:text-white tracking-tight leading-none group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
+                                        Neurometrics Latam
+                                    </span>
+                                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mt-0.5 group-hover:text-cyan-600/70 dark:group-hover:text-cyan-400/70 transition-colors">
+                                        Workstation
+                                    </span>
+                                </Link>
                             </div>
                         )}
-                    </Link>
+                    </div>
                     {!isCollapsed && (
                         <button
-                            onClick={() => setIsCollapsed(true)}
+                            onClick={() => toggleSidebar(true)}
                             className="ml-auto p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                         >
                             <ChevronLeft className="w-4 h-4" />
@@ -113,7 +155,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                 {/* Expand Button (when collapsed) */}
                 {isCollapsed && (
                     <button
-                        onClick={() => setIsCollapsed(false)}
+                        onClick={() => toggleSidebar(false)}
                         className="absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow z-50"
                     >
                         <ChevronRight className="w-3 h-3 text-slate-500" />
@@ -171,6 +213,20 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         <ThemeToggle />
                     </div>
 
+                    {/* Landing Page Link */}
+                    <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                            "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors",
+                            isCollapsed && "justify-center px-2"
+                        )}
+                    >
+                        <ExternalLink className="w-4 h-4" />
+                        {!isCollapsed && <span>Landing Page</span>}
+                    </a>
+
                     {/* Sign Out */}
                     <Button
                         variant="ghost"
@@ -188,7 +244,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             </aside>
 
             {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 z-40 flex items-center justify-between px-4">
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 z-40 flex items-center justify-between px-4">
                 <Link href="/" className="flex items-center gap-2">
                     <img src="/logo.png?v=3" alt="Logo" className="h-8 w-auto dark:brightness-0 dark:invert" />
                     <span className="font-bold text-slate-900 dark:text-white">Workstation</span>
@@ -206,7 +262,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="lg:hidden fixed inset-0 z-30 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="md:hidden fixed inset-0 z-30 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}>
                     <div
                         className="absolute top-16 left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 space-y-2"
                         onClick={(e) => e.stopPropagation()}
@@ -246,9 +302,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             <main
                 className={cn(
                     "flex-1 transition-all duration-300",
-                    "lg:ml-64", // Default expanded
-                    isCollapsed && "lg:ml-20",
-                    "pt-16 lg:pt-0" // Mobile header offset
+                    "md:ml-64", // Default expanded
+                    isCollapsed && "md:ml-20",
+                    "pt-16 md:pt-0" // Mobile header offset
                 )}
             >
                 <div className="p-6 md:p-8">
@@ -258,6 +314,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             {/* Floating Support Assistant */}
             <NeurometricaSupportBot />
+            <AdminTools />
         </div>
     )
 }

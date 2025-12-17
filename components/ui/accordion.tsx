@@ -12,7 +12,7 @@ const AccordionContext = React.createContext<{
 const Accordion = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { type?: "single" | "multiple", collapsible?: boolean, defaultValue?: string[] }
->(({ className, children, defaultValue = [], ...props }, ref) => {
+>(({ className, children, defaultValue = [], type, collapsible, ...props }, ref) => {
     const [value, setValue] = React.useState<string[]>(defaultValue)
 
     const handleValueChange = (itemValue: string) => {

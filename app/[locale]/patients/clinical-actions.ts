@@ -49,7 +49,8 @@ export async function getClinicalSessions(patientId: string) {
         .from('clinical_sessions')
         .select(`
             *,
-            ai_insights (*)
+            ai_insights (*),
+            test_results (*)
         `)
         .eq('patient_id', patientId)
         .order('date', { ascending: false })

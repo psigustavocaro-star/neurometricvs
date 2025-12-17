@@ -1,14 +1,17 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
+import { useTheme } from 'next-themes'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle } from 'lucide-react'
+import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle, Download } from 'lucide-react'
 import { toast } from 'sonner'
+import html2canvas from 'html2canvas'
+import { jsPDF } from 'jspdf'
 import { GenogramLegend } from './genogram-legend'
 import {
     Popover,
@@ -19,8 +22,9 @@ import {
 interface FamilyMember {
     id: string
     name: string
-    relationship: 'patient' | 'spouse' | 'child' | 'sibling' | 'parent' | 'grandparent'
+    relationship: 'patient' | 'spouse' | 'child' | 'sibling' | 'parent' | 'grandparent' | 'uncle' | 'aunt' | 'cousin'
     gender: 'male' | 'female'
+    side?: 'paternal' | 'maternal'
     age?: number
     deceased?: boolean
     x: number
@@ -31,7 +35,7 @@ interface FamilyRelationship {
     id: string
     from: string
     to: string
-    type: 'marriage' | 'cohabitation' | 'separation' | 'divorce' | 'parent-child' | 'sibling'
+    type: 'marriage' | 'cohabitation' | 'separation' | 'divorce' | 'parent-child' | 'sibling' | 'extended'
     emotional?: 'close' | 'conflict' | 'distant' | 'cutoff' | 'normal'
 }
 
@@ -54,7 +58,17 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     const [siblings, setSiblings] = useState<Array<{ name: string; gender: 'male' | 'female'; deceased: boolean; emotional: 'close' | 'conflict' | 'distant' | 'cutoff' | 'normal' }>>([])
     const [parents, setParents] = useState<Array<{ name: string; gender: 'male' | 'female'; deceased: boolean }>>([])
 
+    const { resolvedTheme } = useTheme()
     const [showLegend, setShowLegend] = useState(false)
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    // Extended Family State
+    const [grandparents, setGrandparents] = useState<Array<{ side: 'paternal' | 'maternal'; gender: 'male' | 'female'; deceased: boolean; name: string }>>([])
+    const [uncles, setUncles] = useState<Array<{ side: 'paternal' | 'maternal'; gender: 'male' | 'female'; deceased: boolean; name: string }>>([])
 
     // Auto-generate members and relationships from form data
     const { members, relationships } = useMemo(() => {
@@ -134,13 +148,18 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
         // Add parents - positioned above patient
         parents.forEach((parent, index) => {
             const parentId = `parent-${index}`
+            // Paternal on left (or first), Maternal on right (or second)
+            // Ideally should check gender but simplifying for index: 0=Father, 1=Mother usually
+            // Adjust X for correct side: Father (left) ~300, Mother (right) ~500
+            const parentX = parent.gender === 'male' ? 300 : 500
+
             allMembers.push({
                 id: parentId,
                 name: parent.name || (parent.gender === 'male' ? 'Padre' : 'Madre'),
                 relationship: 'parent',
                 gender: parent.gender,
                 deceased: parent.deceased,
-                x: 350 + (index * 100),
+                x: parentX,
                 y: 160
             })
             allRelationships.push({
@@ -149,6 +168,80 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                 to: 'patient',
                 type: 'parent-child'
             })
+        })
+
+        // Add Grandparents
+        grandparents.forEach((gp, index) => {
+            const gpId = `grandparent-${index}`
+            // Paternal side (left of father), Maternal side (right of mother)
+            // Father is at 300, Mother at 500
+            // Paternal GP: 250 (GF), 350 (GM)
+            // Maternal GP: 450 (GF), 550 (GM)
+
+            let gpX = 0
+            if (gp.side === 'paternal') {
+                gpX = gp.gender === 'male' ? 250 : 350
+            } else {
+                gpX = gp.gender === 'male' ? 450 : 550
+            }
+
+            allMembers.push({
+                id: gpId,
+                name: gp.name || (gp.gender === 'male' ? 'Abuelo' : 'Abuela'),
+                relationship: 'grandparent',
+                gender: gp.gender,
+                deceased: gp.deceased,
+                side: gp.side,
+                x: gpX,
+                y: 80
+            })
+
+            // Connect to relevant parent if exists
+            const parent = parents.find(p => (gp.side === 'paternal' && p.gender === 'male') || (gp.side === 'maternal' && p.gender === 'female'))
+            if (parent) {
+                // Find parent ID - this is a bit tricky as we regenerate IDs. 
+                // Assuming order 0=Father, 1=Mother or finding by gender in allMembers
+                const parentMember = allMembers.find(m => m.relationship === 'parent' && m.gender === (gp.side === 'paternal' ? 'male' : 'female'))
+                if (parentMember) {
+                    allRelationships.push({
+                        id: `gp-parent-${index}`,
+                        from: gpId,
+                        to: parentMember.id,
+                        type: 'parent-child'
+                    })
+                }
+            }
+        })
+
+        // Add Uncles/Aunts
+        uncles.forEach((uncle, index) => {
+            const uncleId = `uncle-${index}`
+            // Paternal siblings: Left of father (< 300)
+            // Maternal siblings: Right of mother (> 500)
+
+            let uncleX = 0
+            if (uncle.side === 'paternal') {
+                uncleX = 150 - (index * 80) // Spreading to left
+            } else {
+                uncleX = 650 + (index * 80) // Spreading to right
+            }
+
+            allMembers.push({
+                id: uncleId,
+                name: uncle.name || (uncle.gender === 'male' ? 'Tío' : 'Tía'),
+                relationship: uncle.gender === 'male' ? 'uncle' : 'aunt',
+                gender: uncle.gender,
+                deceased: uncle.deceased,
+                side: uncle.side,
+                x: uncleX,
+                y: 160
+            })
+
+            // Connect to Grandparents (if they exist) to show sibling relationship with parent?
+            // Or just visual placement. For now, visual placement is key. 
+            // Ideally connected to same grandparents as parents, making them siblings of parents.
+            // Simplified: Connect to "Grandparent pair" center? 
+            // For now, let's just place them.
         })
 
         // Connect parents if both exist
@@ -161,8 +254,38 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
             })
         }
 
+        // Connect paternal grandparents if both exist
+        const paternalGPs = allMembers.filter(m => m.relationship === 'grandparent' && m.side === 'paternal')
+        if (paternalGPs.length === 2) {
+            allRelationships.push({
+                id: 'paternal-gp-marriage',
+                from: paternalGPs[0].id,
+                to: paternalGPs[1].id,
+                type: 'marriage'
+            })
+        }
+
+        // Connect maternal grandparents if both exist
+        const maternalGPs = allMembers.filter(m => m.relationship === 'grandparent' && m.side === 'maternal')
+        if (maternalGPs.length === 2) {
+            allRelationships.push({
+                id: 'maternal-gp-marriage',
+                from: maternalGPs[0].id,
+                to: maternalGPs[1].id,
+                type: 'marriage'
+            })
+        }
+
         return { members: allMembers, relationships: allRelationships }
-    }, [patientName, patientGender, hasSpouse, spouseName, spouseGender, spouseDeceased, maritalStatus, children, siblings, parents])
+    }, [patientName, patientGender, hasSpouse, spouseName, spouseGender, spouseDeceased, maritalStatus, children, siblings, parents, grandparents, uncles])
+
+    const addGrandparent = (side: 'paternal' | 'maternal', gender: 'male' | 'female') => {
+        setGrandparents(prev => [...prev, { side, gender, deceased: false, name: '' }])
+    }
+
+    const addUncle = (side: 'paternal' | 'maternal') => {
+        setUncles(prev => [...prev, { side, gender: 'male', deceased: false, name: '' }])
+    }
 
     const addChild = () => {
         setChildren(prev => [...prev, { name: '', gender: 'male', deceased: false }])
@@ -184,6 +307,39 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     const handleSave = () => {
         if (onSave) onSave(members, relationships)
         toast.success("Genograma guardado")
+    }
+
+    const handleDownloadPDF = async () => {
+        const element = document.getElementById('genogram-container')
+        if (!element) return
+
+        try {
+            toast.loading("Generando PDF...")
+            const canvas = await html2canvas(element, {
+                scale: 2, // Higher quality
+                backgroundColor: null // Transparent background if possible, or matches theme
+            })
+
+            const imgData = canvas.toDataURL('image/png')
+            const pdf = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4'
+            })
+
+            const imgProps = pdf.getImageProperties(imgData)
+            const pdfWidth = pdf.internal.pageSize.getWidth()
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+            pdf.save(`genograma_${patientName.replace(/\s+/g, '_')}.pdf`)
+            toast.dismiss()
+            toast.success("PDF descargado correctamente")
+        } catch (error) {
+            console.error("Error generating PDF:", error)
+            toast.dismiss()
+            toast.error("Error al generar el PDF")
+        }
     }
 
     // Render relationship line based on type
@@ -325,7 +481,8 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                 <text
                     y="35"
                     textAnchor="middle"
-                    className="text-[10px] font-medium fill-slate-700 dark:fill-slate-300 select-none"
+                    className="text-[10px] font-medium select-none"
+                    fill={isMounted && resolvedTheme === 'dark' ? '#cbd5e1' : '#334155'}
                 >
                     {member.name}
                 </text>
@@ -333,12 +490,15 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                     <text
                         y="46"
                         textAnchor="middle"
-                        className="text-[8px] fill-slate-400 dark:fill-slate-500 select-none"
+                        className="text-[8px] select-none"
+                        fill={isMounted && resolvedTheme === 'dark' ? '#64748b' : '#94a3b8'}
                     >
                         {member.relationship === 'spouse' && 'Pareja'}
                         {member.relationship === 'child' && 'Hijo/a'}
                         {member.relationship === 'sibling' && 'Hermano/a'}
                         {member.relationship === 'parent' && (member.gender === 'male' ? 'Padre' : 'Madre')}
+                        {member.relationship === 'grandparent' && (member.gender === 'male' ? 'Abuelo' : 'Abuela')}
+                        {(member.relationship === 'uncle' || member.relationship === 'aunt') && (member.gender === 'male' ? 'Tío' : 'Tía')}
                     </text>
                 )}
             </g>
@@ -584,6 +744,112 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                 ))}
             </div>
 
+            {/* Extended Family Section */}
+            <div className="space-y-4 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-amber-600" />
+                    <Label className="font-semibold text-sm">Familia Extendida</Label>
+                </div>
+
+                {/* Grandparents */}
+                <div className="space-y-2">
+                    <Label className="text-xs font-medium text-slate-500">Abuelos</Label>
+                    <div className="flex gap-2">
+                        <Button onClick={() => addGrandparent('paternal', 'male')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Pat. Abuelo
+                        </Button>
+                        <Button onClick={() => addGrandparent('paternal', 'female')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Pat. Abuela
+                        </Button>
+                        <Button onClick={() => addGrandparent('maternal', 'male')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Mat. Abuelo
+                        </Button>
+                        <Button onClick={() => addGrandparent('maternal', 'female')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Mat. Abuela
+                        </Button>
+                    </div>
+                    {grandparents.map((gp, index) => (
+                        <div key={index} className="flex gap-1 items-center p-2 bg-white dark:bg-slate-700 rounded border">
+                            <span className="text-[10px] w-8 font-bold text-slate-400">{gp.side === 'paternal' ? 'Pat' : 'Mat'}</span>
+                            <Input
+                                value={gp.name}
+                                placeholder={gp.gender === 'male' ? 'Abuelo' : 'Abuela'}
+                                onChange={(e) => {
+                                    const newGP = [...grandparents]
+                                    newGP[index].name = e.target.value
+                                    setGrandparents(newGP)
+                                }}
+                                className="flex-1 h-7 text-xs"
+                            />
+                            <span className="text-sm">{gp.gender === 'male' ? '♂' : '♀'}</span>
+                            <label className="flex items-center text-[10px]">
+                                <input type="checkbox" checked={gp.deceased} onChange={(e) => {
+                                    const newGP = [...grandparents]
+                                    newGP[index].deceased = e.target.checked
+                                    setGrandparents(newGP)
+                                }} className="rounded mr-1" />
+                                ✝
+                            </label>
+                            <Button size="sm" variant="ghost" onClick={() => setGrandparents(grandparents.filter((_, i) => i !== index))} className="h-6 w-6 p-0">
+                                <Trash2 className="w-3 h-3 text-red-500" />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Uncles/Aunts */}
+                <div className="space-y-2">
+                    <Label className="text-xs font-medium text-slate-500">Tíos y Tías</Label>
+                    <div className="flex gap-2">
+                        <Button onClick={() => addUncle('paternal')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Tío/a Paterno
+                        </Button>
+                        <Button onClick={() => addUncle('maternal')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
+                            <Plus className="w-3 h-3 mr-1" /> Tío/a Materno
+                        </Button>
+                    </div>
+                    {uncles.map((uncle, index) => (
+                        <div key={index} className="flex gap-1 items-center p-2 bg-white dark:bg-slate-700 rounded border">
+                            <span className="text-[10px] w-8 font-bold text-slate-400">{uncle.side === 'paternal' ? 'Pat' : 'Mat'}</span>
+                            <Input
+                                value={uncle.name}
+                                placeholder="Nombre"
+                                onChange={(e) => {
+                                    const newUncles = [...uncles]
+                                    newUncles[index].name = e.target.value
+                                    setUncles(newUncles)
+                                }}
+                                className="flex-1 h-7 text-xs"
+                            />
+                            <Select value={uncle.gender} onValueChange={(v) => {
+                                const newUncles = [...uncles]
+                                newUncles[index].gender = v as any
+                                setUncles(newUncles)
+                            }}>
+                                <SelectTrigger className="w-14 h-7 text-xs">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="male">♂</SelectItem>
+                                    <SelectItem value="female">♀</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <label className="flex items-center text-[10px]">
+                                <input type="checkbox" checked={uncle.deceased} onChange={(e) => {
+                                    const newUncles = [...uncles]
+                                    newUncles[index].deceased = e.target.checked
+                                    setUncles(newUncles)
+                                }} className="rounded mr-1" />
+                                ✝
+                            </label>
+                            <Button size="sm" variant="ghost" onClick={() => setUncles(uncles.filter((_, i) => i !== index))} className="h-6 w-6 p-0">
+                                <Trash2 className="w-3 h-3 text-red-500" />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
             {/* Save Button */}
             <Button onClick={handleSave} className="w-full bg-teal-600 hover:bg-teal-700 h-8 text-sm">
                 <Save className="w-4 h-4 mr-2" /> Guardar Genograma
@@ -594,7 +860,10 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     const previewContent = (
         <div className="relative h-full">
             {/* Legend Toggle */}
-            <div className="absolute top-2 right-2 z-10">
+            <div className="absolute top-2 right-2 z-10 flex gap-2">
+                <Button variant="outline" size="sm" className="h-7 text-xs" onClick={handleDownloadPDF}>
+                    <Download className="w-3 h-3 mr-1" /> PDF
+                </Button>
                 <Popover open={showLegend} onOpenChange={setShowLegend}>
                     <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="h-7 text-xs">
@@ -607,16 +876,22 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                 </Popover>
             </div>
 
-            <svg
-                className="w-full h-full border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900"
-                viewBox="0 0 700 500"
-                preserveAspectRatio="xMidYMid meet"
+            <div
+                id="genogram-container"
+                className="h-full w-full rounded-lg overflow-hidden"
+                style={{ backgroundColor: isMounted && resolvedTheme === 'dark' ? '#0f172a' : '#f8fafc' }}
             >
-                {/* Render relationship lines first (behind nodes) */}
-                {relationships.map(renderRelationshipLine)}
-                {/* Render nodes on top */}
-                {members.map(renderNode)}
-            </svg>
+                <svg
+                    className="w-full h-full border border-slate-200 dark:border-slate-700 rounded-lg"
+                    viewBox="0 0 700 500"
+                    preserveAspectRatio="xMidYMid meet"
+                >
+                    {/* Render relationship lines first (behind nodes) */}
+                    {relationships.map(renderRelationshipLine)}
+                    {/* Render nodes on top */}
+                    {members.map(renderNode)}
+                </svg>
+            </div>
         </div>
     )
 

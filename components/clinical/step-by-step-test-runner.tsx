@@ -16,10 +16,11 @@ import { useRouter } from 'next/navigation'
 interface StepByStepTestRunnerProps {
     test: TestDefinition
     patientId?: string
+    sessionId?: string
     onComplete?: () => void
 }
 
-export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStepTestRunnerProps) {
+export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }: StepByStepTestRunnerProps) {
     const [currentStep, setCurrentStep] = useState(0)
     const [answers, setAnswers] = useState<Record<string, number>>({})
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,7 +39,7 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
         test.questions.forEach((question) => {
             if (question.options && question.options.length > 0) {
                 const randomIndex = Math.floor(Math.random() * question.options.length)
-                randomAnswers[question.id] = question.options[randomIndex].value
+                randomAnswers[question.id] = Number(question.options[randomIndex].value)
             }
         })
         setAnswers(randomAnswers)
@@ -88,7 +89,7 @@ export function StepByStepTestRunner({ test, patientId, onComplete }: StepByStep
                     label: resultData.label,
                     color: resultData.color,
                     answers: answers
-                })
+                }, sessionId)
                 toast.success("Resultados guardados correctamente")
                 setIsCompleted(true)
                 if (onComplete) onComplete()

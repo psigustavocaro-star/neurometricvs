@@ -11,6 +11,14 @@ import { PatientDashboard } from '@/components/clinical/patient-dashboard'
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const supabase = await createClient()
     const { id } = await params
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // Fetch User Profile for role-based features
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user?.id)
+        .single()
 
     // 1. Fetch Patient
     const { data: patient } = await supabase
@@ -108,6 +116,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                     sessions={sessions}
                     testResults={testResults || []}
                     testAssignments={testAssignments}
+                    userProfile={profile}
                 />
             </div>
         </div>

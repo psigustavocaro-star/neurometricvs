@@ -4,7 +4,7 @@ import "../globals.css";
 import { Providers } from "@/app/providers";
 import { ConditionalNavbar } from "@/components/layout/conditional-navbar";
 import { createClient } from "@/lib/supabase/server";
-import { AdminMenu } from "@/components/admin/admin-menu";
+// import { AdminMenu } from "@/components/admin/admin-menu";
 import { Toaster } from "@/components/ui/sonner";
 
 import { NextIntlClientProvider } from 'next-intl';
@@ -72,7 +72,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ConditionalNavbar user={user} plan={subscription?.plan} />
-            {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />}
+            {/* {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />} */}
             <main className="transition-all duration-300">
               {children}
             </main>

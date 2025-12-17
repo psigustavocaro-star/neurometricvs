@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useAdminStore } from '@/lib/stores/admin-store'
 import { ClinicalSession, AIInsight } from '@/types/clinical'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -10,34 +11,68 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { createSession, updateSession } from "@/app/[locale]/patients/clinical-actions"
 import { FirstSessionForm } from './first-session-form'
 import { SessionTimeline } from './session-timeline'
+import { SessionTimer } from './session-timer'
 import { toast } from "sonner"
-import { Loader2, Plus, Calendar, Save, ArrowLeft } from "lucide-react"
+import { Loader2, Plus, Calendar, Save, ArrowLeft, Brain, Pill, ClipboardList } from "lucide-react"
+import { InSessionTestRunner } from './in-session-test-runner'
 
 interface SessionManagerProps {
     patientId: string
     sessions: (ClinicalSession & { ai_insights?: AIInsight | null })[]
     patientName: string
     embedded?: boolean
+    preSelectedSessionId?: string | null
+    userSpecialty?: string
 }
 
-export function SessionManager({ patientId, sessions, patientName, embedded }: SessionManagerProps) {
+export function SessionManager({ patientId, sessions, patientName, embedded, preSelectedSessionId, userSpecialty = 'psychologist' }: SessionManagerProps) {
     const [showFirstSessionForm, setShowFirstSessionForm] = useState(sessions.length === 0)
     // Default to 'new' if we have sessions but want to encourage input, OR select latest.
     // User wants to see sessions, so let's default to no selection (overview) or latest.
     // Let's default to 'new' so they can prep the next session immediately, or latest if they are reviewing.
-    // Actually user says "see sessions we have to date", implying a view first.
-    // So let's select the latest session by default if exists.
-    const [selectedSessionId, setSelectedSessionId] = useState<string | 'new' | null>(sessions.length > 0 ? sessions[0].id : 'new')
+    // Use preSelectedSessionId if provided, otherwise default logic
+    const [selectedSessionId, setSelectedSessionId] = useState<string | 'new' | null>(
+        preSelectedSessionId || (sessions.length > 0 ? sessions[0].id : 'new')
+    )
+
+    // Sync with prop changes (e.g. when clicking sidebar from outside)
+    useEffect(() => {
+        if (preSelectedSessionId) {
+            const session = sessions.find(s => s.id === preSelectedSessionId)
+            if (session) {
+                setSelectedSessionId(session.id)
+                setFormData({
+                    date: new Date(session.date).toISOString().split('T')[0],
+                    duration: session.duration,
+                    type: session.type,
+                    notes: session.notes || ''
+                })
+            }
+        }
+    }, [preSelectedSessionId, sessions])
 
     const [loading, setLoading] = useState(false)
 
     // Form State
     const [formData, setFormData] = useState<Partial<ClinicalSession>>({
         date: new Date().toISOString().split('T')[0],
-        duration: 60,
+        duration: 45,
         type: 'Sesión Regular',
         notes: ''
     })
+
+    // Listen for Admin Mock Injection
+    const { fillFormTrigger } = useAdminStore()
+    useEffect(() => {
+        if (fillFormTrigger > 0 && selectedSessionId === 'new') {
+            setFormData({
+                ...formData,
+                notes: `[SESIÓN GENERADA AUTOMÁTICAMENTE]\n\nPaciente refiere sentirse más tranquilo desde la última sesión. Menciona haber realizado los ejercicios de respiración recomendados.\n\nObservaciones:\n- Discurso coherente y fluido.\n- Afecto congruente.\n- Sin ideación suicida activa.\n\nPlan:\n- Continuar con Terapia Cognitivo Conductual.\n- Revisar tareas para el hogar en la próxima sesión.`,
+                duration: 50,
+                type: 'Sesión Regular'
+            })
+        }
+    }, [fillFormTrigger])
 
     // Handle Selection
     const handleSelectSession = (session: ClinicalSession) => {
@@ -54,7 +89,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
         setSelectedSessionId('new')
         setFormData({
             date: new Date().toISOString().split('T')[0],
-            duration: 60,
+            duration: 45,
             type: 'Sesión Regular',
             notes: ''
         })
@@ -93,7 +128,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
     // Special First Session Flow
     if (showFirstSessionForm) {
         return (
-            <div className="h-full overflow-y-auto bg-slate-50/50 p-6">
+            <div className="h-full overflow-y-auto bg-slate-50/50 dark:bg-slate-950 p-6 transition-colors duration-300">
                 <FirstSessionForm
                     patientId={patientId}
                     patientName={patientName}
@@ -104,13 +139,13 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-full overflow-hidden bg-slate-50">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-full overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
 
             {/* 1. Timeline (Left) */}
-            <div className="hidden lg:flex flex-col border-r border-slate-200 bg-white h-full overflow-hidden">
-                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10 shrink-0">
-                    <span className="font-bold text-slate-800 text-sm tracking-tight">Línea de Tiempo</span>
-                    <Button size="sm" variant="ghost" onClick={handleNewSession} className="h-8 w-8 p-0 hover:bg-teal-50 hover:text-teal-600 rounded-full">
+            <div className="hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full overflow-hidden transition-colors duration-300">
+                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 sticky top-0 z-10 shrink-0">
+                    <span className="font-bold text-slate-800 dark:text-slate-200 text-sm tracking-tight">Línea de Tiempo</span>
+                    <Button size="sm" variant="ghost" onClick={handleNewSession} className="h-8 w-8 p-0 hover:bg-teal-50 dark:hover:bg-slate-800 hover:text-teal-600 dark:hover:text-cyan-400 rounded-full transition-colors">
                         <Plus className="w-5 h-5" />
                     </Button>
                 </div>
@@ -124,50 +159,75 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
             </div>
 
             {/* 2. Main Workspace (Center) */}
-            <div className="flex flex-col h-full bg-white overflow-hidden relative shadow-sm z-0">
+            <div className="flex flex-col h-full bg-white dark:bg-slate-950 overflow-hidden relative shadow-sm z-0 transition-colors duration-300">
                 {/* Mobile Header for Timeline Toggle could go here */}
 
-                <div className="flex-none px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white/80 backdrop-blur-sm sticky top-0 z-20">
+                <div className="flex-none px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
                     <div>
-                        <h2 className="text-lg font-bold text-slate-900">
+                        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                             {selectedSessionId === 'new' ? `Nueva Sesión` : `Sesión del ${new Date(formData.date!).toLocaleDateString()}`}
                         </h2>
-                        {selectedSessionId === 'new' && <p className="text-xs text-slate-500">Registrando evolución</p>}
+                        {selectedSessionId === 'new' && <p className="text-xs text-slate-500 dark:text-slate-400">Registrando evolución clínica</p>}
                     </div>
-                    <Button onClick={handleSave} disabled={loading} className="bg-teal-600 hover:bg-teal-700 text-white shadow-sm transition-all hover:scale-105">
+
+                    {/* Session Timer (Only for new sessions) */}
+                    {selectedSessionId === 'new' && (
+                        <div className="hidden md:block mx-4">
+                            <SessionTimer
+                                initialDurationMinutes={formData.duration}
+                                onDurationChange={(mins) => setFormData(prev => ({ ...prev, duration: mins }))}
+                            />
+                        </div>
+                    )}
+
+                    <Button onClick={handleSave} disabled={loading} className="bg-teal-600 hover:bg-teal-700 dark:bg-cyan-600 dark:hover:bg-cyan-700 text-white shadow-sm transition-all hover:scale-105">
                         {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
                         <Save className="w-4 h-4 mr-2" />
                         {selectedSessionId === 'new' ? 'Registrar' : 'Guardar Cambios'}
                     </Button>
+
                 </div>
 
+                {/* Expert Mode Banner */}
+                {userSpecialty !== 'psychologist' && (
+                    <div className="px-6 py-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs transition-colors">
+                        <span className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                            {userSpecialty === 'psychiatrist' ? <><Pill className="w-3 h-3" /> Modo Psiquiatría</> : <><Brain className="w-3 h-3" /> Modo Neurología</>}
+                        </span>
+                        <InSessionTestRunner
+                            patientId={patientId}
+                            sessionId={selectedSessionId !== 'new' ? selectedSessionId : undefined}
+                        />
+                    </div>
+                )}
+
                 <ScrollArea className="flex-1">
-                    <div className="p-8 max-w-3xl mx-auto space-y-8 pb-32">
+                    <div className="p-8 max-w-4xl mx-auto space-y-8 pb-32">
 
                         {/* Editor Config */}
                         <div className="grid grid-cols-3 gap-6">
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Fecha</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Fecha</label>
                                 <Input
                                     type="date"
-                                    value={formData.date}
+                                    value={formData.date || ''}
                                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                    className="bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                    className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 transition-colors"
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Duración</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Duración</label>
                                 <Input
                                     type="number"
                                     value={formData.duration}
                                     onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) })}
-                                    className="bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                    className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 transition-colors"
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Tipo</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Tipo</label>
                                 <select
-                                    className="flex h-10 w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-colors"
+                                    className="flex h-10 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-cyan-500 focus:bg-white dark:focus:bg-slate-800 transition-colors"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                 >
@@ -182,25 +242,51 @@ export function SessionManager({ patientId, sessions, patientName, embedded }: S
                         {/* Note Editor */}
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-bold text-slate-700">Notas de Evolución</label>
-
+                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Notas de Evolución</label>
                             </div>
                             <div className="relative group">
-                                <div className="absolute inset-0 bg-teal-50/50 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-teal-50/50 dark:bg-cyan-900/10 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
                                 <Textarea
                                     value={formData.notes}
                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                    className="min-h-[400px] p-6 text-base leading-relaxed border-slate-200 focus:border-teal-400 focus:ring-0 shadow-sm rounded-xl resize-none bg-white"
+                                    className="min-h-[400px] p-6 text-base leading-relaxed border-slate-200 dark:border-slate-800 focus:border-teal-400 dark:focus:border-cyan-500 focus:ring-0 shadow-sm rounded-xl resize-none bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
                                     placeholder="Comienza a escribir o usa el micrófono para transcribir la sesión..."
                                 />
                             </div>
                         </div>
+
+                        {/* EXPERT FIELDS */}
+                        {(userSpecialty?.includes('psychiatrist') || userSpecialty?.includes('psiquiatra')) && (
+                            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                                    <Pill className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                    Notas Farmacológicas
+                                </label>
+                                <Textarea
+                                    placeholder="Registrar cambios en medicación, efectos adversos, etc..."
+                                    className="min-h-[100px] bg-indigo-50/30 dark:bg-indigo-950/20 border-indigo-100 dark:border-indigo-900/50 focus:border-indigo-400 focus:ring-indigo-100 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                                />
+                            </div>
+                        )}
+
+                        {(userSpecialty?.includes('neurologist') || userSpecialty?.includes('neurologo')) && (
+                            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                                    <Brain className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+                                    Exploración Neurológica / Física
+                                </label>
+                                <Textarea
+                                    placeholder="Registrar hallazgos del examen físico, pares craneales, motricidad..."
+                                    className="min-h-[100px] bg-blue-50/30 dark:bg-blue-950/20 border-blue-100 dark:border-blue-900/50 focus:border-blue-400 focus:ring-blue-100 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                                />
+                            </div>
+                        )}
 
                     </div>
                 </ScrollArea>
             </div>
 
 
-        </div>
+        </div >
     )
 }

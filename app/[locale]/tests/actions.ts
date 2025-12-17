@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export async function saveTestResult(patientId: string, testId: string, score: number, result: any) {
+export async function saveTestResult(patientId: string, testId: string, score: number, result: any, sessionId?: string) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -25,6 +25,7 @@ export async function saveTestResult(patientId: string, testId: string, score: n
             profile_id: profile.id,
             test_type: testId,
             results_json: { score, ...result },
+            session_id: sessionId
         })
         .select('id')
         .single()
