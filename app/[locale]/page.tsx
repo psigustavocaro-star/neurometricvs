@@ -29,13 +29,16 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
       <VerticalNavbar />
 
-      <main className="flex-1 relative bg-white dark:bg-slate-950 transition-colors duration-300">
-        {/* Unified Background Grid - Continuous Flow */}
+      <main className="flex-1 relative bg-background transition-colors duration-500">
+        {/* Unified Background - Continuous Flow */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] dark:opacity-5" />
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-teal-200/20 dark:bg-teal-900/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute top-[10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-200/20 dark:bg-indigo-900/10 blur-[100px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute bottom-[10%] left-[20%] w-[40%] h-[40%] rounded-full bg-indigo-200/20 dark:bg-slate-800/10 blur-[100px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
+          {/* Subtle grid only in dark mode if desired, or completely removed as per request */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 dark:opacity-[0.03]" />
+
+          {/* Calipso Blobs for Atmosphere */}
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 dark:bg-primary/5 blur-[120px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute bottom-[10%] left-[20%] w-[40%] h-[40%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
         </div>
 
         {/* Hero Section */}
@@ -60,14 +63,14 @@ export default function LandingPage() {
 
                 <ScrollAnimation animation="fade-up" delay={300}>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto">
-                    <Button asChild size="lg" className="relative overflow-hidden bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg shadow-teal-700/20 rounded-full px-8 h-12 text-base group">
+                    <Button asChild size="lg" className="relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 rounded-full px-8 h-12 text-base group border-0 transition-all">
                       <Link href="/onboarding">
                         <span className="relative z-10 flex items-center">{tHero('cta_primary')} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
                         <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
                       </Link>
                     </Button>
                     <DemoModal>
-                      <Button variant="outline" size="lg" className="border-slate-300 text-slate-700 hover:bg-teal-50 rounded-full px-8 h-12 text-base hover:border-teal-200 transition-all cursor-pointer">
+                      <Button variant="outline" size="lg" className="border-border text-foreground hover:bg-accent rounded-full px-8 h-12 text-base hover:border-primary/50 transition-all cursor-pointer">
                         {tHero('cta_secondary')}
                       </Button>
                     </DemoModal>
@@ -153,10 +156,10 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
               {tFAQ.raw('items').map((faq: any, i: number) => (
                 <ScrollAnimation key={i} delay={i * 50}>
-                  <Card className="border border-slate-100 dark:border-slate-800 shadow-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-white dark:hover:bg-slate-900 hover:border-teal-200 dark:hover:border-teal-800 relative group h-full">
+                  <Card className="border border-border/50 shadow-md bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-card hover:border-primary/30 relative group h-full">
                     <CardContent className="p-6">
-                      <h3 className="font-bold text-slate-900 dark:text-white mb-2 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors">{faq.q}</h3>
-                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      <h3 className="font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{faq.q}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
                         {faq.a}
                       </p>
                     </CardContent>
@@ -186,10 +189,10 @@ export default function LandingPage() {
               href="#hero"
               className="group flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="h-14 w-14 rounded-full bg-white border border-slate-200 shadow-lg flex items-center justify-center group-hover:border-teal-300 group-hover:shadow-teal-100/50 transition-all">
-                <ArrowUp className="h-6 w-6 text-slate-400 group-hover:text-teal-600 transition-colors" />
+              <div className="h-14 w-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-primary/20 transition-all">
+                <ArrowUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
-              <span className="text-xs font-medium text-slate-400 group-hover:text-teal-600 transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
+              <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
                 {tGeneral('back_to_top')}
               </span>
             </Link>

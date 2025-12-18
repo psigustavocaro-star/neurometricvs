@@ -5,6 +5,7 @@ import { SubscriptionStatusAlert } from "@/components/dashboard/subscription/sub
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check, CreditCard } from "lucide-react"
 import { getTranslations } from 'next-intl/server'
+import { cn } from "@/lib/utils"
 
 export default async function SubscriptionPage() {
     const supabase = await createClient()
@@ -30,28 +31,31 @@ export default async function SubscriptionPage() {
         <div className="space-y-8">
             <SubscriptionStatusAlert />
             <div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
-                <p className="text-slate-500">{t('subtitle')}</p>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('title')}</h1>
+                <p className="text-muted-foreground">{t('subtitle')}</p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {/* Basic Plan */}
-                <Card className={`${currentPlan === 'basic' ? 'border-teal-500 border-2 relative' : ''}`}>
+                <Card className={cn(
+                    "transition-all duration-300",
+                    currentPlan === 'basic' ? 'border-primary border-2 relative scale-105 z-10' : ''
+                )}>
                     {currentPlan === 'basic' && (
-                        <div className="absolute top-0 right-0 bg-teal-500 text-white text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
+                        <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
                     )}
                     <CardHeader>
                         <CardTitle>{t('Plans.Basic.name')}</CardTitle>
                         <CardDescription>{t('Plans.Basic.desc')}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$10<span className="text-sm font-normal text-slate-500">{t('month')}</span></div>
+                        <div className="text-3xl font-bold mb-4 text-foreground">$10<span className="text-sm font-normal text-muted-foreground">{t('month')}</span></div>
                         <ul className="space-y-2">
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Basic.features.all_tests')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Basic.features.all_tests')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Basic.features.pdfs')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Basic.features.pdfs')}
                             </li>
                         </ul>
                     </CardContent>
@@ -61,34 +65,37 @@ export default async function SubscriptionPage() {
                             price={10}
                             planName={t('Plans.Basic.name')}
                             currentPlan={currentPlan}
-                            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-transparent"
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-transparent"
                         />
                     </CardFooter>
                 </Card>
 
                 {/* Clinical Plan */}
-                <Card className={`${currentPlan === 'clinical' ? 'border-teal-500 border-2 relative' : ''}`}>
+                <Card className={cn(
+                    "transition-all duration-300",
+                    currentPlan === 'clinical' ? 'border-primary border-2 relative scale-105 z-10' : ''
+                )}>
                     {currentPlan === 'clinical' && (
-                        <div className="absolute top-0 right-0 bg-teal-500 text-white text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
+                        <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
                     )}
                     <CardHeader>
                         <CardTitle>{t('Plans.Clinical.name')}</CardTitle>
                         <CardDescription>{t('Plans.Clinical.desc')}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$15<span className="text-sm font-normal text-slate-500">{t('month')}</span></div>
+                        <div className="text-3xl font-bold mb-4 text-foreground">$15<span className="text-sm font-normal text-muted-foreground">{t('month')}</span></div>
                         <ul className="space-y-2">
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Clinical.features.basic_includes')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Clinical.features.basic_includes')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Clinical.features.patient_mgmt')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Clinical.features.patient_mgmt')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Clinical.features.history')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Clinical.features.history')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Clinical.features.automation')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Clinical.features.automation')}
                             </li>
                         </ul>
                     </CardContent>
@@ -98,15 +105,20 @@ export default async function SubscriptionPage() {
                             price={15}
                             planName={t('Plans.Clinical.name')}
                             currentPlan={currentPlan}
-                            className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-transparent"
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-transparent"
                         />
                     </CardFooter>
                 </Card>
 
                 {/* Pro Anual Plan */}
-                <Card className={`${currentPlan === 'pro' ? 'border-teal-500 border-2 relative' : 'border-green-200 bg-green-50/50'}`}>
+                <Card className={cn(
+                    "transition-all duration-300 hover:shadow-xl",
+                    currentPlan === 'pro'
+                        ? 'ring-2 ring-primary border-transparent relative scale-105 z-10 shadow-[0_0_20px_rgba(var(--primary),0.15)]'
+                        : 'border-primary/10 bg-primary/5'
+                )}>
                     {currentPlan === 'pro' && (
-                        <div className="absolute top-0 right-0 bg-teal-500 text-white text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
+                        <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-3 py-1.5 rounded-bl-xl font-bold">{t('active_badge')}</div>
                     )}
                     <CardHeader>
                         <div className="flex justify-between items-start">
@@ -114,33 +126,33 @@ export default async function SubscriptionPage() {
                                 <CardTitle>{t('Plans.Pro.name')}</CardTitle>
                                 <CardDescription>{t('Plans.Pro.desc')}</CardDescription>
                             </div>
-                            <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">
+                            <span className="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded">
                                 64% OFF
                             </span>
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-bold mb-4">$65<span className="text-sm font-normal text-slate-500">{t('year')}</span></div>
+                        <div className="text-3xl font-bold mb-4 text-foreground">$65<span className="text-sm font-normal text-muted-foreground">{t('year')}</span></div>
                         <ul className="mt-4 space-y-2 mb-4">
-                            <li className="flex items-center text-sm text-slate-700">
-                                <Check className="h-4 w-4 text-green-500 mr-2" /> {t('Plans.Pro.features.promo_1')}
+                            <li className="flex items-center text-sm text-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.promo_1')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-700">
-                                <Check className="h-4 w-4 text-green-500 mr-2" /> {t('Plans.Pro.features.promo_2')}
+                            <li className="flex items-center text-sm text-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.promo_2')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-700">
-                                <Check className="h-4 w-4 text-green-500 mr-2" /> {t('Plans.Pro.features.promo_3')}
+                            <li className="flex items-center text-sm text-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.promo_3')}
                             </li>
                         </ul>
-                        <ul className="space-y-2">
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Pro.features.clinical_includes')}
+                        <ul className="space-y-2 border-t border-border pt-4 mt-4">
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.clinical_includes')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Pro.features.billing')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.billing')}
                             </li>
-                            <li className="flex items-center text-sm text-slate-600">
-                                <Check className="h-4 w-4 text-teal-500 mr-2" /> {t('Plans.Pro.features.vip_support')}
+                            <li className="flex items-center text-sm text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2" /> {t('Plans.Pro.features.vip_support')}
                             </li>
                         </ul>
                     </CardContent>
@@ -150,7 +162,7 @@ export default async function SubscriptionPage() {
                             price={65}
                             planName={t('Plans.Pro.name')}
                             currentPlan={currentPlan}
-                            className={`w-full ${currentPlan !== 'pro' ? 'bg-green-600 hover:bg-green-700' : 'disabled:bg-transparent'}`}
+                            className={`w-full ${currentPlan !== 'pro' ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20' : 'disabled:bg-transparent'}`}
                         />
                     </CardFooter>
                 </Card>
@@ -162,17 +174,17 @@ export default async function SubscriptionPage() {
                     <CardDescription>{t('PaymentMethod.desc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex items-center justify-between border p-4 rounded-lg">
+                    <div className="flex items-center justify-between border border-border p-4 rounded-xl bg-card transition-colors">
                         <div className="flex items-center gap-4">
-                            <div className="bg-slate-100 p-2 rounded">
-                                <CreditCard className="h-6 w-6 text-slate-600" />
+                            <div className="bg-muted p-2 rounded-lg">
+                                <CreditCard className="h-6 w-6 text-muted-foreground" />
                             </div>
                             <div>
-                                <p className="font-medium">Visa terminada en 4242</p>
-                                <p className="text-sm text-slate-500">{t('PaymentMethod.expires')} 12/2025</p>
+                                <p className="font-medium text-foreground">Visa terminada en 4242</p>
+                                <p className="text-sm text-muted-foreground">{t('PaymentMethod.expires')} 12/2025</p>
                             </div>
                         </div>
-                        <Button variant="ghost" size="sm">Editar</Button>
+                        <Button variant="ghost" size="sm" className="hover:bg-accent text-muted-foreground hover:text-foreground">Editar</Button>
                     </div>
                 </CardContent>
             </Card>

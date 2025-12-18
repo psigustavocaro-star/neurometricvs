@@ -21,6 +21,7 @@ import {
     Brain,
     Activity
 } from 'lucide-react'
+import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
@@ -42,30 +43,30 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
     const recentSessions = sessions.slice(0, 5)
 
     return (
-        <div className="h-full overflow-y-auto bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-            <div className="p-4 lg:p-6 space-y-6">
+        <div className="h-full overflow-y-auto bg-background transition-colors duration-300">
+            <div className="p-6 md:p-8 space-y-6">
 
                 {/* Top Row: Key Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                     {/* Clinical Status Card */}
-                    <Card className="border shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden relative group transition-all duration-300 hover:shadow-md">
-                        <div className="absolute top-0 left-0 w-1 h-full bg-teal-500"></div>
+                    <Card className="border shadow-sm border-border bg-card overflow-hidden relative group transition-all duration-300 hover:shadow-md">
+                        <div className="absolute top-0 left-0 w-1 h-full bg-primary/80"></div>
                         <CardHeader className="pb-2 pt-4 px-4">
                             <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400">
+                                <div className="p-1.5 rounded bg-primary/10 text-primary">
                                     <Target className="w-4 h-4" />
                                 </div>
-                                <CardTitle className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wide">Estado Actual</CardTitle>
+                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Estado Actual</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="px-4 pb-4 space-y-3">
                             <div>
-                                <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Diagnóstico Principal</p>
-                                <p className="font-bold text-slate-900 dark:text-white text-base leading-tight">{diagnosis || 'En proceso de evaluación'}</p>
+                                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">Diagnóstico Principal</p>
+                                <p className="font-bold text-foreground text-base leading-tight">{diagnosis || 'En proceso de evaluación'}</p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/20 border-teal-200 dark:border-teal-800/50 text-xs px-2 py-0.5 font-medium">
+                                <Badge variant="outline" className="text-primary bg-primary/10 border-primary/20 text-xs px-2 py-0.5 font-medium">
                                     Estable
                                 </Badge>
                             </div>
@@ -73,53 +74,53 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                     </Card>
 
                     {/* Last Session Card */}
-                    <Card className="border shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden relative group transition-all duration-300 hover:shadow-md">
-                        <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                    <Card className="border shadow-sm border-border bg-card overflow-hidden relative group transition-all duration-300 hover:shadow-md">
+                        <div className="absolute top-0 left-0 w-1 h-full bg-primary/40"></div>
                         <CardHeader className="pb-2 pt-4 px-4">
                             <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+                                <div className="p-1.5 rounded bg-primary/10 text-primary">
                                     <Clock className="w-4 h-4" />
                                 </div>
-                                <CardTitle className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wide">Última Sesión</CardTitle>
+                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Última Sesión</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="px-4 pb-4">
                             {lastSession ? (
                                 <div className="space-y-2">
-                                    <p className="font-bold text-slate-900 dark:text-white text-base">
+                                    <p className="font-bold text-foreground text-base">
                                         {format(new Date(lastSession.date), "d 'de' MMMM, yyyy", { locale: es })}
                                     </p>
                                     <div className="flex items-center gap-2">
-                                        <Badge variant="outline" className="text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800/50 text-xs px-2 py-0.5 font-medium">
+                                        <Badge variant="outline" className="text-primary bg-primary/5 border-primary/20 text-xs px-2 py-0.5 font-medium">
                                             {lastSession.type || 'Sesión Regular'}
                                         </Badge>
                                         {lastSession.duration && (
-                                            <span className="text-xs font-medium text-slate-400 dark:text-slate-500">{lastSession.duration} min</span>
+                                            <span className="text-xs font-medium text-muted-foreground">{lastSession.duration} min</span>
                                         )}
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-sm text-slate-500 dark:text-slate-400 italic">Sin sesiones registradas</p>
+                                <p className="text-sm text-muted-foreground italic">Sin sesiones registradas</p>
                             )}
                         </CardContent>
                     </Card>
 
                     {/* Quick Action Card (Hero) */}
                     <Card
-                        className="border shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden relative group cursor-pointer hover:border-teal-400 dark:hover:border-teal-500 transition-all duration-300"
+                        className="border shadow-sm border-border bg-card overflow-hidden relative group cursor-pointer hover:border-primary/50 hover:shadow-[0_0_20px_rgba(var(--primary),0.1)] transition-all duration-300"
                         onClick={onStartSession}
                     >
-                        <div className="absolute top-0 left-0 w-1 h-full bg-slate-800 dark:bg-slate-700 group-hover:bg-teal-500 transition-colors"></div>
+                        <div className="absolute top-0 left-0 w-1 h-full bg-muted group-hover:bg-primary transition-colors"></div>
                         <CardContent className="p-4 flex flex-col justify-center h-full relative z-10">
                             <div className="flex items-center gap-4">
-                                <div className="h-10 w-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-teal-50 dark:group-hover:bg-teal-900/30 transition-colors pointer-events-none">
-                                    <UserPlus className="w-5 h-5 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400" />
+                                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors pointer-events-none">
+                                    <UserPlus className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Nueva Sesión</h4>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">Registrar visita clínica</p>
+                                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Nueva Sesión</h4>
+                                    <p className="text-xs text-muted-foreground">Registrar visita clínica</p>
                                 </div>
-                                <ArrowRight className="w-5 h-5 ml-auto text-slate-300 dark:text-slate-600 group-hover:text-teal-500 group-hover:translate-x-1 transition-all" />
+                                <ArrowRight className="w-5 h-5 ml-auto text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                             </div>
                         </CardContent>
                     </Card>
@@ -133,17 +134,17 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
 
                         {/* EXPERT CARDS: Psychiatry */}
                         {(userSpecialty?.includes('psychiatrist') || userSpecialty?.includes('psiquiatra')) && (
-                            <Card className="border border-indigo-100 dark:border-indigo-900/50 shadow-sm bg-indigo-50/30 dark:bg-indigo-950/20">
-                                <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-indigo-100 dark:border-indigo-900/30">
+                            <Card className="border border-primary/10 shadow-sm bg-primary/5 hover:bg-primary/10 transition-colors">
+                                <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-primary/10">
                                     <div className="flex items-center gap-2">
-                                        <Pill className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                                        <CardTitle className="text-sm font-bold text-indigo-900 dark:text-indigo-200">Tratamiento Farmacológico</CardTitle>
+                                        <Pill className="w-4 h-4 text-primary" />
+                                        <CardTitle className="text-sm font-bold text-foreground">Tratamiento Farmacológico</CardTitle>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="px-4 py-3">
                                     <div className="flex gap-2 flex-wrap">
                                         {['Sertralina 50mg', 'Quetiapina 25mg (SOS)'].map((med, i) => (
-                                            <Badge key={i} variant="secondary" className="bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-800 text-slate-700 dark:text-indigo-300 hover:bg-white cursor-default">
+                                            <Badge key={i} variant="secondary" className="bg-card border border-primary/20 text-foreground hover:bg-card cursor-default">
                                                 {med}
                                             </Badge>
                                         ))}
@@ -154,28 +155,28 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
 
                         {/* EXPERT CARDS: Neurology */}
                         {(userSpecialty?.includes('neurologist') || userSpecialty?.includes('neurologo')) && (
-                            <Card className="border border-blue-100 dark:border-blue-900/50 shadow-sm bg-blue-50/30 dark:bg-blue-950/20">
-                                <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-blue-100 dark:border-blue-900/30">
+                            <Card className="border border-primary/10 shadow-sm bg-primary/5 hover:bg-primary/10 transition-colors">
+                                <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-primary/10">
                                     <div className="flex items-center gap-2">
-                                        <Brain className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                                        <CardTitle className="text-sm font-bold text-blue-900 dark:text-blue-200">Evolución Cognitiva</CardTitle>
+                                        <Brain className="w-4 h-4 text-primary" />
+                                        <CardTitle className="text-sm font-bold text-foreground">Evolución Cognitiva</CardTitle>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="px-4 py-3">
                                     <div className="flex items-end gap-2 h-16 w-full max-w-xs">
                                         {[24, 25, 26, 26, 27].map((score, i) => (
-                                            <div key={i} className="flex-1 bg-blue-100 dark:bg-blue-900/40 rounded-t-sm relative group">
+                                            <div key={i} className="flex-1 bg-primary/10 rounded-t-sm relative group">
                                                 <div
-                                                    className="absolute bottom-0 w-full bg-blue-500 dark:bg-blue-500 rounded-t-sm transition-all duration-500"
+                                                    className="absolute bottom-0 w-full bg-primary/60 group-hover:bg-primary rounded-t-sm transition-all duration-500"
                                                     style={{ height: `${(score / 30) * 100}%` }}
                                                 />
-                                                <div className="absolute -top-6 w-full text-center text-[10px] text-slate-500 opacity-0 group-hover:opacity-100 font-bold">
+                                                <div className="absolute -top-6 w-full text-center text-[10px] text-muted-foreground opacity-0 group-hover:opacity-100 font-bold transition-opacity">
                                                     {score}
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
-                                    <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-wide">Tendencia MMSE: Ascendente</p>
+                                    <p className="text-[10px] font-medium text-muted-foreground mt-2 uppercase tracking-wide">Tendencia MMSE: Ascendente</p>
                                 </CardContent>
                             </Card>
                         )}
@@ -183,69 +184,72 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
 
 
                         {/* Sessions with Insights */}
-                        <Card className="border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-                            <CardHeader className="pb-3 pt-4 px-4 border-b border-slate-100 dark:border-slate-800">
+                        <Card className="border border-border shadow-sm bg-card">
+                            <CardHeader className="pb-3 pt-4 px-4 border-b border-border">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                                        <CardTitle className="text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wide">Historial de Sesiones</CardTitle>
+                                        <MessageSquare className="w-4 h-4 text-muted-foreground" />
+                                        <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Historial de Sesiones</CardTitle>
                                     </div>
-                                    <Badge variant="outline" className="text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-[10px] px-2">
+                                    <Badge variant="outline" className="text-muted-foreground bg-muted border-border text-[10px] px-2">
                                         Total: {sessions.length}
                                     </Badge>
                                 </div>
                             </CardHeader>
                             <CardContent className="p-0">
                                 {recentSessions.length > 0 ? (
-                                    <div className="divide-y divide-slate-100 dark:divide-slate-800/50">
+                                    <div className="divide-y divide-border">
                                         {recentSessions.map((session, index) => (
                                             <div
                                                 key={session.id}
-                                                className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group"
+                                                className="p-4 hover:bg-muted/50 transition-colors cursor-pointer group"
                                                 onClick={onStartSession}
                                             >
                                                 <div className="flex gap-4">
                                                     {/* Timeline indicator */}
                                                     <div className="flex flex-col items-center pt-1">
-                                                        <div className={`w-2.5 h-2.5 rounded-full ${index === 0 ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-slate-300 dark:bg-slate-600'}`} />
+                                                        <div className={cn(
+                                                            "w-2.5 h-2.5 rounded-full transition-all duration-300",
+                                                            index === 0 ? 'bg-primary shadow-[0_0_10px_rgba(var(--primary),0.8)]' : 'bg-muted-foreground/30'
+                                                        )} />
                                                         {index < recentSessions.length - 1 && (
-                                                            <div className="w-px flex-1 bg-slate-200 dark:bg-slate-700 mt-1" />
+                                                            <div className="w-px flex-1 bg-border/50 mt-1" />
                                                         )}
                                                     </div>
 
                                                     {/* Session content */}
                                                     <div className="flex-1 min-w-0 pb-2">
                                                         <div className="flex items-center justify-between mb-1.5">
-                                                            <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+                                                            <span className="font-bold text-foreground text-sm">
                                                                 {format(new Date(session.date), "d 'de' MMMM, yyyy", { locale: es })}
                                                             </span>
-                                                            <Badge variant="secondary" className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
+                                                            <Badge variant="secondary" className="text-[10px] bg-muted text-muted-foreground font-medium">
                                                                 {session.type || 'Sesión'}
                                                             </Badge>
                                                         </div>
 
                                                         {/* Session notes preview */}
                                                         {session.notes && (
-                                                            <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-3 leading-relaxed">
+                                                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3 leading-relaxed">
                                                                 {session.notes}
                                                             </p>
                                                         )}
 
                                                         {/* AI Insights if available */}
                                                         {session.ai_insights && (
-                                                            <div className="p-3 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/50">
+                                                            <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 shadow-[0_0_10px_rgba(var(--primary),0.05)]">
                                                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                                                    <Lightbulb className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
-                                                                    <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Insight AI</span>
+                                                                    <Sparkles className="w-4 h-4 text-primary" />
+                                                                    <span className="text-[10px] font-bold text-foreground uppercase tracking-wide opacity-70">Análisis Cerebral AI</span>
                                                                 </div>
-                                                                <p className="text-xs text-slate-600 dark:text-slate-400 italic">
+                                                                <p className="text-xs text-muted-foreground italic leading-relaxed">
                                                                     "{session.ai_insights.summary || session.ai_insights.key_themes || 'Análisis disponible'}"
                                                                 </p>
                                                             </div>
                                                         )}
 
                                                         <div className="flex justify-end mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            <span className="text-xs font-medium text-teal-600 dark:text-teal-400 flex items-center gap-1">Ver detalles <ArrowRight className="w-3 h-3" /></span>
+                                                            <span className="text-xs font-medium text-primary flex items-center gap-1">Ver detalles <ArrowRight className="w-3 h-3" /></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -254,11 +258,11 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                     </div>
                                 ) : (
                                     <div className="p-8 text-center">
-                                        <div className="w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 mx-auto mb-3 flex items-center justify-center border border-slate-100 dark:border-slate-700">
-                                            <MessageSquare className="w-5 h-5 text-slate-400 dark:text-slate-500" />
+                                        <div className="w-12 h-12 rounded-full bg-muted mx-auto mb-3 flex items-center justify-center border border-border">
+                                            <MessageSquare className="w-5 h-5 text-muted-foreground" />
                                         </div>
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4">No hay sesiones registradas</p>
-                                        <Button size="sm" onClick={onStartSession} className="bg-teal-600 hover:bg-teal-700 text-white shadow-sm">
+                                        <p className="text-sm font-medium text-muted-foreground mb-4">No hay sesiones registradas</p>
+                                        <Button size="sm" onClick={onStartSession} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
                                             <UserPlus className="w-4 h-4 mr-2" />
                                             Iniciar Primera Sesión
                                         </Button>
@@ -271,43 +275,42 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                     {/* Right Sidebar - Stats */}
                     <div className="space-y-4">
                         {/* Treatment Progress */}
-                        <Card className="border shadow-sm border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-                            <CardHeader className="pb-2 pt-4 px-4 border-b border-slate-100 dark:border-slate-800">
+                        <Card className="border shadow-sm border-border bg-card">
+                            <CardHeader className="pb-2 pt-4 px-4 border-b border-border">
                                 <div className="flex items-center gap-2">
-                                    <div className="p-1 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+                                    <div className="p-1 rounded bg-primary/10 text-primary">
                                         <TrendingUp className="w-4 h-4" />
                                     </div>
-                                    <CardTitle className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wide">Progreso</CardTitle>
+                                    <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Progreso</CardTitle>
                                 </div>
                             </CardHeader>
                             <CardContent className="px-4 py-4 space-y-4">
                                 <div>
                                     <div className="flex justify-between text-xs mb-2">
-                                        <span className="font-medium text-slate-600 dark:text-slate-400">Continuidad</span>
-                                        <span className="font-bold text-slate-900 dark:text-white">{Math.min((sessions.length / 12) * 100, 100).toFixed(0)}%</span>
+                                        <span className="font-medium text-muted-foreground">Continuidad</span>
+                                        <span className="font-bold text-foreground">{Math.min((sessions.length / 12) * 100, 100).toFixed(0)}%</span>
                                     </div>
-                                    <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                    <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-teal-500 dark:bg-teal-400 transition-all duration-500"
+                                            className="h-full rounded-full bg-primary transition-all duration-500"
                                             style={{ width: `${Math.min((sessions.length / 12) * 100, 100)}%` }}
                                         />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="text-center p-3 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                                        <p className="text-2xl font-bold text-slate-800 dark:text-white mb-0.5">{sessions.length}</p>
-                                        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total Sesiones</p>
+                                    <div className="text-center p-3 rounded-xl bg-muted border border-border">
+                                        <p className="text-2xl font-bold text-foreground mb-0.5">{sessions.length}</p>
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total Sesiones</p>
                                     </div>
-                                    <div className="text-center p-3 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                                        <p className="text-2xl font-bold text-slate-800 dark:text-white mb-0.5">
+                                    <div className="text-center p-3 rounded-xl bg-muted border border-border">
+                                        <p className="text-2xl font-bold text-foreground mb-0.5">
                                             {sessions.filter(s => s.ai_insights).length}
                                         </p>
-                                        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Con Análisis</p>
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Con Análisis</p>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
-
                     </div>
                 </div>
             </div>

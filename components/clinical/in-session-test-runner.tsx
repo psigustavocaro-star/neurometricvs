@@ -33,7 +33,7 @@ export function InSessionTestRunner({ patientId, sessionId, onTestComplete }: In
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 text-slate-600 border-slate-300 hover:bg-teal-50 hover:text-teal-700">
+                <Button variant="outline" size="sm" className="gap-2 text-muted-foreground border-border hover:bg-accent hover:text-foreground">
                     <ClipboardList className="w-4 h-4" />
                     Aplicar Test
                 </Button>
@@ -49,12 +49,12 @@ export function InSessionTestRunner({ patientId, sessionId, onTestComplete }: In
                             {AVAILABLE_TESTS.map(test => (
                                 <div
                                     key={test.id}
-                                    className="p-4 border border-slate-200 rounded-xl hover:border-teal-500 hover:bg-teal-50 cursor-pointer transition-all group"
+                                    className="p-4 border border-border rounded-xl hover:border-primary/50 hover:bg-accent/50 cursor-pointer transition-all group"
                                     onClick={() => setSelectedTest(test)}
                                 >
-                                    <h4 className="font-semibold text-slate-900 group-hover:text-teal-800">{test.title}</h4>
-                                    <p className="text-sm text-slate-500 mt-1 line-clamp-2">{test.description}</p>
-                                    <div className="flex items-center gap-2 mt-3 text-xs font-medium text-slate-400 group-hover:text-teal-600">
+                                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{test.title}</h4>
+                                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{test.description}</p>
+                                    <div className="flex items-center gap-2 mt-3 text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors">
                                         <Play className="w-3 h-3" /> Iniciar
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@ export function InSessionTestRunner({ patientId, sessionId, onTestComplete }: In
                     </>
                 ) : (
                     <div className="py-2">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedTest(null)} className="mb-4 -ml-2 text-slate-400">
+                        <Button variant="ghost" size="sm" onClick={() => setSelectedTest(null)} className="mb-4 -ml-2 text-muted-foreground hover:text-foreground">
                             ← Volver a la lista
                         </Button>
                         <StepByStepTestRunner

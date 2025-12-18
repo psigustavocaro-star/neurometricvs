@@ -51,15 +51,10 @@ export function FeaturesSection() {
     ]
 
     return (
-        <section id="features" className="w-full py-16 md:py-32 bg-transparent dark:bg-background/50 relative overflow-hidden transition-colors duration-300">
-            {/* Top Gradient Mask for Smooth Entry */}
-            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-white dark:to-background/50 z-20 pointer-events-none"></div>
-
+        <section id="features" className="w-full py-16 md:py-32 bg-transparent relative overflow-hidden transition-colors duration-300">
             {/* Background Atmosphere - Futuristic Glows (Dark Mode Only) */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-indigo-950/30 rounded-full blur-[120px] pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500" />
-            <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-teal-900/10 rounded-full blur-[100px] pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500" />
-            {/* Global grid handles light mode pattern, this is for dark mode vibe if needed, but safe to keep or remove. Keeping for dark mode texture if configured for it. */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.5)_1px,transparent_1px)] bg-[size:40px_40px] opacity-0 dark:opacity-10 transition-opacity duration-500" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none opacity-0 dark:opacity-30 transition-opacity duration-500" />
+            <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-primary/5 rounded-full blur-[100px] pointer-events-none opacity-0 dark:opacity-20 transition-opacity duration-500" />
 
             {/* Section Header */}
             <div className="container px-4 md:px-6 mb-12 md:mb-24 relative z-10 text-center">

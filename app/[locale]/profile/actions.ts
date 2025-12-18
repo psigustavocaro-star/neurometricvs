@@ -14,6 +14,7 @@ export async function updateProfile(formData: FormData) {
     const fullName = formData.get('fullName') as string
     const registryNumber = formData.get('registryNumber') as string
     const specialty = formData.get('specialty') as string
+    const phone = formData.get('phone') as string
     const signatureUrl = formData.get('signatureUrl') as string
 
     const { error } = await supabase
@@ -23,6 +24,7 @@ export async function updateProfile(formData: FormData) {
             full_name: fullName,
             registry_number: registryNumber,
             specialty: specialty,
+            phone: phone,
             signature_url: signatureUrl,
             updated_at: new Date().toISOString(),
         })
