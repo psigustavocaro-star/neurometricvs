@@ -4,6 +4,8 @@ import { gad7 } from '@/lib/tests/gad7'
 import { rosenbergSelfEsteem } from '@/lib/tests/rosenberg'
 import { bis11 } from '@/lib/tests/bis11'
 import { scared } from '@/lib/tests/scared'
+import { mChatRF } from '@/lib/tests/m-chat-r-f'
+import { vanderbiltPadres } from '@/lib/tests/vanderbilt-padres'
 import { TestRunner } from '@/components/test-runner'
 import { CarasRTestRunner } from '@/components/tests/caras-r-runner'
 import { notFound } from 'next/navigation'
@@ -15,7 +17,9 @@ const standardTests = {
     'gad-7': gad7,
     'rosenberg': rosenbergSelfEsteem,
     'bis-11': bis11,
-    'scared': scared
+    'scared': scared,
+    'm-chat-r-f': mChatRF,
+    'vanderbilt-padres': vanderbiltPadres
 }
 
 // Tests especiales con componentes propios

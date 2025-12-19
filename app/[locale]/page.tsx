@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { ArrowRight, Check, ChevronDown, Menu, X, ArrowUp } from "lucide-react"
@@ -78,22 +79,22 @@ export default function LandingPage() {
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={400}>
-                  <div className="flex items-center gap-4 text-sm text-slate-500 mt-4 justify-center lg:justify-start">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4 justify-center lg:justify-start">
                     <div className="flex -space-x-3">
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-teal-100 transition-all hover:scale-110 hover:z-10">
-                        <img src="/assets/v2/female-1.png" alt="User" className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/female-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                       </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-teal-100 transition-all hover:scale-110 hover:z-10">
-                        <img src="/assets/v2/male-1.png" alt="User" className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/male-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                       </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-teal-100 transition-all hover:scale-110 hover:z-10">
-                        <img src="/assets/v2/female-2.png" alt="User" className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/female-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                       </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-teal-100 transition-all hover:scale-110 hover:z-10">
-                        <img src="/assets/v2/male-2.png" alt="User" className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/male-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                       </div>
                     </div>
-                    <p className="font-medium text-slate-600">{tHero('trusted_by')}</p>
+                    <p className="font-medium text-muted-foreground">{tHero('trusted_by')}</p>
                   </div>
                 </ScrollAnimation>
               </div>

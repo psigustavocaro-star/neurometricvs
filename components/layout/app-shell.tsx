@@ -1,5 +1,7 @@
 'use client'
 
+import Image from "next/image"
+
 import { useState, useEffect } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
@@ -108,11 +110,11 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                                 {/* Calipso Glow Effect */}
                                 <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
-                                {/* Main Container - Pure Black/Slate-950 */}
-                                <div className="relative w-full h-full bg-black border border-primary/30 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(var(--primary),0.2)] z-10 transition-all duration-500 group-hover:border-primary/60">
-                                    {/* Logo with Calipso Tint */}
+                                {/* Main Container - Professional Brand Icon */}
+                                <div className="relative w-full h-full bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30 z-10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-teal-500/50">
+                                    {/* Logo White */}
                                     <div
-                                        className="w-9 h-9 bg-primary"
+                                        className="w-7 h-7 bg-white"
                                         style={{
                                             maskImage: 'url(/neurometrics-logo-small.png)',
                                             maskSize: 'contain',
@@ -186,6 +188,19 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     "p-4 border-t border-border flex flex-col gap-1",
                     isCollapsed && "items-center"
                 )}>
+                    {/* Back to Landing */}
+                    <Link
+                        href="/"
+                        className={cn(
+                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group",
+                            isCollapsed && "justify-center"
+                        )}
+                        title={t('home')}
+                    >
+                        <ExternalLink className="w-4 h-4 group-hover:text-primary transition-colors" />
+                        {!isCollapsed && <span className="font-medium">{t('home')}</span>}
+                    </Link>
+
                     {/* Theme Toggle */}
                     <div className={cn(
                         "flex items-center group",
@@ -228,7 +243,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             {/* Mobile Header */}
             <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/50 z-40 flex items-center justify-between px-4">
                 <Link href="/" className="flex items-center gap-2">
-                    <img src="/logo.png?v=3" alt="Logo" className="h-8 w-auto dark:brightness-0 dark:invert" />
+                    <Image src="/logo.png" alt="Logo" width={100} height={32} className="h-8 w-auto dark:brightness-0 dark:invert" />
                     <span className="font-bold text-foreground">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
@@ -284,7 +299,6 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             <main
                 className={cn(
                     "flex-1 transition-all duration-300 relative min-h-screen",
-                    isCollapsed ? "lg:pl-[70px]" : "lg:pl-[260px]", // Use padding instead of margin to prevent layout jumps
                     "pt-16 lg:pt-0" // Mobile header offset
                 )}
             >

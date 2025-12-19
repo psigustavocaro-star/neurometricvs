@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -30,6 +30,8 @@ export function PatientSelectorDialog({ testId, testName, trigger, open: control
     const [patients, setPatients] = useState<Patient[]>([])
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const params = useParams()
+    const locale = params.locale as string
     const supabase = createClient()
 
     const isControlled = controlledOpen !== undefined
@@ -72,7 +74,8 @@ export function PatientSelectorDialog({ testId, testName, trigger, open: control
     )
 
     const handleSelectPatient = (patientId: string) => {
-        router.push(`/tests/${testId}?patientId=${patientId}`)
+        // Incluir el locale actual en la redirección
+        router.push(`/${locale}/tests/${testId}?patientId=${patientId}`)
     }
 
     return (
@@ -98,7 +101,7 @@ export function PatientSelectorDialog({ testId, testName, trigger, open: control
                     <Button
                         variant="outline"
                         className="w-full border-dashed border-2 hover:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-all"
-                        onClick={() => router.push('/patients/new')}
+                        onClick={() => router.push(`/${locale}/patients/new`)}
                     >
                         <Plus className="mr-2 h-4 w-4" />
                         Añadir Nuevo Paciente

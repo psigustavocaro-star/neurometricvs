@@ -1,5 +1,7 @@
 'use client'
 
+import Image from "next/image"
+
 import { useState, useEffect } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
@@ -100,7 +102,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                     <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <img src="/logo.png?v=3" alt="Neurometrics Logo" className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" />
+                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
                         </div>
                     </Link>
 
@@ -179,12 +181,13 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                         {currentUser ? (
                             <div className="flex items-center gap-3 pl-2">
                                 <Link href="/profile" className="flex items-center gap-2 hover:bg-slate-50 rounded-full pr-3 pl-1 py-1 transition-colors group">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 bg-teal-50 flex items-center justify-center">
+                                    <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 bg-teal-50 flex items-center justify-center relative">
                                         {currentUser.user_metadata?.avatar_url ? (
-                                            <img
+                                            <Image
                                                 src={currentUser.user_metadata?.avatar_url}
                                                 alt="Avatar"
-                                                className="h-full w-full object-cover"
+                                                fill
+                                                className="object-cover"
                                             />
                                         ) : (
                                             <span className="text-xs font-bold text-teal-700">
