@@ -74,7 +74,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
         ...((effectivePlan === 'clinical' || effectivePlan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
-        { name: t("subscription"), href: "/dashboard/subscription", icon: CreditCard },
+
         { name: t("profile"), href: "/profile", icon: UserCircle },
     ]
 
@@ -93,10 +93,10 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     }
 
     return (
-        <div className="flex min-h-screen bg-background transition-colors duration-300">
+        <div className="flex min-h-screen bg-background transition-colors duration-500 ease-in-out">
             {/* Desktop Sidebar */}
             <aside className={cn(
-                "hidden lg:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-300 ease-in-out relative z-40",
+                "hidden lg:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40",
                 isCollapsed ? 'w-[70px]' : 'w-[260px]'
             )}>
                 {/* Logo Area */}
@@ -129,18 +129,19 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                                 </div>
                             </div>
                         </Link>
-                        {!isCollapsed && (
-                            <div className="flex flex-col">
-                                <Link href="/dashboard" className="flex flex-col">
-                                    <span className="text-[15px] font-bold text-foreground tracking-tight leading-none group-hover:text-primary transition-colors duration-300">
-                                        Neurometrics Latam
-                                    </span>
-                                    <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5 group-hover:text-primary/70 transition-colors">
-                                        Workstation
-                                    </span>
-                                </Link>
-                            </div>
-                        )}
+                        <div className={cn(
+                            "flex flex-col overflow-hidden transition-all duration-500 ease-in-out whitespace-nowrap",
+                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100 pl-2"
+                        )}>
+                            <Link href="/dashboard" className="flex flex-col">
+                                <span className="text-[15px] font-bold text-foreground tracking-tight leading-none group-hover:text-primary transition-colors duration-500 ease-in-out">
+                                    Neurometrics
+                                </span>
+                                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5 group-hover:text-primary/70 transition-colors">
+                                    Workstation
+                                </span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
@@ -172,10 +173,13 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             )}
                         >
                             <link.icon className={cn(
-                                "w-5 h-5 shrink-0 transition-all duration-300",
+                                "w-5 h-5 shrink-0 transition-all duration-500 ease-in-out",
                                 isActive(link.href) ? "text-primary scale-110" : "text-muted-foreground group-hover:text-primary"
                             )} />
-                            {!isCollapsed && <span className="text-sm tracking-tight">{link.name}</span>}
+                            <span className={cn(
+                                "text-sm tracking-tight overflow-hidden transition-all duration-500 ease-in-out whitespace-nowrap",
+                                isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
+                            )}>{link.name}</span>
                             {isActive(link.href) && (
                                 <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full shadow-[0_0_10px_rgba(var(--primary),0.8)]" />
                             )}
@@ -192,23 +196,27 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <Link
                         href="/"
                         className={cn(
-                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group",
-                            isCollapsed && "justify-center"
+                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group overflow-hidden whitespace-nowrap",
+                            isCollapsed && "justify-center px-2"
                         )}
                         title={t('home')}
                     >
-                        <ExternalLink className="w-4 h-4 group-hover:text-primary transition-colors" />
-                        {!isCollapsed && <span className="font-medium">{t('home')}</span>}
+                        <ExternalLink className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                        <span className={cn(
+                            "font-medium overflow-hidden transition-all duration-500 ease-in-out",
+                            isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
+                        )}>{t('home')}</span>
                     </Link>
 
                     {/* Theme Toggle */}
                     <div className={cn(
-                        "flex items-center group",
-                        isCollapsed ? "justify-center mb-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
+                        "flex items-center group overflow-hidden whitespace-nowrap",
+                        isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
                     )}>
-                        {!isCollapsed && (
-                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Tema</span>
-                        )}
+                        <span className={cn(
+                            "text-sm text-muted-foreground group-hover:text-foreground transition-all duration-500 ease-in-out",
+                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+                        )}>Tema</span>
                         <ThemeToggle />
                     </div>
 
@@ -216,26 +224,33 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <button
                         onClick={handleLocaleChange}
                         className={cn(
-                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group",
-                            isCollapsed && "justify-center"
+                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group overflow-hidden whitespace-nowrap",
+                            isCollapsed && "justify-center px-2"
                         )}
                     >
-                        <Globe className="w-4 h-4 group-hover:text-primary transition-colors" />
-                        {!isCollapsed && <span className="font-medium">{locale === 'es' ? 'English' : 'Español'}</span>}
+                        <Globe className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                        <span className={cn(
+                            "font-medium overflow-hidden transition-all duration-500 ease-in-out",
+                            isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
+                        )}>{locale === 'es' ? 'English' : 'Español'}</span>
                     </button>
 
+                    {/* Sign Out */}
                     {/* Sign Out */}
                     <Button
                         variant="ghost"
                         onClick={handleSignOut}
                         disabled={isLoggingOut}
                         className={cn(
-                            "w-full justify-start px-3 py-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all group",
-                            isCollapsed && "justify-center"
+                            "w-full justify-start px-3 py-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all group overflow-hidden whitespace-nowrap",
+                            isCollapsed && "justify-center px-2"
                         )}
                     >
-                        <LogOut className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                        {!isCollapsed && <span className="ml-3 text-sm font-medium">{isLoggingOut ? 'Saliendo...' : 'Cerrar Sesión'}</span>}
+                        <LogOut className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                        <span className={cn(
+                            "ml-3 text-sm font-medium overflow-hidden transition-all duration-500 ease-in-out",
+                            isCollapsed ? "w-0 opacity-0 translate-x-4 ml-0" : "w-auto opacity-100 translate-x-0"
+                        )}>{isLoggingOut ? 'Saliendo...' : 'Cerrar Sesión'}</span>
                     </Button>
                 </div>
             </aside>
@@ -298,7 +313,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             {/* Main Content */}
             <main
                 className={cn(
-                    "flex-1 transition-all duration-300 relative min-h-screen",
+                    "flex-1 transition-all duration-500 ease-in-out relative min-h-screen",
                     "pt-16 lg:pt-0" // Mobile header offset
                 )}
             >

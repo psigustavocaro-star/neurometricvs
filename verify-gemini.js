@@ -11,7 +11,7 @@ async function testGemini() {
     }
     console.log('✅ API Key found (starts with):', apiKey.substring(0, 5) + '...');
 
-    const modelsToTest = ['gemini-1.5-flash', 'gemini-pro', 'gemini-1.0-pro'];
+    const modelsToTest = ['gemini-flash-latest', 'gemini-2.0-flash-exp', 'gemini-2.0-flash'];
     const genAI = new GoogleGenerativeAI(apiKey);
 
     for (const modelName of modelsToTest) {
