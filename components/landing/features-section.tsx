@@ -75,7 +75,10 @@ export function FeaturesSection() {
             <div className="container px-4 relative z-10 space-y-20 md:space-y-40">
                 {features.map((feature, index) => (
                     <ScrollAnimation key={feature.key} viewport={{ once: false, margin: "-100px" }}>
-                        <div className={`flex flex-col lg:flex-row items-center gap-10 lg:gap-20 ${feature.alignment === 'right' ? 'lg:flex-row-reverse' : ''}`}>
+                        <div
+                            id={feature.key === 'MobileAccess' ? 'mobile' : undefined}
+                            className={`flex flex-col lg:flex-row items-center gap-10 lg:gap-20 ${feature.alignment === 'right' ? 'lg:flex-row-reverse' : ''}`}
+                        >
 
                             {/* Text Content - Futuristic Typography */}
                             <div className="flex-1 space-y-6 md:space-y-10">

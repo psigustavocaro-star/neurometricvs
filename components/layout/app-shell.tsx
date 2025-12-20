@@ -25,7 +25,8 @@ import {
     Menu,
     X,
     Globe,
-    ExternalLink
+    ExternalLink,
+    BookOpen
 } from "lucide-react"
 
 interface AppShellProps {
@@ -73,6 +74,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
+        { name: 'Recursos', href: '/dashboard/resources', icon: BookOpen },
         ...((effectivePlan === 'clinical' || effectivePlan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
 
         { name: t("profile"), href: "/profile", icon: UserCircle },
@@ -92,11 +94,27 @@ export function AppShell({ children, user, plan }: AppShellProps) {
         return pathname.startsWith(href)
     }
 
+    // Auto-collapse on tablet screens
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth
+            if (width >= 768 && width < 1024) {
+                setIsCollapsed(true)
+            }
+        }
+
+        // Initial check
+        handleResize()
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
     return (
         <div className="flex min-h-screen bg-background transition-colors duration-500 ease-in-out">
-            {/* Desktop Sidebar */}
+            {/* Desktop Sidebar - Visible from md (768px) upwards */}
             <aside className={cn(
-                "hidden lg:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40",
+                "hidden md:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40",
                 isCollapsed ? 'w-[70px]' : 'w-[260px]'
             )}>
                 {/* Logo Area */}
@@ -236,7 +254,6 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     </button>
 
                     {/* Sign Out */}
-                    {/* Sign Out */}
                     <Button
                         variant="ghost"
                         onClick={handleSignOut}
@@ -255,8 +272,8 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                 </div>
             </aside>
 
-            {/* Mobile Header */}
-            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/50 z-40 flex items-center justify-between px-4">
+            {/* Mobile Header - Visible up to md (768px) */}
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/50 z-40 flex items-center justify-between px-4 shadow-sm">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="Logo" width={100} height={32} className="h-8 w-auto dark:brightness-0 dark:invert" />
                     <span className="font-bold text-foreground">Workstation</span>
@@ -265,7 +282,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <ThemeToggle />
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 rounded-lg hover:bg-muted"
+                        className="p-2 rounded-lg hover:bg-muted active:scale-95 transition-transform"
                     >
                         {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
@@ -274,9 +291,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="md:hidden fixed inset-0 z-30 bg-black/50" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="md:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}>
                     <div
-                        className="absolute top-16 left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 space-y-2"
+                        className="absolute top-16 left-0 right-0 bg-background border-b border-border p-4 space-y-2 shadow-xl animate-in slide-in-from-top-2"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {navLinks.map((link) => (
@@ -288,14 +305,14 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                                     "flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
                                     isActive(link.href)
                                         ? "bg-primary/10 text-primary font-bold shadow-[0_0_10px_rgba(var(--primary),0.1)]"
-                                        : "text-muted-foreground hover:bg-muted"
+                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                 )}
                             >
                                 <link.icon className="w-5 h-5" />
                                 <span>{link.name}</span>
                             </Link>
                         ))}
-                        <div className="border-t border-slate-100 dark:border-slate-800 pt-3 mt-3">
+                        <div className="border-t border-border pt-3 mt-3">
                             <Button
                                 variant="ghost"
                                 onClick={handleSignOut}
@@ -313,8 +330,8 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             {/* Main Content */}
             <main
                 className={cn(
-                    "flex-1 transition-all duration-500 ease-in-out relative min-h-screen",
-                    "pt-16 lg:pt-0" // Mobile header offset
+                    "flex-1 transition-all duration-500 ease-in-out relative min-h-screen overflow-x-hidden",
+                    "pt-16 md:pt-0" // Mobile header offset
                 )}
             >
                 {children}

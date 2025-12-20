@@ -159,8 +159,8 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             </div>
 
             {/* Main Content */}
-            <div className="p-6 md:p-8 pt-0">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="p-4 md:p-8 pt-0">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                     {/* Patient List - Takes 2 columns */}
                     <motion.div variants={itemVariants} className="lg:col-span-2">
                         <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden">

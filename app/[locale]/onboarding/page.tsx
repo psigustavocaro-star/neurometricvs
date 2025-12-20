@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Check, ChevronRight, ChevronLeft, Loader2, ShieldCheck, Clock, Star, X } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
@@ -69,9 +70,7 @@ function OnboardingContent() {
             })
 
             if (!token) {
-                console.error('[Paddle] Error: Client Token is missing!')
-                // V2: Debug timestamp to verify new code is running
-                setError(`Error de configuración: Falta el token de pagos. (Rev: ${new Date().toISOString().split('T')[1].substring(0, 5)})`)
+                console.warn('[Paddle] Warning: Client Token is missing. Payment features will be disabled.')
                 return
             }
 
@@ -256,13 +255,19 @@ function OnboardingContent() {
 
                                                     <div className="space-y-2">
                                                         <Label htmlFor="role" className="text-sm font-medium text-slate-700">Profesión Base</Label>
-                                                        <Input
-                                                            id="role"
-                                                            placeholder="Ej. Psicólogo, Médico Psiquiatra"
-                                                            className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20"
+                                                        <Select
                                                             value={formData.role}
-                                                            onChange={(e) => handleInputChange('role', e.target.value)}
-                                                        />
+                                                            onValueChange={(value) => handleInputChange('role', value)}
+                                                        >
+                                                            <SelectTrigger className="h-10 text-sm bg-white/50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20">
+                                                                <SelectValue placeholder="Selecciona tu profesión" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="Psicólogo">Psicólogo</SelectItem>
+                                                                <SelectItem value="Psiquiatra">Psiquiatra</SelectItem>
+                                                                <SelectItem value="Neurólogo">Neurólogo</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
                                                         <p className="text-[10px] text-slate-500">Tu título principal.</p>
                                                     </div>
 
@@ -438,15 +443,16 @@ function OnboardingContent() {
                                                 >
                                                     <div className="mb-3">
                                                         <h3 className="font-bold text-base text-slate-900 leading-tight mb-0.5">Gratuita</h3>
-                                                        <p className="text-[10px] text-slate-600">Explora el potencial</p>
+                                                        <p className="text-[10px] text-slate-600">Modo Lectura / Exploración</p>
                                                     </div>
                                                     <div className="mb-3">
                                                         <span className="text-2xl font-bold text-slate-900">$0</span>
                                                         <span className="text-[10px] text-slate-600">/mes</span>
                                                     </div>
                                                     <ul className="text-[10px] text-slate-600 space-y-1.5 flex-1">
-                                                        <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Acceso a Tests</span></li>
-                                                        <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Catálogo completo</span></li>
+                                                        <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Ver biblioteca de tests</span></li>
+                                                        <li className="flex gap-1.5 items-start"><Check className="w-3 h-3 text-teal-600 shrink-0" /> <span className="leading-tight">Filtrado por profesión</span></li>
+                                                        <li className="flex gap-1.5 items-start text-slate-400"><X className="w-3 h-3 text-slate-400 shrink-0" /> <span className="leading-tight line-through">Uso de tests y corrección</span></li>
                                                     </ul>
                                                 </div>
 

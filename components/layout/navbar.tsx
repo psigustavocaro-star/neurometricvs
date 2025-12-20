@@ -128,16 +128,16 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                             </>
                         ) : (
                             <>
-                                <Link href="/" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
+                                <Link href="/" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
                                     {t('home')}
                                 </Link>
-                                <Link href="/features" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
+                                <Link href="/features" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
                                     {t('features')}
                                 </Link>
-                                <Link href="/pricing" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
+                                <Link href="/pricing" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
                                     {t('pricing')}
                                 </Link>
-                                <Link href="/testimonials" className="text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 font-medium px-4 py-2 transition-colors">
+                                <Link href="/testimonials" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
                                     {t('testimonials')}
                                 </Link>
                             </>
@@ -253,15 +253,55 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
 
             {/* Mobile Menu Content (Simplified re-implementation) */}
             {isMobileMenuOpen && (
-                <div className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-lg absolute w-full">
-                    <div className="px-4 pt-2 pb-6 space-y-2">
-                        {/* Mobile links implementation omitted for brevity in this specific fix, keeping existing structure would be best if I had full content, but I will assume critical desktop functionality is priority for demo. 
-                            Actually, I should check if I can keep the existing mobile menu logic. 
-                            I'll verify via view_file if I need to.
-                            But standard mobile menu logic is fairly generic.
-                        */}
-                        <Link href="/features" className="block px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400" onClick={() => setIsMobileMenuOpen(false)}>{t('features')}</Link>
-                        <Link href="/pricing" className="block px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400" onClick={() => setIsMobileMenuOpen(false)}>{t('pricing')}</Link>
+                <div className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-lg absolute w-full top-full left-0 animate-in slide-in-from-top-5">
+                    <div className="px-4 py-6 space-y-4 flex flex-col">
+                        <Link href="/" className="px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            {t('home')}
+                        </Link>
+                        <Link href="/features" className="px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            {t('features')}
+                        </Link>
+                        <Link href="/pricing" className="px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            {t('pricing')}
+                        </Link>
+                        <Link href="/testimonials" className="px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                            {t('testimonials')}
+                        </Link>
+
+                        <div className="h-px bg-slate-200 dark:bg-slate-800 my-2" />
+
+                        {currentUser ? (
+                            <>
+                                <Link href="/dashboard" className="px-4 py-3 text-sm font-medium text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 rounded-lg transition-colors flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <LayoutDashboard className="w-4 h-4" />
+                                    Workstation
+                                </Link>
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => {
+                                        handleSignOut();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="justify-start px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full"
+                                >
+                                    <LogOut className="w-4 h-4 mr-2" />
+                                    {t('logout') || "Cerrar Sesión"}
+                                </Button>
+                            </>
+                        ) : (
+                            <div className="flex flex-col gap-3 mt-2">
+                                <LoginModal>
+                                    <Button variant="outline" className="w-full justify-center rounded-full border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t('login')}
+                                    </Button>
+                                </LoginModal>
+                                <Link href="/onboarding" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Button className="w-full justify-center rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-md">
+                                        {t('register')}
+                                    </Button>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

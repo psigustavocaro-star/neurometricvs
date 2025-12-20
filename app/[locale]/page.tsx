@@ -43,7 +43,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Section */}
-        <section id="hero" className="w-full pt-10 md:pt-14 lg:pt-20 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
+        <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-48 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
           <div className="container px-4 md:px-6 relative z-10">
 
             <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-center">
@@ -99,9 +99,9 @@ export default function LandingPage() {
                 </ScrollAnimation>
               </div>
 
-              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[800px] w-full max-w-[800px] flex items-center justify-center mt-8 lg:mt-0">
+              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[600px] w-full max-w-[800px] flex items-center justify-center mt-8 lg:mt-0">
                 <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
-                  <div className="scale-75 md:scale-90 xl:scale-100 transition-transform origin-center">
+                  <div className="scale-75 md:scale-75 lg:scale-90 xl:scale-100 transition-transform origin-center">
                     <HeroCarousel />
                   </div>
                 </ScrollAnimation>

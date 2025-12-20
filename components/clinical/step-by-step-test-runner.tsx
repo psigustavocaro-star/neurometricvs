@@ -203,7 +203,7 @@ export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }:
             </AnimatePresence>
 
             {/* Controls */}
-            <div className="flex justify-between items-center pt-4">
+            <div className="flex flex-wrap gap-y-4 justify-between items-center pt-4">
                 <Button
                     variant="ghost"
                     onClick={handlePrev}
