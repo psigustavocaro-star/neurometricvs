@@ -7,6 +7,7 @@ import { resources } from '@/lib/resources'
 import { CBTThoughtRecord } from '@/components/resources/interactive/thought-record'
 import { DBTChainAnalysis } from '@/components/resources/interactive/chain-analysis'
 import { Grounding54321 } from '@/components/resources/interactive/grounding-exercise'
+import { PrintableHeader } from '@/components/resources/printable-header'
 
 export default function ResourceViewerPage() {
     const params = useParams()
@@ -47,6 +48,7 @@ export default function ResourceViewerPage() {
 
             {/* Tool Content */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 min-h-[600px] p-6 md:p-8 print:border-0 print:shadow-none print:p-0">
+                <PrintableHeader />
                 {renderTool()}
             </div>
         </div>

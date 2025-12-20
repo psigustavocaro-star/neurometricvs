@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
     Users, Activity, CalendarDays, Search, Clock, FileText, Plus, TrendingUp,
-    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight
+    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen
 } from "lucide-react"
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { motion, Variants } from "framer-motion"
+import { ResourcesSection } from './resources-section'
 
 interface UnifiedDashboardProps {
     stats: any
@@ -323,7 +324,19 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
                                     </Link>
                                 </Button>
+                                <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
+                                    <Link href="/dashboard/resources" className="flex items-center">
+                                        <BookOpen className="w-4 h-4 mr-3 opacity-70" />
+                                        Biblioteca de Recursos
+                                        <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
+                                    </Link>
+                                </Button>
                             </div>
+                        </div>
+
+                        {/* Resources Section - New! */}
+                        <div className="h-[400px]">
+                            <ResourcesSection />
                         </div>
                     </motion.div>
                 </div>

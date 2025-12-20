@@ -3,15 +3,16 @@
 import { useState } from "react"
 import { Resource, resources } from "@/lib/resources"
 import { ResourceCard } from "./resource-card"
+import { ResourceSidebar } from "./resource-sidebar"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 export function ResourceGrid() {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-    const categories = Array.from(new Set(resources.map(r => r.category)))
+    // Extract unique categories, sorted
+    const categories = Array.from(new Set(resources.map(r => r.category))).sort()
 
     const filteredResources = resources.filter(resource => {
         const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -24,53 +25,44 @@ export function ResourceGrid() {
     })
 
     return (
-        <div className="space-y-6">
-            {/* Filters */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                <div className="relative w-full md:w-96">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* Left Sidebar */}
+            <ResourceSidebar
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+                categories={categories}
+            />
+
+            {/* Main Content */}
+            <div className="flex-1 w-full space-y-6">
+                {/* Search Bar */}
+                <div className="relative w-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                     <Input
-                        placeholder="Buscar recursos..."
-                        className="pl-9 bg-white/50 border-slate-200"
+                        placeholder="Buscar recursos por nombre, etiqueta o contenido..."
+                        className="pl-11 h-12 bg-card border-border/60 shadow-sm rounded-xl focus:ring-2 focus:ring-primary/20 transition-all text-base"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto custom-scrollbar">
-                    <Button
-                        variant={selectedCategory === null ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedCategory(null)}
-                        className={selectedCategory === null ? "bg-teal-600 hover:bg-teal-700" : ""}
-                    >
-                        Todos
-                    </Button>
-                    {categories.map(cat => (
-                        <Button
-                            key={cat}
-                            variant={selectedCategory === cat ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedCategory(cat)}
-                            className={`whitespace-nowrap ${selectedCategory === cat ? "bg-teal-600 hover:bg-teal-700" : ""}`}
-                        >
-                            {cat}
-                        </Button>
+
+                {/* Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {filteredResources.map(resource => (
+                        <ResourceCard key={resource.id} resource={resource} />
                     ))}
                 </div>
-            </div>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredResources.map(resource => (
-                    <ResourceCard key={resource.id} resource={resource} />
-                ))}
+                {filteredResources.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-16 text-center bg-card rounded-2xl border border-dashed border-border">
+                        <Search className="w-10 h-10 text-muted-foreground/30 mb-4" />
+                        <h3 className="text-lg font-medium text-foreground">No se encontraron recursos</h3>
+                        <p className="text-muted-foreground max-w-sm mt-1">
+                            Intenta ajustar tu búsqueda o seleccionar otra categoría.
+                        </p>
+                    </div>
+                )}
             </div>
-
-            {filteredResources.length === 0 && (
-                <div className="text-center py-12 text-slate-500">
-                    No se encontraron recursos que coincidan con tu búsqueda.
-                </div>
-            )}
         </div>
     )
 }
