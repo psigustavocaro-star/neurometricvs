@@ -8,6 +8,7 @@ import { CBTThoughtRecord } from '@/components/resources/interactive/thought-rec
 import { DBTChainAnalysis } from '@/components/resources/interactive/chain-analysis'
 import { Grounding54321 } from '@/components/resources/interactive/grounding-exercise'
 import { PrintableHeader } from '@/components/resources/printable-header'
+import { GenericResourceViewer } from '@/components/resources/generic-resource-viewer'
 
 export default function ResourceViewerPage() {
     const params = useParams()
@@ -29,12 +30,20 @@ export default function ResourceViewerPage() {
             case 'grounding-54321':
                 return <Grounding54321 />
             default:
-                return <div className="text-center py-12">Herramienta en desarrollo.</div>
+                // Handle generic resources (PDFs, Images, etc. that are not specific apps)
+                return (
+                    <GenericResourceViewer
+                        title={resource.title || ''}
+                        description={resource.description || ''}
+                        category={resource.category || ''}
+                        content={resource.content}
+                    />
+                )
         }
     }
 
     return (
-        <div className="space-y-6 max-w-5xl mx-auto print:max-w-none print:p-0">
+        <div className="space-y-6 max-w-5xl mx-auto p-6 md:p-8 print:max-w-none print:p-0">
             {/* Header (Hidden when printing) */}
             <div className="flex items-center gap-4 print:hidden">
                 <Button variant="ghost" size="icon" onClick={() => router.back()}>

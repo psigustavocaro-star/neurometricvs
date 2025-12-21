@@ -13,6 +13,7 @@ import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
+import { WeatherDisplay } from './weather-display'
 
 interface UnifiedDashboardProps {
     stats: any
@@ -70,13 +71,13 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Sistema Activo</span>
                                 </div>
                             </div>
-                            <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
-                                Centro de Control
-                            </h1>
-                            <p className="text-muted-foreground mt-2 flex items-center gap-2 text-sm font-medium">
-                                <CalendarDays className="w-4 h-4 opacity-70" />
-                                {format(new Date(), "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
-                            </p>
+                            <div className="text-muted-foreground mt-2 flex items-center gap-4 text-sm font-medium">
+                                <div className="flex items-center gap-2">
+                                    <CalendarDays className="w-4 h-4 opacity-70" />
+                                    {format(new Date(), "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
+                                </div>
+                                <WeatherDisplay />
+                            </div>
                         </motion.div>
                         <motion.div variants={itemVariants} className="flex items-center gap-3">
                             <Button asChild variant="outline" className="h-10 px-5 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-sm font-medium">
@@ -94,68 +95,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         </motion.div>
                     </div>
 
-                    {/* Stats Cards - Premium Clean Design (60-30-10 Rule) */}
-                    {/* Removed bg-primary/5, kept strict borders and clean white/dark backgrounds */}
-                    <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Total Patients */}
-                        <motion.div variants={itemVariants} className="group relative bg-card rounded-2xl p-6 border border-border/60 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
-                            <div className="relative flex items-start justify-between">
-                                <div>
-                                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em] mb-2">Pacientes Totales</p>
-                                    <p className="text-4xl font-semibold text-foreground tracking-tight">{stats.totalPatients}</p>
-                                    <div className="flex items-center gap-1.5 mt-3">
-                                        <div className="px-1.5 py-0.5 rounded bg-primary/10 flex items-center">
-                                            <TrendingUp className="w-3 h-3 text-primary" />
-                                        </div>
-                                        <span className="text-xs font-medium text-muted-foreground">
-                                            <span className="text-primary font-bold">+{stats.newThisMonth || 0}</span> este mes
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center border border-border group-hover:scale-110 transition-transform duration-300">
-                                    <Users className="w-5 h-5 text-foreground/70" />
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* Active Patients */}
-                        <motion.div variants={itemVariants} className="group relative bg-card rounded-2xl p-6 border border-border/60 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
-                            <div className="relative flex items-start justify-between">
-                                <div>
-                                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em] mb-2">En Tratamiento</p>
-                                    <p className="text-4xl font-semibold text-foreground tracking-tight">{stats.activePatients}</p>
-                                    <div className="flex items-center gap-1.5 mt-3">
-                                        <div className="px-1.5 py-0.5 rounded bg-primary/10 flex items-center">
-                                            <Activity className="w-3 h-3 text-primary" />
-                                        </div>
-                                        <span className="text-xs font-medium text-muted-foreground">Casos activos actualmente</span>
-                                    </div>
-                                </div>
-                                <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center border border-border group-hover:scale-110 transition-transform duration-300">
-                                    <Zap className="w-5 h-5 text-foreground/70" />
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* Tests Completed */}
-                        <motion.div variants={itemVariants} className="group relative bg-card rounded-2xl p-6 border border-border/60 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
-                            <div className="relative flex items-start justify-between">
-                                <div>
-                                    <p className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-[0.2em] mb-2">Tests Realizados</p>
-                                    <p className="text-4xl font-semibold text-foreground tracking-tight">{stats.totalTests || 0}</p>
-                                    <div className="flex items-center gap-1.5 mt-3">
-                                        <div className="px-1.5 py-0.5 rounded bg-primary/10 flex items-center">
-                                            <ClipboardList className="w-3 h-3 text-primary" />
-                                        </div>
-                                        <span className="text-xs font-medium text-muted-foreground">Evaluaciones completadas</span>
-                                    </div>
-                                </div>
-                                <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center border border-border group-hover:scale-110 transition-transform duration-300">
-                                    <ClipboardList className="w-5 h-5 text-foreground/70" />
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
                 </div>
             </div>
 
@@ -253,8 +192,33 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
 
                     {/* Right Sidebar */}
                     <motion.div variants={itemVariants} className="lg:col-span-1 space-y-6">
-                        {/* Activity Feed */}
-                        <div className="group relative bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-300">
+                        {/* Mini Stats - Minimalist Right Side */}
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden p-4">
+                            <div className="flex items-center justify-between gap-4">
+                                <Link href="/patients" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
+                                    <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalPatients}</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Pacientes</span>
+                                </Link>
+                                <div className="w-[1px] h-8 bg-border/60" />
+                                <div className="flex flex-col items-center justify-center flex-1 p-2">
+                                    <span className="text-2xl font-bold text-foreground tracking-tight">{stats.activePatients}</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Activos</span>
+                                </div>
+                                <div className="w-[1px] h-8 bg-border/60" />
+                                <Link href="/dashboard/tests" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
+                                    <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalTests || 0}</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Tests</span>
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* News / Resources Section - Real Feed */}
+                        <div className="h-[400px]">
+                            <ResourcesSection />
+                        </div>
+
+                        {/* Recent Activity Feed */}
+                        <div className="group relative bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-300 opacity-80 hover:opacity-100">
                             <div className="p-5 border-b border-border/40">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
@@ -334,10 +298,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             </div>
                         </div>
 
-                        {/* Resources Section - New! */}
-                        <div className="h-[400px]">
-                            <ResourcesSection />
-                        </div>
                     </motion.div>
                 </div>
             </div>

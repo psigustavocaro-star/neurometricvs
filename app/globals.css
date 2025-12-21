@@ -203,3 +203,68 @@
     text-wrap: balance;
   }
 }
+
+@media print {
+
+  /* Global Print Resets */
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+
+  /* Hide common UI elements specifically */
+  aside,
+  nav,
+  header,
+  footer,
+  .print\:hidden,
+  button,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Ensure print content takes full width */
+  main,
+  .container,
+  div[class*="max-w-"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Specific fix for the dashboard layout padding/margins */
+  main {
+    padding-top: 0 !important;
+    /* Remove top padding for print */
+  }
+
+  /* Ensure backgrounds are printed if needed for branding/charts */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Page Break Handling */
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  img {
+    page-break-inside: avoid;
+  }
+
+  .resource-content {
+    display: block !important;
+  }
+
+  /* Hide scrollbars in print */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

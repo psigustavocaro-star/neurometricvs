@@ -83,16 +83,16 @@ export function ResourceCard({ resource }: ResourceCardProps) {
                 ) : (
                     <div className="flex w-full gap-2">
                         <Button asChild variant="outline" className="flex-1 border-border/60 hover:bg-muted" size="sm">
-                            <Link href={resource.url} target="_blank">
+                            <Link href={`/dashboard/resources/${resource.id}`}>
                                 <BookOpen className="w-4 h-4 mr-2" />
                                 Ver
                             </Link>
                         </Button>
                         <Button asChild variant="secondary" className="flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground" size="sm">
-                            <a href={resource.url} target="_blank" rel="noopener noreferrer" download>
+                            <Link href={`/dashboard/resources/${resource.id}`}>
                                 <Download className="w-4 h-4 mr-2" />
                                 Descargar
-                            </a>
+                            </Link>
                         </Button>
                     </div>
                 )}
