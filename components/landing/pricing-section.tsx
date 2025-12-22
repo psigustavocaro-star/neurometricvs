@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Check, Info } from "lucide-react"
+import { Check, Info, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { PriceDisplay } from "@/components/pricing/price-display"
@@ -34,6 +34,14 @@ export function PricingSection() {
 
     const plans = [
         {
+            key: 'free',
+            priceId: undefined,
+            amount: 0,
+            highlight: false,
+            color: 'slate',
+            hasExcluded: true,
+        },
+        {
             key: 'basic',
             priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
             amount: 10,
@@ -53,7 +61,7 @@ export function PricingSection() {
             amount: 65,
             period: '/año',
             highlight: false,
-            color: 'slate'
+            color: 'emerald'
         }
     ]
 
@@ -71,107 +79,113 @@ export function PricingSection() {
                     </div>
                 </ScrollAnimation>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8 items-start max-w-5xl mx-auto perspective-1000">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 md:gap-6 items-stretch max-w-7xl mx-auto">
                     {plans.map((plan, index) => {
                         const isSelected = selectedPlan === plan.key
                         const isClinical = plan.key === 'clinical'
+                        const isPro = plan.key === 'pro'
+                        const isFree = plan.key === 'free'
 
                         return (
-                            <ScrollAnimation key={plan.key} delay={index * 150} className="h-full">
+                            <ScrollAnimation key={plan.key} delay={index * 100} className="h-full">
                                 <div
                                     onClick={() => handleCardClick(plan.key)}
                                     className={cn(
-                                        "flex flex-col p-6 md:p-8 rounded-2xl border transition-all duration-300 ease-out relative h-full cursor-pointer group",
-                                        // Light Mode
-                                        "bg-white shadow-xl hover:shadow-2xl",
-                                        // Dark Mode: 100% Solid to hide background artifacts
+                                        "flex flex-col p-6 rounded-2xl border transition-all duration-300 ease-out relative h-full cursor-pointer group",
+                                        "bg-white shadow-lg hover:shadow-xl",
                                         "dark:bg-slate-900 dark:shadow-none",
                                         isSelected
-                                            ? "border-teal-500 dark:border-teal-500 ring-1 ring-teal-500 dark:ring-teal-500 z-30"
+                                            ? "border-teal-500 dark:border-teal-500 ring-1 ring-teal-500 z-20"
                                             : cn(
                                                 "border-slate-200 dark:border-slate-800",
                                                 "hover:border-teal-300 dark:hover:border-slate-700 hover:-translate-y-1"
                                             ),
-                                        // Clinical Card tweaks
-                                        isClinical && !isSelected && "border-teal-100 dark:border-teal-900/30 md:-translate-y-4 z-10"
+                                        isPro && "bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900/20 dark:to-emerald-900/20 border-teal-200"
                                     )}
                                 >
-                                    {isClinical && (
-                                        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xs font-bold px-6 py-1.5 rounded-full shadow-lg border border-teal-400/50 uppercase tracking-wider">
-                                            {t('clinical.badge')}
+                                    {isPro && (
+                                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">
+                                            {t('pro.savings_badge')}
                                         </div>
                                     )}
 
-                                    <div className="space-y-3 text-center mb-6 pt-2">
+                                    <div className="space-y-2 text-left mb-4">
                                         <div
                                             onClick={(e) => handleTitleClick(e, plan.key)}
-                                            className="group/title inline-flex items-center gap-2 justify-center cursor-help transition-opacity hover:opacity-80"
+                                            className="group/title inline-flex items-center gap-2 cursor-help transition-opacity hover:opacity-80"
                                         >
                                             <h3 className={cn(
-                                                "text-xl font-bold uppercase tracking-wide transition-colors",
-                                                isClinical ? "text-2xl text-slate-900 dark:text-white" : "text-slate-800 dark:text-white group-hover:text-teal-700 dark:group-hover:text-teal-400"
+                                                "text-lg font-bold transition-colors",
+                                                isPro ? "text-teal-900 dark:text-teal-400" : "text-slate-900 dark:text-white"
                                             )}>
                                                 {t(`${plan.key}.name`)}
                                             </h3>
                                             <Info className="w-4 h-4 text-slate-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />
                                         </div>
-                                        <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                                        <p className={cn(
+                                            "text-xs",
+                                            isPro ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-slate-500 dark:text-slate-400"
+                                        )}>
                                             {t(`${plan.key}.description`)}
                                         </p>
                                     </div>
 
-                                    <div className={cn("mt-2 text-center pb-8 border-b", isClinical ? "border-teal-50 dark:border-teal-900/30" : "border-slate-50 dark:border-slate-800")}>
-                                        <PriceDisplay amount={plan.amount} period={plan.period} priceId={plan.priceId} />
-                                        <p className="text-xs text-teal-600 font-bold mt-2 uppercase tracking-wide">
-                                            {plan.key === 'pro' ? <span dangerouslySetInnerHTML={{ __html: t.raw('pro.savings_info') }} /> : t(`${plan.key}.trial`)}
-                                        </p>
+                                    <div className="mb-4">
+                                        {isFree ? (
+                                            <div className="text-3xl font-bold text-slate-900 dark:text-white">$0<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                                        ) : (
+                                            <PriceDisplay amount={plan.amount} period={plan.period} priceId={plan.priceId} className="text-3xl font-bold" />
+                                        )}
+                                        {isPro && (
+                                            <p className="text-xs text-teal-600 dark:text-teal-400 font-medium mt-1" dangerouslySetInnerHTML={{ __html: t.raw('pro.savings_info') }} />
+                                        )}
+                                        {!isFree && !isPro && (
+                                            <p className="text-xs text-teal-600 font-bold mt-1 uppercase tracking-wide">
+                                                {t(`${plan.key}.trial`)}
+                                            </p>
+                                        )}
                                     </div>
 
-                                    {plan.key === 'pro' && (
-                                        <div className="text-center text-[10px] text-emerald-700 font-extrabold mt-3 bg-emerald-50 dark:bg-emerald-900/20 dark:text-emerald-400 inline-block mx-auto px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800 uppercase tracking-widest">
-                                            {t('pro.savings_badge')}
-                                        </div>
-                                    )}
-
-                                    <ul className="mt-8 space-y-4 flex-1">
+                                    <ul className="space-y-3 flex-1 mb-6">
                                         {t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
                                             <li
                                                 key={i}
-                                                onClick={(e) => { e.stopPropagation(); handleCardClick(plan.key) }}
                                                 className="flex items-start text-sm text-slate-600 dark:text-slate-300"
                                             >
-                                                {isClinical ? (
-                                                    <div className="bg-teal-100/50 dark:bg-teal-900/50 p-0.5 rounded-full mr-3 shrink-0">
-                                                        <Check className="h-3.5 w-3.5 text-teal-700 dark:text-teal-400" />
-                                                    </div>
-                                                ) : (
-                                                    <Check className={cn("h-4 w-4 mt-0.5 mr-3 shrink-0", plan.key === 'pro' ? "text-emerald-500" : "text-teal-500")} />
-                                                )}
-                                                <span className="flex-1">{feature}</span>
+                                                <Check className={cn(
+                                                    "h-4 w-4 mt-0.5 mr-2 shrink-0",
+                                                    isPro ? "text-emerald-500" : "text-teal-500"
+                                                )} />
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                        {/* Excluded features for free plan */}
+                                        {plan.hasExcluded && t.raw(`${plan.key}.excluded`)?.map((feature: any, i: number) => (
+                                            <li
+                                                key={`ex-${i}`}
+                                                className="flex items-start text-sm text-slate-400 dark:text-slate-500"
+                                            >
+                                                <X className="h-4 w-4 mt-0.5 mr-2 shrink-0 text-slate-300 dark:text-slate-600" />
+                                                <span className="line-through">{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
 
-                                    <div className="mt-8">
+                                    <div className="mt-auto">
                                         <Button
                                             asChild
                                             className={cn(
-                                                "w-full rounded-xl h-12 transition-all shadow-md hover:shadow-lg font-medium relative overflow-hidden",
+                                                "w-full rounded-lg h-10 transition-all shadow-sm hover:shadow-md font-medium",
                                                 isClinical
-                                                    ? "bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-none shadow-lg shadow-teal-600/20"
-                                                    : plan.key === 'pro'
-                                                        ? "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700"
-                                                        : "bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700"
+                                                    ? "bg-teal-600 hover:bg-teal-700 text-white shadow-teal-600/20"
+                                                    : isPro
+                                                        ? "bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800"
+                                                        : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white hover:bg-slate-50 hover:border-teal-300"
                                             )}
-                                            onClick={(e) => e.stopPropagation()} // Prevent card click when clicking button
+                                            onClick={(e) => e.stopPropagation()}
                                         >
                                             <Link href={`/onboarding?plan=${plan.key}`}>
-                                                {isClinical ? (
-                                                    <>
-                                                        <span className="relative z-10 font-bold tracking-wide">{t(`${plan.key}.cta`)}</span>
-                                                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
-                                                    </>
-                                                ) : t(`${plan.key}.cta`)}
+                                                {t(`${plan.key}.cta`)}
                                             </Link>
                                         </Button>
                                     </div>

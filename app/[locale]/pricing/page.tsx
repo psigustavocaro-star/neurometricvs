@@ -4,19 +4,56 @@ import { Link } from "@/i18n/navigation"
 import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { Button } from "@/components/ui/button"
-import { Check, ArrowRight, HelpCircle } from "lucide-react"
+import { Check, X } from "lucide-react"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { cn } from "@/lib/utils"
 
 export default function PricingPage() {
     const tPricing = useTranslations('Pricing')
     const tFAQ = useTranslations('FAQ')
 
+    const plans = [
+        {
+            key: 'free',
+            priceUSD: 0,
+            period: '/mes',
+            priceId: undefined,
+            highlight: false,
+            hasExcluded: true,
+        },
+        {
+            key: 'basic',
+            priceUSD: 10,
+            period: '/mes',
+            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
+            highlight: false,
+            hasExcluded: false,
+        },
+        {
+            key: 'clinical',
+            priceUSD: 15,
+            period: '/mes',
+            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL,
+            highlight: true,
+            hasExcluded: false,
+        },
+        {
+            key: 'pro',
+            priceUSD: 65,
+            period: '/año',
+            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO,
+            highlight: false,
+            hasExcluded: false,
+            isAnnual: true,
+        },
+    ]
+
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-500/30">
             <VerticalNavbar />
             <main className="flex-1 relative overflow-hidden">
-                {/* Background FX (Futuristic Light) */}
+                {/* Background FX */}
                 <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/80 via-white to-white">
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-teal-100/30 rounded-full blur-[120px] mix-blend-multiply opacity-60" />
                     <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-100/30 rounded-full blur-[100px] mix-blend-multiply opacity-60" />
@@ -25,84 +62,111 @@ export default function PricingPage() {
                 {/* Hero */}
                 <section className="pt-32 pb-16 text-center px-4 relative z-10">
                     <div className="inline-block mb-4 px-3 py-1 rounded-full bg-white border border-teal-100 text-xs font-semibold text-teal-600 shadow-sm">
-                        Transparent Pricing
+                        Precios Transparentes
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-6">{tPricing('title')}</h1>
                     <p className="text-xl text-slate-500 max-w-2xl mx-auto">{tPricing('subtitle')}</p>
                 </section>
 
-                {/* Pricing Cards */}
-                <section className="py-20 px-4 container relative z-10">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-                        {/* Basic */}
-                        <div className="bg-white/70 backdrop-blur-xl p-8 rounded-2xl border border-white/50 shadow-xl hover:shadow-2xl hover:border-teal-200 transition-all duration-300 group">
-                            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-600 transition-colors">{tPricing('basic.name')}</h3>
-                            <p className="text-slate-500 mt-2">{tPricing('basic.description')}</p>
-                            <div className="my-6">
-                                <div className="text-slate-900 font-bold">$10<span className="text-sm font-normal text-slate-500">/mo</span></div>
-                                <p className="text-sm text-teal-600 font-medium mt-1">{tPricing('basic.trial')}</p>
-                            </div>
-                            <Button asChild variant="outline" className="w-full border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-teal-700">
-                                <Link href="/onboarding?plan=basic">{tPricing('basic.cta')}</Link>
-                            </Button>
-                            <ul className="mt-8 space-y-4">
-                                {tPricing.raw('basic.features').map((f: string, i: number) => (
-                                    <li key={i} className="flex gap-3 text-sm text-slate-600">
-                                        <Check className="h-5 w-5 text-slate-400 shrink-0" /> {f}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                {/* Pricing Cards - 4 Columns */}
+                <section className="py-12 px-4 container relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
+                        {plans.map((plan) => {
+                            const isClinical = plan.key === 'clinical'
+                            const isPro = plan.key === 'pro'
+                            const isFree = plan.key === 'free'
 
-                        {/* Clinical (Highlight) */}
-                        <div className="bg-slate-900 text-white p-8 rounded-2xl border-2 border-teal-500 shadow-2xl shadow-teal-900/20 relative transform md:-translate-y-4">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg shadow-teal-500/40">
-                                {tPricing('clinical.badge')}
-                            </div>
-                            <h3 className="text-xl font-bold text-white">{tPricing('clinical.name')}</h3>
-                            <p className="text-slate-400 mt-2">{tPricing('clinical.description')}</p>
-                            <div className="my-6">
-                                <div className="text-white font-bold text-4xl">$15<span className="text-lg font-normal text-slate-500">/mo</span></div>
-                                <p className="text-sm text-teal-400 font-medium mt-1">{tPricing('clinical.trial')}</p>
-                            </div>
-                            <Button asChild className="w-full bg-teal-600 hover:bg-teal-500 text-white shadow-lg shadow-teal-900/30 border-none">
-                                <Link href="/onboarding?plan=clinical">{tPricing('clinical.cta')}</Link>
-                            </Button>
-                            <ul className="mt-8 space-y-4">
-                                {tPricing.raw('clinical.features').map((f: string, i: number) => (
-                                    <li key={i} className="flex gap-3 text-sm text-slate-300 font-medium">
-                                        <Check className="h-5 w-5 text-teal-500 shrink-0" /> {f}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                            return (
+                                <div
+                                    key={plan.key}
+                                    className={cn(
+                                        "flex flex-col p-6 rounded-2xl border transition-all duration-300 relative h-full",
+                                        isClinical
+                                            ? "bg-white border-teal-500 shadow-xl shadow-teal-500/10"
+                                            : isPro
+                                                ? "bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-200 shadow-lg"
+                                                : "bg-white border-slate-200 hover:border-teal-300 hover:shadow-lg"
+                                    )}
+                                >
+                                    {/* Badge */}
+                                    {isPro && (
+                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">
+                                            {tPricing('pro.savings_badge')}
+                                        </div>
+                                    )}
 
-                        {/* Pro */}
-                        <div className="bg-white/70 backdrop-blur-xl p-8 rounded-2xl border border-white/50 shadow-xl hover:shadow-2xl hover:border-emerald-200 transition-all duration-300 group">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{tPricing('pro.name')}</h3>
-                                    <p className="text-slate-500 mt-2">{tPricing('pro.description')}</p>
+                                    {/* Header */}
+                                    <div className="mb-4">
+                                        <h3 className={cn(
+                                            "text-lg font-bold",
+                                            isPro ? "text-teal-900" : "text-slate-900"
+                                        )}>
+                                            {tPricing(`${plan.key}.name`)}
+                                        </h3>
+                                        <p className={cn(
+                                            "text-xs mt-1",
+                                            isPro ? "text-emerald-600 font-semibold" : "text-slate-500"
+                                        )}>
+                                            {tPricing(`${plan.key}.description`)}
+                                        </p>
+                                    </div>
+
+                                    {/* Price */}
+                                    <div className="mb-4">
+                                        {isFree ? (
+                                            <div className="text-3xl font-bold text-slate-900">$0<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                                        ) : (
+                                            <PriceDisplay
+                                                amount={plan.priceUSD}
+                                                period={plan.period}
+                                                priceId={plan.priceId}
+                                                className="text-3xl font-bold"
+                                            />
+                                        )}
+                                        {isPro && (
+                                            <p className="text-xs text-teal-600 mt-1 font-medium" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} />
+                                        )}
+                                    </div>
+
+                                    {/* Features */}
+                                    <ul className="space-y-3 flex-1 mb-6">
+                                        {tPricing.raw(`${plan.key}.features`).map((feature: string, i: number) => (
+                                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                                <Check className={cn(
+                                                    "h-4 w-4 mt-0.5 shrink-0",
+                                                    isPro ? "text-emerald-500" : "text-teal-500"
+                                                )} />
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                        {/* Excluded features for free */}
+                                        {plan.hasExcluded && tPricing.raw(`${plan.key}.excluded`)?.map((feature: string, i: number) => (
+                                            <li key={`ex-${i}`} className="flex items-start gap-2 text-sm text-slate-400">
+                                                <X className="h-4 w-4 mt-0.5 shrink-0 text-slate-300" />
+                                                <span className="line-through">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    {/* CTA */}
+                                    <Button
+                                        asChild
+                                        className={cn(
+                                            "w-full",
+                                            isClinical
+                                                ? "bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-600/20"
+                                                : isPro
+                                                    ? "bg-slate-900 hover:bg-slate-800 text-white"
+                                                    : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-teal-300"
+                                        )}
+                                    >
+                                        <Link href={`/onboarding?plan=${plan.key}`}>
+                                            {tPricing(`${plan.key}.cta`)}
+                                        </Link>
+                                    </Button>
                                 </div>
-                                <span className="bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold px-2 py-1 rounded">
-                                    {tPricing('pro.savings_badge')}
-                                </span>
-                            </div>
-                            <div className="my-6">
-                                <div className="text-slate-900 font-bold">$65<span className="text-sm font-normal text-slate-500">/yr</span></div>
-                                <p className="text-sm text-emerald-600 font-medium mt-1" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }}></p>
-                            </div>
-                            <Button asChild variant="outline" className="w-full border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-emerald-700">
-                                <Link href="/onboarding?plan=pro">{tPricing('pro.cta')}</Link>
-                            </Button>
-                            <ul className="mt-8 space-y-4">
-                                {tPricing.raw('pro.features').map((f: string, i: number) => (
-                                    <li key={i} className="flex gap-3 text-sm text-slate-600">
-                                        <Check className="h-5 w-5 text-emerald-500 shrink-0" /> {f}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                            )
+                        })}
                     </div>
                 </section>
 

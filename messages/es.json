@@ -126,40 +126,54 @@
         "subtitle": "Precios en USD. Conversión automática a tu moneda local.",
         "whats_included": "Qué incluye",
         "close": "Cerrar",
+        "faq_title": "Preguntas Frecuentes",
+        "free": {
+            "name": "Gratuita",
+            "description": "Modo Lectura / Exploración",
+            "cta": "Comenzar Gratis",
+            "features": [
+                "Ver biblioteca de tests",
+                "Filtrado por profesión"
+            ],
+            "excluded": [
+                "Uso de tests y corrección"
+            ]
+        },
         "basic": {
             "name": "Básico",
-            "description": "Para comenzar",
+            "description": "Para iniciar",
             "trial": "7 días gratis",
             "cta": "Elegir Básico",
             "features": [
-                "Acceso a todos los tests",
-                "Corrección automática",
-                "Informes en PDF"
+                "Acceso total a todos los tests",
+                "Tabulación automática",
+                "PDF con firma profesional",
+                "Enviar tests a pacientes"
             ]
         },
         "clinical": {
             "badge": "MÁS POPULAR",
-            "name": "Suite Profesional",
-            "description": "Tu consultorio digital completo",
-            "trial": "Prueba gratis de 7 días",
-            "cta": "Elegir Suite Profesional",
+            "name": "Clínico",
+            "description": "Profesionales",
+            "trial": "7 días gratis",
+            "cta": "Elegir Clínico",
             "features": [
-                "Ficha Clínica Completa & Anamnesis",
-                "Gestión de Sesiones & Notas",
-                "Análisis de Datos Clínicos",
-                "Recomendaciones Culturales"
+                "Todo lo del Básico",
+                "Gestión de Pacientes",
+                "Ficha clínica completa",
+                "Recursos de aplicación en consulta"
             ]
         },
         "pro": {
             "name": "Pro Anual",
-            "description": "Ahorro Inteligente",
-            "savings_info": "Equivale a <span class='bold'>$5.41/mes</span>",
-            "savings_badge": "AHORRAS 64%",
+            "description": "Ahorra 65%",
+            "savings_info": "Solo <span class='font-bold'>$5.41/mes</span>",
+            "savings_badge": "RECOMENDADO",
             "cta": "Elegir Pro",
             "features": [
-                "4 meses de regalo",
                 "Todo lo del Clínico",
-                "Soporte Prioritario"
+                "Soporte VIP",
+                "4 meses gratis"
             ]
         }
     },
