@@ -52,7 +52,7 @@ export function getUserDisplayData(user: any, profile?: any) {
   // 3. Determine Initials (ignoring titles)
   let initials = 'U'
   if (finalName) {
-    const parts = finalName.split(/\s+/).filter(p => p.length > 0)
+    const parts = finalName.split(/\s+/).filter((p: string) => p.length > 0)
     // Filter out parts that are known titles
     const initialsParts = parts.filter((p: string) => !Object.values(TITLE_MAP).some(t => t.toLowerCase() === p.toLowerCase() || (p.toLowerCase().startsWith(t.toLowerCase()) && p.endsWith('.'))))
 
