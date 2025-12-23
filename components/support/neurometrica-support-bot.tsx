@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import ReactMarkdown from 'react-markdown'
 import {
     MessageSquare,
     X,
@@ -218,8 +219,8 @@ export function NeurometricaSupportBot() {
                         <div className="space-y-4 pb-4">
                             {messages.length === 0 && (
                                 <div className="text-center text-sm text-muted-foreground mt-10 px-6">
-                                    <p>¡Hola! Soy tu asistente virtual inteligente.</p>
-                                    <p className="mt-2">Puedo ayudarte con dudas sobre tests, pacientes o la plataforma.</p>
+                                    <p className="font-bold text-slate-900 dark:text-slate-100 mb-1">Bienvenido a Neurometrics</p>
+                                    <p>Soy tu asistente virtual experto. Estoy aquí para apoyarte con tests neuropsicológicos, gestión de pacientes y cualquier duda sobre la plataforma Workstation.</p>
                                 </div>
                             )}
 
@@ -231,12 +232,27 @@ export function NeurometricaSupportBot() {
                                         </div>
                                     )}
                                     <div className={cn(
-                                        "max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm",
+                                        "max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm transition-all duration-300",
                                         msg.role === 'user'
                                             ? "bg-teal-600 text-white rounded-tr-none"
                                             : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-700 rounded-tl-none"
                                     )}>
-                                        {msg.content}
+                                        <div className={cn(
+                                            "markdown-content",
+                                            msg.role === 'user' ? "text-white" : "text-slate-700 dark:text-slate-200"
+                                        )}>
+                                            <ReactMarkdown
+                                                components={{
+                                                    p: ({ node, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
+                                                    strong: ({ node, ...props }) => <strong className="font-bold text-teal-600 dark:text-teal-400" {...props} />,
+                                                    ul: ({ node, ...props }) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                                                    ol: ({ node, ...props }) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                                                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                                                }}
+                                            >
+                                                {msg.content}
+                                            </ReactMarkdown>
+                                        </div>
                                     </div>
                                     {msg.role === 'user' && (
                                         <div className="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center shrink-0 border border-teal-200 dark:border-teal-800">

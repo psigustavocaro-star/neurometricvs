@@ -15,6 +15,23 @@ import { getUserDisplayData } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
     User,
     Briefcase,
     IdCard,
@@ -52,10 +69,22 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [confirmPassword, setConfirmPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [mounted, setMounted] = useState(false)
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [pendingSpecialty, setPendingSpecialty] = useState('')
 
     const { theme, setTheme } = useTheme()
 
     useEffect(() => setMounted(true), [])
+
+    const handleSpecialtyChange = (value: string) => {
+        setPendingSpecialty(value)
+        setIsAlertOpen(true)
+    }
+
+    const confirmSpecialtyChange = () => {
+        setSpecialty(pendingSpecialty)
+        setIsAlertOpen(false)
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -100,6 +129,25 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500 max-w-5xl mx-auto">
+            <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>¿Está seguro de cambiar su profesión?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Cambiar su profesión de <span className="font-bold text-slate-900 dark:text-white">{specialty}</span> a <span className="font-bold text-teal-600 dark:text-teal-400">{pendingSpecialty}</span> podría afectar algunas configuraciones y herramientas específicas de su especialidad disponibles en la plataforma.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={confirmSpecialtyChange}
+                            className="bg-teal-600 hover:bg-teal-700 text-white"
+                        >
+                            Confirmar Cambio
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4">
                 <div>
@@ -125,13 +173,13 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                     </TabsTrigger>
                     <TabsTrigger
                         value="security"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-indigo-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-indigo-600 font-medium text-sm transition-all"
+                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-teal-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-teal-600 font-medium text-sm transition-all"
                     >
                         Seguridad
                     </TabsTrigger>
                     <TabsTrigger
                         value="billing"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-amber-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-amber-600 font-medium text-sm transition-all"
+                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-teal-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-teal-600 font-medium text-sm transition-all"
                     >
                         Suscripción
                     </TabsTrigger>
@@ -174,13 +222,18 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                             </div>
                                             <div className="space-y-2">
                                                 <Label htmlFor="specialty">Profesión</Label>
-                                                <Input
-                                                    id="specialty"
-                                                    name="specialty"
-                                                    value={specialty}
-                                                    onChange={(e) => setSpecialty(e.target.value)}
-                                                    className="bg-white dark:bg-slate-950"
-                                                />
+                                                <Select name="specialty" value={specialty} onValueChange={handleSpecialtyChange}>
+                                                    <SelectTrigger className="bg-white dark:bg-slate-950">
+                                                        <SelectValue placeholder="Selecciona tu profesión" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="Psicólogo">Psicólogo/a</SelectItem>
+                                                        <SelectItem value="Psiquiatra">Psiquiatra</SelectItem>
+                                                        <SelectItem value="Neurólogo">Neurólogo/a</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                {/* Hidden input to ensure value is picked up by FormData in onSubmit if needed, although we could also use the state */}
+                                                <input type="hidden" name="specialty" value={specialty} />
                                             </div>
                                             <div className="space-y-2">
                                                 <Label htmlFor="registryNumber">Nº Registro / Licencia</Label>
@@ -337,20 +390,26 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                     <TabsContent value="billing" className="mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Basic */}
-                            <Card className={`flex flex-col transition-all ${currentPlan === 'basic' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-slate-300 dark:hover:border-slate-700'}`}>
+                            <Card className={`flex flex-col transition-all cursor-pointer ${currentPlan === 'basic' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-teal-300 dark:hover:border-teal-700'}`}>
                                 <CardHeader>
-                                    <CardTitle>Plan Basic</CardTitle>
-                                    <CardDescription>Esencial para comenzar</CardDescription>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <CardTitle>Plan Básico</CardTitle>
+                                            <CardDescription>Para iniciar</CardDescription>
+                                        </div>
+                                        {currentPlan === 'basic' && <Badge className="bg-teal-500 text-white border-none">Actual</Badge>}
+                                    </div>
                                 </CardHeader>
                                 <CardContent className="flex-1">
                                     <div className="mb-6">
                                         <span className="text-3xl font-bold">$10</span>
                                         <span className="text-slate-500">/mes</span>
                                     </div>
-                                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-6">
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Gestión de perfil</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Pruebas básicas</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Soporte por correo</li>
+                                    <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 mb-6 font-medium">
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Acceso total a todos los tests</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Tabulación automática</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> PDF con firma profesional</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Enviar tests a pacientes</li>
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
@@ -360,26 +419,33 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                         planName="Basic"
                                         currentPlan={currentPlan}
                                         className="w-full"
+                                        userId={user?.id}
                                     />
                                 </CardFooter>
                             </Card>
 
                             {/* Clinical */}
-                            <Card className={`flex flex-col transition-all ${currentPlan === 'clinical' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-slate-300 dark:hover:border-slate-700'}`}>
+                            <Card className={`flex flex-col transition-all cursor-pointer ${currentPlan === 'clinical' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-teal-300 dark:hover:border-teal-700'}`}>
                                 <CardHeader>
-                                    <CardTitle>Plan Clinical</CardTitle>
-                                    <CardDescription>Para profesionales activos</CardDescription>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <CardTitle>Plan Clínico</CardTitle>
+                                            <CardDescription>Profesionales</CardDescription>
+                                        </div>
+                                        {currentPlan === 'clinical' && <Badge className="bg-teal-500 text-white border-none">Actual</Badge>}
+                                        {currentPlan !== 'clinical' && <Badge variant="outline" className="text-[10px] border-teal-500/30 text-teal-600">MÁS POPULAR</Badge>}
+                                    </div>
                                 </CardHeader>
                                 <CardContent className="flex-1">
                                     <div className="mb-6">
                                         <span className="text-3xl font-bold">$15</span>
                                         <span className="text-slate-500">/mes</span>
                                     </div>
-                                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-6">
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Todo en Basic</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Reportes clínicos PDF</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Firma digital</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500" /> Integración con agenda</li>
+                                    <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 mb-6 font-medium">
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Todo lo del Básico</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Gestión de Pacientes</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Ficha clínica completa</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> Recursos de aplicación</li>
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
@@ -389,29 +455,36 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                         planName="Clinical"
                                         currentPlan={currentPlan}
                                         className="w-full"
+                                        userId={user?.id}
                                     />
                                 </CardFooter>
                             </Card>
 
                             {/* Pro */}
-                            <Card className={`flex flex-col bg-slate-900 text-white border-none ${currentPlan === 'pro' ? 'ring-2 ring-indigo-500 shadow-xl' : 'hover:bg-slate-800'}`}>
+                            <Card className={`flex flex-col bg-slate-900 text-white border-none transition-all cursor-pointer ${currentPlan === 'pro' ? 'ring-2 ring-teal-500 shadow-xl' : 'hover:bg-slate-800'}`}>
                                 <CardHeader>
-                                    <CardTitle className="text-white flex justify-between items-center">
-                                        Plan Pro
-                                        <Badge className="bg-indigo-500 hover:bg-indigo-600 text-white border-none">Anual</Badge>
-                                    </CardTitle>
-                                    <CardDescription className="text-slate-400">Potencia total + Ahorro</CardDescription>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <CardTitle className="text-white">Pro Anual</CardTitle>
+                                            <CardDescription className="text-slate-400">Ahorra 65%</CardDescription>
+                                        </div>
+                                        {currentPlan === 'pro' ? (
+                                            <Badge className="bg-teal-500 text-white border-none">Actual</Badge>
+                                        ) : (
+                                            <Badge className="bg-teal-500 text-white border-none text-[10px]">RECOMENDADO</Badge>
+                                        )}
+                                    </div>
                                 </CardHeader>
                                 <CardContent className="flex-1">
                                     <div className="mb-6">
                                         <span className="text-3xl font-bold">$65</span>
                                         <span className="text-slate-400">/año</span>
+                                        <p className="text-[10px] text-teal-400 font-bold mt-1">SOLO $5.41/MES</p>
                                     </div>
-                                    <ul className="space-y-2 text-sm text-slate-300 mb-6">
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-indigo-400" /> Todo en Clinical</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-indigo-400" /> Prioridad en soporte</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-indigo-400" /> Acceso anticipado a funciones</li>
-                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-indigo-400" /> 2 meses gratis</li>
+                                    <ul className="space-y-3 text-sm text-slate-300 mb-6 font-medium">
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-400 shrink-0" /> Todo lo del Clínico</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-400 shrink-0" /> Soporte VIP</li>
+                                        <li className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-400 shrink-0" /> 4 meses gratis</li>
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
@@ -421,6 +494,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                         planName="Pro Anual"
                                         currentPlan={currentPlan}
                                         variant="secondary"
+                                        userId={user?.id}
                                         className="w-full disabled:bg-slate-800 disabled:text-slate-200 disabled:opacity-100 disabled:border disabled:border-slate-700"
                                     />
                                 </CardFooter>
