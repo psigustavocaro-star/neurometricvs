@@ -93,36 +93,35 @@ export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarU
     }
 
     return (
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center">
             <div
-                className="relative group cursor-pointer rounded-full transition-all duration-300 hover:ring-4 hover:ring-teal-100 dark:hover:ring-teal-900/30"
+                className="relative group cursor-pointer rounded-full transition-all duration-300 hover:ring-8 hover:ring-teal-500/10 dark:hover:ring-teal-500/5 mb-4"
                 onClick={triggerUpload}
                 style={{ width: size, height: size }}
             >
-                <Avatar className="w-full h-full border-4 border-slate-100 dark:border-slate-800 shadow-xl transition-transform group-hover:scale-105">
+                <Avatar className="w-full h-full border-4 border-slate-50 dark:border-slate-800 shadow-2xl transition-transform group-hover:scale-105 overflow-hidden">
                     <AvatarImage src={avatarUrl || undefined} className="object-cover" />
-                    <AvatarFallback className="text-4xl bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300 flex items-center justify-center">
+                    <AvatarFallback className="text-4xl bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-600 flex items-center justify-center">
                         <Upload className="w-12 h-12" />
                     </AvatarFallback>
                 </Avatar>
 
                 {/* Overlay with Camera Icon */}
-                <div className="absolute inset-0 bg-slate-900/60 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                <div className="absolute inset-0 bg-slate-900/40 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[2px]">
                     <Upload className="w-8 h-8 text-white mb-1" />
-                    <span className="text-[10px] font-bold text-white uppercase tracking-wider">Cambiar</span>
+                    <span className="text-[10px] font-bold text-white uppercase tracking-widest">Editar</span>
                 </div>
 
                 {uploading && (
-                    <div className="absolute inset-0 bg-slate-950/80 rounded-full flex flex-col items-center justify-center z-10 backdrop-blur-sm">
-                        <Loader2 className="w-10 h-10 text-teal-400 animate-spin mb-2" />
-                        <span className="text-xs font-medium text-white">Subiendo...</span>
+                    <div className="absolute inset-0 bg-slate-950/60 rounded-full flex flex-col items-center justify-center z-10 backdrop-blur-sm">
+                        <Loader2 className="w-10 h-10 text-white animate-spin mb-2" />
                     </div>
                 )}
             </div>
 
-            <div className="flex flex-col items-center">
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
-                    Máximo 5MB (JPG, PNG)
+            <div className="text-center">
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-tighter">
+                    JPG, PNG • Máx 5MB
                 </p>
                 <input
                     type="file"

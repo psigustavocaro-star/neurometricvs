@@ -33,6 +33,7 @@ export function NeurometricaSupportBot() {
     // Dragging state
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
+    const [hasMoved, setHasMoved] = useState(false)
     const dragRef = useRef<HTMLDivElement>(null)
     const dragStartPos = useRef({ x: 0, y: 0 })
     const initialPos = useRef({ x: 0, y: 0 })
@@ -69,17 +70,24 @@ export function NeurometricaSupportBot() {
 
     // Drag Logic
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('input') || (e.target as HTMLElement).closest('textarea') || (e.target as HTMLElement).closest('form')) return
-        e.preventDefault()
+        if ((e.target as HTMLElement).closest('button') && isOpen) return
+        if ((e.target as HTMLElement).closest('input') || (e.target as HTMLElement).closest('textarea') || (e.target as HTMLElement).closest('form')) return
+
         setIsDragging(true)
+        setHasMoved(false)
         dragStartPos.current = { x: e.clientX, y: e.clientY }
         initialPos.current = position
-    }, [position])
+    }, [position, isOpen])
 
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (!isDragging) return
         const deltaX = e.clientX - dragStartPos.current.x
         const deltaY = e.clientY - dragStartPos.current.y
+
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+            setHasMoved(true)
+        }
+
         setPosition({
             x: initialPos.current.x + deltaX,
             y: initialPos.current.y + deltaY
@@ -277,9 +285,13 @@ export function NeurometricaSupportBot() {
 
             {/* Main Button */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!hasMoved) {
+                        setIsOpen(!isOpen)
+                    }
+                }}
                 className={cn(
-                    "group relative w-14 h-14 rounded-full shadow-xl transition-all duration-300 flex items-center justify-center",
+                    "group relative w-14 h-14 rounded-full shadow-xl transition-all duration-300 flex items-center justify-center pointer-events-auto",
                     isOpen ? "rotate-90 bg-slate-800" : "bg-slate-900 hover:scale-110 hover:bg-teal-600"
                 )}
             >
