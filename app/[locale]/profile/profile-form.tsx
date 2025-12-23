@@ -11,6 +11,7 @@ import { useTheme } from "next-themes"
 import { AvatarUpload } from "@/components/profile/avatar-upload"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
+import { getUserDisplayData } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -152,7 +153,9 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="font-bold text-xl text-slate-900 dark:text-white">{fullName || 'Nombre Profesional'}</h3>
+                                    <h3 className="font-bold text-xl text-slate-900 dark:text-white">
+                                        {fullName || getUserDisplayData(user, profile).displayName}
+                                    </h3>
                                     <p className="text-teal-600 dark:text-teal-400 font-medium text-sm">{specialty || 'Especialidad'}</p>
                                 </div>
                             </div>
@@ -209,7 +212,9 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
 
                                             <div className="w-32 h-px bg-slate-900/10 mb-3"></div>
                                             <div className="font-serif text-center space-y-1 z-10 w-full px-2">
-                                                <p className="font-bold text-sm text-slate-900">{fullName}</p>
+                                                <p className="font-bold text-sm text-slate-900">
+                                                    {fullName || getUserDisplayData(user, profile).displayName}
+                                                </p>
                                                 <p className="text-[11px] text-slate-600 italic">{specialty}</p>
                                                 <p className="text-[11px] text-slate-600">Reg: {registry}</p>
                                                 <p className="text-[10px] text-slate-500 mt-2 whitespace-pre-wrap leading-tight mx-auto">{signature}</p>

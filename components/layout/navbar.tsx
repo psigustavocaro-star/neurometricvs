@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useState, useEffect } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { cn } from "@/lib/utils"
+import { cn, getUserDisplayData } from "@/lib/utils"
 // ... imports
 import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
@@ -191,12 +191,12 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                             />
                                         ) : (
                                             <span className="text-xs font-bold text-teal-700">
-                                                {currentUser.email?.substring(0, 2).toUpperCase()}
+                                                {getUserDisplayData(currentUser).initials}
                                             </span>
                                         )}
                                     </div>
                                     <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700">
-                                        {currentUser.user_metadata?.full_name?.split(' ')[0] || currentUser.email?.split('@')[0]}
+                                        {getUserDisplayData(currentUser).displayName.split(' ')[0]}
                                     </span>
                                 </Link>
                                 <Button
