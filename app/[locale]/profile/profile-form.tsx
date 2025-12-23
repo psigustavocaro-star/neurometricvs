@@ -143,14 +143,8 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
                             {/* Avatar Column */}
                             <div className="md:col-span-4 flex flex-col items-center text-center space-y-4">
-                                <div className="relative group mt-4">
-                                    <div className="absolute -inset-0.5 bg-gradient-to-tr from-teal-500 to-emerald-500 rounded-full opacity-20 blur group-hover:opacity-40 transition-opacity"></div>
-                                    <div className="relative bg-white dark:bg-slate-950 rounded-full p-2 ring-1 ring-slate-100 dark:ring-slate-800">
-                                        <AvatarUpload uid={user?.id} url={profile?.avatar_url} size={180} />
-                                    </div>
-                                    <div className="absolute bottom-2 right-4 bg-teal-500 rounded-full p-2 text-white shadow-lg cursor-pointer hover:bg-teal-600 transition-colors">
-                                        <User className="w-4 h-4" />
-                                    </div>
+                                <div className="mt-4">
+                                    <AvatarUpload uid={user?.id} url={profile?.avatar_url} />
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="font-bold text-xl text-slate-900 dark:text-white">
