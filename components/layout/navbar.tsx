@@ -195,8 +195,8 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                             </span>
                                         )}
                                     </div>
-                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700">
-                                        {getUserDisplayData(currentUser).displayName.split(' ')[0]}
+                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700 max-w-[150px] truncate">
+                                        {getUserDisplayData(currentUser).displayName}
                                     </span>
                                 </Link>
                                 <Button
