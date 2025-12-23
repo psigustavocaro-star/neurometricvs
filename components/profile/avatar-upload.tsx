@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Loader2, Upload, Trash2, X } from "lucide-react"
+import { toast } from "sonner"
+import { useRouter } from "@/i18n/navigation"
 
 interface AvatarUploadProps {
     uid: string
