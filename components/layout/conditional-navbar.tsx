@@ -7,12 +7,13 @@ import { User } from "@supabase/supabase-js"
 interface ConditionalNavbarProps {
     user?: User | null
     plan?: string
+    profile?: any
 }
 
 // Routes where AppShell provides navigation or full-screen experience (hide the top navbar)
 const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/tests']
 
-export function ConditionalNavbar({ user, plan }: ConditionalNavbarProps) {
+export function ConditionalNavbar({ user, plan, profile }: ConditionalNavbarProps) {
     const pathname = usePathname()
 
     // Check if current path starts with any of the app shell routes
@@ -25,5 +26,5 @@ export function ConditionalNavbar({ user, plan }: ConditionalNavbarProps) {
         return null
     }
 
-    return <Navbar user={user} plan={plan} />
+    return <Navbar user={user} plan={plan} profile={profile} />
 }
