@@ -5,14 +5,25 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-const TITLES = ['psi', 'dr', 'dra', 'psic', 'lic']
+const TITLE_MAP: Record<string, string> = {
+  'psi': 'Ps.',
+  'psic': 'Ps.',
+  'dr': 'Dr.',
+  'dra': 'Dra.',
+  'lic': 'Lic.',
+  'médico': 'Dr.',
+  'medico': 'Dr.',
+  'médica': 'Dra.',
+  'medica': 'Dra.'
+}
 
 export function getUserDisplayData(user: any, profile?: any) {
   const email = user?.email || ''
   const metadata = user?.user_metadata || {}
 
-  // 1. Determine Display Name
+  // 1. Determine Base Name
   let rawName = profile?.full_name || metadata?.full_name || ''
+  const specialty = profile?.specialty || ''
 
   if (!rawName && email) {
     // Fallback to email prefix
@@ -21,20 +32,29 @@ export function getUserDisplayData(user: any, profile?: any) {
       .split(/[\._]/)
       .map(part => {
         const lower = part.toLowerCase()
-        if (TITLES.includes(lower)) {
-          return lower.charAt(0).toUpperCase() + lower.slice(1) + '.'
-        }
+        if (TITLE_MAP[lower]) return TITLE_MAP[lower]
         return part.charAt(0).toUpperCase() + part.slice(1)
       })
       .join(' ')
   }
 
-  // 2. Determine Initials
+  // 2. Add Title if missing but inferred from specialty
+  let finalName = rawName || 'Usuario'
+  const lowerName = finalName.toLowerCase()
+  const hasTitle = Object.values(TITLE_MAP).some(t => lowerName.startsWith(t.toLowerCase()))
+
+  if (!hasTitle && specialty) {
+    const lowerSpec = specialty.toLowerCase()
+    if (lowerSpec.includes('psic')) finalName = `Ps. ${finalName}`
+    else if (lowerSpec.includes('psiquiatr') || lowerSpec.includes('médic') || lowerSpec.includes('medico')) finalName = `Dr. ${finalName}`
+  }
+
+  // 3. Determine Initials (ignoring titles)
   let initials = 'U'
-  if (rawName) {
-    const parts = rawName.split(/\s+/).filter(p => p.length > 0)
-    // Filter out titles for initials
-    const initialsParts = parts.filter(p => !TITLES.some(t => p.toLowerCase().startsWith(t.toLowerCase()) && p.endsWith('.')))
+  if (finalName) {
+    const parts = finalName.split(/\s+/).filter(p => p.length > 0)
+    // Filter out parts that are known titles
+    const initialsParts = parts.filter(p => !Object.values(TITLE_MAP).some(t => t.toLowerCase() === p.toLowerCase() || (p.toLowerCase().startsWith(t.toLowerCase()) && p.endsWith('.'))))
 
     const targetParts = initialsParts.length > 0 ? initialsParts : parts
     initials = targetParts
@@ -45,7 +65,7 @@ export function getUserDisplayData(user: any, profile?: any) {
   }
 
   return {
-    displayName: rawName || 'Usuario',
+    displayName: finalName,
     initials: initials
   }
 }
