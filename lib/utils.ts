@@ -30,7 +30,7 @@ export function getUserDisplayData(user: any, profile?: any) {
     const prefix = email.split('@')[0]
     rawName = prefix
       .split(/[\._]/)
-      .map(part => {
+      .map((part: string) => {
         const lower = part.toLowerCase()
         if (TITLE_MAP[lower]) return TITLE_MAP[lower]
         return part.charAt(0).toUpperCase() + part.slice(1)
@@ -54,11 +54,11 @@ export function getUserDisplayData(user: any, profile?: any) {
   if (finalName) {
     const parts = finalName.split(/\s+/).filter(p => p.length > 0)
     // Filter out parts that are known titles
-    const initialsParts = parts.filter(p => !Object.values(TITLE_MAP).some(t => t.toLowerCase() === p.toLowerCase() || (p.toLowerCase().startsWith(t.toLowerCase()) && p.endsWith('.'))))
+    const initialsParts = parts.filter((p: string) => !Object.values(TITLE_MAP).some(t => t.toLowerCase() === p.toLowerCase() || (p.toLowerCase().startsWith(t.toLowerCase()) && p.endsWith('.'))))
 
     const targetParts = initialsParts.length > 0 ? initialsParts : parts
     initials = targetParts
-      .map(p => p[0])
+      .map((p: string) => p[0])
       .join('')
       .substring(0, 2)
       .toUpperCase()
