@@ -5,7 +5,8 @@ import { MockClinicalRecords } from "@/components/landing/mocks/mock-clinical-re
 import { MockTestScoring } from "@/components/landing/mocks/mock-test-scoring"
 import { MockAICopilot } from "@/components/landing/mocks/mock-ai-copilot"
 import { MockMobileApp } from "@/components/landing/mocks/mock-mobile-app"
-import { Zap, Brain, FileText, Smartphone, CheckCircle2, Activity, Sparkles, Bot, TabletSmartphone } from "lucide-react"
+import { MockMedicalCalculators } from "@/components/landing/mocks/mock-medical-calculators"
+import { Zap, Brain, FileText, Smartphone, CheckCircle2, Activity, Sparkles, Bot, TabletSmartphone, Calculator } from "lucide-react"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export function FeaturesSection() {
@@ -31,13 +32,22 @@ export function FeaturesSection() {
             alignment: 'right'
         },
         {
+            key: 'MedicalCalculators',
+            icon: Calculator,
+            color: 'text-rose-400',
+            bgColor: 'bg-rose-500/10',
+            borderColor: 'border-rose-500/20',
+            component: <MockMedicalCalculators />,
+            alignment: 'left'
+        },
+        {
             key: 'AICopilot',
             icon: Bot,
             color: 'text-indigo-400',
             bgColor: 'bg-indigo-500/10',
             borderColor: 'border-indigo-500/20',
             component: <MockAICopilot />,
-            alignment: 'left'
+            alignment: 'right'
         },
         {
             key: 'MobileAccess',
@@ -46,7 +56,7 @@ export function FeaturesSection() {
             bgColor: 'bg-teal-500/10',
             borderColor: 'border-teal-500/20',
             component: <MockMobileApp />,
-            alignment: 'right'
+            alignment: 'left'
         }
     ]
 

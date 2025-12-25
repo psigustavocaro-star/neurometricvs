@@ -14,6 +14,7 @@ import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { DemoModal } from "@/components/landing/demo-modal"
 import { FeaturesSection } from "@/components/landing/features-section"
 import { PricingSection } from "@/components/landing/pricing-section"
+import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 
 export default function LandingPage() {
   const tHero = useTranslations('Hero');
@@ -201,6 +202,7 @@ export default function LandingPage() {
         </section>
       </main>
       <Footer />
+      <NeurometricaSupportBot />
     </div>
   )
 }

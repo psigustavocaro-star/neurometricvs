@@ -23,11 +23,11 @@
         "faq": "Ayuda"
     },
     "Hero": {
-        "title": "Tu Suite Clínica Digital <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Integral</span> para Salud Mental.",
-        "subtitle": "Software profesional para psicólogos, psiquiatras y neurólogos. Ficha clínica avanzada, corrección automática de tests y herramientas digitales que potencian tu práctica.",
+        "title": "Tu Suite Clínica Digital <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Integral</span> para Profesionales de la Salud.",
+        "subtitle": "Software profesional para médicos, psicólogos, neurólogos, terapeutas ocupacionales y fonoaudiólogos. Ficha clínica avanzada, corrección de tests y herramientas digitales para toda tu práctica.",
         "cta_primary": "Comenzar Prueba Gratis",
         "cta_secondary": "Ver Demo",
-        "trusted_by": "Usado por +500 profesionales"
+        "trusted_by": "Usado por +500 profesionales de la salud"
     },
     "General": {
         "verificado": "Verificado",
@@ -54,7 +54,7 @@
             },
             {
                 "image": "/assets/v2/female-2.png",
-                "quote": "La interfaz es intuitiva y mis pacientes agradecen la modernidad.",
+                "quote": "La interfaz es intuitiva y mis pacientes agradecen la modernidad de su ficha clínica.",
                 "author": "Ps. Valentina Mendoza",
                 "role": "Neuropsicóloga",
                 "location": "Colombia 🇨🇴",
@@ -78,11 +78,11 @@
             },
             {
                 "image": "/assets/v2/male-3.png",
-                "quote": "La precisión en los reportes forenses que genera es impresionante.",
-                "author": "Lic. Diego Morales",
-                "role": "Psicólogo Forense",
+                "quote": "La versatilidad para diferentes especialidades médicas es lo que más destaco.",
+                "author": "Dr. Diego Morales",
+                "role": "Médico General",
                 "location": "España 🇪🇸",
-                "alt": "Psicología forense"
+                "alt": "Medicina general"
             }
         ]
     },
@@ -139,10 +139,10 @@
         },
         "clinical": {
             "badge": "MÁS POPULAR",
-            "name": "Suite Profesional",
+            "name": "Plan Clínico",
             "description": "Tu consultorio digital completo",
             "trial": "Prueba gratis de 7 días",
-            "cta": "Elegir Suite Profesional",
+            "cta": "Elegir Plan Clínico",
             "features": [
                 "Ficha Clínica Completa & Anamnesis",
                 "Gestión de Sesiones & Notas",
@@ -176,8 +176,8 @@
                 "a": "La seguridad es nuestra prioridad. Utilizamos encriptación de grado bancario y cumplimos con las normativas de protección de datos de salud. Nadie más que tú tiene acceso a los expedientes."
             },
             {
-                "q": "¿Qué tests están disponibles actualmente?",
-                "a": "Contamos con una biblioteca creciente que incluye PHQ-9, GAD-7, BDI-II, SCL-90-R, entre otros. Añadimos nuevos tests mensualmente basados en las solicitudes de la comunidad."
+                "q": "¿Qué herramientas y tests están disponibles actualmente?",
+                "a": "Nuestra biblioteca incluye tests para salud mental (PHQ-9, BDI), desarrollo (M-CHAT), fonoaudiología, terapia ocupacional y calculadoras médicas. Añadimos herramientas nuevas mensualmente."
             },
             {
                 "q": "¿Ofrecen planes para empresas?",
@@ -320,7 +320,7 @@
     },
     "FeaturesPage": {
         "title": "Soluciones que Transforman la Práctica Clínica",
-        "subtitle": "Cada herramienta ha sido diseñada pensando en el flujo real de trabajo de un profesional de la salud mental.",
+        "subtitle": "Cada herramienta ha sido diseñada pensando en el flujo real de trabajo de médicos, terapeutas y especialistas de la salud.",
         "ClinicalRecords": {
             "title": "Ficha Clínica Inteligente",
             "desc": "Olvídate de los papeles y sistemas obsoletos. Nuestra ficha clínica te permite registrar sesiones, antecedentes y evolución con una interfaz limpia y rápida.",
@@ -345,6 +345,11 @@
             "title": "Evaluación Móvil Simplificada",
             "desc": "Interfaz adaptable para tablets y celulares. Aplica tests en consulta o permite que el paciente responda cómodamente desde su dispositivo sin instalaciones.",
             "benefit": "Accesibilidad Universal"
+        },
+        "MedicalCalculators": {
+            "title": "Calculadoras Clínicas Inteligentes",
+            "desc": "Herramientas de precisión para todas las especialidades: cálculo de IMC, dosis pediátricas, escalas de riesgo quirúrgico, fechas ginecológicas y más.",
+            "benefit": "Precisión Médica Inmediata"
         }
     },
     "PricingPage": {

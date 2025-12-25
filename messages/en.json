@@ -23,11 +23,11 @@
         "faq": "Help"
     },
     "Hero": {
-        "title": "Your Comprehensive Digital <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Clinical Suite</span> for Mental Health.",
-        "subtitle": "Professional software for psychologists and psychiatrists. Advanced clinical records, automatic test scoring, and digital tools that empower your practice.",
+        "title": "Your Comprehensive Digital <span class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600'>Clinical Suite</span> for Health Professionals.",
+        "subtitle": "Professional software for doctors, psychologists, neurologists, occupational therapists, and speech therapists. Advanced clinical records and digital tools for your entire practice.",
         "cta_primary": "Start Free Trial",
         "cta_secondary": "Watch Demo",
-        "trusted_by": "Trusted by +500 professionals"
+        "trusted_by": "Trusted by +500 health professionals"
     },
     "General": {
         "verificado": "Verified",
@@ -54,7 +54,7 @@
             },
             {
                 "image": "/assets/v2/female-2.png",
-                "quote": "The interface is intuitive and my patients appreciate the modernity.",
+                "quote": "The interface is intuitive and my patients appreciate the modernity of their clinical record.",
                 "author": "Ps. Valentina Mendoza",
                 "role": "Neuropsychologist",
                 "location": "Colombia 🇨🇴",
@@ -78,11 +78,11 @@
             },
             {
                 "image": "/assets/v2/male-3.png",
-                "quote": "The precision in forensic reports it generates is impressive.",
-                "author": "Lic. Diego Morales",
-                "role": "Forensic Psychologist",
+                "quote": "The versatility for different medical specialties is what I value the most.",
+                "author": "Dr. Diego Morales",
+                "role": "General Practitioner",
                 "location": "Spain 🇪🇸",
-                "alt": "Forensic psychology"
+                "alt": "General medicine"
             }
         ]
     },
@@ -147,10 +147,10 @@
         },
         "clinical": {
             "badge": "MOST POPULAR",
-            "name": "Professional Suite",
+            "name": "Clinical Plan",
             "description": "Your complete digital office",
             "trial": "7-day free trial",
-            "cta": "Choose Professional",
+            "cta": "Choose Clinical Plan",
             "features": [
                 "Complete Clinical Records",
                 "Session Management & Notes",
@@ -184,8 +184,8 @@
                 "a": "Security is our priority. We use bank-grade encryption and comply with health data protection regulations. No one but you has access to the files."
             },
             {
-                "q": "What tests are currently available?",
-                "a": "We have a growing library that includes PHQ-9, GAD-7, BDI-II, SCL-90-R, among others. We add new tests monthly based on community requests."
+                "q": "What tools and tests are currently available?",
+                "a": "Our library includes mental health tests (PHQ-9, BDI), development (M-CHAT), speech therapy, occupational therapy, and medical calculators. We add new tools monthly."
             },
             {
                 "q": "Do you offer plans for companies?",
@@ -320,7 +320,7 @@
     },
     "FeaturesPage": {
         "title": "Solutions that Transform Clinical Practice",
-        "subtitle": "Every tool has been designed with the real workflow of a mental health professional in mind.",
+        "subtitle": "Every tool has been designed with the real workflow of doctors, therapists, and health specialists in mind.",
         "ClinicalRecords": {
             "title": "Smart Clinical Records",
             "desc": "Forget paper and obsolete systems. Our clinical records allow you to register sessions, background, and evolution with a clean and fast interface.",
@@ -345,6 +345,11 @@
             "title": "Simplified Mobile Assessment",
             "desc": "Adaptive interface for tablets and phones. Administer tests in-session or let patients answer comfortably from their device without installations.",
             "benefit": "Universal Accessibility"
+        },
+        "MedicalCalculators": {
+            "title": "Smart Clinical Calculators",
+            "desc": "Precision tools for all specialties: BMI calculation, pediatric dosing, surgical risk scales, obstetric dates, and more.",
+            "benefit": "Immediate Medical Precision"
         }
     },
     "PricingPage": {

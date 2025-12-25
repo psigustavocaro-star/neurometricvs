@@ -121,6 +121,98 @@ const testsByCategory = {
             tags: ['ejecutivo', 'flexibilidad', 'adultos']
         },
     ],
+    "Desarrollo Infantil": [
+        {
+            id: 'mchat',
+            name: 'M-CHAT-R/F',
+            category: 'Desarrollo Infantil',
+            age: '16-30 meses',
+            duration: '5-10 min',
+            description: 'Detección de riesgo de Trastorno del Espectro Autista en niños pequeños',
+            color: 'from-orange-400 to-orange-500',
+            questions: 20,
+            tags: ['autismo', 'desarrollo', 'pediatría']
+        },
+        {
+            id: 'asq3',
+            name: 'ASQ-3',
+            category: 'Desarrollo Infantil',
+            age: '1-66 meses',
+            duration: '15 min',
+            description: 'Cuestionario de edades y etapas para monitoreo del desarrollo infantil',
+            color: 'from-orange-500 to-orange-600',
+            tags: ['desarrollo', 'hitos', 'pediatría']
+        }
+    ],
+    "Movilidad y Función": [
+        {
+            id: 'tinetti',
+            name: 'Test de Tinetti',
+            category: 'Movilidad y Función',
+            age: '65+ años',
+            duration: '10 min',
+            description: 'Evaluación de la marcha y el equilibrio para determinar riesgo de caídas',
+            color: 'from-lime-500 to-lime-600',
+            tags: ['kinesiología', 'geriatría', 'equilibrio']
+        },
+        {
+            id: 'barthel',
+            name: 'Índice de Barthel',
+            category: 'Movilidad y Función',
+            age: 'Todas',
+            duration: '5 min',
+            description: 'Medida de la independencia en actividades de la vida diaria (AVD)',
+            color: 'from-lime-600 to-lime-700',
+            tags: ['terapia ocupacional', 'autonomía', 'rehabilitación']
+        }
+    ],
+    "Lenguaje y Comunicación": [
+        {
+            id: 'boston',
+            name: 'Test de Boston',
+            category: 'Lenguaje y Comunicación',
+            age: 'Adultos',
+            duration: '20-30 min',
+            description: 'Evaluación de afasias y trastornos relacionados del lenguaje',
+            color: 'from-fuchsia-500 to-fuchsia-600',
+            tags: ['fonoaudiología', 'lenguaje', 'afasia']
+        }
+    ],
+    "Salud General y Riesgo": [
+        {
+            id: 'imc',
+            name: 'Calculadora IMC',
+            category: 'Salud General',
+            age: 'Todas',
+            duration: '1 min',
+            description: 'Cálculo del Índice de Masa Corporal y clasificación nutricional',
+            color: 'from-slate-500 to-slate-600',
+            tags: ['nutrición', 'medicina', 'calculadora']
+        },
+        {
+            id: 'norton',
+            name: 'Escala de Norton',
+            category: 'Salud General',
+            age: 'Adultos',
+            duration: '3 min',
+            description: 'Evaluación del riesgo de úlceras por presión en pacientes encamados',
+            color: 'from-slate-600 to-slate-700',
+            tags: ['enfermería', 'medicina', 'riesgo']
+        }
+    ],
+    "Geriatría y Fragilidad": [
+        {
+            id: 'gds',
+            name: 'Escala Yesavage',
+            category: 'Geriatría',
+            age: '65+ años',
+            duration: '10 min',
+            description: 'Escala de Depresión Geriátrica para tamizaje en adultos mayores',
+            color: 'from-indigo-400 to-indigo-500',
+            questions: 15,
+            tags: ['geriatría', 'psicoterapia', 'adultos mayores']
+        }
+    ],
 }
 
 export function DashboardTestCatalog() {
