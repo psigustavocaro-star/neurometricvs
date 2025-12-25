@@ -6,7 +6,7 @@ import { ConditionalNavbar } from "@/components/layout/conditional-navbar";
 import { createClient } from "@/lib/supabase/server";
 // import { AdminMenu } from "@/components/admin/admin-menu";
 import { Toaster } from "@/components/ui/sonner";
-
+import { AdminTools } from "@/components/admin/admin-tools";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -58,11 +58,18 @@ export default async function RootLayout({
   // Supabase logic
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: subscription } = await supabase
-    .from('subscriptions')
-    .select('plan')
-    .eq('user_id', user?.id)
-    .single();
+
+  let profile = null;
+  let subscription = null;
+
+  if (user) {
+    const [profileRes, subscriptionRes] = await Promise.all([
+      supabase.from('profiles').select('*').eq('id', user.id).single(),
+      supabase.from('subscriptions').select('plan').eq('user_id', user.id).single()
+    ]);
+    profile = profileRes.data;
+    subscription = subscriptionRes.data;
+  }
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -71,11 +78,12 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Providers>
-            <ConditionalNavbar user={user} plan={subscription?.plan} />
+            <ConditionalNavbar user={user} plan={subscription?.plan} profile={profile} />
             {/* {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />} */}
             <main className="transition-all duration-300">
               {children}
             </main>
+            {user?.email === 'psi.gustavocaro@gmail.com' && <div className="fixed bottom-4 right-4 z-50"><AdminTools /></div>}
             <Toaster />
           </Providers>
         </NextIntlClientProvider>

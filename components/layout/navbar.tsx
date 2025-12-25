@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useState, useEffect } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { cn } from "@/lib/utils"
+import { cn, getUserDisplayData } from "@/lib/utils"
 // ... imports
 import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
@@ -21,7 +21,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
+export function Navbar({ user, plan, profile }: { user?: User | null, plan?: string, profile?: any }) {
     const t = useTranslations('Navbar')
     const locale = useLocale()
     const pathname = usePathname()
@@ -31,6 +31,7 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
     const [isLoggingOut, setIsLoggingOut] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [currentUser, setCurrentUser] = useState<User | null | undefined>(user)
+    const [currentProfile, setCurrentProfile] = useState<any>(profile)
     const [scrolled, setScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -43,10 +44,12 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
             const { data: { user: sessionUser } } = await supabase.auth.getUser()
             if (sessionUser) {
                 setCurrentUser(sessionUser)
+                const { data: profileData } = await supabase.from('profiles').select('*').eq('id', sessionUser.id).single()
+                if (profileData) setCurrentProfile(profileData)
             }
         }
         checkSession()
-    }, [user, supabase])
+    }, [user, profile, supabase])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -191,12 +194,12 @@ export function Navbar({ user, plan }: { user?: User | null, plan?: string }) {
                                             />
                                         ) : (
                                             <span className="text-xs font-bold text-teal-700">
-                                                {currentUser.email?.substring(0, 2).toUpperCase()}
+                                                {getUserDisplayData(currentUser, currentProfile).initials}
                                             </span>
                                         )}
                                     </div>
-                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700">
-                                        {currentUser.user_metadata?.full_name?.split(' ')[0] || currentUser.email?.split('@')[0]}
+                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700 max-w-[150px] truncate">
+                                        {getUserDisplayData(currentUser, currentProfile).displayName}
                                     </span>
                                 </Link>
                                 <Button

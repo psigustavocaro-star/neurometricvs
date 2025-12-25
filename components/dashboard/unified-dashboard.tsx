@@ -63,7 +63,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             <div className="relative">
                 <div className="relative p-6 md:p-8">
                     {/* Welcome Section */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-10 gap-4">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4">
                         <motion.div variants={itemVariants}>
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">

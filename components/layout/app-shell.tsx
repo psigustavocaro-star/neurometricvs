@@ -114,7 +114,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
         <div className="flex min-h-screen bg-background transition-colors duration-500 ease-in-out">
             {/* Desktop Sidebar - Visible from md (768px) upwards */}
             <aside className={cn(
-                "hidden md:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40",
+                "hidden md:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40 border-r border-slate-200/60 dark:border-slate-800/60 shadow-[1px_0_10px_rgba(0,0,0,0.02)]",
                 isCollapsed ? 'w-[70px]' : 'w-[260px]'
             )}>
                 {/* Logo Area */}
@@ -166,13 +166,20 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                 {/* Unified Toggle Button - Floating on the border */}
                 <button
                     onClick={() => toggleSidebar(!isCollapsed)}
-                    className="absolute -right-3 top-24 w-6 h-6 bg-primary text-primary-foreground border border-primary/20 rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(var(--primary),0.3)] hover:scale-110 transition-all z-50 group hover:shadow-[0_0_15px_rgba(var(--primary),0.5)]"
+                    className={cn(
+                        "absolute -right-4 top-24 w-8 h-8 rounded-xl flex items-center justify-center z-50 group transition-all duration-300",
+                        "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800",
+                        "shadow-[0_2px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.3)]",
+                        "hover:border-teal-500/50 hover:shadow-[0_4px_15px_rgba(20,184,166,0.15)]",
+                        "active:scale-90"
+                    )}
                     title={isCollapsed ? "Expandir" : "Colapsar"}
                 >
+                    <div className="absolute inset-0 bg-teal-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     {isCollapsed ? (
-                        <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        <ChevronRight className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 transition-colors" />
                     ) : (
-                        <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                        <ChevronLeft className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 transition-colors" />
                     )}
                 </button>
 

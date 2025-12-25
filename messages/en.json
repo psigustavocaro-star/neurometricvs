@@ -2,7 +2,7 @@
     "Navbar": {
         "features": "What We Offer",
         "pricing": "Pricing",
-        "testimonials": "Testimonios",
+        "testimonials": "Testimonials",
         "demo": "Watch Demo",
         "login": "Login",
         "register": "Sign Up",
@@ -134,6 +134,19 @@
         "subtitle": "Prices in USD. Automatic conversion to your local currency.",
         "whats_included": "What's included",
         "close": "Close",
+        "faq_title": "Frequently Asked Questions",
+        "free": {
+            "name": "Free",
+            "description": "Read / Exploration Mode",
+            "cta": "Start for Free",
+            "features": [
+                "View test library",
+                "Filter by profession"
+            ],
+            "excluded": [
+                "Test usage and scoring"
+            ]
+        },
         "basic": {
             "name": "Basic",
             "description": "To start",
@@ -161,7 +174,7 @@
         "pro": {
             "name": "Pro Annual",
             "description": "Smart Savings",
-            "savings_info": "Equivalent to <span class='bold'>$5.41/mo</span>",
+            "savings_info": "Equivalent to <span class='font-bold'>$5.41/mo</span>",
             "savings_badge": "SAVE 64%",
             "cta": "Choose Pro",
             "features": [

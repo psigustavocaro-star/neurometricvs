@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Loader2, Upload, Trash2 } from "lucide-react"
+import { Loader2, Upload, Trash2, X } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "@/i18n/navigation"
 
@@ -15,7 +15,7 @@ interface AvatarUploadProps {
     onUploadComplete?: (url: string) => void
 }
 
-export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarUploadProps) {
+export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarUploadProps) {
     const supabase = createClient()
     const router = useRouter()
     const [avatarUrl, setAvatarUrl] = useState<string | null>(url)
@@ -26,12 +26,11 @@ export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarU
         try {
             setUploading(true)
             if (!event.target.files || event.target.files.length === 0) {
-                return // User cancelled selection
+                return
             }
 
             const file = event.target.files[0]
 
-            // Validation
             if (file.size > 5 * 1024 * 1024) {
                 throw new Error("La imagen no debe pesar más de 5MB")
             }
@@ -42,30 +41,22 @@ export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarU
             const fileExt = file.name.split('.').pop()
             const filePath = `${uid}-${Math.random()}.${fileExt}`
 
-            // 1. Upload to Storage
             const { error: uploadError } = await supabase.storage
                 .from('avatars')
                 .upload(filePath, file)
 
-            if (uploadError) {
-                throw uploadError
-            }
+            if (uploadError) throw uploadError
 
-            // 2. Get Public URL
             const { data: { publicUrl } } = supabase.storage
                 .from('avatars')
                 .getPublicUrl(filePath)
 
-            // 3. Update Profile
             const { error: updateError } = await supabase
                 .from('profiles')
                 .upsert({ id: uid, avatar_url: publicUrl, updated_at: new Date().toISOString() })
 
-            if (updateError) {
-                throw updateError
-            }
+            if (updateError) throw updateError
 
-            // Also update Auth Metadata for broader access 
             await supabase.auth.updateUser({
                 data: { avatar_url: publicUrl }
             })
@@ -81,10 +72,34 @@ export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarU
             toast.error(error.message || "Error al subir la imagen")
         } finally {
             setUploading(false)
-            // Reset input so same file can be selected again if needed
-            if (fileInputRef.current) {
-                fileInputRef.current.value = ''
-            }
+            if (fileInputRef.current) fileInputRef.current.value = ''
+        }
+    }
+
+    const deleteAvatar = async (e: React.MouseEvent) => {
+        e.stopPropagation()
+        try {
+            setUploading(true)
+
+            const { error: updateError } = await supabase
+                .from('profiles')
+                .update({ avatar_url: null, updated_at: new Date().toISOString() })
+                .eq('id', uid)
+
+            if (updateError) throw updateError
+
+            await supabase.auth.updateUser({
+                data: { avatar_url: null }
+            })
+
+            setAvatarUrl(null)
+            if (onUploadComplete) onUploadComplete('')
+            toast.success("Foto eliminada")
+            router.refresh()
+        } catch (error: any) {
+            toast.error("Error al eliminar la imagen")
+        } finally {
+            setUploading(false)
         }
     }
 
@@ -93,47 +108,65 @@ export function AvatarUpload({ uid, url, size = 150, onUploadComplete }: AvatarU
     }
 
     return (
-        <div className="flex flex-col items-center gap-6">
-            <div
-                className="relative group cursor-pointer rounded-full transition-all duration-300 hover:ring-4 hover:ring-teal-100 dark:hover:ring-teal-900/30"
-                onClick={triggerUpload}
-                style={{ width: size, height: size }}
-            >
-                <Avatar className="w-full h-full border-4 border-slate-100 dark:border-slate-800 shadow-xl transition-transform group-hover:scale-105">
-                    <AvatarImage src={avatarUrl || undefined} className="object-cover" />
-                    <AvatarFallback className="text-4xl bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300 flex items-center justify-center">
-                        <Upload className="w-12 h-12" />
-                    </AvatarFallback>
-                </Avatar>
-
-                {/* Overlay with Camera Icon */}
-                <div className="absolute inset-0 bg-slate-900/60 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
-                    <Upload className="w-8 h-8 text-white mb-1" />
-                    <span className="text-[10px] font-bold text-white uppercase tracking-wider">Cambiar</span>
-                </div>
+        <div className="w-full max-w-[240px] flex flex-col items-center group/container">
+            {/* Image Container */}
+            <div className="relative w-60 h-64 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-all group-hover/container:shadow-md">
+                {avatarUrl ? (
+                    <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={avatarUrl}
+                            alt="Profile"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover/container:scale-105"
+                        />
+                        <button
+                            onClick={deleteAvatar}
+                            className="absolute top-3 right-3 p-1.5 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full text-white transition-all opacity-0 group-hover/container:opacity-100 border border-white/20 shadow-lg"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    </>
+                ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 gap-3">
+                        <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-full">
+                            <Upload className="w-8 h-8 opacity-20" />
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Sin fotografía</span>
+                    </div>
+                )}
 
                 {uploading && (
-                    <div className="absolute inset-0 bg-slate-950/80 rounded-full flex flex-col items-center justify-center z-10 backdrop-blur-sm">
-                        <Loader2 className="w-10 h-10 text-teal-400 animate-spin mb-2" />
-                        <span className="text-xs font-medium text-white">Subiendo...</span>
+                    <div className="absolute inset-0 bg-slate-950/60 flex items-center justify-center z-10 backdrop-blur-sm">
+                        <Loader2 className="w-10 h-10 text-white animate-spin" />
                     </div>
                 )}
             </div>
 
-            <div className="flex flex-col items-center">
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
-                    Máximo 5MB (JPG, PNG)
-                </p>
-                <input
-                    type="file"
-                    id="single"
-                    accept="image/*"
-                    onChange={uploadAvatar}
+            {/* Action Bar */}
+            <div className="w-full mt-3 p-2 bg-slate-50/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 rounded-xl">
+                <Button
+                    variant="outline"
+                    onClick={triggerUpload}
                     disabled={uploading}
-                    ref={fileInputRef}
-                    className="hidden"
-                />
+                    className="w-full bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 h-10 text-xs font-bold uppercase tracking-tight shadow-sm"
+                >
+                    Subir Fotografía
+                </Button>
             </div>
+
+            <p className="mt-3 text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-tighter opacity-60">
+                JPG, PNG • Máx 5MB
+            </p>
+
+            <input
+                type="file"
+                id="single"
+                accept="image/*"
+                onChange={uploadAvatar}
+                disabled={uploading}
+                ref={fileInputRef}
+                className="hidden"
+            />
         </div>
     )
 }

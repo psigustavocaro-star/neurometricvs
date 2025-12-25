@@ -62,36 +62,43 @@ export function ResourcesSection() {
                                 key={i}
                                 href={article.url}
                                 target="_blank"
-                                className="flex gap-3 p-4 hover:bg-muted/30 transition-colors group"
+                                className="flex gap-4 p-5 hover:bg-primary/5 transition-all duration-300 group relative border-b last:border-0 border-border/40"
                             >
-                                <div className="h-16 w-16 md:h-12 md:w-12 shrink-0 rounded-lg overflow-hidden bg-muted relative border border-border/40">
+                                <div className="h-20 w-20 shrink-0 rounded-xl overflow-hidden bg-muted relative border border-border/40 shadow-sm group-hover:shadow-md transition-all">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={article.urlToImage || '/placeholder.png'}
                                         alt={article.source.name}
-                                        className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                                         onError={(e) => {
                                             (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80'
                                         }}
                                     />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-black/40 transition-colors" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-[10px] font-bold text-indigo-500 bg-indigo-500/10 px-1.5 py-0.5 rounded">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${article.source.name === 'ScienceDaily' ? 'text-blue-500 bg-blue-500/10 border-blue-500/20' :
+                                            article.source.name === 'Psychology Today' ? 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20' :
+                                                'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
+                                            }`}>
                                             {article.source.name}
                                         </span>
-                                        <span className="text-[10px] text-muted-foreground">
+                                        <span className="text-[10px] font-medium text-muted-foreground/60 flex items-center gap-1">
+                                            <RefreshCw className="w-2.5 h-2.5 opacity-50" />
                                             {format(new Date(article.publishedAt), "d MMM", { locale: es })}
                                         </span>
                                     </div>
-                                    <h4 className="text-xs font-semibold text-foreground leading-snug line-clamp-2 md:line-clamp-1 group-hover:text-primary transition-colors">
+                                    <h4 className="text-[13px] font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-1.5">
                                         {article.title}
                                     </h4>
-                                    <p className="text-[10px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
+                                    <p className="text-[11px] text-muted-foreground/80 line-clamp-2 leading-relaxed">
                                         {article.description}
                                     </p>
                                 </div>
-                                <ExternalLink className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+                                <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
+                                    <ExternalLink className="w-3.5 h-3.5 text-primary" />
+                                </div>
                             </Link>
                         ))}
                     </div>
