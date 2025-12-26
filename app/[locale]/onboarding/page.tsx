@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { PriceDisplay } from "@/components/pricing/price-display"
+import { PADDLE_CLIENT_TOKEN, PADDLE_ENV } from '@/lib/config'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -64,16 +65,20 @@ function OnboardingContent() {
 
     useEffect(() => {
         import('@paddle/paddle-js').then(({ initializePaddle }) => {
-            const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
-            const env = process.env.NEXT_PUBLIC_PADDLE_ENV
+            if (!PADDLE_CLIENT_TOKEN) {
+                console.error('[Onboarding] Missing PADDLE_CLIENT_TOKEN');
+                return
+            }
 
-            if (!token) return
+            console.log('[Onboarding] Initializing Paddle in:', PADDLE_ENV);
 
             initializePaddle({
-                token: token!,
-                environment: env === 'production' ? 'production' : 'sandbox',
+                token: PADDLE_CLIENT_TOKEN,
+                environment: PADDLE_ENV,
             }).then((paddleInstance) => {
                 setPaddle(paddleInstance)
+            }).catch(err => {
+                console.error('[Onboarding] Paddle initialization failed:', err);
             })
         })
     }, [])

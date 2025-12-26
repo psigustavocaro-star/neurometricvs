@@ -3,7 +3,12 @@ export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 // Paddle Configuration
 export const PADDLE_CLIENT_TOKEN = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!;
-export const PADDLE_ENV = process.env.NEXT_PUBLIC_PADDLE_ENV!;
+export const PADDLE_ENV = (process.env.NEXT_PUBLIC_PADDLE_ENV?.toLowerCase() || 'sandbox') as 'production' | 'sandbox';
+
+// Safe debug log for production troubleshooting
+if (typeof window !== 'undefined') {
+    console.log('[Config] Paddle Environment:', PADDLE_ENV);
+}
 
 // Price IDs
 export const PRICE_ID_BASIC = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!;
