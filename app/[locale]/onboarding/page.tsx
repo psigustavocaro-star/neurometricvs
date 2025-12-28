@@ -123,27 +123,35 @@ function OnboardingContent() {
 
         // Handle Paddle Checkout
         if (paddle) {
-            let priceId = ''
-            if (formData.plan === 'pro') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!
-            else if (formData.plan === 'clinical') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL!
-            else if (formData.plan === 'basic') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!
+            try {
+                let priceId = ''
+                if (formData.plan === 'pro') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!
+                else if (formData.plan === 'clinical') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL!
+                else if (formData.plan === 'basic') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!
 
-            if (priceId) {
-                paddle.Checkout.open({
-                    items: [{ priceId, quantity: 1 }],
-                    customData: { userId: signUpData.user?.id || '' },
-                    customer: { email: formData.email },
-                    settings: {
-                        displayMode: 'overlay',
-                        successUrl: `${window.location.origin}/payment/success`,
-                        theme: 'light'
-                    }
-                })
-            } else {
-                setError('Error: No se encontró el ID del precio para este plan. Por favor contacta a soporte.')
+                console.log('[Onboarding] Opening checkout for priceId:', priceId);
+
+                if (priceId) {
+                    paddle.Checkout.open({
+                        items: [{ priceId, quantity: 1 }],
+                        customData: { userId: signUpData.user?.id || '' },
+                        customer: { email: formData.email },
+                        settings: {
+                            displayMode: 'overlay',
+                            successUrl: `${window.location.origin}/payment/success`,
+                            theme: 'light'
+                        }
+                    })
+                } else {
+                    throw new Error('No se encontró el ID del precio para este plan.')
+                }
+            } catch (err: any) {
+                console.error('[Onboarding] Paddle checkout error:', err);
+                setError(`Error en el sistema de pagos: ${err.message || 'Desconocido'}. Por favor contacta a soporte.`)
                 setIsLoading(false)
             }
         } else {
+            console.error('[Onboarding] Paddle instance not available');
             setError('Error cargando el sistema de pagos. Por favor recarga la página.')
             setIsLoading(false)
         }
