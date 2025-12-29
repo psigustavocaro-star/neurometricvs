@@ -109,7 +109,15 @@ function OnboardingContent() {
         })
 
         if (signUpError) {
-            setError(signUpError.message)
+            console.error('[Onboarding] Signup error:', signUpError);
+            setError(signUpError.message || 'Error al crear la cuenta. Por favor verifica tus datos.')
+            setIsLoading(false)
+            return
+        }
+
+        if (!signUpData?.user) {
+            console.error('[Onboarding] Signup success but no user returned:', signUpData);
+            setError('No se pudo crear el usuario. Por favor intenta de nuevo.')
             setIsLoading(false)
             return
         }
@@ -125,9 +133,9 @@ function OnboardingContent() {
         if (paddle) {
             try {
                 let priceId = ''
-                if (formData.plan === 'pro') priceId = PRICE_ID_PRO
-                else if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL
-                else if (formData.plan === 'basic') priceId = PRICE_ID_BASIC
+                if (formData.plan === 'pro') priceId = PRICE_ID_PRO?.trim()
+                else if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL?.trim()
+                else if (formData.plan === 'basic') priceId = PRICE_ID_BASIC?.trim()
 
                 console.log('[Onboarding] Opening checkout for priceId:', priceId);
 

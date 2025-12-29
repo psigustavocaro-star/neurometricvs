@@ -26,14 +26,17 @@ export function usePaddlePrices(priceId: string | null) {
                 if (!paddleInstance) {
                     paddleInstance = await initializePaddle({
                         token: PADDLE_CLIENT_TOKEN,
-                        environment: PADDLE_ENV === 'production' ? 'production' : 'sandbox'
+                        environment: PADDLE_ENV
                     })
                 }
 
                 if (paddleInstance) {
+                    const trimmedId = priceId.trim();
+                    console.log(`[Paddle] Fetching price preview for ${trimmedId} in ${PADDLE_ENV}`);
+
                     const priceData = await paddleInstance.PricePreview({
-                        items: [{ priceId, quantity: 1 }],
-                        address: { countryCode: 'CL' } // TODO: Remove this after verifying local pricing
+                        items: [{ priceId: trimmedId, quantity: 1 }],
+                        address: { countryCode: 'CL' }
                     })
 
                     console.log('[Paddle] Price Data:', priceData)
@@ -54,7 +57,7 @@ export function usePaddlePrices(priceId: string | null) {
                     })
                 }
             } catch (error) {
-                console.error('[Paddle] Failed to fetch price:', error)
+                console.error('[Paddle] Failed to fetch price for ID:', priceId, error)
             } finally {
                 setLoading(false)
             }
