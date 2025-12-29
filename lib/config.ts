@@ -18,6 +18,7 @@ export const PRICE_ID_PRO = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!;
 // Safe debug log for production troubleshooting
 if (typeof window !== 'undefined') {
     console.log('[Config] Paddle Environment:', PADDLE_ENV);
+    console.log('[Config] Token Prefix:', PADDLE_CLIENT_TOKEN?.slice(0, 10));
     console.log('[Config] Price IDs Loaded:', {
         basic: PRICE_ID_BASIC?.slice(0, 8) + '...',
         clinical: PRICE_ID_CLINICAL?.slice(0, 8) + '...',

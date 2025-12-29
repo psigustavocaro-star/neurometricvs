@@ -23,12 +23,12 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com;
+              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com https://public.profitwell.com https://*.profitwell.com;
               style-src 'self' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com;
               img-src 'self' blob: data: https://*.paddle.com https://dojetjntlqidtfdtykxt.supabase.co https://neurometricslatam.com;
               font-src 'self' data: https://*.paddle.com;
               frame-src 'self' https://*.paddle.com;
-              connect-src 'self' https://*.paddle.com https://dojetjntlqidtfdtykxt.supabase.co https://mindicador.cl https://open.er-api.com https://ipwho.is;
+              connect-src 'self' https://*.paddle.com https://*.profitwell.com https://dojetjntlqidtfdtykxt.supabase.co https://mindicador.cl https://open.er-api.com https://ipwho.is;
             `.replace(/\s{2,}/g, ' ').trim()
           }
         ],
