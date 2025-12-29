@@ -85,6 +85,18 @@ function OnboardingContent() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
+        // Safety: Only allowed to submit at the final account creation step
+        if (step !== 4) {
+            console.warn('[Onboarding] handleSubmit triggered outside Step 4. Ignoring.');
+            return
+        }
+
+        if (!formData.email || !formData.password) {
+            setError('Por favor completa todos los campos de la cuenta.')
+            return
+        }
+
         setIsLoading(true)
         setError(null)
 
@@ -419,7 +431,7 @@ function OnboardingContent() {
                                         <Button type="button" variant="ghost" onClick={prevStep}>
                                             <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                         </Button>
-                                        <Button onClick={nextStep} disabled={!formData.name || !formData.role || !formData.registryNumber || !formData.country} className="bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]">
+                                        <Button type="button" onClick={nextStep} disabled={!formData.name || !formData.role || !formData.registryNumber || !formData.country} className="bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]">
                                             Continuar <ChevronRight className="ml-2 w-4 h-4" />
                                         </Button>
                                     </CardFooter>
@@ -522,7 +534,7 @@ function OnboardingContent() {
                                         <Button type="button" variant="ghost" onClick={prevStep}>
                                             <ChevronLeft className="mr-2 w-4 h-4" /> Atrás
                                         </Button>
-                                        <Button onClick={nextStep} disabled={!formData.patientsPerMonth || !formData.primaryNeed} className="bg-teal-600 hover:bg-teal-700 text-white">
+                                        <Button type="button" onClick={nextStep} disabled={!formData.patientsPerMonth || !formData.primaryNeed} className="bg-teal-600 hover:bg-teal-700 text-white">
                                             Ver Planes Recomendados <ChevronRight className="ml-2 w-4 h-4" />
                                         </Button>
                                     </div>
