@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { PriceDisplay } from "@/components/pricing/price-display"
-import { PADDLE_CLIENT_TOKEN, PADDLE_ENV } from '@/lib/config'
+import { PADDLE_CLIENT_TOKEN, PADDLE_ENV, PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -125,9 +125,9 @@ function OnboardingContent() {
         if (paddle) {
             try {
                 let priceId = ''
-                if (formData.plan === 'pro') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!
-                else if (formData.plan === 'clinical') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL!
-                else if (formData.plan === 'basic') priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!
+                if (formData.plan === 'pro') priceId = PRICE_ID_PRO
+                else if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL
+                else if (formData.plan === 'basic') priceId = PRICE_ID_BASIC
 
                 console.log('[Onboarding] Opening checkout for priceId:', priceId);
 

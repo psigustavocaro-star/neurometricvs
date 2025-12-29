@@ -14,3 +14,13 @@ if (typeof window !== 'undefined') {
 export const PRICE_ID_BASIC = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC!;
 export const PRICE_ID_CLINICAL = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL!;
 export const PRICE_ID_PRO = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO!;
+
+// Safe debug log for production troubleshooting
+if (typeof window !== 'undefined') {
+    console.log('[Config] Paddle Environment:', PADDLE_ENV);
+    console.log('[Config] Price IDs Loaded:', {
+        basic: PRICE_ID_BASIC?.slice(0, 8) + '...',
+        clinical: PRICE_ID_CLINICAL?.slice(0, 8) + '...',
+        pro: PRICE_ID_PRO?.slice(0, 8) + '...'
+    });
+}
