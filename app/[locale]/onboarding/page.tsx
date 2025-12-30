@@ -2,7 +2,8 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { PriceDisplay } from "@/components/pricing/price-display"
-import { PADDLE_CLIENT_TOKEN, PADDLE_ENV, PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
+import { PADDLE_ENV, PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
+import { getPaddle } from '@/lib/paddle-client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -64,23 +65,9 @@ function OnboardingContent() {
     const [paddle, setPaddle] = useState<any>(null)
 
     useEffect(() => {
-        import('@paddle/paddle-js').then(({ initializePaddle }) => {
-            if (!PADDLE_CLIENT_TOKEN) {
-                console.error('[Onboarding] Missing PADDLE_CLIENT_TOKEN');
-                return
-            }
-
-            console.log('[Onboarding] Initializing Paddle in:', PADDLE_ENV);
-
-            initializePaddle({
-                token: PADDLE_CLIENT_TOKEN,
-                environment: PADDLE_ENV,
-            }).then((paddleInstance) => {
-                setPaddle(paddleInstance)
-            }).catch(err => {
-                console.error('[Onboarding] Paddle initialization failed:', err);
-            })
-        })
+        getPaddle().then(instance => {
+            if (instance) setPaddle(instance);
+        });
     }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {

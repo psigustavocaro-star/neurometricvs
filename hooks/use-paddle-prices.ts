@@ -1,15 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { initializePaddle, Paddle } from '@paddle/paddle-js'
-import { PADDLE_CLIENT_TOKEN, PADDLE_ENV } from '@/lib/config'
+import { getPaddle } from '@/lib/paddle-client'
+import { PADDLE_ENV } from '@/lib/config'
 
 interface PaddlePrice {
     currencyCode: string
     amount: string
 }
-
-let paddleInstance: Paddle | undefined = undefined
 
 export function usePaddlePrices(priceId: string | null) {
     const [price, setPrice] = useState<PaddlePrice | null>(null)
@@ -23,18 +21,13 @@ export function usePaddlePrices(priceId: string | null) {
 
         const fetchPrice = async () => {
             try {
-                if (!paddleInstance) {
-                    paddleInstance = await initializePaddle({
-                        token: PADDLE_CLIENT_TOKEN,
-                        environment: PADDLE_ENV
-                    })
-                }
+                const paddle = await getPaddle();
 
-                if (paddleInstance) {
+                if (paddle) {
                     const trimmedId = priceId.trim();
                     console.log(`[Paddle] Fetching price preview for ${trimmedId} in ${PADDLE_ENV}`);
 
-                    const priceData = await paddleInstance.PricePreview({
+                    const priceData = await paddle.PricePreview({
                         items: [{ priceId: trimmedId, quantity: 1 }],
                         address: { countryCode: 'CL' }
                     })
