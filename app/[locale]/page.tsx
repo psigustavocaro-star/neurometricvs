@@ -52,14 +52,14 @@ export default function LandingPage() {
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-4xl font-extrabold dark:font-bold tracking-tight sm:text-5xl xl:text-7xl/none text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] text-balance max-w-3xl">
-                    <span dangerouslySetInnerHTML={{ __html: tHero.raw('title') }} />
+                  <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl text-slate-900 drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
+                    Ecosistema digital <span className="text-teal-600 italic font-serif">avanzado</span> para <span className="underline decoration-teal-600/30">especialistas</span> de la salud.
                   </h1>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={200}>
-                  <p className="max-w-[650px] text-slate-600 dark:text-slate-400 md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-medium dark:font-light">
-                    {tHero('subtitle')}
+                  <p className="max-w-[700px] text-slate-500 md:text-xl lg:text-2xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
+                    La workstation definitiva para psicólogos, psiquiatras y neurólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.
                   </p>
                 </ScrollAnimation>
 

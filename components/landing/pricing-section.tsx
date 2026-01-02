@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Check, Info, X } from "lucide-react"
+import { Check, Info, X, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { PriceDisplay } from "@/components/pricing/price-display"
@@ -33,210 +33,96 @@ export function PricingSection() {
     }
 
     const plans = [
-        {
-            key: 'free',
-            priceId: undefined,
-            amount: 0,
-            highlight: false,
-            color: 'slate',
-            hasExcluded: true,
-        },
-        {
-            key: 'basic',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
-            amount: 10,
-            highlight: false,
-            color: 'slate'
-        },
-        {
-            key: 'clinical',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL,
-            amount: 15,
-            highlight: true,
-            color: 'teal'
-        },
-        {
-            key: 'pro',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO,
-            amount: 65,
-            period: '/año',
-            highlight: false,
-            color: 'emerald'
-        }
+        { key: 'free', priceId: undefined, amount: 0 },
+        { key: 'basic', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC, amount: 10, trial: '7 Días Gratis' },
+        { key: 'clinical', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL, amount: 15, trial: '7 Días Gratis', popular: true },
+        { key: 'pro', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO, amount: 65, period: '/año', savings: '65% OFF' }
     ]
 
     return (
-        <section id="pricing" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden transition-colors duration-300">
+        <section id="pricing" className="w-full py-24 bg-slate-50 relative overflow-hidden">
+            {/* Clinical Pattern */}
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
             <div className="container px-4 md:px-6 relative z-10">
-                <ScrollAnimation>
-                    <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-                        <div className="space-y-2">
-                            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-slate-900 dark:text-white">{t('title')}</h2>
-                            <p className="max-w-[900px] text-slate-500 dark:text-slate-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                                {t('subtitle')}
-                            </p>
-                        </div>
-                    </div>
-                </ScrollAnimation>
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <ScrollAnimation animation="fade-up">
+                        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">{t('title')}</h2>
+                        <p className="text-lg text-slate-500 font-light italic">
+                            Inversión transparente para el crecimiento de tu consulta.
+                        </p>
+                    </ScrollAnimation>
+                </div>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 md:gap-6 items-stretch max-w-7xl mx-auto">
-                    {plans.map((plan, index) => {
-                        const isSelected = selectedPlan === plan.key
-                        const isClinical = plan.key === 'clinical'
-                        const isPro = plan.key === 'pro'
-                        const isFree = plan.key === 'free'
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                    {plans.map((plan, index) => (
+                        <ScrollAnimation key={plan.key} delay={index * 100} className="h-full">
+                            <div
+                                onClick={() => handleCardClick(plan.key)}
+                                className={cn(
+                                    "group relative flex flex-col p-8 rounded-[2rem] border transition-all duration-500 h-full cursor-pointer bg-white",
+                                    plan.key === 'clinical' ? "border-teal-500 shadow-xl shadow-teal-900/5 ring-1 ring-teal-500" : "border-slate-200 hover:border-teal-200 hover:shadow-lg",
+                                    plan.key === 'pro' && "bg-gradient-to-br from-white to-teal-50/50"
+                                )}
+                            >
+                                {plan.popular && (
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                                        MÁS POPULAR
+                                    </div>
+                                )}
+                                {plan.savings && (
+                                    <div className="absolute top-4 right-4 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-lg">
+                                        {plan.savings}
+                                    </div>
+                                )}
 
-                        return (
-                            <ScrollAnimation key={plan.key} delay={index * 100} className="h-full">
-                                <div
-                                    onClick={() => handleCardClick(plan.key)}
+                                <div className="mb-8">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-1">{t(`${plan.key}.name`)}</h3>
+                                    <p className="text-xs text-slate-400 font-medium uppercase tracking-tighter mb-4">{t(`${plan.key}.description`)}</p>
+
+                                    <div className="flex items-baseline gap-1 mt-2">
+                                        {plan.amount === 0 ? (
+                                            <span className="text-3xl font-bold text-slate-900">$0</span>
+                                        ) : (
+                                            <PriceDisplay amount={plan.amount} period={plan.period} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
+                                        )}
+                                    </div>
+                                    {plan.trial && <div className="text-[10px] font-bold text-teal-600 mt-1">{plan.trial}</div>}
+                                </div>
+
+                                <ul className="space-y-4 flex-1 mb-8">
+                                    {t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
+                                        <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                                            <div className="mt-1 p-0.5 rounded-full bg-teal-50 text-teal-600">
+                                                <Check className="w-3 h-3" strokeWidth={3} />
+                                            </div>
+                                            <span>{feature}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <Button
+                                    asChild
                                     className={cn(
-                                        "flex flex-col p-6 rounded-2xl border transition-all duration-300 ease-out relative h-full cursor-pointer group",
-                                        "bg-white shadow-lg hover:shadow-xl",
-                                        "dark:bg-slate-900 dark:shadow-none",
-                                        isSelected
-                                            ? "border-teal-500 dark:border-teal-500 ring-1 ring-teal-500 z-20"
-                                            : cn(
-                                                "border-slate-200 dark:border-slate-800",
-                                                "hover:border-teal-300 dark:hover:border-slate-700 hover:-translate-y-1"
-                                            ),
-                                        isPro && "bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900/20 dark:to-emerald-900/20 border-teal-200"
+                                        "w-full rounded-xl h-12 font-bold shadow-sm transition-all",
+                                        plan.key === 'clinical' ? "bg-teal-600 hover:bg-teal-700 text-white" : "bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200"
                                     )}
                                 >
-                                    {isPro && (
-                                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">
-                                            {t('pro.savings_badge')}
-                                        </div>
-                                    )}
+                                    <Link href={`/onboarding?plan=${plan.key}`}>
+                                        {t(`${plan.key}.cta`)}
+                                    </Link>
+                                </Button>
+                            </div>
+                        </ScrollAnimation>
+                    ))}
+                </div>
 
-                                    <div className="space-y-2 text-left mb-4">
-                                        <div
-                                            onClick={(e) => handleTitleClick(e, plan.key)}
-                                            className="group/title inline-flex items-center gap-2 cursor-help transition-opacity hover:opacity-80"
-                                        >
-                                            <h3 className={cn(
-                                                "text-lg font-bold transition-colors",
-                                                isPro ? "text-teal-900 dark:text-teal-400" : "text-slate-900 dark:text-white"
-                                            )}>
-                                                {t(`${plan.key}.name`)}
-                                            </h3>
-                                            <Info className="w-4 h-4 text-slate-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />
-                                        </div>
-                                        <p className={cn(
-                                            "text-xs",
-                                            isPro ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-slate-500 dark:text-slate-400"
-                                        )}>
-                                            {t(`${plan.key}.description`)}
-                                        </p>
-                                    </div>
-
-                                    <div className="mb-4">
-                                        {isFree ? (
-                                            <div className="text-3xl font-bold text-slate-900 dark:text-white">$0<span className="text-sm font-normal text-slate-500">/mes</span></div>
-                                        ) : (
-                                            <PriceDisplay amount={plan.amount} period={plan.period} priceId={plan.priceId} className="text-3xl font-bold" />
-                                        )}
-                                        {isPro && (
-                                            <p className="text-xs text-teal-600 dark:text-teal-400 font-medium mt-1" dangerouslySetInnerHTML={{ __html: t.raw('pro.savings_info') }} />
-                                        )}
-                                        {!isFree && !isPro && (
-                                            <p className="text-xs text-teal-600 font-bold mt-1 uppercase tracking-wide">
-                                                {t(`${plan.key}.trial`)}
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    <ul className="space-y-3 flex-1 mb-6">
-                                        {t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
-                                            <li
-                                                key={i}
-                                                className="flex items-start text-sm text-slate-600 dark:text-slate-300"
-                                            >
-                                                <Check className={cn(
-                                                    "h-4 w-4 mt-0.5 mr-2 shrink-0",
-                                                    isPro ? "text-emerald-500" : "text-teal-500"
-                                                )} />
-                                                <span>{feature}</span>
-                                            </li>
-                                        ))}
-                                        {/* Excluded features for free plan */}
-                                        {plan.hasExcluded && t.raw(`${plan.key}.excluded`)?.map((feature: any, i: number) => (
-                                            <li
-                                                key={`ex-${i}`}
-                                                className="flex items-start text-sm text-slate-400 dark:text-slate-500"
-                                            >
-                                                <X className="h-4 w-4 mt-0.5 mr-2 shrink-0 text-slate-300 dark:text-slate-600" />
-                                                <span className="line-through">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <div className="mt-auto">
-                                        <Button
-                                            asChild
-                                            className={cn(
-                                                "w-full rounded-lg h-10 transition-all shadow-sm hover:shadow-md font-medium",
-                                                isClinical
-                                                    ? "bg-teal-600 hover:bg-teal-700 text-white shadow-teal-600/20"
-                                                    : isPro
-                                                        ? "bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800"
-                                                        : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white hover:bg-slate-50 hover:border-teal-300"
-                                            )}
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <Link href={`/onboarding?plan=${plan.key}`}>
-                                                {t(`${plan.key}.cta`)}
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </ScrollAnimation>
-                        )
-                    })}
+                <div className="mt-16 flex items-center justify-center gap-6 text-slate-400">
+                    <div className="flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-teal-600/50" /> <span className="text-xs font-medium uppercase tracking-widest">Pago Seguro 256-bit</span></div>
+                    <div className="h-4 w-px bg-slate-200" />
+                    <div className="flex items-center gap-2"><Activity className="w-5 h-5 text-teal-600/50" /> <span className="text-xs font-medium uppercase tracking-widest">Protocolo Clínico</span></div>
                 </div>
             </div>
-
-            {/* Plan Details Modal */}
-            <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-                <DialogContent className="sm:max-w-[600px] bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent">
-                            {activeDetailsPlan && t(`${activeDetailsPlan}.name`)}
-                        </DialogTitle>
-                        <DialogDescription className="text-slate-500 dark:text-slate-400">
-                            {activeDetailsPlan && t(`${activeDetailsPlan}.description`)}
-                        </DialogDescription>
-                    </DialogHeader>
-
-                    <div className="mt-4 space-y-6">
-                        <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800">
-                            <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <Check className="w-5 h-5 text-teal-500" />
-                                {t('whats_included')}
-                            </h4>
-                            <ul className="grid grid-cols-1 gap-3">
-                                {activeDetailsPlan && t.raw(`${activeDetailsPlan}.features`).map((feature: any, i: number) => (
-                                    <li key={i} className="flex items-start text-sm text-slate-600 dark:text-slate-300">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-teal-400 mt-2 mr-3 shrink-0" />
-                                        <span className="flex-1">{feature}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="flex justify-end gap-3">
-                            <Button variant="outline" onClick={() => setDetailsOpen(false)}>
-                                {t('close')}
-                            </Button>
-                            <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white">
-                                <Link href={`/onboarding?plan=${activeDetailsPlan}`}>
-                                    {activeDetailsPlan && t(`${activeDetailsPlan}.cta`)}
-                                </Link>
-                            </Button>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
         </section>
     )
 }
