@@ -156,7 +156,7 @@ export default function LandingPage() {
               </div>
             </ScrollAnimation>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
-              {tFAQ.raw('items').map((faq: any, i: number) => (
+              {Array.isArray(tFAQ.raw('items')) && tFAQ.raw('items').map((faq: any, i: number) => (
                 <ScrollAnimation key={i} delay={i * 50}>
                   <Card className="border border-border/50 shadow-md bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-card hover:border-primary/30 relative group h-full">
                     <CardContent className="p-6">

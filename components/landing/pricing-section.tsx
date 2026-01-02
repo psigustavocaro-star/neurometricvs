@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Check, Info, X, ShieldCheck } from "lucide-react"
+import { Check, Info, X, ShieldCheck, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
+import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
 import {
     Dialog,
     DialogContent,
@@ -26,17 +27,11 @@ export function PricingSection() {
         setSelectedPlan(planKey)
     }
 
-    const handleTitleClick = (e: React.MouseEvent, planKey: string) => {
-        e.stopPropagation()
-        setActiveDetailsPlan(planKey)
-        setDetailsOpen(true)
-    }
-
     const plans = [
         { key: 'free', priceId: undefined, amount: 0 },
-        { key: 'basic', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC, amount: 10, trial: '7 Días Gratis' },
-        { key: 'clinical', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL, amount: 15, trial: '7 Días Gratis', popular: true },
-        { key: 'pro', priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO, amount: 65, period: '/año', savings: '65% OFF' }
+        { key: 'basic', priceId: PRICE_ID_BASIC, amount: 10, trial: '7 Días Gratis' },
+        { key: 'clinical', priceId: PRICE_ID_CLINICAL, amount: 15, trial: '7 Días Gratis', popular: true },
+        { key: 'pro', priceId: PRICE_ID_PRO, amount: 65, period: '/año', savings: '65% OFF' }
     ]
 
     return (
@@ -84,14 +79,14 @@ export function PricingSection() {
                                         {plan.amount === 0 ? (
                                             <span className="text-3xl font-bold text-slate-900">$0</span>
                                         ) : (
-                                            <PriceDisplay amount={plan.amount} period={plan.period} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
+                                            <PriceDisplay amount={plan.amount} period={plan.period || '/mes'} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
                                         )}
                                     </div>
                                     {plan.trial && <div className="text-[10px] font-bold text-teal-600 mt-1">{plan.trial}</div>}
                                 </div>
 
                                 <ul className="space-y-4 flex-1 mb-8">
-                                    {t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
+                                    {Array.isArray(t.raw(`${plan.key}.features`)) && t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
                                         <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
                                             <div className="mt-1 p-0.5 rounded-full bg-teal-50 text-teal-600">
                                                 <Check className="w-3 h-3" strokeWidth={3} />

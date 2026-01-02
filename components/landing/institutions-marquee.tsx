@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 const institutions = [
     { name: "Universidad de Chile", logo: "/logos/uchile.jpg" },
@@ -13,11 +13,27 @@ const institutions = [
 export function InstitutionsMarquee() {
     return (
         <div className="w-full overflow-hidden relative">
+            {/* Inline Style for keyframes to avoid styled-jsx issues in some environments */}
+            <style>
+                {`
+                @keyframes infinite-scroll {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-50%); }
+                }
+                .animate-infinite-scroll {
+                    animation: infinite-scroll 40s linear infinite;
+                }
+                .pause:hover {
+                    animation-play-state: paused;
+                }
+                `}
+            </style>
+
             {/* Gradient Masks */}
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
 
-            <div className="flex gap-12 w-max animate-infinite-scroll hover:pause">
+            <div className="flex gap-12 w-max animate-infinite-scroll pause">
                 {/* Double the list for seamless loop */}
                 {[...institutions, ...institutions].map((item, i) => (
                     <div key={i} className="flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
@@ -31,19 +47,6 @@ export function InstitutionsMarquee() {
                     </div>
                 ))}
             </div>
-
-            <style jsx global>{`
-                @keyframes infinite-scroll {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
-                .animate-infinite-scroll {
-                    animation: infinite-scroll 40s linear infinite;
-                }
-                .pause:hover {
-                    animation-play-state: paused;
-                }
-            `}</style>
         </div>
     )
 }
