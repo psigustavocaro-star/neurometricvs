@@ -41,7 +41,7 @@ export default function DebugPaddlePage() {
                     continue;
                 }
 
-                addLog(`Fetching price for ${item.name} (${item.id})...`);
+                addLog(`Fetching price for ${item.name} (${item.id.trim()})...`);
                 try {
                     const priceData = await paddle.PricePreview({
                         items: [{ priceId: item.id.trim(), quantity: 1 }]
@@ -49,8 +49,9 @@ export default function DebugPaddlePage() {
                     addLog(`✅ ${item.name} fetch success: ${priceData.data.details.lineItems[0].totals.total} ${priceData.data.currencyCode}`);
                     setPrices((prev: any) => ({ ...prev, [item.name]: priceData.data }));
                 } catch (e: any) {
-                    addLog(`❌ ${item.name} fetch failed: ${e.message || 'Unknown error'}`);
-                    console.error(`Error fetching ${item.name}:`, e);
+                    const errorMsg = e.error?.detail || e.message || JSON.stringify(e);
+                    addLog(`❌ ${item.name} fetch failed: ${errorMsg}`);
+                    console.error(`Detailed error for ${item.name}:`, e);
                 }
             }
 
