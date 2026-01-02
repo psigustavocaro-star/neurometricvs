@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
-import { initializePaddle, Paddle } from '@paddle/paddle-js'
+import { getPaddle } from '@/lib/paddle-client'
+import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
 
 interface SubscribeButtonProps {
     planId: string
@@ -18,20 +19,15 @@ interface SubscribeButtonProps {
 
 export function SubscribeButton({ planId, price, planName, currentPlan, variant = 'default', className, userId }: SubscribeButtonProps) {
     const [loading, setLoading] = useState(false)
-    const [paddle, setPaddle] = useState<Paddle | undefined>()
+    const [paddle, setPaddle] = useState<any>()
     const t = useTranslations('Dashboard.Subscription')
 
     const isActive = currentPlan === planId
 
     useEffect(() => {
-        const init = async () => {
-            const paddleInstance = await initializePaddle({
-                environment: process.env.NEXT_PUBLIC_PADDLE_ENV === 'production' ? 'production' : 'sandbox',
-                token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || '',
-            })
-            setPaddle(paddleInstance)
-        }
-        init()
+        getPaddle().then(instance => {
+            if (instance) setPaddle(instance)
+        })
     }, [])
 
     const handleSubscribe = async () => {
@@ -40,9 +36,9 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
             return
         }
 
-        const priceId = planId === 'pro' ? process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO :
-            planId === 'clinical' ? process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL :
-                planId === 'basic' ? process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC : ''
+        const priceId = planId === 'pro' ? PRICE_ID_PRO :
+            planId === 'clinical' ? PRICE_ID_CLINICAL :
+                planId === 'basic' ? PRICE_ID_BASIC : ''
 
         if (!priceId) {
             toast.error("Configuración de precio no encontrada para este plan.")
