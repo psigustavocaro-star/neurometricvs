@@ -52,7 +52,8 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
                 customData: { userId: userId || '' },
                 settings: {
                     displayMode: 'overlay',
-                    theme: 'light'
+                    theme: 'light',
+                    allowDiscount: true
                 }
             })
         } catch (error) {

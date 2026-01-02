@@ -146,7 +146,8 @@ function OnboardingContent() {
                         settings: {
                             displayMode: 'overlay',
                             successUrl: `${window.location.origin}/payment/success`,
-                            theme: 'light'
+                            theme: 'light',
+                            allowDiscount: true
                         }
                     })
                 } else {
