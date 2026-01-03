@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { FluidBackground } from '@/components/ui/fluid-background'
+import { cn } from '@/lib/utils'
 
 function OnboardingContent() {
     const searchParams = useSearchParams()
@@ -146,7 +147,7 @@ function OnboardingContent() {
             <FluidBackground />
 
             {/* Left Panel: Clinical Branding */}
-            <div className="hidden md:flex md:w-[40%] bg-slate-950 relative overflow-hidden flex-col justify-between p-12 lg:p-16 text-white border-r border-white/5 shrink-0">
+            <div className="hidden md:flex md:w-[45%] bg-slate-950 relative overflow-hidden flex-col justify-between p-12 lg:p-20 text-white shrink-0">
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/assets/v5/onboarding-side.png"
@@ -154,54 +155,61 @@ function OnboardingContent() {
                         fill
                         className="object-cover opacity-20 scale-105"
                     />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.15),transparent)]" />
                     <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/80 to-slate-950" />
                 </div>
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                    <div className="w-12 h-1.5 bg-teal-500 rounded-full mb-8" />
-                    <h2 className="text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
-                        No es solo software, es el <span className="text-teal-400 italic font-serif">respaldo</span> que tu profesionalismo merece.
-                    </h2>
-                    <p className="mt-6 text-slate-400 text-lg leading-relaxed font-light font-sans max-w-sm">
-                        Bienvenido a la red más avanzada de especialistas que están transformando la salud mental en Latinoamérica.
-                    </p>
-                </motion.div>
 
-                <div className="space-y-6">
-                    {[
-                        { icon: <ShieldCheck className="w-5 h-5" />, text: "Cumplimiento HIPAA / GDPR", desc: "Seguridad de grado médico" },
-                        { icon: <Activity className="w-5 h-5" />, text: "Baremos Validados", desc: "Rigurosidad científica certificada" },
-                        { icon: <Sparkles className="w-5 h-5" />, text: "Inteligencia Clínica", desc: "Optimización basada en evidencia" }
-                    ].map((item, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.6 + (i * 0.1) }}
-                            className="flex items-start gap-4"
-                        >
-                            <div className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-teal-400 shadow-xl">{item.icon}</div>
-                            <div>
-                                <div className="text-sm font-bold text-white">{item.text}</div>
-                                <div className="text-[11px] text-slate-500 uppercase tracking-widest font-bold mt-0.5">{item.desc}</div>
-                            </div>
-                        </motion.div>
-                    ))}
+                <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-24">
+                        <div className="bg-teal-500 p-2 rounded-xl">
+                            <Brain className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-lg font-black tracking-tight leading-none text-white">NEURO</span>
+                            <span className="text-[12px] font-bold tracking-[0.2em] leading-none text-teal-400">METRICS</span>
+                        </div>
+                    </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
+                        <h2 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
+                            Diseñado por y para <span className="text-teal-400 italic">especialistas.</span>
+                        </h2>
+                        <p className="mt-8 text-slate-400 text-xl leading-relaxed font-light max-w-md">
+                            Únete a la red más avanzada de profesionales de la salud mental y neurociencias en Latinoamérica.
+                        </p>
+                    </motion.div>
+
+                    <div className="mt-20 space-y-8">
+                        {[
+                            { icon: <ShieldCheck className="w-5 h-5 text-teal-500/80" />, text: "Cumplimiento HIPAA / GDPR" },
+                            { icon: <Activity className="w-5 h-5 text-teal-500/80" />, text: "Baremos validados científicamente" },
+                            { icon: <FlaskConical className="w-5 h-5 text-teal-500/80" />, text: "Suite clínica integral" }
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.6 + (i * 0.1) }}
+                                className="flex items-center gap-5"
+                            >
+                                <div className="p-3 bg-white/5 border border-white/10 rounded-2xl text-teal-400 shadow-xl">{item.icon}</div>
+                                <div className="text-sm font-bold text-white tracking-tight">{item.text}</div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="relative z-20 flex items-center justify-between text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                    <span>Neurometrics Latam</span>
-                    <span>v5.2.0 • 2026</span>
+                <div className="relative z-20 flex items-center justify-between text-slate-500 text-[11px] font-black uppercase tracking-widest opacity-50">
+                    <span>© 2026 NEUROMETRICS LATAM</span>
                 </div>
             </div>
 
             {/* Right Panel: Form Flow */}
-            <div className="flex-1 flex flex-col bg-slate-50/30 overflow-y-auto min-h-screen relative z-30">
-                <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col p-6 md:p-12 lg:p-20 relative">
+            <div className="flex-1 flex flex-col bg-[#E6F4F1]/40 overflow-y-auto min-h-screen relative z-30">
+                <div className="w-full max-w-3xl mx-auto flex-1 flex flex-col p-6 md:p-12 lg:p-24 relative">
                     {/* Header Mobile */}
                     <div className="md:hidden flex items-center justify-between mb-12">
                         <Link href="/" className="flex items-center gap-3 group">
@@ -219,28 +227,26 @@ function OnboardingContent() {
                     </div>
 
                     <div className="hidden md:flex justify-end absolute top-12 right-12">
-                        <Link href="/" className="group flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-all font-bold text-xs uppercase tracking-widest">
-                            <span className="opacity-0 group-hover:opacity-100 transition-opacity translate-x-1 group-hover:translate-x-0">Cancelar</span>
-                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors shadow-sm">
-                                <X className="w-4 h-4" />
-                            </div>
+                        <Link href="/" className="group flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest bg-white/50 backdrop-blur-sm border border-slate-200 px-4 py-2 rounded-full shadow-sm hover:shadow-md">
+                            <span>CERRAR</span>
+                            <X className="w-4 h-4" />
                         </Link>
                     </div>
 
                     {/* Progress Indicator */}
                     {step > 0 && step < 5 && (
-                        <div className="mb-16 pt-4">
-                            <div className="flex justify-between text-[9px] font-black text-slate-300 mb-4 uppercase tracking-[0.2em] px-1">
+                        <div className="mb-20 pt-4">
+                            <div className="flex justify-between text-[10px] font-black text-slate-400 mb-5 uppercase tracking-[0.2em] px-1">
                                 <span className={step >= 1 ? "text-teal-600" : ""}>Identidad</span>
                                 <span className={step >= 2 ? "text-teal-600" : ""}>Práctica</span>
                                 <span className={step >= 3 ? "text-teal-600" : ""}>Workstation</span>
                                 <span className={step >= 4 ? "text-teal-600" : ""}>Seguridad</span>
                             </div>
-                            <div className="h-1 bg-slate-100 rounded-full overflow-hidden flex gap-1 bg-transparent">
+                            <div className="h-1.5 bg-slate-200/50 rounded-full overflow-hidden flex gap-1.5 p-0.5">
                                 {[1, 2, 3, 4].map((s) => (
                                     <div key={s} className="flex-1 h-full bg-slate-100 rounded-full overflow-hidden">
                                         <motion.div
-                                            className="h-full bg-teal-600 shadow-[0_0_10px_rgba(20,184,166,0.3)]"
+                                            className="h-full bg-teal-600 shadow-[0_0_15px_rgba(20,184,166,0.5)]"
                                             initial={false}
                                             animate={{ width: step >= s ? '100%' : '0%' }}
                                             transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -251,44 +257,40 @@ function OnboardingContent() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="relative">
+                    <form onSubmit={handleSubmit} className="relative flex-1 flex flex-col justify-center">
                         <AnimatePresence mode='wait' custom={step}>
                             {step === 0 && (
                                 <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12">
-                                    <div className="space-y-4">
-                                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-900 text-white rounded-full text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-teal-500/20">
-                                            <Sparkles className="w-3 h-3" /> Foco Clínico Prioritario
+                                    <div className="space-y-5 text-center">
+                                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-[10px] font-black tracking-widest uppercase border border-teal-100 mx-auto">
+                                            <Sparkles className="w-3 h-3" /> BIENVENIDO A LA ÉLITE
                                         </div>
-                                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-                                            ¿Cuál de estos desafíos desea <span className="text-teal-600 italic font-serif">resolver</span> primero?
+                                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
+                                            ¿Cuál es tu enfoque <span className="text-teal-600 italic">prioritario?</span>
                                         </h1>
-                                        <p className="text-xl text-slate-500 font-light max-w-xl leading-relaxed">Personalizaremos su workstation para que su flujo de trabajo sea impecable desde el primer minuto.</p>
+                                        <p className="text-lg text-slate-500 font-light max-w-xl mx-auto leading-relaxed">
+                                            Selecciona tu meta para personalizar tu workstation clínica.
+                                        </p>
                                     </div>
 
-                                    <div className="grid grid-cols-1 gap-5">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
                                         {[
-                                            { id: 'time', label: 'Precisión y Rapidez en Informes', icon: <FileText className="text-blue-600" />, desc: 'Automatización de corrección de tests y redacción inteligente.' },
-                                            { id: 'modernize', label: 'Estandarización de Ficha Clínica', icon: <Activity className="text-teal-600" />, desc: 'Mantenimiento de expedientes digitales con rigor médico global.' },
-                                            { id: 'patients', label: 'Experiencia Digital del Paciente', icon: <UserCheck className="text-indigo-600" />, desc: 'Portal para pacientes y aplicación de tests remotos sin fricción.' },
-                                            { id: 'ai', label: 'Soporte de Decisión Avanzada', icon: <ShieldCheck className="text-emerald-600" />, desc: 'Copiloto clínico para el análisis de casos complejos.' },
+                                            { id: 'time', label: 'Eficiencia IA', icon: <Zap className="text-blue-500 w-5 h-5" />, desc: 'Automatización de tests.' },
+                                            { id: 'modernize', label: 'Precisión', icon: <Activity className="text-teal-600 w-5 h-5" />, desc: 'Reportes de alta fidelidad.' },
+                                            { id: 'patients', label: 'Digital', icon: <FileText className="text-amber-500 w-5 h-5" />, desc: 'Clínica en la nube segura.' },
+                                            { id: 'ai', label: 'Conexión', icon: <Brain className="text-indigo-500 w-5 h-5" />, desc: 'Más tiempo para el paciente.' },
                                         ].map((option) => (
                                             <button
                                                 key={option.id}
                                                 type="button"
                                                 onClick={() => { handleInputChange('goal', option.label); nextStep(); }}
-                                                className="group relative flex items-center p-6 rounded-[2rem] border-2 border-slate-100 bg-white hover:border-teal-500 hover:shadow-2xl hover:shadow-teal-500/5 transition-all duration-300 text-left overflow-hidden"
+                                                className="group relative flex flex-col p-8 rounded-[2.5rem] bg-white border border-slate-100 hover:border-teal-500 hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 text-left"
                                             >
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 opacity-0 group-hover:opacity-100 transition-opacity -rotate-45 translate-x-16 -translate-y-16" />
-                                                <div className="relative z-10 w-14 h-14 bg-slate-50 rounded-2xl group-hover:bg-white transition-colors mr-6 flex items-center justify-center shadow-sm border border-slate-100">
+                                                <div className="w-12 h-12 bg-slate-50 rounded-2xl group-hover:bg-white transition-colors mb-6 flex items-center justify-center shadow-inner border border-slate-100/50">
                                                     {option.icon}
                                                 </div>
-                                                <div className="relative z-10 flex-1">
-                                                    <div className="font-bold text-slate-900 text-xl tracking-tight mb-1">{option.label}</div>
-                                                    <div className="text-sm text-slate-500 font-light leading-snug">{option.desc}</div>
-                                                </div>
-                                                <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 group-hover:bg-teal-600 group-hover:text-white transition-all transform group-hover:scale-110">
-                                                    <ChevronRight className="w-5 h-5" />
-                                                </div>
+                                                <div className="font-bold text-slate-900 text-xl tracking-tight mb-2 uppercase">{option.label}</div>
+                                                <div className="text-sm text-slate-400 font-medium leading-snug">{option.desc}</div>
                                             </button>
                                         ))}
                                     </div>
