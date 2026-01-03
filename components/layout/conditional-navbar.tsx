@@ -11,7 +11,7 @@ interface ConditionalNavbarProps {
 }
 
 // Routes where AppShell provides navigation or full-screen experience (hide the top navbar)
-const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/tests']
+const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/tests', '/onboarding']
 
 export function ConditionalNavbar({ user, plan, profile }: ConditionalNavbarProps) {
     const pathname = usePathname()

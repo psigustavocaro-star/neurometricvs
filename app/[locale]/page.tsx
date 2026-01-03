@@ -15,6 +15,7 @@ import { DemoModal } from "@/components/landing/demo-modal"
 import { FeaturesSection } from "@/components/landing/features-section"
 import { PricingSection } from "@/components/landing/pricing-section"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
+import { FluidBackground } from "@/components/ui/fluid-background"
 
 export default function LandingPage() {
   const tHero = useTranslations('Hero');
@@ -31,17 +32,8 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
       <VerticalNavbar />
 
-      <main className="flex-1 relative bg-background transition-colors duration-500">
-        {/* Unified Background - Continuous Flow */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          {/* Subtle grid only in dark mode if desired, or completely removed as per request */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 dark:opacity-[0.03]" />
-
-          {/* Calipso Blobs for Atmosphere */}
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute top-[10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 dark:bg-primary/5 blur-[120px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute bottom-[10%] left-[20%] w-[40%] h-[40%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
-        </div>
+      <main className="flex-1 relative transition-colors duration-500">
+        <FluidBackground />
 
         {/* Hero Section */}
         <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-48 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
@@ -52,13 +44,13 @@ export default function LandingPage() {
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl text-slate-900 drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
-                    Ecosistema digital <span className="text-teal-600 italic font-serif">avanzado</span> para <span className="underline decoration-teal-600/30">especialistas</span> de la salud.
+                  <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl text-foreground drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
+                    Ecosistema digital <span className="text-primary italic font-serif">avanzado</span> para <span className="underline decoration-primary/30">especialistas</span> de la salud.
                   </h1>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={200}>
-                  <p className="max-w-[700px] text-slate-500 md:text-xl lg:text-2xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
+                  <p className="max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
                     La workstation definitiva para psicólogos, psiquiatras y neurólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.
                   </p>
                 </ScrollAnimation>
@@ -112,7 +104,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="w-full z-20 flex flex-col items-center justify-center gap-2 mt-12 md:absolute md:bottom-8 md:mt-0">
-            <span className="text-sm md:text-base font-medium text-slate-500 animate-pulse text-center px-4">
+            <span className="text-sm md:text-base font-medium text-muted-foreground animate-pulse text-center px-4">
               {tGeneral('discover_services')}
             </span>
           </div>
@@ -125,15 +117,13 @@ export default function LandingPage() {
         <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden">
           {/* Floating Background Elements - Kept for vibe but transparent wrapper */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-white/40 rounded-full blur-3xl opacity-60"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-80 h-80 bg-blue-50/40 rounded-full blur-3xl opacity-60"></div>
           </div>
 
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900 dark:text-white">{tTests('title')}</h2>
-                <p className="mt-4 text-slate-500 dark:text-slate-400 md:text-lg">{tTests('subtitle')}</p>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">{tTests('title')}</h2>
+                <p className="mt-4 text-muted-foreground md:text-lg">{tTests('subtitle')}</p>
               </div>
             </ScrollAnimation>
             <div className="mt-12">
@@ -151,8 +141,8 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900 dark:text-white">{tFAQ('title')}</h2>
-                <p className="mt-4 text-slate-500 dark:text-slate-400 md:text-lg">{tFAQ('subtitle')}</p>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">{tFAQ('title')}</h2>
+                <p className="mt-4 text-muted-foreground md:text-lg">{tFAQ('subtitle')}</p>
               </div>
             </ScrollAnimation>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
@@ -175,7 +165,7 @@ export default function LandingPage() {
           <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-transparent relative overflow-hidden">
             <div className="container px-4 md:px-6 relative z-10">
               <ScrollAnimation animation="fade-in">
-                <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">
+                <p className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-8">
                   {tTrust('label')}
                 </p>
                 <div className="mt-8">

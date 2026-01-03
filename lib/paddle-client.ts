@@ -16,7 +16,6 @@ export async function getPaddle() {
     if (typeof window === 'undefined') return undefined;
 
     if (!PADDLE_CLIENT_TOKEN) {
-        console.error('[PaddleClient] Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN');
         return undefined;
     }
 

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 interface ScrollAnimationProps {
     children: React.ReactNode
     className?: string
-    animation?: "fade-up" | "fade-in" | "slide-in-right" | "slide-in-left" | "scale-up"
+    animation?: "fade-up" | "fade-in" | "slide-in-right" | "slide-in-left" | "scale-up" | "fade-right" | "fade-left"
     delay?: number
     duration?: number
     viewport?: { once?: boolean; margin?: string; amount?: "some" | "all" | number }
@@ -32,6 +32,16 @@ export function ScrollAnimation({
                 return {
                     hidden: { opacity: 0 },
                     visible: { opacity: 1 }
+                }
+            case "fade-right":
+                return {
+                    hidden: { opacity: 0, x: -40 },
+                    visible: { opacity: 1, x: 0 }
+                }
+            case "fade-left":
+                return {
+                    hidden: { opacity: 0, x: 40 },
+                    visible: { opacity: 1, x: 0 }
                 }
             case "slide-in-right":
                 return {
