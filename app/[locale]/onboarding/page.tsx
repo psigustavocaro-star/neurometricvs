@@ -12,13 +12,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Check, ChevronRight, ChevronLeft, Loader2, ShieldCheck, Clock, Star, X, Zap, Sparkles, Brain, FileText, Calendar, Activity, Lock, FlaskConical, Stethoscope, UserCheck } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import Link from 'next/link'
+import { Link } from "@/i18n/navigation"
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { FluidBackground } from '@/components/ui/fluid-background'
-import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 function OnboardingContent() {
+    const t = useTranslations('Onboarding')
     const searchParams = useSearchParams()
     const [step, setStep] = useState(0)
     const [formData, setFormData] = useState({
@@ -175,18 +176,20 @@ function OnboardingContent() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
                         <h2 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-                            Diseñado por y para <span className="text-teal-400 italic">especialistas.</span>
+                            {t.rich('branding_heading', {
+                                specialists: (chunks) => <span className="text-teal-400 italic">{chunks}</span>
+                            })}
                         </h2>
                         <p className="mt-8 text-slate-400 text-xl leading-relaxed font-light max-w-md">
-                            Únete a la red más avanzada de profesionales de la salud mental y neurociencias en Latinoamérica.
+                            {t('branding_subtext')}
                         </p>
                     </motion.div>
 
                     <div className="mt-20 space-y-8">
                         {[
-                            { icon: <ShieldCheck className="w-5 h-5 text-teal-500/80" />, text: "Cumplimiento HIPAA / GDPR" },
-                            { icon: <Activity className="w-5 h-5 text-teal-500/80" />, text: "Baremos validados científicamente" },
-                            { icon: <FlaskConical className="w-5 h-5 text-teal-500/80" />, text: "Suite clínica integral" }
+                            { icon: <ShieldCheck className="w-5 h-5 text-teal-500/80" />, text: t('branding_feature_1') },
+                            { icon: <Activity className="w-5 h-5 text-teal-500/80" />, text: t('branding_feature_2') },
+                            { icon: <FlaskConical className="w-5 h-5 text-teal-500/80" />, text: t('branding_feature_3') }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -203,7 +206,7 @@ function OnboardingContent() {
                 </div>
 
                 <div className="relative z-20 flex items-center justify-between text-slate-500 text-[11px] font-black uppercase tracking-widest opacity-50">
-                    <span>© 2026 NEUROMETRICS LATAM</span>
+                    <span>{t('branding_copyright')}</span>
                 </div>
             </div>
 
@@ -228,7 +231,7 @@ function OnboardingContent() {
 
                     <div className="hidden md:flex justify-end absolute top-12 right-12">
                         <Link href="/" className="group flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-all font-bold text-[10px] uppercase tracking-widest bg-white/50 backdrop-blur-sm border border-slate-200 px-4 py-2 rounded-full shadow-sm hover:shadow-md">
-                            <span>CERRAR</span>
+                            <span>{t('close_button')}</span>
                             <X className="w-4 h-4" />
                         </Link>
                     </div>
@@ -237,10 +240,10 @@ function OnboardingContent() {
                     {step > 0 && step < 5 && (
                         <div className="mb-20 pt-4">
                             <div className="flex justify-between text-[10px] font-black text-slate-400 mb-5 uppercase tracking-[0.2em] px-1">
-                                <span className={step >= 1 ? "text-teal-600" : ""}>Identidad</span>
-                                <span className={step >= 2 ? "text-teal-600" : ""}>Práctica</span>
-                                <span className={step >= 3 ? "text-teal-600" : ""}>Workstation</span>
-                                <span className={step >= 4 ? "text-teal-600" : ""}>Seguridad</span>
+                                <span className={step >= 1 ? "text-teal-600" : ""}>{t('steps.identity')}</span>
+                                <span className={step >= 2 ? "text-teal-600" : ""}>{t('steps.practice')}</span>
+                                <span className={step >= 3 ? "text-teal-600" : ""}>{t('steps.workstation')}</span>
+                                <span className={step >= 4 ? "text-teal-600" : ""}>{t('steps.security')}</span>
                             </div>
                             <div className="h-1.5 bg-slate-200/50 rounded-full overflow-hidden flex gap-1.5 p-0.5">
                                 {[1, 2, 3, 4].map((s) => (
@@ -263,22 +266,24 @@ function OnboardingContent() {
                                 <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12">
                                     <div className="space-y-5 text-center">
                                         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-[10px] font-black tracking-widest uppercase border border-teal-100 mx-auto">
-                                            <Sparkles className="w-3 h-3" /> BIENVENIDO A LA ÉLITE
+                                            <Sparkles className="w-3 h-3" /> {t('step_0_badge')}
                                         </div>
                                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight">
-                                            ¿Cuál es tu enfoque <span className="text-teal-600 italic">prioritario?</span>
+                                            {t.rich('step_0_heading', {
+                                                prioritario: (chunks) => <span className="text-teal-600 italic">{chunks}</span>
+                                            })}
                                         </h1>
                                         <p className="text-lg text-slate-500 font-light max-w-xl mx-auto leading-relaxed">
-                                            Selecciona tu meta para personalizar tu workstation clínica.
+                                            {t('step_0_subtext')}
                                         </p>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto w-full">
                                         {[
-                                            { id: 'time', label: 'Eficiencia IA', icon: <Zap className="text-blue-500 w-5 h-5" />, desc: 'Automatización de tests.' },
-                                            { id: 'modernize', label: 'Precisión', icon: <Activity className="text-teal-600 w-5 h-5" />, desc: 'Reportes de alta fidelidad.' },
-                                            { id: 'patients', label: 'Digital', icon: <FileText className="text-amber-500 w-5 h-5" />, desc: 'Clínica en la nube segura.' },
-                                            { id: 'ai', label: 'Conexión', icon: <Brain className="text-indigo-500 w-5 h-5" />, desc: 'Más tiempo para el paciente.' },
+                                            { id: 'time', label: t('goal_efficiency_label'), icon: <Zap className="text-blue-500 w-5 h-5" />, desc: t('goal_efficiency_desc') },
+                                            { id: 'modernize', label: t('goal_precision_label'), icon: <Activity className="text-teal-600 w-5 h-5" />, desc: t('goal_precision_desc') },
+                                            { id: 'patients', label: t('goal_digital_label'), icon: <FileText className="text-amber-500 w-5 h-5" />, desc: t('goal_digital_desc') },
+                                            { id: 'ai', label: t('goal_connection_label'), icon: <Brain className="text-indigo-500 w-5 h-5" />, desc: t('goal_connection_desc') },
                                         ].map((option) => (
                                             <button
                                                 key={option.id}
@@ -300,13 +305,13 @@ function OnboardingContent() {
                             {step === 1 && (
                                 <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-10 pb-10">
                                     <div className="space-y-3">
-                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Registro de Identidad Profesional</h2>
-                                        <p className="text-slate-500 text-lg font-light leading-relaxed italic">"Su identidad es el primer peldaño de la confianza clínica."</p>
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">{t('step1_title')}</h2>
+                                        <p className="text-slate-500 text-lg font-light leading-relaxed italic">{t('step1_quote')}</p>
                                     </div>
 
                                     <div className="grid gap-8">
                                         <div className="space-y-3">
-                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Nombre y Apellidos del Especialista</Label>
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step1_label_name')}</Label>
                                             <div className="relative group">
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
                                                     <UserCheck className="w-5 h-5" />
@@ -315,17 +320,17 @@ function OnboardingContent() {
                                                     value={formData.name}
                                                     onChange={(e) => handleInputChange('name', e.target.value)}
                                                     className="h-14 pl-12 text-lg border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] shadow-sm transition-all"
-                                                    placeholder="Ej. Dr. Alejandro Rossi"
+                                                    placeholder={t('step1_placeholder_name')}
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="grid md:grid-cols-2 gap-6">
                                             <div className="space-y-3">
-                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Especialidad Certificada</Label>
+                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step1_label_role')}</Label>
                                                 <Select value={formData.role} onValueChange={(val) => handleInputChange('role', val)}>
                                                     <SelectTrigger className="h-14 rounded-[1.2rem] border-2 border-slate-100 focus:ring-0 px-4">
-                                                        <SelectValue placeholder="Seleccionar..." />
+                                                        <SelectValue placeholder={t('step1_placeholder_role')} />
                                                     </SelectTrigger>
                                                     <SelectContent className="rounded-2xl border-slate-200">
                                                         <SelectItem value="Psicólogo">Psicólogo Clínico</SelectItem>
@@ -337,7 +342,7 @@ function OnboardingContent() {
                                                 </Select>
                                             </div>
                                             <div className="space-y-3">
-                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">N° Registro Médico/Colegiado</Label>
+                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step1_label_registry')}</Label>
                                                 <div className="relative group">
                                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
                                                         <Stethoscope className="w-5 h-5" />
@@ -346,19 +351,19 @@ function OnboardingContent() {
                                                         value={formData.registryNumber}
                                                         onChange={(e) => handleInputChange('registryNumber', e.target.value)}
                                                         className="h-14 pl-12 rounded-[1.2rem] border-2 border-slate-100 focus:border-teal-500 focus:ring-0"
-                                                        placeholder="Ej. 24890-7"
+                                                        placeholder={t('step1_placeholder_registry')}
                                                     />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
-                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">País de Residencia</Label>
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step1_label_country')}</Label>
                                             <Input
                                                 value={formData.country}
                                                 onChange={(e) => handleInputChange('country', e.target.value)}
                                                 className="h-14 rounded-[1.2rem] border-2 border-slate-100 focus:border-teal-500 focus:ring-0 px-4"
-                                                placeholder="Ej. Chile"
+                                                placeholder={t('step1_placeholder_country')}
                                             />
                                         </div>
                                     </div>
@@ -370,19 +375,19 @@ function OnboardingContent() {
                                             <ShieldCheck className="w-8 h-8 text-teal-400" />
                                         </div>
                                         <div className="relative z-10 space-y-1">
-                                            <div className="text-xl font-bold tracking-tight">{formData.name || "Especialista Registrado"}</div>
+                                            <div className="text-xl font-bold tracking-tight">{formData.name || t('step1_seal_title')}</div>
                                             <div className="flex items-center gap-2">
                                                 <div className="px-2 py-0.5 bg-teal-500/20 text-teal-400 rounded-md text-[9px] font-black uppercase tracking-widest border border-teal-500/30">
                                                     {formData.role || "Especialidad"}
                                                 </div>
-                                                <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest">{formData.registryNumber || "Registro Pendiente"}</span>
+                                                <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest">{formData.registryNumber || t('step1_seal_pending')}</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="flex items-center justify-between pt-10 border-t border-slate-100">
                                         <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
-                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> {t('step1_btn_back')}
                                         </Button>
                                         <Button
                                             type="button"
@@ -390,7 +395,7 @@ function OnboardingContent() {
                                             disabled={!formData.name || !formData.role || !formData.registryNumber}
                                             className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-10 rounded-2xl shadow-xl shadow-teal-500/20 transition-all hover:scale-[1.02] disabled:opacity-50"
                                         >
-                                            Continuar a Práctica <ChevronRight className="ml-2 w-5 h-5" />
+                                            {t('step1_btn_next')} <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
@@ -399,20 +404,20 @@ function OnboardingContent() {
                             {step === 2 && (
                                 <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
                                     <div className="space-y-4">
-                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Análisis de Operativa Clínica</h2>
-                                        <p className="text-xl text-slate-500 font-light leading-relaxed">Optimizamos su entorno según la carga y demanda de su consulta especializada.</p>
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">{t('step2_title')}</h2>
+                                        <p className="text-xl text-slate-500 font-light leading-relaxed">{t('step2_subtext')}</p>
                                     </div>
 
                                     <div className="space-y-12">
                                         <div className="space-y-6">
-                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Volumen de Pacientes Atendidos por Mes</Label>
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step2_label_volume')}</Label>
                                             <RadioGroup value={formData.patientsPerMonth} onValueChange={(val) => handleInputChange('patientsPerMonth', val)} className="grid grid-cols-3 gap-5">
                                                 {['1-10', '11-30', '30+'].map((opt) => (
                                                     <div key={opt}>
                                                         <RadioGroupItem value={opt} id={opt} className="peer sr-only" />
                                                         <Label htmlFor={opt} className="flex flex-col items-center justify-center p-6 rounded-[1.5rem] border-2 border-slate-100 bg-white hover:border-teal-400 peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:shadow-xl peer-data-[state=checked]:shadow-teal-500/10 cursor-pointer transition-all duration-300">
                                                             <span className="text-2xl font-black text-slate-900 group-hover:scale-110 transition-transform">{opt}</span>
-                                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Pacientes</span>
+                                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{t('step2_unit_patients')}</span>
                                                         </Label>
                                                     </div>
                                                 ))}
@@ -420,7 +425,7 @@ function OnboardingContent() {
                                         </div>
 
                                         <div className="space-y-6">
-                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Principal Fricción Administrativa</Label>
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step2_label_friction')}</Label>
                                             <div className="grid gap-4">
                                                 {[
                                                     { id: 'tests', label: 'Estandarización de Pruebas y Baremos', icon: <FlaskConical className="w-5 h-5" /> },
@@ -450,7 +455,7 @@ function OnboardingContent() {
 
                                     <div className="flex items-center justify-between pt-10 border-t border-slate-100">
                                         <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
-                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> {t('step1_btn_back')}
                                         </Button>
                                         <Button
                                             type="button"
@@ -458,7 +463,7 @@ function OnboardingContent() {
                                             disabled={!formData.patientsPerMonth || !formData.primaryNeed}
                                             className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-10 rounded-2xl shadow-xl shadow-teal-500/20 transition-all hover:scale-[1.02] disabled:opacity-50"
                                         >
-                                            Configurar Workstation <ChevronRight className="ml-2 w-5 h-5" />
+                                            {t('step2_btn_next')} <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
@@ -468,10 +473,10 @@ function OnboardingContent() {
                                 <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
                                     <div className="text-center space-y-4">
                                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-[10px] font-black tracking-widest uppercase border border-teal-100 mx-auto">
-                                            Inversión en su Futuro Clínico
+                                            {t('step3_badge')}
                                         </div>
-                                        <h2 className="text-4xl font-bold text-slate-900 tracking-tight">Seleccione su Configuración de Workstation</h2>
-                                        <p className="text-xl text-slate-500 font-light max-w-xl mx-auto leading-relaxed">Elija el nivel de potencia y profundidad que su práctica demanda hoy.</p>
+                                        <h2 className="text-4xl font-bold text-slate-900 tracking-tight">{t('step3_title')}</h2>
+                                        <p className="text-xl text-slate-500 font-light max-w-xl mx-auto leading-relaxed">{t('step3_subtext')}</p>
                                     </div>
 
                                     <div className="grid gap-5">
@@ -486,8 +491,8 @@ function OnboardingContent() {
                                                 onClick={() => handleInputChange('plan', p.id)}
                                                 className={`group relative flex items-center p-6 rounded-[2rem] border-2 cursor-pointer transition-all duration-300 ${formData.plan === p.id ? 'border-teal-600 bg-white shadow-2xl shadow-teal-500/10 scale-[1.02]' : 'border-slate-100 bg-white hover:border-teal-200'}`}
                                             >
-                                                {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[9px] font-black px-4 py-1 rounded-full border-2 border-white shadow-xl z-10">RECOMENDACIÓN CLÍNICA</div>}
-                                                {p.savings && <div className="absolute top-4 right-16 bg-emerald-100 text-emerald-700 text-[10px] font-black px-3 py-1 rounded-xl uppercase tracking-tighter">Ahorro Máximo</div>}
+                                                {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[9px] font-black px-4 py-1 rounded-full border-2 border-white shadow-xl z-10">{t('step3_recommendation')}</div>}
+                                                {p.savings && <div className="absolute top-4 right-16 bg-emerald-100 text-emerald-700 text-[10px] font-black px-3 py-1 rounded-xl uppercase tracking-tighter">{t('step3_savings')}</div>}
 
                                                 <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mr-6 border border-slate-100 group-hover:bg-white transition-colors">
                                                     {p.icon}
@@ -511,20 +516,24 @@ function OnboardingContent() {
                                             <Clock className="w-6 h-6 text-teal-400" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-light">Comience hoy mismo: todos los planes comerciales incluyen un periodo de <strong>7 días de prueba sin compromiso</strong>.</p>
+                                            <p className="text-sm font-light">
+                                                {t.rich('step3_trial_info', {
+                                                    strong: (chunks) => <strong>{chunks}</strong>
+                                                })}
+                                            </p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-center justify-between pt-10 border-t border-slate-100">
                                         <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
-                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> {t('step1_btn_back')}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={nextStep}
                                             className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-12 rounded-2xl shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02]"
                                         >
-                                            Confirmar Suscripción <ChevronRight className="ml-2 w-5 h-5" />
+                                            {t('step3_btn_next')} <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
@@ -533,8 +542,8 @@ function OnboardingContent() {
                             {step === 4 && (
                                 <motion.div key="s4" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
                                     <div className="space-y-4">
-                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Protocolo de Acceso y Seguridad</h2>
-                                        <p className="text-xl text-slate-500 font-light leading-relaxed">Su información y la de sus pacientes estarán protegidas bajo estándares globales de ciberseguridad médica.</p>
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">{t('step4_title')}</h2>
+                                        <p className="text-xl text-slate-500 font-light leading-relaxed">{t('step4_subtext')}</p>
                                     </div>
 
                                     <div className="relative p-8 rounded-[2rem] bg-slate-950 text-white overflow-hidden shadow-2xl">
@@ -544,9 +553,9 @@ function OnboardingContent() {
                                                 <Lock className="w-8 h-8 text-teal-400" />
                                             </div>
                                             <div className="space-y-2">
-                                                <div className="text-xl font-bold tracking-tight">Cifrado Militar AES-256</div>
+                                                <div className="text-xl font-bold tracking-tight">{t('step4_encryption_title')}</div>
                                                 <p className="text-sm text-slate-400 font-light leading-relaxed">
-                                                    Implementamos seguridad punto a punto para garantizar que solo usted tenga acceso a la información clínica sensible. Cumplimos con normativas HIPAA y GDPR.
+                                                    {t('step4_encryption_desc')}
                                                 </p>
                                             </div>
                                         </div>
@@ -563,7 +572,7 @@ function OnboardingContent() {
 
                                     <div className="space-y-8">
                                         <div className="space-y-3">
-                                            <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Email Profesional (Acceso Principal)</Label>
+                                            <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">{t('step4_label_email')}</Label>
                                             <div className="relative group">
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
                                                     <Calendar className="w-5 h-5" />
@@ -573,13 +582,13 @@ function OnboardingContent() {
                                                     value={formData.email}
                                                     onChange={(e) => handleInputChange('email', e.target.value)}
                                                     className="h-14 pl-12 border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] text-lg font-bold"
-                                                    placeholder="doctor@clinica.com"
+                                                    placeholder={t('step4_placeholder_email')}
                                                 />
                                             </div>
                                         </div>
                                         <div className="grid md:grid-cols-2 gap-6">
                                             <div className="space-y-3">
-                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Contraseña de Protección</Label>
+                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">{t('step4_label_password')}</Label>
                                                 <Input
                                                     type="password"
                                                     value={formData.password}
@@ -588,7 +597,7 @@ function OnboardingContent() {
                                                 />
                                             </div>
                                             <div className="space-y-3">
-                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Validar Contraseña</Label>
+                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">{t('step4_label_confirm')}</Label>
                                                 <Input
                                                     type="password"
                                                     value={formData.confirmPassword}
@@ -600,12 +609,15 @@ function OnboardingContent() {
                                     </div>
 
                                     <div className="text-[10px] text-slate-400 text-center px-10 leading-relaxed font-bold uppercase tracking-widest opacity-60">
-                                        Al activar su cuenta, confirma que ha revisado y acepta nuestros <Link href="/legal/terms" className="underline hover:text-teal-600">Términos de Servicio</Link> y el <Link href="/legal/privacy" className="underline hover:text-teal-600">Tratamiento de Datos Médicos</Link>.
+                                        {t.rich('step4_legal_info', {
+                                            terms: (chunks) => <Link href="/legal/terms" className="underline hover:text-teal-600">{chunks}</Link>,
+                                            privacy: (chunks) => <Link href="/legal/privacy" className="underline hover:text-teal-600">{chunks}</Link>
+                                        })}
                                     </div>
 
                                     <div className="flex items-center justify-between pt-10 border-t border-slate-100">
                                         <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
-                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> {t('step1_btn_back')}
                                         </Button>
                                         <Button
                                             type="submit"
@@ -614,7 +626,7 @@ function OnboardingContent() {
                                         >
                                             {isLoading ? <Loader2 className="animate-spin w-6 h-6" /> : (
                                                 <span className="flex items-center gap-3 text-lg">
-                                                    Activar Workstation <ChevronRight className="w-5 h-5 text-teal-400" />
+                                                    {t('step4_btn_submit')} <ChevronRight className="w-5 h-5 text-teal-400" />
                                                 </span>
                                             )}
                                         </Button>
@@ -631,16 +643,16 @@ function OnboardingContent() {
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <h2 className="text-3xl font-black text-foreground tracking-tight">¡Bienvenido!</h2>
+                                        <h2 className="text-3xl font-black text-foreground tracking-tight">{t('step5_welcome')}</h2>
                                         <p className="text-muted-foreground text-sm max-w-xs mx-auto font-light">
-                                            Enviamos un enlace de activación a:<br /><span className="text-foreground font-black tracking-tight">{formData.email}</span>
+                                            {t('step5_activation_link')}<br /><span className="text-foreground font-black tracking-tight">{formData.email}</span>
                                         </p>
                                     </div>
                                     <div className="flex flex-col gap-3 w-full max-w-xs">
                                         <Button asChild className="h-10 rounded-xl bg-primary text-primary-foreground font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20">
-                                            <Link href="/login">Ir a mi Workstation</Link>
+                                            <Link href="/login">{t('step5_btn_dashboard')}</Link>
                                         </Button>
-                                        <p className="text-[9px] text-muted-foreground/60 uppercase font-black tracking-[0.2em]">Verifica tu bandeja de Spam</p>
+                                        <p className="text-[9px] text-muted-foreground/60 uppercase font-black tracking-[0.2em]">{t('step5_spam_note')}</p>
                                     </div>
                                 </motion.div>
                             )}
