@@ -1,6 +1,7 @@
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { Footer } from "@/components/layout/footer"
 import { useTranslations } from "next-intl"
+import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export default function AboutPage() {
     const t = useTranslations('About');
@@ -8,13 +9,15 @@ export default function AboutPage() {
     return (
         <div className="flex flex-col min-h-screen font-sans bg-slate-50/30">
             <VerticalNavbar />
-            <main className="flex-1 pt-24 pb-12">
-                <div className="container px-4 md:px-6">
-                    <div className="max-w-3xl mx-auto text-center mb-16">
-                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">{t('title')}</h1>
-                        <p className="text-xl text-slate-500 dark:text-slate-300 leading-relaxed font-light">
-                            {t('subtitle')}
-                        </p>
+            <main className="flex-1 pt-40 pb-20 relative">
+                <div className="container px-4 md:px-6 relative z-10">
+                    <div className="max-w-3xl mx-auto text-center mb-20">
+                        <ScrollAnimation animation="fade-up">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">{t('title')}</h1>
+                            <p className="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                                {t('subtitle')}
+                            </p>
+                        </ScrollAnimation>
                     </div>
 
                     <div className="max-w-4xl mx-auto mb-24 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">

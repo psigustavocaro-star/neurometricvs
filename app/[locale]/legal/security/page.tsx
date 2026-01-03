@@ -2,6 +2,7 @@ import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { Footer } from "@/components/layout/footer"
 import { ShieldCheck, Lock, Server } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export default function SecurityPage() {
     const t = useTranslations('Legal.Security');
@@ -9,12 +10,14 @@ export default function SecurityPage() {
     return (
         <div className="flex flex-col min-h-screen font-sans bg-slate-50/30">
             <VerticalNavbar />
-            <main className="flex-1 pt-24 pb-12">
-                <div className="container px-4 md:px-6 max-w-4xl mx-auto">
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-4">{t('title')}</h1>
-                        <p className="text-xl text-slate-600">{t('subtitle')}</p>
-                    </div>
+            <main className="flex-1 pt-40 pb-20">
+                <div className="container px-4 md:px-6 max-w-4xl mx-auto relative z-10">
+                    <ScrollAnimation animation="fade-up">
+                        <div className="text-center mb-16">
+                            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">{t('title')}</h1>
+                            <p className="text-xl text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">{t('subtitle')}</p>
+                        </div>
+                    </ScrollAnimation>
 
                     <div className="grid md:grid-cols-3 gap-8 mb-16">
                         <div className="text-center p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
@@ -40,7 +43,7 @@ export default function SecurityPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-100">
+                    <div className="bg-white dark:bg-slate-950 p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
                         <div className="prose prose-slate max-w-none prose-headings:text-slate-900 prose-p:text-slate-600">
                             <h3>{t('access_title')}</h3>
                             <p>{t('access_body')}</p>

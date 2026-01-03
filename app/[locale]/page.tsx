@@ -32,25 +32,35 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
       <VerticalNavbar />
 
-      <main className="flex-1 relative transition-colors duration-500">
-        <FluidBackground />
+      <main className="flex-1 relative bg-background transition-colors duration-500">
+        {/* Unified Background - Continuous Flow */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Subtle grid only in dark mode if desired, or completely removed as per request */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 dark:opacity-[0.03]" />
+
+          {/* Calipso Blobs for Atmosphere */}
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 dark:bg-primary/5 blur-[120px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[60%] left-[-20%] w-[60%] h-[60%] rounded-full bg-primary/15 dark:bg-primary/10 blur-[130px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob animation-delay-6000 mix-blend-multiply dark:mix-blend-normal filter" />
+        </div>
 
         {/* Hero Section */}
         <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-48 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
           <div className="container px-4 md:px-6 relative z-10">
 
-            <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-center">
+            <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-start">
               <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl text-foreground drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
-                    Ecosistema digital <span className="text-primary italic font-serif">avanzado</span> para <span className="underline decoration-primary/30">especialistas</span> de la salud.
+                  <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
+                    Ecosistema digital <span className="text-teal-600 italic font-serif">avanzado</span> para <span className="underline decoration-teal-600/30">especialistas</span> de la salud.
                   </h1>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={200}>
-                  <p className="max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
+                  <p className="max-w-[700px] text-slate-500 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
                     La workstation definitiva para psicólogos, psiquiatras y neurólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.
                   </p>
                 </ScrollAnimation>
@@ -92,7 +102,7 @@ export default function LandingPage() {
                 </ScrollAnimation>
               </div>
 
-              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[600px] w-full max-w-[800px] flex items-center justify-center mt-8 lg:mt-0">
+              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[600px] w-full max-w-[800px] flex items-start justify-center mt-8 lg:-mt-20">
                 <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
                   <div className="scale-75 md:scale-75 lg:scale-90 xl:scale-100 transition-transform origin-center">
                     <HeroCarousel />
@@ -115,34 +125,29 @@ export default function LandingPage() {
 
         {/* Testimonials Section (Relatos) */}
         <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden">
-          {/* Floating Background Elements - Kept for vibe but transparent wrapper */}
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          </div>
-
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">{tTests('title')}</h2>
-                <p className="mt-4 text-muted-foreground md:text-lg">{tTests('subtitle')}</p>
-              </div>
-            </ScrollAnimation>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tTests('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed">{tTests('subtitle')}</p>
+              </div >
+            </ScrollAnimation >
             <div className="mt-12">
               <TestimonialsMarquee />
             </div>
-          </div>
-        </section>
-
-
+          </div >
+        </section >
 
         {/* Pricing Section */}
         <PricingSection />
+
         {/* FAQ Section */}
         <section id="faq" className="w-full pt-12 md:pt-24 pb-48 md:pb-64 bg-transparent relative overflow-hidden">
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">{tFAQ('title')}</h2>
-                <p className="mt-4 text-muted-foreground md:text-lg">{tFAQ('subtitle')}</p>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tFAQ('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed">{tFAQ('subtitle')}</p>
               </div>
             </ScrollAnimation>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
@@ -159,37 +164,37 @@ export default function LandingPage() {
                 </ScrollAnimation>
               ))}
             </div>
-          </div>
+          </div >
+        </section >
 
-          {/* Trust Section (Moved) */}
-          <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-transparent relative overflow-hidden">
-            <div className="container px-4 md:px-6 relative z-10">
-              <ScrollAnimation animation="fade-in">
-                <p className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-8">
-                  {tTrust('label')}
-                </p>
-                <div className="mt-8">
-                  <InstitutionsMarquee />
-                </div>
-              </ScrollAnimation>
-            </div>
-          </section>
-
-          {/* Back to Top Indicator */}
-          <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-            <Link
-              href="#hero"
-              className="group flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1"
-            >
-              <div className="h-14 w-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-primary/20 transition-all">
-                <ArrowUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
+        {/* Trust Section (Moved) */}
+        <section id="trust" className="w-full pt-12 md:pt-16 pb-24 md:pb-28 bg-transparent relative overflow-hidden">
+          <div className="container px-4 md:px-6 relative z-10">
+            <ScrollAnimation animation="fade-in">
+              <p className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-8">
+                {tTrust('label')}
+              </p>
+              <div className="mt-8">
+                <InstitutionsMarquee />
               </div>
-              <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
-                {tGeneral('back_to_top')}
-              </span>
-            </Link>
+            </ScrollAnimation>
           </div>
         </section>
+
+        {/* Back to Top Indicator */}
+        <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
+          <Link
+            href="#hero"
+            className="group flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1"
+          >
+            <div className="h-14 w-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-primary/20 transition-all">
+              <ArrowUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
+              {tGeneral('back_to_top')}
+            </span>
+          </Link>
+        </div>
       </main>
       <Footer />
       <NeurometricaSupportBot />

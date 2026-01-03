@@ -63,33 +63,34 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             <div className="relative">
                 <div className="relative p-6 md:p-8">
                     {/* Welcome Section */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-4 lg:mb-6 gap-4">
                         <motion.div variants={itemVariants}>
-                            <div className="flex items-center gap-3 mb-3">
+                            <div className="flex items-center gap-3 mb-2 lg:mb-3">
                                 <div className="flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">
                                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
                                     <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Sistema Activo</span>
                                 </div>
                             </div>
-                            <div className="text-muted-foreground mt-2 flex items-center gap-4 text-sm font-medium">
-                                <div className="flex items-center gap-2">
-                                    <CalendarDays className="w-4 h-4 opacity-70" />
-                                    {format(new Date(), "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
+                            <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm font-medium">
+                                <div className="flex items-center gap-1.5">
+                                    <CalendarDays className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" />
+                                    {format(new Date(), "EEEE, d 'de' MMMM", { locale: es })}
                                 </div>
+                                <div className="hidden sm:block w-1 h-1 rounded-full bg-border" />
                                 <WeatherDisplay />
                             </div>
                         </motion.div>
-                        <motion.div variants={itemVariants} className="flex items-center gap-3">
-                            <Button asChild variant="outline" className="h-10 px-5 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-sm font-medium">
+                        <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 md:gap-3">
+                            <Button asChild variant="outline" className="h-9 md:h-10 px-4 md:px-5 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-xs md:text-sm font-medium">
                                 <Link href="/dashboard/tests">
-                                    <Brain className="w-4 h-4 mr-2" />
-                                    Explorar Tests
+                                    <Brain className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
+                                    Tests
                                 </Link>
                             </Button>
-                            <Button asChild className="h-10 px-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-sm font-medium transition-all hover:scale-105 active:scale-95">
+                            <Button asChild className="h-9 md:h-10 px-4 md:px-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-xs md:text-sm font-medium transition-all hover:scale-105 active:scale-95">
                                 <Link href="/patients/new">
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Nuevo Paciente
+                                    <Plus className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
+                                    Nuevo
                                 </Link>
                             </Button>
                         </motion.div>
@@ -111,8 +112,8 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <Users className="w-5 h-5 text-muted-foreground" />
                                     </div>
                                     <div>
-                                        <h2 className="font-bold text-foreground text-base">Pacientes Recientes</h2>
-                                        <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{filteredPatients.length} registros</p>
+                                        <h2 className="font-bold text-foreground text-sm md:text-base">Pacientes Recientes</h2>
+                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{filteredPatients.length} registros</p>
                                     </div>
                                 </div>
                                 <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors">
@@ -206,7 +207,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 </div>
                                 <div className="w-[1px] h-8 bg-border/60" />
                                 <Link href="/dashboard/tests" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
-                                    <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalTests || 0}</span>
+                                    <span className="text-xl md:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalTests || 0}</span>
                                     <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Tests</span>
                                 </Link>
                             </div>

@@ -9,11 +9,11 @@ export default function RefundPage() {
     return (
         <div className="flex flex-col min-h-screen font-sans bg-slate-50/30">
             <VerticalNavbar />
-            <main className="flex-1 pt-24 pb-12">
+            <main className="flex-1 pt-40 pb-20">
                 <div className="container px-4 md:px-6 max-w-4xl mx-auto">
-                    <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-100">
-                        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t('title')}</h1>
-                        <p className="text-slate-500 mb-8 pb-8 border-b border-slate-100">{tCommon('last_updated')}</p>
+                    <div className="bg-white dark:bg-slate-950 p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">{t('title')}</h1>
+                        <p className="text-slate-500 dark:text-slate-400 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800 font-medium">{tCommon('last_updated')}</p>
 
                         <div className="prose prose-slate max-w-none prose-headings:text-slate-900 prose-p:text-slate-600">
                             <h3>{t('trial_title')}</h3>

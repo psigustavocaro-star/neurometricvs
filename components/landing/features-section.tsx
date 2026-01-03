@@ -17,6 +17,7 @@ export function FeaturesSection() {
     const features = [
         {
             key: 'ClinicalRecords',
+            slug: 'clinical-records',
             icon: Activity,
             color: 'text-blue-600',
             bg: 'bg-blue-50',
@@ -25,6 +26,7 @@ export function FeaturesSection() {
         },
         {
             key: 'TestAutomation',
+            slug: 'test-automation',
             icon: Sparkles,
             color: 'text-teal-600',
             bg: 'bg-teal-50',
@@ -33,6 +35,7 @@ export function FeaturesSection() {
         },
         {
             key: 'MedicalCalculators',
+            slug: 'medical-calculators',
             icon: Calculator,
             color: 'text-rose-600',
             bg: 'bg-rose-50',
@@ -41,18 +44,28 @@ export function FeaturesSection() {
         },
         {
             key: 'AICopilot',
+            slug: 'ai-copilot',
             icon: Bot,
             color: 'text-indigo-600',
             bg: 'bg-indigo-50',
             component: <MockAICopilot />,
             alignment: 'right'
+        },
+        {
+            key: 'MobileAccess',
+            slug: 'mobile-access',
+            icon: TabletSmartphone,
+            color: 'text-teal-600',
+            bg: 'bg-teal-50',
+            component: <MockMobileApp />,
+            alignment: 'left'
         }
     ]
 
     return (
-        <section id="features" className="w-full py-24 bg-transparent relative overflow-hidden">
-            {/* Clinical Grid Background - Reduced opacity for fluid BG to shine */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 dark:opacity-10" />
+        <section id="features" className="w-full py-24 relative overflow-hidden">
+            {/* Clinical Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f080_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f080_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
 
             <div className="container px-4 md:px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-20 md:mb-32">
@@ -60,8 +73,8 @@ export function FeaturesSection() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] font-bold uppercase tracking-widest mb-6 border border-border">
                             Propuesta de Valor Clínica
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight leading-tight mb-6 text-balance">
-                            Herramientas de <span className="text-primary italic">precisión médica</span> para tu consultorio.
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight mb-6">
+                            Herramientas de <span className="text-teal-600">precisión médica</span> para tu consultorio.
                         </h2>
                         <p className="text-lg text-muted-foreground leading-relaxed font-light text-balance">
                             Diseñamos cada módulo pensando en el rigor que exige la práctica de la psicología, psiquiatría y neurología moderna.
@@ -73,14 +86,15 @@ export function FeaturesSection() {
                     {features.map((feature, index) => (
                         <div
                             key={feature.key}
+                            id={feature.key}
                             className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${feature.alignment === 'right' ? 'lg:flex-row-reverse' : ''}`}
                         >
                             <div className="flex-1 space-y-8">
-                                <ScrollAnimation animation={feature.alignment === 'left' ? 'fade-right' : 'fade-left'}>
-                                    <div className={`w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 shadow-sm border border-primary/20`}>
-                                        <feature.icon className={`w-7 h-7 text-primary`} strokeWidth={1.5} />
+                                <ScrollAnimation animation={feature.alignment === 'left' ? 'slide-in-left' : 'slide-in-right'}>
+                                    <div className={`w-14 h-14 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 shadow-sm border border-slate-100`}>
+                                        <feature.icon className={`w-7 h-7 ${feature.color}`} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight mb-6">
+                                    <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight leading-tight mb-6">
                                         {t(`${feature.key}.title`)}
                                     </h3>
                                     <p className="text-lg text-muted-foreground leading-relaxed mb-8">
@@ -97,8 +111,8 @@ export function FeaturesSection() {
                                     </div>
 
                                     <div className="pt-8">
-                                        <Button asChild variant="outline" className="rounded-xl border-border text-foreground hover:text-primary hover:border-primary/50 px-6 h-12 shadow-sm font-medium">
-                                            <Link href="/onboarding">
+                                        <Button asChild variant="outline" className="rounded-xl border-slate-200 text-slate-600 hover:text-teal-600 hover:border-teal-200 px-6 h-12 shadow-sm">
+                                            <Link href={`/features/${feature.slug}`}>
                                                 Explorar módulo <ArrowRight className="ml-2 w-4 h-4" />
                                             </Link>
                                         </Button>

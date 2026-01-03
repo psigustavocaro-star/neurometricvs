@@ -1,4 +1,6 @@
+"use client"
 
+import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { Footer } from "@/components/layout/footer"
@@ -8,10 +10,12 @@ import { Check, X } from "lucide-react"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { cn } from "@/lib/utils"
+import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
 
 export default function PricingPage() {
     const tPricing = useTranslations('Pricing')
     const tFAQ = useTranslations('FAQ')
+    const [selectedPlan, setSelectedPlan] = useState<string>('clinical')
 
     const plans = [
         {
@@ -19,31 +23,28 @@ export default function PricingPage() {
             priceUSD: 0,
             period: '/mes',
             priceId: undefined,
-            highlight: false,
             hasExcluded: true,
         },
         {
             key: 'basic',
             priceUSD: 10,
             period: '/mes',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_BASIC,
-            highlight: false,
+            priceId: PRICE_ID_BASIC,
             hasExcluded: false,
         },
         {
             key: 'clinical',
             priceUSD: 15,
             period: '/mes',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_CLINICAL,
-            highlight: true,
+            priceId: PRICE_ID_CLINICAL,
             hasExcluded: false,
+            popular: true,
         },
         {
             key: 'pro',
             priceUSD: 65,
             period: '/año',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO,
-            highlight: false,
+            priceId: PRICE_ID_PRO,
             hasExcluded: false,
             isAnnual: true,
         },
@@ -60,18 +61,21 @@ export default function PricingPage() {
                 </div>
 
                 {/* Hero */}
-                <section className="pt-32 pb-16 text-center px-4 relative z-10">
-                    <div className="inline-block mb-4 px-3 py-1 rounded-full bg-white border border-teal-100 text-xs font-semibold text-teal-600 shadow-sm">
-                        Precios Transparentes
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 mb-6">{tPricing('title')}</h1>
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto">{tPricing('subtitle')}</p>
+                <section className="pt-40 pb-20 text-center px-4 relative z-10">
+                    <ScrollAnimation animation="fade-up">
+                        <div className="inline-block mb-4 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[10px] font-bold text-slate-500 uppercase tracking-widest shadow-sm">
+                            Precios Transparentes
+                        </div>
+                        <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-400 mb-6 tracking-tight">{tPricing('title')}</h1>
+                        <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">{tPricing('subtitle')}</p>
+                    </ScrollAnimation>
                 </section>
 
                 {/* Pricing Cards - 4 Columns */}
                 <section className="py-12 px-4 container relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
                         {plans.map((plan) => {
+                            const isSelected = selectedPlan === plan.key
                             const isClinical = plan.key === 'clinical'
                             const isPro = plan.key === 'pro'
                             const isFree = plan.key === 'free'
@@ -79,19 +83,23 @@ export default function PricingPage() {
                             return (
                                 <div
                                     key={plan.key}
+                                    onClick={() => setSelectedPlan(plan.key)}
                                     className={cn(
-                                        "flex flex-col p-6 rounded-2xl border transition-all duration-300 relative h-full",
-                                        isClinical
-                                            ? "bg-white border-teal-500 shadow-xl shadow-teal-500/10"
+                                        "flex flex-col p-6 rounded-[2rem] border transition-all duration-300 relative h-full cursor-pointer",
+                                        isSelected
+                                            ? "bg-white border-teal-500 shadow-2xl shadow-teal-500/10 scale-[1.02] ring-2 ring-teal-500/20"
                                             : isPro
                                                 ? "bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-200 shadow-lg"
                                                 : "bg-white border-slate-200 hover:border-teal-300 hover:shadow-lg"
                                     )}
                                 >
                                     {/* Badge */}
-                                    {isPro && (
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">
-                                            {tPricing('pro.savings_badge')}
+                                    {(plan.popular || isPro) && (
+                                        <div className={cn(
+                                            "absolute -top-3 left-1/2 -translate-x-1/2 text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider transition-colors",
+                                            isSelected ? "bg-teal-600" : "bg-slate-800"
+                                        )}>
+                                            {isPro ? tPricing('pro.savings_badge') : (tPricing.has(`${plan.key}.badge`) ? tPricing(`${plan.key}.badge`) : null)}
                                         </div>
                                     )}
 
@@ -123,8 +131,11 @@ export default function PricingPage() {
                                                 className="text-3xl font-bold"
                                             />
                                         )}
+                                        {tPricing.has(`${plan.key}.trial`) && (
+                                            <div className="text-[10px] font-bold text-teal-600 mt-1">{tPricing(`${plan.key}.trial`)}</div>
+                                        )}
                                         {isPro && (
-                                            <p className="text-xs text-teal-600 mt-1 font-medium" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} />
+                                            <p className="text-[10px] text-teal-600 mt-1 font-medium" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} />
                                         )}
                                     </div>
 
@@ -132,17 +143,21 @@ export default function PricingPage() {
                                     <ul className="space-y-3 flex-1 mb-6">
                                         {tPricing.raw(`${plan.key}.features`).map((feature: string, i: number) => (
                                             <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                                                <Check className={cn(
-                                                    "h-4 w-4 mt-0.5 shrink-0",
-                                                    isPro ? "text-emerald-500" : "text-teal-500"
-                                                )} />
+                                                <div className={cn(
+                                                    "p-0.5 rounded-full mt-0.5 shrink-0",
+                                                    isSelected ? "bg-teal-100 text-teal-600" : "bg-slate-50 text-slate-400"
+                                                )}>
+                                                    <Check className="h-3 w-3" strokeWidth={3} />
+                                                </div>
                                                 <span>{feature}</span>
                                             </li>
                                         ))}
                                         {/* Excluded features for free */}
-                                        {plan.hasExcluded && tPricing.raw(`${plan.key}.excluded`)?.map((feature: string, i: number) => (
+                                        {plan.hasExcluded && Array.isArray(tPricing.raw(`${plan.key}.excluded`)) && tPricing.raw(`${plan.key}.excluded`).map((feature: string, i: number) => (
                                             <li key={`ex-${i}`} className="flex items-start gap-2 text-sm text-slate-400">
-                                                <X className="h-4 w-4 mt-0.5 shrink-0 text-slate-300" />
+                                                <div className="p-0.5 rounded-full mt-0.5 shrink-0 bg-slate-50 text-slate-300">
+                                                    <X className="h-3 w-3" strokeWidth={3} />
+                                                </div>
                                                 <span className="line-through">{feature}</span>
                                             </li>
                                         ))}
@@ -151,13 +166,12 @@ export default function PricingPage() {
                                     {/* CTA */}
                                     <Button
                                         asChild
+                                        onClick={(e) => e.stopPropagation()}
                                         className={cn(
-                                            "w-full",
-                                            isClinical
+                                            "w-full rounded-xl h-12 font-bold transition-all",
+                                            isSelected
                                                 ? "bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-600/20"
-                                                : isPro
-                                                    ? "bg-slate-900 hover:bg-slate-800 text-white"
-                                                    : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-teal-300"
+                                                : "bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200"
                                         )}
                                     >
                                         <Link href={`/onboarding?plan=${plan.key}`}>

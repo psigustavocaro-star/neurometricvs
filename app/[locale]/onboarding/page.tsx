@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Check, ChevronRight, ChevronLeft, Loader2, ShieldCheck, Clock, Star, X, Zap, Sparkles, Brain, FileText, Calendar, Activity, Lock, FlaskConical, Stethoscope } from 'lucide-react'
+import { Check, ChevronRight, ChevronLeft, Loader2, ShieldCheck, Clock, Star, X, Zap, Sparkles, Brain, FileText, Calendar, Activity, Lock, FlaskConical, Stethoscope, UserCheck } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -146,181 +146,186 @@ function OnboardingContent() {
             <FluidBackground />
 
             {/* Left Panel: Clinical Branding */}
-            <div className="hidden md:flex md:w-[45%] bg-slate-900 dark:bg-slate-950 relative overflow-hidden flex-col justify-between p-12 text-white border-r border-white/5">
-                <div className="absolute inset-0 z-0 scale-110 opacity-40 dark:opacity-25 grayscale-[0.5] mix-blend-soft-light">
+            <div className="hidden md:flex md:w-[40%] bg-slate-950 relative overflow-hidden flex-col justify-between p-12 lg:p-16 text-white border-r border-white/5 shrink-0">
+                <div className="absolute inset-0 z-0">
                     <Image
                         src="/assets/v5/onboarding-side.png"
                         alt="Clinical Workstation"
                         fill
-                        className="object-cover"
+                        className="object-cover opacity-20 scale-105"
                     />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(20,184,166,0.15),transparent)]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/80 to-slate-950" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 via-slate-900/60 to-slate-900/90 dark:from-background/20 dark:via-background/60 dark:to-background z-10" />
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                    <div className="w-12 h-1.5 bg-teal-500 rounded-full mb-8" />
+                    <h2 className="text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
+                        No es solo software, es el <span className="text-teal-400 italic font-serif">respaldo</span> que tu profesionalismo merece.
+                    </h2>
+                    <p className="mt-6 text-slate-400 text-lg leading-relaxed font-light font-sans max-w-sm">
+                        Bienvenido a la red más avanzada de especialistas que están transformando la salud mental en Latinoamérica.
+                    </p>
+                </motion.div>
 
-                <div className="relative z-20">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-all shadow-lg shadow-primary/30 border border-primary/50">
-                            <Brain className="w-6 h-6 text-primary-foreground" />
-                        </div>
-                        <span className="text-xl font-bold tracking-tight text-white dark:text-foreground">NEURO METRICS</span>
-                    </Link>
-                </div>
-
-                <div className="relative z-20 space-y-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold leading-[1.1] text-white">
-                            Diseñado por y para <span className="text-primary italic">especialistas</span>.
-                        </h2>
-                        <p className="mt-6 text-slate-300 dark:text-muted-foreground text-lg font-light leading-relaxed max-w-md">
-                            Únete a la red más avanzada de profesionales de la salud mental y neurociencias en Latinoamérica.
-                        </p>
-                    </motion.div>
-
-                    <div className="space-y-5">
-                        {[
-                            { icon: <ShieldCheck className="w-5 h-5" />, text: "Cumplimiento HIPAA / GDPR" },
-                            { icon: <Activity className="w-5 h-5" />, text: "Baremos validados científicamente" },
-                            { icon: <FlaskConical className="w-5 h-5" />, text: "Suite clínica integral" }
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.5 + (i * 0.1) }}
-                                className="flex items-center gap-4 text-slate-100 dark:text-muted-foreground"
-                            >
-                                <div className="p-2 bg-white/10 dark:bg-primary/10 text-primary rounded-xl border border-white/10 dark:border-primary/20 backdrop-blur-sm">{item.icon}</div>
-                                <span className="text-sm font-medium tracking-wide">{item.text}</span>
-                            </motion.div>
-                        ))}
-                    </div>
+                <div className="space-y-6">
+                    {[
+                        { icon: <ShieldCheck className="w-5 h-5" />, text: "Cumplimiento HIPAA / GDPR", desc: "Seguridad de grado médico" },
+                        { icon: <Activity className="w-5 h-5" />, text: "Baremos Validados", desc: "Rigurosidad científica certificada" },
+                        { icon: <Sparkles className="w-5 h-5" />, text: "Inteligencia Clínica", desc: "Optimización basada en evidencia" }
+                    ].map((item, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.6 + (i * 0.1) }}
+                            className="flex items-start gap-4"
+                        >
+                            <div className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-teal-400 shadow-xl">{item.icon}</div>
+                            <div>
+                                <div className="text-sm font-bold text-white">{item.text}</div>
+                                <div className="text-[11px] text-slate-500 uppercase tracking-widest font-bold mt-0.5">{item.desc}</div>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
-                <div className="relative z-20 text-slate-400 dark:text-muted-foreground/60 text-xs font-medium tracking-widest">
-                    © 2026 NEUROMETRICS LATAM
+                <div className="relative z-20 flex items-center justify-between text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+                    <span>Neurometrics Latam</span>
+                    <span>v5.2.0 • 2026</span>
                 </div>
             </div>
 
             {/* Right Panel: Form Flow */}
-            <div className="flex-1 flex flex-col bg-background/50 dark:bg-background/80 backdrop-blur-md overflow-hidden min-h-screen relative z-30">
-                <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col justify-center px-6 py-8 md:px-12 lg:px-16">
-
+            <div className="flex-1 flex flex-col bg-slate-50/30 overflow-y-auto min-h-screen relative z-30">
+                <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col p-6 md:p-12 lg:p-20 relative">
                     {/* Header Mobile */}
-                    <div className="md:hidden flex items-center justify-between mb-6">
-                        <Link href="/" className="flex items-center gap-2">
-                            <Brain className="w-5 h-5 text-primary" />
-                            <span className="text-base font-bold text-foreground">NEURO METRICS</span>
+                    <div className="md:hidden flex items-center justify-between mb-12">
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="bg-slate-900 p-2 rounded-xl">
+                                <Brain className="w-5 h-5 text-teal-400" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-sm font-black tracking-tight leading-none text-slate-900">NEURO</span>
+                                <span className="text-[10px] font-bold tracking-[0.2em] leading-none text-teal-600">METRICS</span>
+                            </div>
                         </Link>
-                        <Link href="/" className="p-1.5 rounded-full hover:bg-accent text-muted-foreground"><X className="w-4 h-4" /></Link>
+                        <Link href="/" className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                            <X className="w-5 h-5" />
+                        </Link>
                     </div>
 
-                    {/* Top Bar Layout */}
-                    <div className="flex items-center justify-between mb-8">
-                        {/* Progress Indicator - Integrated */}
-                        <div className="flex-1 mr-8">
-                            {step > 0 && step < 5 && (
-                                <div className="space-y-2">
-                                    <div className="flex justify-between text-[9px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] opacity-60">
-                                        <span className={step >= 1 ? "text-primary opacity-100" : ""}>Perfil</span>
-                                        <span className={step >= 2 ? "text-primary opacity-100" : ""}>Práctica</span>
-                                        <span className={step >= 3 ? "text-primary opacity-100" : ""}>Plan</span>
-                                        <span className={step >= 4 ? "text-primary opacity-100" : ""}>Acceso</span>
-                                    </div>
-                                    <div className="h-1 bg-muted-foreground/10 rounded-full overflow-hidden">
+                    <div className="hidden md:flex justify-end absolute top-12 right-12">
+                        <Link href="/" className="group flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-all font-bold text-xs uppercase tracking-widest">
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity translate-x-1 group-hover:translate-x-0">Cancelar</span>
+                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors shadow-sm">
+                                <X className="w-4 h-4" />
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Progress Indicator */}
+                    {step > 0 && step < 5 && (
+                        <div className="mb-16 pt-4">
+                            <div className="flex justify-between text-[9px] font-black text-slate-300 mb-4 uppercase tracking-[0.2em] px-1">
+                                <span className={step >= 1 ? "text-teal-600" : ""}>Identidad</span>
+                                <span className={step >= 2 ? "text-teal-600" : ""}>Práctica</span>
+                                <span className={step >= 3 ? "text-teal-600" : ""}>Workstation</span>
+                                <span className={step >= 4 ? "text-teal-600" : ""}>Seguridad</span>
+                            </div>
+                            <div className="h-1 bg-slate-100 rounded-full overflow-hidden flex gap-1 bg-transparent">
+                                {[1, 2, 3, 4].map((s) => (
+                                    <div key={s} className="flex-1 h-full bg-slate-100 rounded-full overflow-hidden">
                                         <motion.div
-                                            className="h-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"
-                                            animate={{ width: `${(step / 4) * 100}%` }}
-                                            transition={{ duration: 0.5, ease: "circOut" }}
+                                            className="h-full bg-teal-600 shadow-[0_0_10px_rgba(20,184,166,0.3)]"
+                                            initial={false}
+                                            animate={{ width: step >= s ? '100%' : '0%' }}
+                                            transition={{ duration: 0.6, ease: "easeInOut" }}
                                         />
                                     </div>
-                                </div>
-                            )}
+                                ))}
+                            </div>
                         </div>
-
-                        {/* Desktop Close/Back */}
-                        <Link href="/" className="shrink-0 text-muted-foreground hover:text-foreground transition-all flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest bg-accent/20 hover:bg-accent px-3 py-1.5 rounded-lg border border-border/40">
-                            Cerrar <X className="w-3 h-3" />
-                        </Link>
-                    </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="relative">
                         <AnimatePresence mode='wait' custom={step}>
                             {step === 0 && (
-                                <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-6">
-                                    <div className="space-y-2 text-center md:text-left">
-                                        <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-[9px] font-black tracking-widest uppercase border border-primary/20 backdrop-blur-md mb-2">
-                                            <Sparkles className="w-3 h-3" /> Bienvenido a la Élite
+                                <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12">
+                                    <div className="space-y-4">
+                                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-900 text-white rounded-full text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-teal-500/20">
+                                            <Sparkles className="w-3 h-3" /> Foco Clínico Prioritario
                                         </div>
-                                        <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight leading-[1.1]">
-                                            ¿Cuál es tu enfoque <span className="text-primary italic glow-text">prioritario</span>?
+                                        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+                                            ¿Cuál de estos desafíos desea <span className="text-teal-600 italic font-serif">resolver</span> primero?
                                         </h1>
-                                        <p className="text-sm text-muted-foreground font-light text-balance leading-snug">Selecciona tu meta para personalizar tu workstation clínica.</p>
+                                        <p className="text-xl text-slate-500 font-light max-w-xl leading-relaxed">Personalizaremos su workstation para que su flujo de trabajo sea impecable desde el primer minuto.</p>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-1 gap-5">
                                         {[
-                                            { id: 'time', label: 'Eficiencia IA', icon: <Zap className="w-5 h-5" />, color: 'from-blue-500/20 to-indigo-500/20', text: 'text-blue-500', desc: 'Automatización de tests.' },
-                                            { id: 'precision', label: 'Precisión', icon: <Activity className="w-5 h-5" />, color: 'from-emerald-500/20 to-teal-500/20', text: 'text-emerald-500', desc: 'Reportes de alta fidelidad.' },
-                                            { id: 'modernize', label: 'Digital', icon: <FileText className="w-5 h-5" />, color: 'from-amber-500/20 to-orange-500/20', text: 'text-amber-500', desc: 'Clínica en la nube segura.' },
-                                            { id: 'patients', label: 'Conexión', icon: <Brain className="w-5 h-5" />, color: 'from-purple-500/20 to-pink-500/20', text: 'text-purple-500', desc: 'Más tiempo para el paciente.' },
-                                        ].map((option, idx) => (
-                                            <motion.button
+                                            { id: 'time', label: 'Precisión y Rapidez en Informes', icon: <FileText className="text-blue-600" />, desc: 'Automatización de corrección de tests y redacción inteligente.' },
+                                            { id: 'modernize', label: 'Estandarización de Ficha Clínica', icon: <Activity className="text-teal-600" />, desc: 'Mantenimiento de expedientes digitales con rigor médico global.' },
+                                            { id: 'patients', label: 'Experiencia Digital del Paciente', icon: <UserCheck className="text-indigo-600" />, desc: 'Portal para pacientes y aplicación de tests remotos sin fricción.' },
+                                            { id: 'ai', label: 'Soporte de Decisión Avanzada', icon: <ShieldCheck className="text-emerald-600" />, desc: 'Copiloto clínico para el análisis de casos complejos.' },
+                                        ].map((option) => (
+                                            <button
                                                 key={option.id}
                                                 type="button"
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.1 + (idx * 0.05) }}
                                                 onClick={() => { handleInputChange('goal', option.label); nextStep(); }}
-                                                className="group relative flex flex-col p-4 rounded-2xl border border-border/40 bg-card/40 backdrop-blur-lg hover:border-primary/40 hover:bg-card hover:shadow-xl hover:shadow-primary/5 transition-all text-left overflow-hidden h-32"
+                                                className="group relative flex items-center p-6 rounded-[2rem] border-2 border-slate-100 bg-white hover:border-teal-500 hover:shadow-2xl hover:shadow-teal-500/5 transition-all duration-300 text-left overflow-hidden"
                                             >
-                                                <div className={`absolute inset-0 bg-gradient-to-br ${option.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                                                <div className={`relative z-10 p-2.5 rounded-xl bg-background shadow-md mb-auto group-hover:scale-110 group-hover:-rotate-3 transition-transform w-fit border border-border/50 ${option.text}`}>
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 opacity-0 group-hover:opacity-100 transition-opacity -rotate-45 translate-x-16 -translate-y-16" />
+                                                <div className="relative z-10 w-14 h-14 bg-slate-50 rounded-2xl group-hover:bg-white transition-colors mr-6 flex items-center justify-center shadow-sm border border-slate-100">
                                                     {option.icon}
                                                 </div>
-
-                                                <div className="relative z-10">
-                                                    <div className="font-bold text-foreground text-sm group-hover:text-primary transition-colors leading-tight">
-                                                        {option.label}
-                                                    </div>
-                                                    <div className="text-[10px] text-muted-foreground mt-1 font-light leading-tight line-clamp-2">{option.desc}</div>
+                                                <div className="relative z-10 flex-1">
+                                                    <div className="font-bold text-slate-900 text-xl tracking-tight mb-1">{option.label}</div>
+                                                    <div className="text-sm text-slate-500 font-light leading-snug">{option.desc}</div>
                                                 </div>
-                                            </motion.button>
+                                                <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 group-hover:bg-teal-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                                                    <ChevronRight className="w-5 h-5" />
+                                                </div>
+                                            </button>
                                         ))}
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 1 && (
-                                <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-6">
-                                    <div className="space-y-1">
-                                        <h2 className="text-2xl font-black text-foreground">Credenciales Profesionales</h2>
-                                        <p className="text-muted-foreground text-sm font-light italic">"La excelencia clínica comienza con una identidad sólida."</p>
+                                <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-10 pb-10">
+                                    <div className="space-y-3">
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Registro de Identidad Profesional</h2>
+                                        <p className="text-slate-500 text-lg font-light leading-relaxed italic">"Su identidad es el primer peldaño de la confianza clínica."</p>
                                     </div>
 
-                                    <div className="grid gap-4">
-                                        <div className="space-y-1.5">
-                                            <Label className="text-[9px] uppercase tracking-widest font-black text-muted-foreground/70 ml-1">Nombre Profesional</Label>
-                                            <Input
-                                                value={formData.name}
-                                                onChange={(e) => handleInputChange('name', e.target.value)}
-                                                className="h-10 text-base border-border/40 bg-card/30 focus:ring-primary rounded-xl"
-                                                placeholder="Ej. Dr. Alejandro Rossi"
-                                            />
+                                    <div className="grid gap-8">
+                                        <div className="space-y-3">
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Nombre y Apellidos del Especialista</Label>
+                                            <div className="relative group">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
+                                                    <UserCheck className="w-5 h-5" />
+                                                </div>
+                                                <Input
+                                                    value={formData.name}
+                                                    onChange={(e) => handleInputChange('name', e.target.value)}
+                                                    className="h-14 pl-12 text-lg border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] shadow-sm transition-all"
+                                                    placeholder="Ej. Dr. Alejandro Rossi"
+                                                />
+                                            </div>
                                         </div>
 
-                                        <div className="grid md:grid-cols-2 gap-3">
-                                            <div className="space-y-1.5">
-                                                <Label className="text-[9px] uppercase tracking-widest font-black text-muted-foreground/70 ml-1">Especialidad</Label>
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="space-y-3">
+                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Especialidad Certificada</Label>
                                                 <Select value={formData.role} onValueChange={(val) => handleInputChange('role', val)}>
-                                                    <SelectTrigger className="h-10 rounded-xl border-border/40 bg-card/30">
+                                                    <SelectTrigger className="h-14 rounded-[1.2rem] border-2 border-slate-100 focus:ring-0 px-4">
                                                         <SelectValue placeholder="Seleccionar..." />
                                                     </SelectTrigger>
-                                                    <SelectContent>
+                                                    <SelectContent className="rounded-2xl border-slate-200">
                                                         <SelectItem value="Psicólogo">Psicólogo Clínico</SelectItem>
                                                         <SelectItem value="Psiquiatra">Psiquiatra</SelectItem>
                                                         <SelectItem value="Neurólogo">Neurólogo</SelectItem>
@@ -329,234 +334,285 @@ function OnboardingContent() {
                                                     </SelectContent>
                                                 </Select>
                                             </div>
-                                            <div className="space-y-1.5">
-                                                <Label className="text-[9px] uppercase tracking-widest font-black text-muted-foreground/70 ml-1">N° Registro/Colegiado</Label>
-                                                <Input
-                                                    value={formData.registryNumber}
-                                                    onChange={(e) => handleInputChange('registryNumber', e.target.value)}
-                                                    className="h-10 rounded-xl border-border/40 bg-card/30"
-                                                    placeholder="Ej. 24890-7"
-                                                />
+                                            <div className="space-y-3">
+                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">N° Registro Médico/Colegiado</Label>
+                                                <div className="relative group">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
+                                                        <Stethoscope className="w-5 h-5" />
+                                                    </div>
+                                                    <Input
+                                                        value={formData.registryNumber}
+                                                        onChange={(e) => handleInputChange('registryNumber', e.target.value)}
+                                                        className="h-14 pl-12 rounded-[1.2rem] border-2 border-slate-100 focus:border-teal-500 focus:ring-0"
+                                                        placeholder="Ej. 24890-7"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div className="space-y-1.5">
-                                            <Label className="text-[9px] uppercase tracking-widest font-black text-muted-foreground/70 ml-1">País de Residencia</Label>
+                                        <div className="space-y-3">
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">País de Residencia</Label>
                                             <Input
                                                 value={formData.country}
                                                 onChange={(e) => handleInputChange('country', e.target.value)}
-                                                className="h-10 rounded-xl border-border/40 bg-card/30"
+                                                className="h-14 rounded-[1.2rem] border-2 border-slate-100 focus:border-teal-500 focus:ring-0 px-4"
                                                 placeholder="Ej. Chile"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* Compact Signature Preview */}
-                                    <div className="p-4 rounded-xl bg-primary/5 backdrop-blur-md border border-primary/20 border-dashed flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 shrink-0">
-                                            <Stethoscope className="w-5 h-5 text-primary" />
+                                    {/* Clinical Seal Preview */}
+                                    <div className="relative p-8 rounded-[2.5rem] bg-slate-900 text-white overflow-hidden shadow-2xl flex items-center gap-6 group">
+                                        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
+                                        <div className="relative z-10 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center border border-white/20 shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                            <ShieldCheck className="w-8 h-8 text-teal-400" />
                                         </div>
-                                        <div className="min-w-0">
-                                            <div className="text-xs font-black text-foreground truncate">{formData.name || "Tu Nombre Profesional"}</div>
-                                            <div className="text-[9px] text-muted-foreground uppercase tracking-widest truncate">
-                                                {formData.role || "Especialidad"} <span className="mx-1 opacity-30">•</span> {formData.registryNumber || "Registro"}
+                                        <div className="relative z-10 space-y-1">
+                                            <div className="text-xl font-bold tracking-tight">{formData.name || "Especialista Registrado"}</div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="px-2 py-0.5 bg-teal-500/20 text-teal-400 rounded-md text-[9px] font-black uppercase tracking-widest border border-teal-500/30">
+                                                    {formData.role || "Especialidad"}
+                                                </div>
+                                                <span className="text-[10px] text-white/50 font-bold uppercase tracking-widest">{formData.registryNumber || "Registro Pendiente"}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between pt-4 border-t border-border/40">
-                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-10 rounded-xl text-xs font-bold uppercase tracking-widest px-6 hover:bg-accent/50">Atrás</Button>
+                                    <div className="flex items-center justify-between pt-10 border-t border-slate-100">
+                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                        </Button>
                                         <Button
                                             type="button"
                                             onClick={nextStep}
                                             disabled={!formData.name || !formData.role || !formData.registryNumber}
-                                            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black h-10 px-10 rounded-xl shadow-lg shadow-primary/20 text-xs uppercase tracking-widest"
+                                            className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-10 rounded-2xl shadow-xl shadow-teal-500/20 transition-all hover:scale-[1.02] disabled:opacity-50"
                                         >
-                                            Siguiente
+                                            Continuar a Práctica <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 2 && (
-                                <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-6">
-                                    <div className="space-y-1">
-                                        <h2 className="text-2xl font-black text-foreground">Dinámica de Consulta</h2>
-                                        <p className="text-muted-foreground text-sm font-light">Personalizamos tu workstation según tu volumen de trabajo.</p>
+                                <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
+                                    <div className="space-y-4">
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Análisis de Operativa Clínica</h2>
+                                        <p className="text-xl text-slate-500 font-light leading-relaxed">Optimizamos su entorno según la carga y demanda de su consulta especializada.</p>
                                     </div>
 
-                                    <div className="space-y-6">
-                                        <div className="space-y-3">
-                                            <Label className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest ml-1">Pacientes mensuales</Label>
-                                            <RadioGroup value={formData.patientsPerMonth} onValueChange={(val) => handleInputChange('patientsPerMonth', val)} className="grid grid-cols-3 gap-3">
+                                    <div className="space-y-12">
+                                        <div className="space-y-6">
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Volumen de Pacientes Atendidos por Mes</Label>
+                                            <RadioGroup value={formData.patientsPerMonth} onValueChange={(val) => handleInputChange('patientsPerMonth', val)} className="grid grid-cols-3 gap-5">
                                                 {['1-10', '11-30', '30+'].map((opt) => (
                                                     <div key={opt}>
                                                         <RadioGroupItem value={opt} id={opt} className="peer sr-only" />
-                                                        <Label htmlFor={opt} className="flex items-center justify-center h-10 rounded-xl border border-border/40 bg-card/30 backdrop-blur-lg hover:border-primary/40 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary cursor-pointer transition-all text-xs font-bold">
-                                                            {opt}
+                                                        <Label htmlFor={opt} className="flex flex-col items-center justify-center p-6 rounded-[1.5rem] border-2 border-slate-100 bg-white hover:border-teal-400 peer-data-[state=checked]:border-teal-600 peer-data-[state=checked]:bg-teal-50 peer-data-[state=checked]:shadow-xl peer-data-[state=checked]:shadow-teal-500/10 cursor-pointer transition-all duration-300">
+                                                            <span className="text-2xl font-black text-slate-900 group-hover:scale-110 transition-transform">{opt}</span>
+                                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Pacientes</span>
                                                         </Label>
                                                     </div>
                                                 ))}
                                             </RadioGroup>
                                         </div>
 
-                                        <div className="space-y-3">
-                                            <Label className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest ml-1">Tu mayor desafío:</Label>
-                                            <div className="grid gap-2">
+                                        <div className="space-y-6">
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">Principal Fricción Administrativa</Label>
+                                            <div className="grid gap-4">
                                                 {[
-                                                    { id: 'tests', label: 'Tabulación de Tests', icon: <FileText className="w-4 h-4" /> },
-                                                    { id: 'reports', label: 'Estructurar Informes', icon: <Brain className="w-4 h-4" /> },
-                                                    { id: 'history', label: 'Gestión de Fichas', icon: <Lock className="w-4 h-4" /> }
+                                                    { id: 'tests', label: 'Estandarización de Pruebas y Baremos', icon: <FlaskConical className="w-5 h-5" /> },
+                                                    { id: 'reports', label: 'Generación de Informes y Epicrisis', icon: <FileText className="w-5 h-5" /> },
+                                                    { id: 'history', label: 'Seguridad y Trazabilidad de Historias', icon: <ShieldCheck className="w-5 h-5" /> }
                                                 ].map((opt) => (
                                                     <button
                                                         key={opt.id}
                                                         type="button"
                                                         onClick={() => handleInputChange('primaryNeed', opt.label)}
-                                                        className={`flex items-center p-3 rounded-xl border transition-all text-left group ${formData.primaryNeed === opt.label ? 'border-primary bg-primary/10' : 'border-border/40 bg-card/30 hover:border-primary/30'}`}
+                                                        className={`flex items-center p-6 rounded-2xl border-2 transition-all duration-300 text-left ${formData.primaryNeed === opt.label ? 'border-teal-600 bg-teal-50 shadow-lg shadow-teal-500/5' : 'border-slate-100 hover:border-slate-200 bg-white'}`}
                                                     >
-                                                        <div className={`p-2 rounded-lg mr-3 shadow-sm ${formData.primaryNeed === opt.label ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground group-hover:bg-accent'}`}>
+                                                        <div className={`w-12 h-12 flex items-center justify-center rounded-xl mr-6 transition-colors ${formData.primaryNeed === opt.label ? 'bg-teal-600 text-white' : 'bg-slate-50 text-slate-400'}`}>
                                                             {opt.icon}
                                                         </div>
-                                                        <span className={`text-[10px] uppercase font-black tracking-widest ${formData.primaryNeed === opt.label ? 'text-primary' : 'text-muted-foreground'}`}>{opt.label}</span>
-                                                        {formData.primaryNeed === opt.label && <Check className="ml-auto w-4 h-4 text-primary" />}
+                                                        <div className="flex-1">
+                                                            <span className={`text-lg font-bold tracking-tight block ${formData.primaryNeed === opt.label ? 'text-teal-900' : 'text-slate-800'}`}>{opt.label}</span>
+                                                        </div>
+                                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${formData.primaryNeed === opt.label ? 'bg-teal-600 border-teal-600 scale-110' : 'border-slate-200'}`}>
+                                                            {formData.primaryNeed === opt.label && <Check className="w-4 h-4 text-white" />}
+                                                        </div>
                                                     </button>
                                                 ))}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between pt-4 border-t border-border/40">
-                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-10 rounded-xl text-xs font-bold uppercase tracking-widest px-6 hover:bg-accent/50">Atrás</Button>
+                                    <div className="flex items-center justify-between pt-10 border-t border-slate-100">
+                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                        </Button>
                                         <Button
                                             type="button"
                                             onClick={nextStep}
                                             disabled={!formData.patientsPerMonth || !formData.primaryNeed}
-                                            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black h-10 px-10 rounded-xl shadow-lg shadow-primary/20 text-xs uppercase tracking-widest"
+                                            className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-10 rounded-2xl shadow-xl shadow-teal-500/20 transition-all hover:scale-[1.02] disabled:opacity-50"
                                         >
-                                            Siguiente
+                                            Configurar Workstation <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 3 && (
-                                <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-6">
-                                    <div className="text-center space-y-1">
-                                        <h2 className="text-2xl font-black text-foreground">Tu Suite Especializada</h2>
-                                        <p className="text-muted-foreground text-sm font-light">Selecciona el nivel de automatización clínica.</p>
+                                <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
+                                    <div className="text-center space-y-4">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-[10px] font-black tracking-widest uppercase border border-teal-100 mx-auto">
+                                            Inversión en su Futuro Clínico
+                                        </div>
+                                        <h2 className="text-4xl font-bold text-slate-900 tracking-tight">Seleccione su Configuración de Workstation</h2>
+                                        <p className="text-xl text-slate-500 font-light max-w-xl mx-auto leading-relaxed">Elija el nivel de potencia y profundidad que su práctica demanda hoy.</p>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid gap-5">
                                         {[
-                                            { id: 'free', name: 'Exploración', price: 0, desc: 'Consultas', period: '', icon: <Star className="w-4 h-4 text-slate-300" /> },
-                                            { id: 'basic', name: 'Esencial', price: 10, desc: 'Tests + IA', period: '/mes', icon: <Zap className="w-4 h-4 text-amber-500" />, pid: PRICE_ID_BASIC },
-                                            { id: 'clinical', name: 'Clinical', price: 15, desc: 'Suite Full', period: '/mes', icon: <Brain className="w-4 h-4 text-blue-500" />, pid: PRICE_ID_CLINICAL, popular: true },
-                                            { id: 'pro', name: 'Élite', price: 65, desc: 'Soporte VIP', period: '/año', icon: <Sparkles className="w-4 h-4 text-teal-500" />, pid: PRICE_ID_PRO, savings: '-65%' }
+                                            { id: 'free', name: 'Exploración Limitada', price: 0, desc: 'Solo acceso a biblioteca de tests', period: '', icon: <Star className="text-slate-300" /> },
+                                            { id: 'basic', name: 'Plan Esencial', price: 10, desc: 'Tests + Corrección Automatizada', period: '/mes', icon: <Zap className="text-amber-500" />, pid: PRICE_ID_BASIC },
+                                            { id: 'clinical', name: 'Clinical Workstation', price: 15, desc: 'Suite Clínica Completa + IA Copilot', period: '/mes', icon: <Brain className="text-blue-500" />, pid: PRICE_ID_CLINICAL, popular: true },
+                                            { id: 'pro', name: 'Élite Especializada', price: 65, desc: 'Todo ilimitado + Soporte VIP Prioritario', period: '/año', icon: <Sparkles className="text-teal-500" />, pid: PRICE_ID_PRO, savings: '65% OFF' }
                                         ].map((p) => (
                                             <div
                                                 key={p.id}
                                                 onClick={() => handleInputChange('plan', p.id)}
-                                                className={`group relative flex flex-col p-4 rounded-xl border cursor-pointer transition-all ${formData.plan === p.id ? 'border-primary bg-primary/10' : 'border-border/40 bg-card/30 hover:border-primary/30'}`}
+                                                className={`group relative flex items-center p-6 rounded-[2rem] border-2 cursor-pointer transition-all duration-300 ${formData.plan === p.id ? 'border-teal-600 bg-white shadow-2xl shadow-teal-500/10 scale-[1.02]' : 'border-slate-100 bg-white hover:border-teal-200'}`}
                                             >
-                                                {p.popular && <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[8px] font-black px-2 py-0.5 rounded-full border border-background">POPULAR</div>}
-                                                {p.savings && <div className="absolute top-1 right-1 bg-emerald-500/20 text-emerald-500 text-[8px] font-black px-1.5 py-0.5 rounded-md border border-emerald-500/30">{p.savings}</div>}
+                                                {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-[9px] font-black px-4 py-1 rounded-full border-2 border-white shadow-xl z-10">RECOMENDACIÓN CLÍNICA</div>}
+                                                {p.savings && <div className="absolute top-4 right-16 bg-emerald-100 text-emerald-700 text-[10px] font-black px-3 py-1 rounded-xl uppercase tracking-tighter">Ahorro Máximo</div>}
 
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="p-2 bg-background/50 rounded-lg shadow-sm border border-border/40 group-hover:scale-110 transition-transform shrink-0">
-                                                        {p.icon}
-                                                    </div>
-                                                    <div className="min-w-0">
-                                                        <div className="font-black text-[10px] uppercase tracking-widest mt-1 text-foreground truncate">{p.name}</div>
-                                                        <div className="text-[9px] text-muted-foreground truncate">{p.desc}</div>
-                                                    </div>
+                                                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mr-6 border border-slate-100 group-hover:bg-white transition-colors">
+                                                    {p.icon}
                                                 </div>
-
-                                                <div className="mt-auto flex items-end justify-between gap-1">
-                                                    <div>
-                                                        {p.price === 0 ? <div className="font-black text-sm text-foreground">Gratis</div> : <PriceDisplay amount={p.price} period={p.period} priceId={p.pid} className="font-black text-sm text-foreground" />}
-                                                    </div>
-                                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${formData.plan === p.id ? 'border-primary bg-primary' : 'border-border/40'}`}>
-                                                        <Check className={`w-2.5 h-2.5 text-primary-foreground transition-opacity ${formData.plan === p.id ? 'opacity-100' : 'opacity-0'}`} />
-                                                    </div>
+                                                <div className="flex-1 space-y-1">
+                                                    <div className="font-black text-slate-900 text-xl tracking-tight leading-none uppercase">{p.name}</div>
+                                                    <div className="text-sm text-slate-500 font-light italic">{p.desc}</div>
+                                                </div>
+                                                <div className="text-right mr-6">
+                                                    {p.price === 0 ? <div className="font-black text-xl">Sin Costo</div> : <PriceDisplay amount={p.price} period={p.period} priceId={p.pid} className="font-black text-2xl text-slate-900" />}
+                                                </div>
+                                                <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${formData.plan === p.id ? 'border-teal-600 bg-teal-600 shadow-lg shadow-teal-500/50' : 'border-slate-200 group-hover:border-teal-200'}`}>
+                                                    <Check className={`w-5 h-5 text-white transition-opacity ${formData.plan === p.id ? 'opacity-100' : 'opacity-0'}`} />
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
 
-                                    <div className="bg-primary/5 p-3 rounded-xl flex items-center gap-2.5 text-[10px] text-muted-foreground border border-primary/10">
-                                        <div className="p-1 bg-primary/10 rounded-full shrink-0"><Clock className="w-3 h-3 text-primary" /></div>
-                                        <span>Planes de pago incluyen <strong>7 días de prueba gratuita</strong>.</span>
+                                    <div className="bg-slate-900 p-6 rounded-[2rem] flex items-center gap-6 text-white shadow-xl">
+                                        <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                            <Clock className="w-6 h-6 text-teal-400" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-light">Comience hoy mismo: todos los planes comerciales incluyen un periodo de <strong>7 días de prueba sin compromiso</strong>.</p>
+                                        </div>
                                     </div>
 
-                                    <div className="flex justify-between pt-4 border-t border-border/40">
-                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-10 rounded-xl text-xs font-bold uppercase tracking-widest px-6 hover:bg-accent/50">Atrás</Button>
+                                    <div className="flex items-center justify-between pt-10 border-t border-slate-100">
+                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                        </Button>
                                         <Button
                                             type="button"
                                             onClick={nextStep}
-                                            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black h-10 px-10 rounded-xl shadow-lg shadow-primary/20 text-xs uppercase tracking-widest"
+                                            className="bg-teal-600 hover:bg-teal-500 text-white font-bold h-14 px-12 rounded-2xl shadow-xl shadow-teal-600/20 transition-all hover:scale-[1.02]"
                                         >
-                                            Confirmar
+                                            Confirmar Suscripción <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 4 && (
-                                <motion.div key="s4" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-6">
-                                    <div className="space-y-1">
-                                        <h2 className="text-2xl font-black text-foreground">Acceso Seguro</h2>
-                                        <p className="text-muted-foreground text-sm font-light">Tus datos están protegidos bajo protocolos AES-256.</p>
+                                <motion.div key="s4" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 pb-10">
+                                    <div className="space-y-4">
+                                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Protocolo de Acceso y Seguridad</h2>
+                                        <p className="text-xl text-slate-500 font-light leading-relaxed">Su información y la de sus pacientes estarán protegidas bajo estándares globales de ciberseguridad médica.</p>
                                     </div>
 
-                                    {error && <div className="p-3 bg-destructive/10 border border-destructive/20 text-destructive rounded-xl text-[10px] font-bold flex items-center gap-2 uppercase tracking-widest"><X className="w-3 h-3" /> {error}</div>}
-
-                                    <div className="space-y-4">
-                                        <div className="grid gap-1.5">
-                                            <Label className="text-[9px] uppercase font-black text-muted-foreground/70 tracking-widest pl-1">Email Profesional</Label>
-                                            <Input
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => handleInputChange('email', e.target.value)}
-                                                className="h-10 border-border/40 bg-card/30 rounded-xl"
-                                                placeholder="doctor@clinica.com"
-                                            />
+                                    <div className="relative p-8 rounded-[2rem] bg-slate-950 text-white overflow-hidden shadow-2xl">
+                                        <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-[80px] -mr-32 -mt-32" />
+                                        <div className="relative z-10 flex gap-6">
+                                            <div className="p-4 bg-white/5 border border-white/10 rounded-2xl h-fit shadow-inner">
+                                                <Lock className="w-8 h-8 text-teal-400" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <div className="text-xl font-bold tracking-tight">Cifrado Militar AES-256</div>
+                                                <p className="text-sm text-slate-400 font-light leading-relaxed">
+                                                    Implementamos seguridad punto a punto para garantizar que solo usted tenga acceso a la información clínica sensible. Cumplimos con normativas HIPAA y GDPR.
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="grid md:grid-cols-2 gap-4">
-                                            <div className="grid gap-1.5">
-                                                <Label className="text-[9px] uppercase font-black text-muted-foreground/70 tracking-widest pl-1">Contraseña</Label>
+                                    </div>
+
+                                    {error && (
+                                        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl text-sm flex items-center gap-3 font-medium">
+                                            <div className="w-6 h-6 rounded-full bg-rose-200 flex items-center justify-center shrink-0">
+                                                <X className="w-4 h-4" />
+                                            </div>
+                                            {error}
+                                        </motion.div>
+                                    )}
+
+                                    <div className="space-y-8">
+                                        <div className="space-y-3">
+                                            <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Email Profesional (Acceso Principal)</Label>
+                                            <div className="relative group">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
+                                                    <Calendar className="w-5 h-5" />
+                                                </div>
+                                                <Input
+                                                    type="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => handleInputChange('email', e.target.value)}
+                                                    className="h-14 pl-12 border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] text-lg font-bold"
+                                                    placeholder="doctor@clinica.com"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="space-y-3">
+                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Contraseña de Protección</Label>
                                                 <Input
                                                     type="password"
                                                     value={formData.password}
                                                     onChange={(e) => handleInputChange('password', e.target.value)}
-                                                    className="h-10 border-border/40 bg-card/30 rounded-xl"
+                                                    className="h-14 border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] px-4"
                                                 />
                                             </div>
-                                            <div className="grid gap-1.5">
-                                                <Label className="text-[9px] uppercase font-black text-muted-foreground/70 tracking-widest pl-1">Confirmar</Label>
+                                            <div className="space-y-3">
+                                                <Label className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] pl-1">Validar Contraseña</Label>
                                                 <Input
                                                     type="password"
                                                     value={formData.confirmPassword}
                                                     onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                                                    className={`h-10 border-border/40 bg-card/30 rounded-xl ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-destructive' : ''}`}
+                                                    className={`h-14 border-2 border-slate-100 focus:border-teal-500 focus:ring-0 rounded-[1.2rem] px-4 ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-rose-500' : ''}`}
                                                 />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="text-[9px] text-muted-foreground/60 text-center px-4 leading-relaxed uppercase tracking-widest font-bold">
-                                        Al finalizar, aceptas nuestros <Link href="/legal/terms" className="underline hover:text-primary">Términos</Link> y <Link href="/legal/privacy" className="underline hover:text-primary">Privacidad</Link>.
+                                    <div className="text-[10px] text-slate-400 text-center px-10 leading-relaxed font-bold uppercase tracking-widest opacity-60">
+                                        Al activar su cuenta, confirma que ha revisado y acepta nuestros <Link href="/legal/terms" className="underline hover:text-teal-600">Términos de Servicio</Link> y el <Link href="/legal/privacy" className="underline hover:text-teal-600">Tratamiento de Datos Médicos</Link>.
                                     </div>
 
-                                    <div className="flex justify-between pt-4 border-t border-border/40">
-                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-10 rounded-xl text-xs font-bold uppercase tracking-widest px-6 hover:bg-accent/50">Atrás</Button>
+                                    <div className="flex items-center justify-between pt-10 border-t border-slate-100">
+                                        <Button type="button" variant="ghost" onClick={prevStep} className="h-14 px-8 rounded-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors">
+                                            <ChevronLeft className="mr-2 w-5 h-5" /> Regresar
+                                        </Button>
                                         <Button
                                             type="submit"
                                             disabled={isLoading || !formData.email || !formData.password || formData.password !== formData.confirmPassword}
-                                            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black h-10 px-8 rounded-xl shadow-lg shadow-primary/20 text-xs uppercase tracking-widest min-w-[160px]"
+                                            className="bg-slate-900 hover:bg-slate-800 text-white font-black h-14 px-12 rounded-[1.5rem] shadow-2xl shadow-slate-900/20 transition-all hover:scale-[1.05] min-w-[220px] active:scale-95"
                                         >
-                                            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
-                                                <span className="flex items-center gap-2">
-                                                    Finalizar <ChevronRight className="w-3.5 h-3.5" />
+                                            {isLoading ? <Loader2 className="animate-spin w-6 h-6" /> : (
+                                                <span className="flex items-center gap-3 text-lg">
+                                                    Activar Workstation <ChevronRight className="w-5 h-5 text-teal-400" />
                                                 </span>
                                             )}
                                         </Button>

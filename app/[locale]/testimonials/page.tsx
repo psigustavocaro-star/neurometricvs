@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl"
 import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { Quote } from "lucide-react"
+import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export default function TestimonialsPage() {
     const tPage = useTranslations('TestimonialsPage')
@@ -28,9 +29,13 @@ export default function TestimonialsPage() {
                 </div>
 
                 {/* Hero */}
-                <section className="pt-40 pb-16 text-center px-4 relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 mb-6">{tPage('title')}</h1>
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto">{tPage('subtitle')}</p>
+                <section className="pt-40 pb-20 text-center px-4 relative z-10">
+                    <div className="max-w-3xl mx-auto text-center">
+                        <ScrollAnimation animation="fade-up">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 mb-6 tracking-tight leading-tight">{tPage('title')}</h1>
+                            <p className="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">{tPage('subtitle')}</p>
+                        </ScrollAnimation>
+                    </div>
                 </section>
 
                 <section className="py-20 container px-4 relative z-10">
@@ -57,7 +62,9 @@ export default function TestimonialsPage() {
 
                 {/* Call to Action */}
                 <section className="py-20 bg-white/50 border-t border-slate-200 text-center relative z-10">
-                    <h3 className="text-2xl font-bold text-slate-900 mb-8">{tPage('join_community')}</h3>
+                    <ScrollAnimation animation="fade-up">
+                        <h3 className="text-2xl font-bold text-slate-900 mb-8">{tPage('join_community')}</h3>
+                    </ScrollAnimation>
                 </section>
             </main>
             <Footer />

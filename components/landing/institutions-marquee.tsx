@@ -3,9 +3,7 @@
 const institutions = [
     { name: "Universidad de Chile", logo: "/logos/uchile.jpg" },
     { name: "Pontificia Universidad Católica de Chile", logo: "/logos/puc.png" },
-    { name: "Universidad Nacional Autónoma de México", logo: "/logos/unam-full.png" },
     { name: "Clínica Las Condes", logo: "/logos/clinica-las-condes-v2.png" },
-    { name: "Clínica Barcelona", logo: "/logos/clinica-barcelona.png" },
     { name: "Universidad de Buenos Aires", logo: "/logos/uba.png" },
     { name: "Mayo Clinic", logo: "/logos/mayo-clinic.png" },
 ]
@@ -30,8 +28,8 @@ export function InstitutionsMarquee() {
             </style>
 
             {/* Gradient Masks */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent z-10"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-10"></div>
 
             <div className="flex gap-12 w-max animate-infinite-scroll pause">
                 {/* Double the list for seamless loop */}
