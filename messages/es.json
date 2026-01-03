@@ -127,6 +127,8 @@
         "whats_included": "Qué incluye",
         "close": "Cerrar",
         "faq_title": "Preguntas Frecuentes",
+        "view_details": "Ver detalles de configuración",
+        "locale_redirect": "es",
         "free": {
             "name": "Gratuita",
             "description": "Modo Lectura / Exploración",

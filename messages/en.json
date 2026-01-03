@@ -135,6 +135,8 @@
         "whats_included": "What's included",
         "close": "Close",
         "faq_title": "Frequently Asked Questions",
+        "view_details": "View configuration details",
+        "locale_redirect": "en",
         "free": {
             "name": "Free",
             "description": "Read / Exploration Mode",
