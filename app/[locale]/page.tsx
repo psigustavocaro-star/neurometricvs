@@ -55,7 +55,10 @@ export default function LandingPage() {
 
                 <ScrollAnimation animation="fade-up" delay={100}>
                   <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
-                    Ecosistema digital <span className="text-teal-600 italic font-serif">avanzado</span> para <span className="underline decoration-teal-600/30">especialistas</span> de la salud.
+                    {tHero.rich('title', {
+                      span: (chunks) => <span className="text-teal-600 italic font-serif">{chunks}</span>,
+                      span2: (chunks) => <span className="underline decoration-teal-600/30">{chunks}</span>
+                    })}
                   </h1>
                 </ScrollAnimation>
 
