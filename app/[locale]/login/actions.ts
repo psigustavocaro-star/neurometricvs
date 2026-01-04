@@ -41,7 +41,7 @@ export async function signup(formData: FormData) {
     }
 
     revalidatePath('/', 'layout')
-    redirect('/login?message=Check your email to continue sign in process')
+    redirect('/login?message=check_email')
 }
 
 export async function resendConfirmation(formData: FormData) {
@@ -57,5 +57,5 @@ export async function resendConfirmation(formData: FormData) {
         redirect(`/login?error=${encodeURIComponent(error.message)}`)
     }
 
-    redirect('/login?message=Confirmation email resent. Check your inbox.')
+    redirect('/login?message=confirmation_resent')
 }

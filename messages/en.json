@@ -12,7 +12,13 @@
         "patients": "Patients",
         "subscription": "Subscription",
         "profile": "Profile",
-        "home": "Home"
+        "home": "Home",
+        "resources": "Resources",
+        "theme": "Theme",
+        "logging_out": "Logging out...",
+        "sign_out": "Sign Out",
+        "expand": "Expand",
+        "collapse": "Collapse"
     },
     "VerticalNavbar": {
         "hero": "Home",
@@ -162,7 +168,7 @@
         },
         "clinical": {
             "badge": "MOST POPULAR",
-            "name": "Clinical Plan",
+            "name": "Plan Clinical",
             "description": "Your complete digital office",
             "trial": "7-day free trial",
             "cta": "Choose Clinical Plan",
@@ -226,6 +232,47 @@
     },
     "Dashboard": {
         "title": "Dashboard",
+        "loading": "Loading operations center...",
+        "header": {
+            "system_active": "System Active",
+            "date_format": "EEEE, MMMM do"
+        },
+        "cta": {
+            "tests": "Tests",
+            "new": "New"
+        },
+        "recent_patients": {
+            "title": "Recent Patients",
+            "records_count": "{count} records",
+            "view_all": "View all",
+            "search_placeholder": "Search by name...",
+            "table": {
+                "patient": "Patient",
+                "status": "Status",
+                "activity": "Last Activity",
+                "action": "Action"
+            },
+            "status_active": "Active",
+            "no_email": "No email",
+            "not_found": "No patients found",
+            "not_found_desc": "Try another search term"
+        },
+        "stats": {
+            "patients": "Patients",
+            "active": "Active",
+            "tests": "Tests"
+        },
+        "activity": {
+            "title": "Recent Activity",
+            "empty": "No recent activity"
+        },
+        "quick_actions": {
+            "title": "Quick Actions",
+            "explore_tests": "Explore Tests",
+            "view_patients": "View Patients",
+            "my_subscription": "My Subscription",
+            "resources_library": "Resources Library"
+        },
         "Subscription": {
             "title": "Subscription",
             "subtitle": "Manage your plan and payment method.",
@@ -279,6 +326,7 @@
         "story_title": "From the Clinic to Software",
         "story_p1": "It all started in my own practice. As a health professional, I was constantly frustrated by the immense amount of time I wasted manually scoring tests, adding up scores, and writing repetitive reports. Those were valuable hours I wasn't dedicating to my patients.",
         "story_p2": "I realized I wasn't alone; my colleagues shared the same administrative burnout. I understood that technology should be our ally, not a barrier. Thus Neurometrics was born: a platform designed by clinicians, for clinicians, with the mission to automate the tedious so we can refocus on the human aspect.",
+        "founder_title": "Founder & CEO",
         "philosophy": {
             "title": "Our Philosophy",
             "scientific_rigor": {
@@ -334,37 +382,71 @@
         }
     },
     "FeaturesPage": {
-        "title": "Solutions that Transform Clinical Practice",
-        "subtitle": "Every tool has been designed with the real workflow of doctors, therapists, and health specialists in mind.",
+        "title": "Power your clinical <span>excellence</span>.",
+        "subtitle": "Next-generation tools designed for diagnostic precision and operational efficiency in mental health.",
+        "badge": "Precision Ecosystem",
+        "cta_main": "Get started now",
+        "cta_secondary": "Explore module",
+        "cta_description": "Join the hundreds of professionals who are already raising the standard of care with Neurometrics.",
+        "join_today": "Transform your practice <span>today</span>.",
         "ClinicalRecords": {
             "title": "Smart Clinical Records",
-            "desc": "Forget paper and obsolete systems. Our clinical records allow you to register sessions, background, and evolution with a clean and fast interface.",
-            "benefit": "Save 15 minutes per patient"
+            "desc": "Optimized document management with automatic timeline and centralization of patient history.",
+            "benefit": "Regulatory compliance and total data security."
         },
         "TestAutomation": {
-            "title": "Automatic Test Scoring",
-            "desc": "Complete library with PHQ-9, GAD-7, BDI-II, etc. Apply them in-session or send a secure link for the patient to answer on their device. Instant results.",
-            "benefit": "100% free of human errors"
-        },
-        "AICopilot": {
-            "title": "Integrated Clinical Management",
-            "desc": "A system that centralizes your session notes, visualizes patient progress, and automatically structures your professional reports.",
-            "benefit": "Your complete digital office"
-        },
-        "MobileAccess": {
-            "title": "Professional on the Go",
-            "desc": "Take your practice with you. Apply tests, review records, and manage your schedule from any mobile device with our optimized interface.",
-            "benefit": "100% Responsive"
-        },
-        "PatientPortal": {
-            "title": "Simplified Mobile Assessment",
-            "desc": "Adaptive interface for tablets and phones. Administer tests in-session or let patients answer comfortably from their device without installations.",
-            "benefit": "Universal Accessibility"
+            "title": "Test Automation",
+            "desc": "Automated scoring and pre-report generation for over 50 neuropsychological batteries.",
+            "benefit": "Save up to 70% in scoring time."
         },
         "MedicalCalculators": {
-            "title": "Smart Clinical Calculators",
-            "desc": "Precision tools for all specialties: BMI calculation, pediatric dosing, surgical risk scales, obstetric dates, and more.",
-            "benefit": "Immediate Medical Precision"
+            "title": "Medical Calculators",
+            "desc": "Instant access to norms, percentiles, and standard score calculations with algorithmic precision.",
+            "benefit": "Elimination of manual calculation errors."
+        },
+        "AICopilot": {
+            "title": "Clinical Copilot (IA)",
+            "desc": "Intelligent assistance for synthesizing complex cases and detecting evolutionary patterns.",
+            "benefit": "Evidence-based decision support."
+        },
+        "MobileAccess": {
+            "title": "Multi-device Access",
+            "desc": "Manage your workstation from anywhere with our optimized mobile application.",
+            "benefit": "Total fluidity between office and field."
+        }
+    },
+    "Login": {
+        "title": "Neurometrics",
+        "description": "Log in to your clinical workstation",
+        "email_label": "Email Address",
+        "email_placeholder": "you@email.com",
+        "password_label": "Password",
+        "submit_button": "Login",
+        "continue_with": "Or continue with",
+        "create_account": "Create New Account",
+        "resend_confirmation": "Forgot to confirm your email? Resend",
+        "error_prefix": "Login error",
+        "check_email": "Check your email to continue sign in process",
+        "confirmation_resent": "Confirmation email resent. Check your inbox."
+    },
+    "Contact": {
+        "title": "Contact Us",
+        "subtitle": "We are here to answer your questions about the platform, pricing, or technical support.",
+        "form": {
+            "name": "First Name",
+            "name_placeholder": "Your name",
+            "lastname": "Last Name",
+            "lastname_placeholder": "Your last name",
+            "email": "Email",
+            "email_placeholder": "you@email.com",
+            "subject": "Subject",
+            "subject_placeholder": "How can we help you?",
+            "message": "Message",
+            "message_placeholder": "Write your message here...",
+            "submit": "Send Message",
+            "sending": "Sending...",
+            "success_title": "Message Sent!",
+            "send_another": "Send another message"
         }
     },
     "PricingPage": {
@@ -396,7 +478,7 @@
         "Terms": {
             "title": "Terms and Conditions",
             "intro": "Neurometrics is a digital services platform (hereinafter, \"The Provider\").",
-            "acceptance_title": "1. Acceptance of terms",
+            "acceptance_title": "Acceptance of terms",
             "acceptance_body": "By accessing and using Neurometrics, you agree to be bound by these Terms and Conditions. If you do not agree, do not use our services.",
             "use_title": "2. Service use",
             "use_body": "You agree to use the platform only for lawful and professional purposes. You are responsible for maintaining the confidentiality of your account and password.",
@@ -450,9 +532,9 @@
             "access_title": "Access and Authentication",
             "access_body": "We use secure authentication via Supabase, with support for strong passwords and, soon, two-factor authentication (2FA).",
             "backup_title": "Backups",
-            "backup_body": "We perform daily automatic backups of all databases to prevent data loss.",
+            " backup_body": "We perform daily automatic backups of all databases to prevent data loss.",
             "report_title": "Vulnerability Reporting",
-            "report_body": "If you find a security vulnerability, please report it immediately to soporte@neurometricslatam.com."
+            "report_body": "If you find a security vulnerability, please report it immediately to support@neurometricslatam.com."
         }
     },
     "Onboarding": {
@@ -520,6 +602,235 @@
         "step5_welcome": "Welcome!",
         "step5_activation_link": "We sent an activation link to:",
         "step5_btn_dashboard": "Go to my Workstation",
-        "step5_spam_note": "Check your Spam folder"
+        "step5_spam_note": "Check your Spam folder",
+        "professions": {
+            "psychologist": "Clinical Psychologist",
+            "neurologist": "Neurologist",
+            "neuropsychologist": "Neuropsychologist"
+        },
+        "needs": {
+            "tests": "Test Standardization and Norms",
+            "reports": "Report Generation and Epicrisis",
+            "digital": "Clinical Record Digitization",
+            "connection": "Patient Connection"
+        },
+        "plans_details": {
+            "free_name": "Limited Exploration",
+            "free_desc": "Access to test library only",
+            "basic_name": "Essential Plan",
+            "basic_desc": "Tests + Automated Scoring",
+            "clinical_name": "Clinical Workstation",
+            "clinical_desc": "Complete Clinical Suite + AI Copilot",
+            "pro_name": "Specialized Elite",
+            "pro_desc": "Unlimited everything + Priority VIP Support"
+        },
+        "errors": {
+            "empty_fields": "Please complete all account fields.",
+            "payment_unavailable": "The payment system is currently unavailable. Please ensure Paddle environment variables are configured or choose the free plan."
+        }
+    },
+    "FeaturesDetail": {
+        "clinical-records": {
+            "title": "Digital Clinical Record",
+            "emotionalTitle": "Remember why you chose this vocation?",
+            "emotionalDesc": "It wasn't to fill out endless forms or struggle with paper records. You heal, listen, and transform lives. Neurometrics gives that sacred time back to you.",
+            "problem": "Bureaucracy consumes 40% of the time of a private session, wearing down the professional and distancing them from what really matters: the patient.",
+            "solution": "Our Intelligent Clinical Record flows with you. Record progress in seconds, access history with one click, and let technology handle administrative details while you care for mental health.",
+            "benefits": [
+                "Goodbye to clutter: Everything centralized in one secure place.",
+                "Attention recovery: Less screen, more eye contact.",
+                "Ethical Security: Medical-grade encryption for your peace of mind."
+            ]
+        },
+        "test-automation": {
+            "title": "Test Automation",
+            "emotionalTitle": "Precision that grants peace of mind",
+            "emotionalDesc": "Doubt is the heaviest weight in a diagnosis. When a person's well-being depends on a score, there is no room for human error.",
+            "problem": "Correcting tests manually is tedious and prone to errors that can alter a vital clinical diagnosis.",
+            "solution": "Total automation. From PHQ-9 to complex cognitive scales. Get instant results with guaranteed scientific validity, allowing you to deliver impeccable reports in record time.",
+            "benefits": [
+                "Zero errors: Validated algorithms ensuring total accuracy.",
+                "Instant reports: From response to report in one second.",
+                "Clinical Confidence: The technical backing your professionalism deserves."
+            ]
+        },
+        "medical-calculators": {
+            "title": "Medical Calculators",
+            "emotionalTitle": "Absolute confidence in medical rigor",
+            "emotionalDesc": "In medicine, details are not small; they are fundamental. Every dose, every risk, and every index is a key piece in the healthcare puzzle.",
+            "problem": "Closing the gap between observation and mathematical precision can be stressful under clinical pressure.",
+            "solution": "A suite of high-precision calculation tools integrated into your workflow. BMI, pediatric dosing, surgical risks and more, always at your disposal to eliminate any uncertainty.",
+            "benefits": [
+                "Safety in decision making: Precise data, safe decisions.",
+                "Professional Agility: Get critical results without leaving the consultation.",
+                "Scientific Rigor: Tools based on universal clinical formulas."
+            ]
+        },
+        "ai-copilot": {
+            "title": "AI Clinical Copilot",
+            "emotionalTitle": "Never face complexity alone again",
+            "emotionalDesc": "The loneliness of the office can be overwhelming. There are cases that challenge our experience and force us to seek a second opinion.",
+            "problem": "Professional isolation and the cognitive load of analyzing thousands of clinical variables simultaneously.",
+            "solution": "A clinical decision assistant that never rests. Our AI analyzes patterns, suggests evidence-based protocols, and helps you structure your reasoning, empowering your skills, not replacing them.",
+            "benefits": [
+                "Strategic Ally: A second pair of expert eyes analyzing every case.",
+                "Instant Evidence: Suggestions based on thousands of clinical protocols.",
+                "Mental Clarity: Reduce information fatigue with intelligent summaries."
+            ]
+        },
+        "mobile-access": {
+            "title": "Neurometrics Mobile",
+            "emotionalTitle": "Your commitment has no walls",
+            "emotionalDesc": "Mental health happens everywhere, not just behind a desk. Real professional freedom is being able to care without being tied to an office.",
+            "problem": "The rigidity of traditional systems that only work on a desktop computer.",
+            "solution": "All the power of Neurometrics in your pocket. Apply tests during home visits, review records on the go, and maintain total control of your practice with an interface designed to be fluid, mobile, and secure.",
+            "benefits": [
+                "Freedom of Movement: Your clinic travels with you, always.",
+                "Immediate Response: Evaluate and decide at the key moment, wherever you are.",
+                "Total Flexibility: Optimize your time between appointments intelligently."
+            ]
+        },
+        "common": {
+            "back_to_home": "Back to Home",
+            "start_free_trial": "Try Neurometrics Free",
+            "start_transformation": "Start your transformation today",
+            "challenge_title": "The challenge of modern practice",
+            "solution_title": "The solution designed by colleagues",
+            "cta_title": "Dare to try Neurometrics and improve your practice",
+            "cta_desc": "Join hundreds of specialists who have already reclaimed their time and precision. Clinical excellence is one click away.",
+            "cta_button": "Get started now!"
+        }
+    },
+    "Profile": {
+        "title": "Account Settings",
+        "subtitle": "Manage your personal profile, security, and billing preferences.",
+        "tabs": {
+            "profile": "Professional Profile",
+            "security": "Security",
+            "billing": "Subscription"
+        },
+        "basic_info": "Basic Information",
+        "full_name": "Full Name",
+        "specialty": "Profession",
+        "specialty_placeholder": "Select your profession",
+        "specialties": {
+            "psychologist": "Psychologist",
+            "psychiatrist": "Psychiatrist",
+            "neurologist": "Neurologist"
+        },
+        "registry_number": "Registry / License No.",
+        "signature_preview": "Signature Preview",
+        "reg_short": "Reg",
+        "additional_credentials": "Additional Credentials",
+        "additional_placeholder": "Enter your diplomas, master's or additional training here...",
+        "security_title": "Access and Security",
+        "security_desc": "Manage your access credentials and contact details.",
+        "email_label": "Sign-in Email",
+        "email_hint": "Used for login and notifications.",
+        "phone_label": "Mobile Phone",
+        "phone_placeholder": "+56 9 ...",
+        "phone_hint": "For account recovery and contact.",
+        "change_password": "Change Password",
+        "current_password": "Current Password",
+        "current_password_placeholder": "Enter your current password",
+        "new_password": "New Password",
+        "new_password_placeholder": "New password",
+        "confirm_password": "Confirm New Password",
+        "confirm_password_placeholder": "Repeat new password",
+        "password_hint": "You must enter your current password to set a new one.",
+        "id_copied": "ID copied to clipboard",
+        "update_success": "Profile updated successfully",
+        "email_change_info": "A confirmation email has been sent to your new email address.",
+        "password_success": "Password updated",
+        "password_mismatch": "The new passwords do not match",
+        "saving": "Saving...",
+        "save_changes": "Save Changes",
+        "alert": {
+            "title": "Are you sure you want to change your profession?",
+            "description": "Changing your profession from {old} to {new} could affect some specific configurations and tools for your specialty available on the platform.",
+            "cancel": "Cancel",
+            "confirm": "Confirm Change"
+        },
+        "billing": {
+            "current_badge": "Current",
+            "popular_badge": "MOST POPULAR",
+            "recommended_badge": "RECOMMENDED",
+            "monthly": "/mo",
+            "yearly": "/yr",
+            "monthly_equivalent": "ONLY $5.41/MO",
+            "basic": {
+                "name": "Basic Plan",
+                "desc": "To start",
+                "features": [
+                    "Full access to all tests",
+                    "Automatic scoring",
+                    "PDF with professional signature",
+                    "Send tests to patients"
+                ]
+            },
+            "clinical": {
+                "name": "Clinical Plan",
+                "desc": "Professionals",
+                "features": [
+                    "Everything in Basic",
+                    "Patient Management",
+                    "Complete clinical record",
+                    "Application resources"
+                ]
+            },
+            "pro": {
+                "name": "Pro Annual",
+                "desc": "Save 65%",
+                "features": [
+                    "Everything in Clinical",
+                    "VIP Support",
+                    "4 months free"
+                ]
+            }
+        }
+    },
+    "Reports": {
+        "unified": {
+            "title": "Clinical Progress Report",
+            "subtitle": "Integrated Evolutionary Analysis",
+            "back_to_chart": "Back to Record",
+            "patient_id": "Patient Identification",
+            "labels": {
+                "name": "Name:",
+                "birth_date": "Date of Birth:",
+                "issue_date": "Issue Date:",
+                "evaluations": "Evaluations:"
+            },
+            "eval_count": "{count} records analyzed",
+            "evolution": "Evolution Analysis",
+            "session_results": "Session Results",
+            "total": "Total",
+            "synthesis": {
+                "title": "Progress Synthesis",
+                "trajectory": "The longitudinal analysis of the data suggests a clinical trajectory that should be monitored.",
+                "variations": " Variations in the assessed indicators are observed over {count} sessions. It is fundamental to correlate these psychometric changes with treatment adherence and significant life events reported in the clinical interview.",
+                "baseline": " Having only one evaluation in this report establishes a baseline for future comparisons.",
+                "recommendation": "Recommendation: Continue periodic monitoring to establish the stability of the observed changes."
+            },
+            "footer": {
+                "generated_by": "Progress Report automatically generated by Neurometrics Clinical Suite on {date}.",
+                "confidentiality": "This document is confidential and for the exclusive use of the treating professional."
+            }
+        },
+        "client": {
+            "loading": "Loading report...",
+            "error_not_found": "Result not found",
+            "error_fallback": "Could not load the report",
+            "back": "Back",
+            "default_patient": "Patient",
+            "default_label": "Completed"
+        },
+        "professional": {
+            "treating_professional": "Treating Professional",
+            "default_specialty": "Clinical Psychology / Neuropsychology",
+            "clinical_psychologist": "Clinical Psychologist",
+            "reg_short": "Registry No.",
+            "normal_label": "No Clinical Indicators"
+        }
     }
 }

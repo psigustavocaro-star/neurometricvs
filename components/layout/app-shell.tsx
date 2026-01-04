@@ -74,7 +74,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
-        { name: 'Recursos', href: '/dashboard/resources', icon: BookOpen },
+        { name: t('resources'), href: '/dashboard/resources', icon: BookOpen },
         ...((effectivePlan === 'clinical' || effectivePlan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
 
         { name: t("profile"), href: "/profile", icon: UserCircle },
@@ -157,7 +157,7 @@ return (
                                 Neurometrics
                             </span>
                             <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5 group-hover:text-primary/70 transition-colors">
-                                Workstation
+                                {t('dashboard')}
                             </span>
                         </Link>
                     </div>
@@ -174,7 +174,7 @@ return (
                     "hover:border-teal-500/50 hover:shadow-[0_4px_15px_rgba(20,184,166,0.15)]",
                     "active:scale-90"
                 )}
-                title={isCollapsed ? "Expandir" : "Colapsar"}
+                title={isCollapsed ? t("expand") : t("collapse")}
             >
                 <div className="absolute inset-0 bg-teal-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isCollapsed ? (
@@ -242,7 +242,7 @@ return (
                     <span className={cn(
                         "text-sm text-muted-foreground group-hover:text-foreground transition-all duration-500 ease-in-out",
                         isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-                    )}>Tema</span>
+                    )}>{t('theme')}</span>
                     <ThemeToggle />
                 </div>
 
@@ -275,7 +275,7 @@ return (
                     <span className={cn(
                         "ml-3 text-sm font-medium overflow-hidden transition-all duration-500 ease-in-out",
                         isCollapsed ? "w-0 opacity-0 translate-x-4 ml-0" : "w-auto opacity-100 translate-x-0"
-                    )}>{isLoggingOut ? 'Saliendo...' : 'Cerrar Sesión'}</span>
+                    )}>{isLoggingOut ? t('logging_out') : t('sign_out')}</span>
                 </Button>
             </div>
         </aside>
@@ -297,7 +297,7 @@ return (
                         }}
                     />
                 </div>
-                <span className="font-bold text-slate-900 dark:text-white tracking-tight">Workstation</span>
+                <span className="font-bold text-slate-900 dark:text-white tracking-tight">{t('dashboard')}</span>
             </Link>
             <div className="flex items-center gap-2">
                 <ThemeToggle />
@@ -341,7 +341,7 @@ return (
                             className="w-full justify-start text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                         >
                             <LogOut className="w-4 h-4 mr-2" />
-                            {isLoggingOut ? 'Saliendo...' : 'Cerrar Sesión'}
+                            {isLoggingOut ? t('logging_out') : t('sign_out')}
                         </Button>
                     </div>
                 </div>

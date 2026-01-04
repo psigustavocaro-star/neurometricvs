@@ -78,10 +78,12 @@ export default function FeaturesPage() {
                 <section className="pt-40 pb-20 text-center relative z-10 px-4">
                     <ScrollAnimation animation="fade-up">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-6 border border-slate-200 dark:border-slate-800">
-                            Ecosistema de Precisión
+                            {t('badge')}
                         </div>
                         <h1 className="text-5xl md:text-7xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
-                            Potencia tu <span className="text-teal-600 italic font-serif">excelencia</span> clínica.
+                            {t.rich('title', {
+                                span: (chunks) => <span className="text-teal-600 italic font-serif">{chunks}</span>
+                            })}
                         </h1>
                         <p className="text-xl text-slate-500 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed font-light">
                             {t('subtitle')}
@@ -126,7 +128,7 @@ export default function FeaturesPage() {
                                     <div className="pt-10 flex flex-col sm:flex-row gap-4">
                                         <Button asChild size="lg" className="h-14 px-8 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold group shadow-xl shadow-teal-500/20">
                                             <Link href={`/features/${feature.slug}`}>
-                                                Explorar módulo <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                                {t('cta_secondary')} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                             </Link>
                                         </Button>
                                     </div>
@@ -155,14 +157,16 @@ export default function FeaturesPage() {
                         <div className="bg-slate-900 dark:bg-teal-600 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
                             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px]" />
                             <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
-                                Transforma tu práctica <span className="italic font-serif">hoy</span>.
+                                {t.rich('join_today', {
+                                    span: (chunks) => <span className="italic font-serif">{chunks}</span>
+                                })}
                             </h2>
                             <p className="text-xl text-white/80 max-w-2xl mx-auto mb-12 font-light">
-                                Únete a los cientos de profesionales que ya están elevando el estándar de cuidado con Neurometrics.
+                                {t('cta_description')}
                             </p>
                             <Button asChild size="lg" className="h-16 px-12 rounded-full bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xl shadow-2xl transition-all hover:scale-105">
                                 <Link href="/onboarding">
-                                    Comenzar ahora
+                                    {t('cta_main')}
                                 </Link>
                             </Button>
                         </div>

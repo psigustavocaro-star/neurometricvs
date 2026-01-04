@@ -1,13 +1,22 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { es, enUS } from 'date-fns/locale'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { ArrowLeft, TrendingUp } from 'lucide-react'
 import { UnifiedReportActions } from "@/components/reports/unified-report-actions"
+import { getTranslations } from 'next-intl/server'
 
-export default async function UnifiedReportPage({ searchParams }: { searchParams: Promise<{ ids: string, patientId: string }> }) {
+export default async function UnifiedReportPage({
+    params,
+    searchParams
+}: {
+    params: Promise<{ locale: string }>,
+    searchParams: Promise<{ ids: string, patientId: string }>
+}) {
+    const { locale } = await params
+    const t = await getTranslations('Reports')
     const supabase = await createClient()
     const { ids, patientId } = await searchParams
 
@@ -40,11 +49,12 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
         notFound()
     }
 
-    const reportDate = format(new Date(), "d 'de' MMMM 'de' yyyy", { locale: es })
+    const dateLocale = locale === 'es' ? es : enUS
+    const reportDate = format(new Date(), locale === 'es' ? "d 'de' MMMM 'de' yyyy" : "MMMM do, yyyy", { locale: dateLocale })
 
     // Helper to sanitize legacy labels
     const sanitizeLabel = (label: string) => {
-        if (label === 'Normal') return 'Sin Indicadores Clínicos'
+        if (label === 'Normal') return t('professional.normal_label')
         return label
     }
 
@@ -56,7 +66,7 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
                 <div className="mb-8 flex justify-between items-center print:hidden">
                     <Button variant="outline" asChild>
                         <Link href={`/patients/${patient.id}`}>
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a la Ficha
+                            <ArrowLeft className="mr-2 h-4 w-4" /> {t('unified.back_to_chart')}
                         </Link>
                     </Button>
                     <UnifiedReportActions />
@@ -68,46 +78,46 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
                     {/* Header */}
                     <div className="border-b border-slate-200 pb-8 mb-8 flex justify-between items-start">
                         <div>
-                            <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">Informe de Progreso Clínico</h1>
-                            <p className="text-slate-500 mt-1">Análisis Evolutivo Integrado</p>
+                            <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">{t('unified.title')}</h1>
+                            <p className="text-slate-500 mt-1">{t('unified.subtitle')}</p>
                         </div>
                         <div className="text-right">
-                            <h2 className="font-bold text-slate-900">{profile.full_name || 'Profesional Tratante'}</h2>
-                            <p className="text-sm text-slate-500">{profile.specialty || 'Psicología Clínica / Neuropsicología'}</p>
+                            <h2 className="font-bold text-slate-900">{profile.full_name || t('professional.treating_professional')}</h2>
+                            <p className="text-sm text-slate-500">{profile.specialty || t('professional.default_specialty')}</p>
                             <p className="text-sm text-slate-500">{profile.email}</p>
                         </div>
                     </div>
 
                     {/* Identification */}
                     <div className="mb-10">
-                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">Identificación del Paciente</h3>
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">{t('unified.patient_id')}</h3>
                         <div className="grid grid-cols-2 gap-y-4 gap-x-8 text-sm">
                             <div className="grid grid-cols-3">
-                                <span className="font-semibold text-slate-700">Nombre:</span>
+                                <span className="font-semibold text-slate-700">{t('unified.labels.name')}</span>
                                 <span className="col-span-2 text-slate-900">{patient.full_name}</span>
                             </div>
                             <div className="grid grid-cols-3">
-                                <span className="font-semibold text-slate-700">Fecha de Nacimiento:</span>
+                                <span className="font-semibold text-slate-700">{t('unified.labels.birth_date')}</span>
                                 <span className="col-span-2 text-slate-900">{patient.birth_date}</span>
                             </div>
                             <div className="grid grid-cols-3">
-                                <span className="font-semibold text-slate-700">Fecha de Emisión:</span>
+                                <span className="font-semibold text-slate-700">{t('unified.labels.issue_date')}</span>
                                 <span className="col-span-2 text-slate-900">{reportDate}</span>
                             </div>
                             <div className="grid grid-cols-3">
-                                <span className="font-semibold text-slate-700">Evaluaciones:</span>
-                                <span className="col-span-2 text-slate-900 font-medium">{results.length} registros analizados</span>
+                                <span className="font-semibold text-slate-700">{t('unified.labels.evaluations')}</span>
+                                <span className="col-span-2 text-slate-900 font-medium">{t('unified.eval_count', { count: results.length })}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Progress Analysis */}
                     <div className="mb-10">
-                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-6 border-b border-slate-100 pb-2">Análisis de Evolución</h3>
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-6 border-b border-slate-100 pb-2">{t('unified.evolution')}</h3>
 
                         <div className="space-y-8">
                             {results.map((result, idx) => {
-                                const date = format(new Date(result.created_at), "d 'de' MMMM, yyyy", { locale: es })
+                                const date = format(new Date(result.created_at), locale === 'es' ? "d 'de' MMMM, yyyy" : "MMMM do, yyyy", { locale: dateLocale })
                                 const testName = result.test_type.toUpperCase()
                                 const { score, label, color, details } = result.results_json
 
@@ -122,9 +132,9 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
 
                                         <div className="bg-slate-50 rounded-lg p-5 border border-slate-100">
                                             <div className="flex justify-between items-center mb-4">
-                                                <h4 className="font-bold text-slate-800">Resultados de la Sesión</h4>
+                                                <h4 className="font-bold text-slate-800">{t('unified.session_results')}</h4>
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-slate-900 font-bold">Total: {score}</span>
+                                                    <span className="text-slate-900 font-bold">{t('unified.total')}: {score}</span>
                                                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${color === 'red' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
                                                         {sanitizeLabel(label)}
                                                     </span>
@@ -150,19 +160,19 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
 
                     {/* Synthesis */}
                     <div className="mb-16">
-                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">Síntesis de Progreso</h3>
+                        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">{t('unified.synthesis.title')}</h3>
                         <div className="prose prose-slate max-w-none text-justify text-slate-800 leading-relaxed bg-teal-50/50 p-6 rounded-lg border border-teal-100">
                             <p>
-                                El análisis longitudinal de los datos sugiere una trayectoria clínica que debe ser monitoreada.
+                                {t('unified.synthesis.trajectory')}
                                 {results.length > 1 ? (
-                                    ` Se observan variaciones en los indicadores evaluados a lo largo de ${results.length} sesiones. Es fundamental correlacionar estos cambios psicométricos con la adherencia al tratamiento y eventos vitales significativos reportados en la entrevista clínica.`
+                                    t('unified.synthesis.variations', { count: results.length })
                                 ) : (
-                                    " Al contar con una única evaluación en este reporte, se establece una línea base para futuras comparaciones."
+                                    t('unified.synthesis.baseline')
                                 )}
                             </p>
                             <p className="mt-2 font-medium text-teal-800">
                                 <TrendingUp className="inline-block h-4 w-4 mr-1" />
-                                Recomendación: Continuar con el monitoreo periódico para establecer la estabilidad de los cambios observados.
+                                {t('unified.synthesis.recommendation')}
                             </p>
                         </div>
                     </div>
@@ -175,8 +185,8 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
                                 <p className="font-bold text-slate-900 text-lg mb-1">{profile.full_name}</p>
 
                                 <div className="text-sm text-slate-800 space-y-1 mb-3">
-                                    <p>{profile.specialty || 'Psicólogo Clínico'}</p>
-                                    {profile.registry_number && <p>Nº Registro {profile.registry_number}</p>}
+                                    <p>{profile.specialty || t('professional.clinical_psychologist')}</p>
+                                    {profile.registry_number && <p>{t('professional.reg_short')} {profile.registry_number}</p>}
                                 </div>
 
                                 {profile.signature_url && (
@@ -190,8 +200,8 @@ export default async function UnifiedReportPage({ searchParams }: { searchParams
 
                     {/* Footer */}
                     <div className="mt-16 pt-8 border-t border-slate-100 text-center text-xs text-slate-400">
-                        <p>Informe de Progreso generado automáticamente por Neurometrics Clinical Suite el {reportDate}.</p>
-                        <p>Este documento es confidencial y para uso exclusivo del profesional tratante.</p>
+                        <p>{t('unified.footer.generated_by', { date: reportDate })}</p>
+                        <p>{t('unified.footer.confidentiality')}</p>
                     </div>
 
                 </div>

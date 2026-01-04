@@ -9,8 +9,8 @@ import {
     ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen
 } from "lucide-react"
 import Link from 'next/link'
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { useLocale, useTranslations } from 'next-intl'
+import { es, enUS } from 'date-fns/locale'
 import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
 import { WeatherDisplay } from './weather-display'
@@ -44,6 +44,9 @@ const itemVariants: Variants = {
 }
 
 export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
+    const t = useTranslations('Dashboard')
+    const locale = useLocale()
+    const dateLocale = locale === 'es' ? es : enUS
     const [searchTerm, setSearchTerm] = useState('')
 
     // Filter patients based on search
@@ -68,13 +71,13 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="flex items-center gap-3 mb-2 lg:mb-3">
                                 <div className="flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">
                                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
-                                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Sistema Activo</span>
+                                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">{t('header.system_active')}</span>
                                 </div>
                             </div>
                             <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm font-medium">
                                 <div className="flex items-center gap-1.5">
                                     <CalendarDays className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" />
-                                    {format(new Date(), "EEEE, d 'de' MMMM", { locale: es })}
+                                    {format(new Date(), t('header.date_format'), { locale: dateLocale })}
                                 </div>
                                 <div className="hidden sm:block w-1 h-1 rounded-full bg-border" />
                                 <WeatherDisplay />
@@ -84,13 +87,13 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <Button asChild variant="outline" className="h-9 md:h-10 px-4 md:px-5 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-xs md:text-sm font-medium">
                                 <Link href="/dashboard/tests">
                                     <Brain className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
-                                    Tests
+                                    {t('cta.tests')}
                                 </Link>
                             </Button>
                             <Button asChild className="h-9 md:h-10 px-4 md:px-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-xs md:text-sm font-medium transition-all hover:scale-105 active:scale-95">
                                 <Link href="/patients/new">
                                     <Plus className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
-                                    Nuevo
+                                    {t('cta.new')}
                                 </Link>
                             </Button>
                         </motion.div>
@@ -112,13 +115,13 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <Users className="w-5 h-5 text-muted-foreground" />
                                     </div>
                                     <div>
-                                        <h2 className="font-bold text-foreground text-sm md:text-base">Pacientes Recientes</h2>
-                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{filteredPatients.length} registros</p>
+                                        <h2 className="font-bold text-foreground text-sm md:text-base">{t('recent_patients.title')}</h2>
+                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
                                     </div>
                                 </div>
                                 <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors">
                                     <Link href="/patients">
-                                        Ver todos <ChevronRight className="w-3 h-3 ml-1" />
+                                        {t('recent_patients.view_all')} <ChevronRight className="w-3 h-3 ml-1" />
                                     </Link>
                                 </Button>
                             </div>
@@ -128,7 +131,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 <div className="relative">
                                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                                     <Input
-                                        placeholder="Buscar por nombre..."
+                                        placeholder={t('recent_patients.search_placeholder')}
                                         className="pl-11 h-11 bg-background border-border/60 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -138,10 +141,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
 
                             {/* Table Header */}
                             <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 bg-muted/20 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
-                                <div className="col-span-5">Paciente</div>
-                                <div className="col-span-2">Estado</div>
-                                <div className="col-span-3">Última Actividad</div>
-                                <div className="col-span-2 text-right">Acción</div>
+                                <div className="col-span-5">{t('recent_patients.table.patient')}</div>
+                                <div className="col-span-2">{t('recent_patients.table.status')}</div>
+                                <div className="col-span-3">{t('recent_patients.table.activity')}</div>
+                                <div className="col-span-2 text-right">{t('recent_patients.table.action')}</div>
                             </div>
 
                             {/* Patient List */}
@@ -154,19 +157,19 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">{patient.full_name}</p>
-                                                <p className="text-xs text-muted-foreground">{patient.email || 'Sin email'}</p>
+                                                <p className="text-xs text-muted-foreground">{patient.email || t('recent_patients.no_email')}</p>
                                             </div>
                                         </div>
                                         <div className="col-span-12 md:col-span-2">
                                             <Badge variant="outline" className="bg-transparent text-foreground/80 border-border font-medium px-2 py-0.5 text-[10px]">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5" />
-                                                Activo
+                                                {t('recent_patients.status_active')}
                                             </Badge>
                                         </div>
                                         <div className="col-span-12 md:col-span-3 text-muted-foreground">
                                             <div className="flex items-center gap-2 text-xs">
                                                 <CalendarDays className="w-3.5 h-3.5 opacity-50" />
-                                                {new Date(patient.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                {new Date(patient.created_at).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                                             </div>
                                         </div>
                                         <div className="col-span-12 md:col-span-2 text-right">
@@ -183,8 +186,8 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <div className="w-16 h-16 rounded-full bg-muted/30 mx-auto mb-4 flex items-center justify-center">
                                             <Users className="w-8 h-8 text-muted-foreground/50" />
                                         </div>
-                                        <p className="text-lg font-medium text-foreground">No se encontraron pacientes</p>
-                                        <p className="text-sm text-muted-foreground mt-1">Intenta con otro término de búsqueda</p>
+                                        <p className="text-lg font-medium text-foreground">{t('recent_patients.not_found')}</p>
+                                        <p className="text-sm text-muted-foreground mt-1">{t('recent_patients.not_found_desc')}</p>
                                     </div>
                                 )}
                             </div>
@@ -198,17 +201,17 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="flex items-center justify-between gap-4">
                                 <Link href="/patients" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
                                     <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalPatients}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Pacientes</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.patients')}</span>
                                 </Link>
                                 <div className="w-[1px] h-8 bg-border/60" />
                                 <div className="flex flex-col items-center justify-center flex-1 p-2">
                                     <span className="text-2xl font-bold text-foreground tracking-tight">{stats.activePatients}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Activos</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.active')}</span>
                                 </div>
                                 <div className="w-[1px] h-8 bg-border/60" />
                                 <Link href="/dashboard/tests" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
                                     <span className="text-xl md:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalTests || 0}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">Tests</span>
+                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.tests')}</span>
                                 </Link>
                             </div>
                         </div>
@@ -225,7 +228,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
                                         <Activity className="w-4 h-4 text-orange-500" />
                                     </div>
-                                    <h3 className="font-bold text-foreground text-sm">Actividad Reciente</h3>
+                                    <h3 className="font-bold text-foreground text-sm">{t('activity.title')}</h3>
                                 </div>
                             </div>
                             <div className="p-4 space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar">
@@ -241,7 +244,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                             <p className="text-xs font-medium text-foreground leading-snug">{activity.description}</p>
                                             <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-1.5 font-medium">
                                                 <Clock className="w-2.5 h-2.5 opacity-50" />
-                                                {format(new Date(activity.date), "d MMM, HH:mm", { locale: es })}
+                                                {format(new Date(activity.date), "d MMM, HH:mm", { locale: dateLocale })}
                                             </p>
                                         </div>
                                     </div>
@@ -251,7 +254,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <div className="w-12 h-12 rounded-full bg-muted/30 mx-auto mb-3 flex items-center justify-center">
                                             <Clock className="w-6 h-6 text-muted-foreground/40" />
                                         </div>
-                                        <p className="text-xs text-muted-foreground">Sin actividad reciente</p>
+                                        <p className="text-xs text-muted-foreground">{t('activity.empty')}</p>
                                     </div>
                                 )}
                             </div>
@@ -264,35 +267,35 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
                                         <Zap className="w-4 h-4 text-blue-500" />
                                     </div>
-                                    <h3 className="font-bold text-foreground text-sm">Acciones Rápidas</h3>
+                                    <h3 className="font-bold text-foreground text-sm">{t('quick_actions.title')}</h3>
                                 </div>
                             </div>
                             <div className="p-3 space-y-1">
                                 <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
                                     <Link href="/dashboard/tests" className="flex items-center">
                                         <Search className="w-4 h-4 mr-3 opacity-70" />
-                                        Explorar Tests
+                                        {t('quick_actions.explore_tests')}
                                         <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
                                     </Link>
                                 </Button>
                                 <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
                                     <Link href="/patients" className="flex items-center">
                                         <Users className="w-4 h-4 mr-3 opacity-70" />
-                                        Ver Pacientes
+                                        {t('quick_actions.view_patients')}
                                         <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
                                     </Link>
                                 </Button>
                                 <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
                                     <Link href="/dashboard/subscription" className="flex items-center">
                                         <FileText className="w-4 h-4 mr-3 opacity-70" />
-                                        Mi Suscripción
+                                        {t('quick_actions.my_subscription')}
                                         <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
                                     </Link>
                                 </Button>
                                 <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
                                     <Link href="/dashboard/resources" className="flex items-center">
                                         <BookOpen className="w-4 h-4 mr-3 opacity-70" />
-                                        Biblioteca de Recursos
+                                        {t('quick_actions.resources_library')}
                                         <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
                                     </Link>
                                 </Button>

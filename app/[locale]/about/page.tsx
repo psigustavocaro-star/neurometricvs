@@ -39,7 +39,7 @@ export default function AboutPage() {
                                     <p className="font-handwriting text-2xl text-teal-600 transform -rotate-2">
                                         Gustavo Caro
                                     </p>
-                                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Founder & CEO</p>
+                                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">{t('founder_title')}</p>
                                 </div>
                             </div>
                         </div>

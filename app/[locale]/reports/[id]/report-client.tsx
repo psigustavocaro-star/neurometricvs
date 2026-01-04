@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 // Import all test definitions
 import { depressionScale as phq9 } from '@/lib/tests/phq9'
@@ -32,6 +33,7 @@ interface ReportPageClientProps {
 }
 
 export function ReportPageClient({ resultId }: ReportPageClientProps) {
+    const t = useTranslations('Reports')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [testResult, setTestResult] = useState<any>(null)
@@ -60,7 +62,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                     .single()
 
                 if (resultError) throw resultError
-                if (!result) throw new Error('Resultado no encontrado')
+                if (!result) throw new Error(t('client.error_not_found'))
 
                 setTestResult(result)
                 setPatient(result.patients)
@@ -68,7 +70,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                 // Get test definition
                 const def = testDefinitions[result.test_id]
                 if (!def) {
-                    throw new Error(`Definición del test "${result.test_id}" no encontrada`)
+                    throw new Error(`${t('client.error_fallback')} "${result.test_id}"`)
                 }
                 setTestDef(def)
 
@@ -81,14 +83,14 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
         }
 
         loadReport()
-    }, [resultId])
+    }, [resultId, t])
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center space-y-4">
                     <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
-                    <p className="text-muted-foreground">Cargando informe...</p>
+                    <p className="text-muted-foreground">{t('client.loading')}</p>
                 </div>
             </div>
         )
@@ -99,10 +101,10 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
             <div className="container py-10">
                 <Card className="max-w-md mx-auto">
                     <CardContent className="pt-6 text-center space-y-4">
-                        <p className="text-red-600">Error: {error || 'No se pudo cargar el informe'}</p>
+                        <p className="text-red-600">Error: {error || t('client.error_fallback')}</p>
                         <Button variant="outline" onClick={() => router.back()}>
                             <ArrowLeft className="mr-2 h-4 w-4" />
-                            Volver
+                            {t('client.back')}
                         </Button>
                     </CardContent>
                 </Card>
@@ -152,7 +154,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
         totalScore: score,
         maxPossibleScore,
         percentageScore: (score / maxPossibleScore) * 100,
-        rangeLabel: metadata.label || 'Completado',
+        rangeLabel: metadata.label || t('client.default_label'),
         rangeColor: metadata.color || 'gray',
         rangeDescription: range?.description,
         subscaleScores,
@@ -165,7 +167,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
             <ProfessionalTestReport
                 test={testDef}
                 results={results}
-                patientName={patient?.name || 'Paciente'}
+                patientName={patient?.name || t('client.default_patient')}
                 patientAge={patient?.age}
                 patientGender={patient?.gender}
                 evaluationDate={new Date(testResult.created_at)}

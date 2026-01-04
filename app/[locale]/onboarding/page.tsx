@@ -65,7 +65,7 @@ function OnboardingContent() {
         e.preventDefault()
         if (step !== 4) return
         if (!formData.email || !formData.password) {
-            setError('Por favor completa todos los campos de la cuenta.')
+            setError(t('errors.empty_fields'))
             return
         }
 
@@ -132,7 +132,7 @@ function OnboardingContent() {
                 setIsLoading(false)
             }
         } else {
-            setError("El sistema de pagos no está disponible en este momento. Por favor, asegúrate de que las variables de entorno de Paddle estén configuradas o elige el plan gratuito.")
+            setError(t('errors.payment_unavailable'))
             setIsLoading(false)
         }
     }
@@ -333,11 +333,11 @@ function OnboardingContent() {
                                                         <SelectValue placeholder={t('step1_placeholder_role')} />
                                                     </SelectTrigger>
                                                     <SelectContent className="rounded-2xl border-slate-200">
-                                                        <SelectItem value="Psicólogo">Psicólogo Clínico</SelectItem>
-                                                        <SelectItem value="Psiquiatra">Psiquiatra</SelectItem>
-                                                        <SelectItem value="Neurólogo">Neurólogo</SelectItem>
-                                                        <SelectItem value="Neuropsicólogo">Neuropsicólogo</SelectItem>
-                                                        <SelectItem value="Otro">Otro Especialista</SelectItem>
+                                                        <SelectItem value="psychologist">{t('professions.psychologist')}</SelectItem>
+                                                        <SelectItem value="psychiatrist">{t('Profile.specialties.psychiatrist')}</SelectItem>
+                                                        <SelectItem value="neurologist">{t('professions.neurologist')}</SelectItem>
+                                                        <SelectItem value="neuropsychologist">{t('professions.neuropsychologist')}</SelectItem>
+                                                        <SelectItem value="other">{t('Profile.specialties.other')}</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             </div>
@@ -428,9 +428,9 @@ function OnboardingContent() {
                                             <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 pl-1">{t('step2_label_friction')}</Label>
                                             <div className="grid gap-4">
                                                 {[
-                                                    { id: 'tests', label: 'Estandarización de Pruebas y Baremos', icon: <FlaskConical className="w-5 h-5" /> },
-                                                    { id: 'reports', label: 'Generación de Informes y Epicrisis', icon: <FileText className="w-5 h-5" /> },
-                                                    { id: 'history', label: 'Seguridad y Trazabilidad de Historias', icon: <ShieldCheck className="w-5 h-5" /> }
+                                                    { id: 'tests', label: t('needs.tests'), icon: <FlaskConical className="w-5 h-5" /> },
+                                                    { id: 'reports', label: t('needs.reports'), icon: <FileText className="w-5 h-5" /> },
+                                                    { id: 'digital', label: t('needs.digital'), icon: <ShieldCheck className="w-5 h-5" /> }
                                                 ].map((opt) => (
                                                     <button
                                                         key={opt.id}
@@ -481,10 +481,10 @@ function OnboardingContent() {
 
                                     <div className="grid gap-5">
                                         {[
-                                            { id: 'free', name: 'Exploración Limitada', price: 0, desc: 'Solo acceso a biblioteca de tests', period: '', icon: <Star className="text-slate-300" /> },
-                                            { id: 'basic', name: 'Plan Esencial', price: 10, desc: 'Tests + Corrección Automatizada', period: '/mes', icon: <Zap className="text-amber-500" />, pid: PRICE_ID_BASIC },
-                                            { id: 'clinical', name: 'Clinical Workstation', price: 15, desc: 'Suite Clínica Completa + IA Copilot', period: '/mes', icon: <Brain className="text-blue-500" />, pid: PRICE_ID_CLINICAL, popular: true },
-                                            { id: 'pro', name: 'Élite Especializada', price: 65, desc: 'Todo ilimitado + Soporte VIP Prioritario', period: '/año', icon: <Sparkles className="text-teal-500" />, pid: PRICE_ID_PRO, savings: '65% OFF' }
+                                            { id: 'free', name: t('plans_details.free_name'), price: 0, desc: t('plans_details.free_desc'), period: '', icon: <Star className="text-slate-300" /> },
+                                            { id: 'basic', name: t('plans_details.basic_name'), price: 10, desc: t('plans_details.basic_desc'), period: '/mes', icon: <Zap className="text-amber-500" />, pid: PRICE_ID_BASIC },
+                                            { id: 'clinical', name: t('plans_details.clinical_name'), price: 15, desc: t('plans_details.clinical_desc'), period: '/mes', icon: <Brain className="text-blue-500" />, pid: PRICE_ID_CLINICAL, popular: true },
+                                            { id: 'pro', name: t('plans_details.pro_name'), price: 65, desc: t('plans_details.pro_desc'), period: '/año', icon: <Sparkles className="text-teal-500" />, pid: PRICE_ID_PRO, savings: '65% OFF' }
                                         ].map((p) => (
                                             <div
                                                 key={p.id}
