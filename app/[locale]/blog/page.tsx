@@ -85,6 +85,7 @@ export default function BlogPage() {
                                                     {article.description}
                                                 </p>
                                             </CardContent>
+                                        </Card>
                                     </Link>
                                 </ScrollAnimation>
                             ))}

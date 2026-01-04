@@ -120,6 +120,7 @@ export default function ContactPage() {
                                     )}
                                 </div>
                             </ScrollAnimation>
+                        </ScrollAnimation>
                     </div>
                 </div>
             </main>
