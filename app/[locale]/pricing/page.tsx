@@ -11,6 +11,7 @@ import { PriceDisplay } from "@/components/pricing/price-display"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { cn } from "@/lib/utils"
 import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
+import { ScrollAnimation } from "@/components/ui/scroll-animation"
 
 export default function PricingPage() {
     const tPricing = useTranslations('Pricing')

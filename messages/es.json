@@ -90,13 +90,16 @@
                 "location": "España 🇪🇸",
                 "alt": "Medicina general"
             }
-        ]
+        ],
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "go_to": "Ir a diapositiva {index}"
     },
     "DemoModal": {
-        "title": "Cómo funciona Neurometrics",
-        "subtitle": "Automatiza tu flujo de trabajo en 4 simples pasos.",
-        "preview": "Vista Previa",
-        "cta": "Crear Cuenta Gratis"
+        "title": "Demo Clínica Interactiva",
+        "subtitle": "Descubre cómo Neurometrics automatiza tu flujo de trabajo.",
+        "preview": "Vista Previa en Vivo",
+        "cta": "Pruébalo Gratis"
     },
     "DemoPlayer": {
         "patients": "Pacientes",
@@ -106,7 +109,30 @@
         "processing": "Generando Recomendaciones...",
         "report_ready": "Informe Listo",
         "generated_moment": "Generado justo ahora",
-        "download_pdf": "Ver Informe PDF"
+        "download_pdf": "Ver Informe PDF",
+        "dashboard": "Escritorio",
+        "agenda": "Agenda",
+        "reports": "Reportes",
+        "dr_name": "Dr. Silva",
+        "plan_name": "Plan Profesional",
+        "analysis_in_progress": "Análisis en Progreso",
+        "results": "Resultados",
+        "patient_list": "Listado de Pacientes",
+        "active_count": "{count} pacientes activos",
+        "name_label": "Nombre",
+        "status_label": "Estado",
+        "patient_status_active": "Activo",
+        "patient_status_pending": "Pendiente",
+        "patient_status_eval": "Evaluación",
+        "complete_basic_info": "Complete la información básica",
+        "full_name": "Nombre Completo",
+        "email": "Email",
+        "phone": "Teléfono",
+        "birth_date": "Fecha Nacimiento",
+        "placeholder_name": "Juan Pérez",
+        "save_record": "Guardar Ficha",
+        "processing_data": "Procesando Datos",
+        "report_generated": "Informe Clínico Generado"
     },
     "Footer": {
         "description": "Transformando la evaluación psicológica con tecnología de vanguardia.",
@@ -136,6 +162,7 @@
         "label": "Confiado por profesionales de"
     },
     "Pricing": {
+        "no_cost": "Sin Costo",
         "title": "Planes Transparentes",
         "subtitle": "Precios en USD. Conversión automática a tu moneda local.",
         "whats_included": "Qué incluye",
@@ -153,6 +180,12 @@
             ],
             "excluded": [
                 "Uso y corrección de tests"
+            ],
+            "details": [
+                "Acceso a biblioteca pública",
+                "Buscador por especialidad",
+                "Visualización de baremos",
+                "Sin costo mensual"
             ]
         },
         "basic": {
@@ -164,6 +197,13 @@
                 "Acceso a todos los tests",
                 "Tabulación automática",
                 "Informes en PDF"
+            ],
+            "details": [
+                "Todo lo de Gratis",
+                "Tabulación ilimitada",
+                "Firma profesional digital",
+                "Envío de tests por email",
+                "Exportación a PDF"
             ]
         },
         "clinical": {
@@ -177,6 +217,13 @@
                 "Gestión de Sesiones y Notas",
                 "Análisis de Datos Clínicos",
                 "Recomendaciones Culturales"
+            ],
+            "details": [
+                "Todo lo de Básico",
+                "Ficha clínica digital",
+                "Timeline de actividad",
+                "Copiloto IA avanzado",
+                "Gestión de sesiones"
             ]
         },
         "pro": {
@@ -189,8 +236,20 @@
                 "4 meses gratis",
                 "Todo lo de Clínico",
                 "Soporte Prioritario"
+            ],
+            "details": [
+                "Todo lo de Clínico",
+                "Ahorro del 64%",
+                "Soporte VIP 24/7",
+                "Acceso anticipado a features",
+                "Gestión multi-profesional"
             ]
-        }
+        },
+        "secure_payment": "Pago Seguro 256-bit",
+        "clinical_protocol": "Protocolo Clínico",
+        "config_details": "Detalles de Configuración",
+        "monthly_investment": "Inversión Mensual",
+        "choose_this_plan": "Elegir este Plan"
     },
     "FAQ": {
         "title": "Preguntas Frecuentes",

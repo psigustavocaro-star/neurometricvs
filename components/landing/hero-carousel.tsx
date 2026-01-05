@@ -74,7 +74,7 @@ export function HeroCarousel() {
             <button
                 onClick={prevSlide}
                 className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 backdrop-blur-md border border-white/50 text-slate-700 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 group"
-                aria-label="Anterior"
+                aria-label={t('prev')}
             >
                 <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
             </button>
@@ -83,7 +83,7 @@ export function HeroCarousel() {
             <button
                 onClick={nextSlide}
                 className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 backdrop-blur-md border border-white/50 text-slate-700 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 group"
-                aria-label="Siguiente"
+                aria-label={t('next')}
             >
                 <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
             </button>
@@ -171,7 +171,7 @@ export function HeroCarousel() {
                                 ? "bg-teal-600 w-6"
                                 : "bg-slate-300 hover:bg-teal-400"
                         )}
-                        aria-label={`Ir a diapositiva ${index + 1}`}
+                        aria-label={t('go_to', { index: index + 1 })}
                     />
                 ))}
             </div>

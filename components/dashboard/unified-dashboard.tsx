@@ -11,6 +11,7 @@ import {
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { es, enUS } from 'date-fns/locale'
+import { format } from 'date-fns'
 import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
 import { WeatherDisplay } from './weather-display'

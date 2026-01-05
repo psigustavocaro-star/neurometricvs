@@ -145,9 +145,9 @@ export function PricingSection() {
                 </div>
 
                 <div className="mt-16 flex items-center justify-center gap-6 text-slate-400 font-bold uppercase tracking-widest text-[10px]">
-                    <div className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-teal-600/50" /> <span>Pago Seguro 256-bit</span></div>
+                    <div className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-teal-600/50" /> <span>{t('secure_payment')}</span></div>
                     <div className="h-4 w-px bg-slate-200" />
-                    <div className="flex items-center gap-2"><Activity className="w-4 h-4 text-teal-600/50" /> <span>Protocolo Clínico</span></div>
+                    <div className="flex items-center gap-2"><Activity className="w-4 h-4 text-teal-600/50" /> <span>{t('clinical_protocol')}</span></div>
                 </div>
             </div>
 
@@ -164,7 +164,7 @@ export function PricingSection() {
                     </DialogHeader>
                     <div className="p-8 bg-white">
                         <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-                            Detalles de Configuración <div className="h-px flex-1 bg-slate-100" />
+                            {t('config_details')} <div className="h-px flex-1 bg-slate-100" />
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {activeDetailsPlan && Array.isArray(t.raw(`${activeDetailsPlan}.details`)) && t.raw(`${activeDetailsPlan}.details`).map((feat: any, idx: number) => (
@@ -178,14 +178,14 @@ export function PricingSection() {
                         </div>
                         <div className="mt-8 pt-8 border-t border-slate-100 flex items-center justify-between">
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Inversión Mensual</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('monthly_investment')}</span>
                                 <span className="text-2xl font-black text-slate-900">
                                     {activeDetailsPlan && plans.find(p => p.key === activeDetailsPlan)?.amount === 0 ? "$0" : (activeDetailsPlan && `$${plans.find(p => p.key === activeDetailsPlan)?.amount}${activeDetailsPlan === 'pro' ? '/año' : '/mes'}`)}
                                 </span>
                             </div>
                             <Button asChild onClick={() => setDetailsOpen(false)} className="rounded-xl h-12 px-8 bg-teal-600 hover:bg-teal-500 text-white font-bold shadow-lg shadow-teal-900/10">
                                 <Link href={`/onboarding?plan=${activeDetailsPlan}`}>
-                                    Elegir este Plan
+                                    {t('choose_this_plan')}
                                 </Link>
                             </Button>
                         </div>

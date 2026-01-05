@@ -90,13 +90,16 @@
                 "location": "Spain 🇪🇸",
                 "alt": "General medicine"
             }
-        ]
+        ],
+        "prev": "Previous",
+        "next": "Next",
+        "go_to": "Go to slide {index}"
     },
     "DemoModal": {
-        "title": "How Neurometrics Works",
-        "subtitle": "Automate your workflow in 4 simple steps.",
-        "preview": "Preview",
-        "cta": "Create Free Account"
+        "title": "Interactive Clinical Demo",
+        "subtitle": "Discover how Neurometrics automates your workflow.",
+        "preview": "Live Preview",
+        "cta": "Try for Free"
     },
     "DemoPlayer": {
         "patients": "Patients",
@@ -106,7 +109,30 @@
         "processing": "Generating Recommendations...",
         "report_ready": "Report Ready",
         "generated_moment": "Generated just now",
-        "download_pdf": "View PDF Report"
+        "download_pdf": "View PDF Report",
+        "dashboard": "Dashboard",
+        "agenda": "Agenda",
+        "reports": "Reports",
+        "dr_name": "Dr. Silva",
+        "plan_name": "Professional Plan",
+        "analysis_in_progress": "Analysis in Progress",
+        "results": "Results",
+        "patient_list": "Patient List",
+        "active_count": "{count} active patients",
+        "name_label": "Name",
+        "status_label": "Status",
+        "patient_status_active": "Active",
+        "patient_status_pending": "Pending",
+        "patient_status_eval": "Evaluation",
+        "complete_basic_info": "Complete basic information",
+        "full_name": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "birth_date": "Birth Date",
+        "placeholder_name": "John Doe",
+        "save_record": "Save Record",
+        "processing_data": "Processing Data",
+        "report_generated": "Clinical Report Generated"
     },
     "Footer": {
         "description": "Transforming psychological assessment with cutting-edge technology.",
@@ -136,6 +162,7 @@
         "label": "Trusted by professionals from"
     },
     "Pricing": {
+        "no_cost": "No Cost",
         "title": "Transparent Plans",
         "subtitle": "Prices in USD. Automatic conversion to your local currency.",
         "whats_included": "What's included",
@@ -153,6 +180,12 @@
             ],
             "excluded": [
                 "Test usage and scoring"
+            ],
+            "details": [
+                "Access to public library",
+                "Search by specialty",
+                "Norms visualization",
+                "No monthly cost"
             ]
         },
         "basic": {
@@ -164,6 +197,13 @@
                 "Access to all tests",
                 "Automatic scoring",
                 "PDF reports"
+            ],
+            "details": [
+                "Everything in Free",
+                "Unlimited scoring",
+                "Digital professional signature",
+                "Send tests by email",
+                "PDF export"
             ]
         },
         "clinical": {
@@ -177,6 +217,13 @@
                 "Session Management & Notes",
                 "Clinical Data Analysis",
                 "Cultural Recommendations"
+            ],
+            "details": [
+                "Everything in Basic",
+                "Digital clinical record",
+                "Activity timeline",
+                "Advanced AI copilot",
+                "Session management"
             ]
         },
         "pro": {
@@ -189,8 +236,20 @@
                 "4 months free",
                 "Everything in Clinical",
                 "Priority Support"
+            ],
+            "details": [
+                "Everything in Clinical",
+                "64% savings",
+                "24/7 VIP support",
+                "Early access to features",
+                "Multi-professional management"
             ]
-        }
+        },
+        "secure_payment": "Secure Payment 256-bit",
+        "clinical_protocol": "Clinical Protocol",
+        "config_details": "Configuration Details",
+        "monthly_investment": "Monthly Investment",
+        "choose_this_plan": "Choose this Plan"
     },
     "FAQ": {
         "title": "Frequently Asked Questions",
@@ -538,6 +597,7 @@
         }
     },
     "Onboarding": {
+        "no_cost": "No Cost",
         "branding_heading": "Designed by and for <specialists>specialists.</specialists>",
         "branding_subtext": "Join the most advanced network of mental health and neuroscience professionals in Latin America.",
         "branding_feature_1": "HIPAA / GDPR Compliance",
