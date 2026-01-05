@@ -423,13 +423,13 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                             >
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-lg opacity-80 hover:opacity-100 shadow-sm'}`}>
                                     {/* Clinician Cutout */}
-                                    <div className="absolute -right-4 -bottom-2 w-40 h-64 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
                                         <Image
                                             src="/assets/clinicians/psychologist_basic.png"
                                             alt="Psychologist"
-                                            width={160}
-                                            height={256}
-                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                            width={240}
+                                            height={320}
+                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 dark:mix-blend-lighten"
                                         />
                                     </div>
 
@@ -491,13 +491,13 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                             >
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-teal-500/20 shadow-teal-500/5 ${selectedPlan === 'clinical' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-xl opacity-80 hover:opacity-100 border-slate-200/60 dark:border-slate-800/60 shadow-sm'}`}>
                                     {/* Clinician Cutout */}
-                                    <div className="absolute -right-6 -bottom-2 w-48 h-72 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
                                         <Image
                                             src="/assets/clinicians/doctor_clinical.png"
                                             alt="Clinical Doctor"
-                                            width={192}
-                                            height={288}
-                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                            width={240}
+                                            height={320}
+                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 dark:mix-blend-lighten"
                                         />
                                     </div>
 
@@ -554,13 +554,13 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                             >
                                 <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-visible shadow-2xl ${selectedPlan === 'pro' ? 'ring-2 ring-teal-400' : 'opacity-80 hover:opacity-100'}`}>
                                     {/* Clinician Cutout */}
-                                    <div className="absolute -right-8 -bottom-2 w-56 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
                                         <Image
                                             src="/assets/clinicians/neurologist_pro.png"
                                             alt="Senior Neurologist"
-                                            width={224}
+                                            width={240}
                                             height={320}
-                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 mix-blend-lighten"
                                         />
                                     </div>
 
