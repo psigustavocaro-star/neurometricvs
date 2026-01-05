@@ -424,13 +424,25 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-lg opacity-80 hover:opacity-100 shadow-sm'}`}>
                                     {/* Clinician Cutout */}
                                     <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <Image
-                                            src="/assets/clinicians/psychologist_basic.png"
-                                            alt="Psychologist"
-                                            width={240}
-                                            height={320}
-                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 dark:mix-blend-lighten"
-                                        />
+                                        <motion.div
+                                            animate={{
+                                                y: [0, -8, 0],
+                                                rotate: [0, 1, 0]
+                                            }}
+                                            transition={{
+                                                duration: 4,
+                                                repeat: Infinity,
+                                                ease: "easeInOut"
+                                            }}
+                                        >
+                                            <Image
+                                                src="/assets/clinicians/psychologist_basic.png"
+                                                alt="Psychologist"
+                                                width={240}
+                                                height={320}
+                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 dark:mix-blend-lighten"
+                                            />
+                                        </motion.div>
                                     </div>
 
                                     {/* Selection Glow */}
@@ -492,13 +504,25 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-teal-500/20 shadow-teal-500/5 ${selectedPlan === 'clinical' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-xl opacity-80 hover:opacity-100 border-slate-200/60 dark:border-slate-800/60 shadow-sm'}`}>
                                     {/* Clinician Cutout */}
                                     <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <Image
-                                            src="/assets/clinicians/doctor_clinical.png"
-                                            alt="Clinical Doctor"
-                                            width={240}
-                                            height={320}
-                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 dark:mix-blend-lighten"
-                                        />
+                                        <motion.div
+                                            animate={{
+                                                y: [0, -10, 0],
+                                                rotate: [0, -1, 0]
+                                            }}
+                                            transition={{
+                                                duration: 5,
+                                                repeat: Infinity,
+                                                ease: "easeInOut"
+                                            }}
+                                        >
+                                            <Image
+                                                src="/assets/clinicians/doctor_clinical.png"
+                                                alt="Clinical Doctor"
+                                                width={240}
+                                                height={320}
+                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 dark:mix-blend-lighten"
+                                            />
+                                        </motion.div>
                                     </div>
 
                                     <CardHeader className="relative pr-24">
@@ -555,13 +579,25 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-visible shadow-2xl ${selectedPlan === 'pro' ? 'ring-2 ring-teal-400' : 'opacity-80 hover:opacity-100'}`}>
                                     {/* Clinician Cutout */}
                                     <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <Image
-                                            src="/assets/clinicians/neurologist_pro.png"
-                                            alt="Senior Neurologist"
-                                            width={240}
-                                            height={320}
-                                            className="object-cover object-top transition-all duration-700 group-hover:scale-105 mix-blend-lighten"
-                                        />
+                                        <motion.div
+                                            animate={{
+                                                y: [0, -6, 0],
+                                                scale: [1, 1.02, 1]
+                                            }}
+                                            transition={{
+                                                duration: 6,
+                                                repeat: Infinity,
+                                                ease: "easeInOut"
+                                            }}
+                                        >
+                                            <Image
+                                                src="/assets/clinicians/neurologist_pro.png"
+                                                alt="Senior Neurologist"
+                                                width={240}
+                                                height={320}
+                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 mix-blend-lighten"
+                                            />
+                                        </motion.div>
                                     </div>
 
                                     {/* Premium Cosmic Decoration */}
