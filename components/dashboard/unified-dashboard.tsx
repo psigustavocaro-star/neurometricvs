@@ -106,8 +106,14 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             <div className="p-4 md:p-8 pt-0">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                     {/* Patient List - Takes 2 columns */}
-                    <motion.div variants={itemVariants} className="lg:col-span-2">
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden">
+                    <motion.div
+                        variants={itemVariants}
+                        className="lg:col-span-2 group/main"
+                        whileHover={{ scale: 1.005, perspective: 1000 }}
+                    >
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-500 group-hover/main:shadow-xl group-hover/main:border-primary/20 relative">
+                            {/* Reflection Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover/main:translate-x-full transition-transform duration-1000" />
                             {/* Header */}
                             <div className="p-5 border-b border-border/40 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -195,9 +201,14 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                     </motion.div>
 
                     {/* Right Sidebar */}
-                    <motion.div variants={itemVariants} className="lg:col-span-1 space-y-6">
+                    <motion.div
+                        variants={itemVariants}
+                        className="lg:col-span-1 space-y-6"
+                        whileHover={{ scale: 1.01 }}
+                    >
                         {/* Mini Stats - Minimalist Right Side */}
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden p-4">
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden p-4 group/stats relative">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover/stats:translate-x-full transition-transform duration-1000" />
                             <div className="flex items-center justify-between gap-4">
                                 <Link href="/patients" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
                                     <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalPatients}</span>
@@ -231,7 +242,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <h3 className="font-bold text-foreground text-sm">{t('activity.title')}</h3>
                                 </div>
                             </div>
-                            <div className="p-4 space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar">
+                            <div className="p-4 space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar relative z-10">
                                 {(stats.recentActivity || []).map((activity: any, i: number) => (
                                     <div key={i} className="flex gap-4 p-2 rounded-xl transition-colors">
                                         <div className="relative mt-1">

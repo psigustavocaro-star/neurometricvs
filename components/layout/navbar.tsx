@@ -12,6 +12,7 @@ import { LoginModal } from "@/components/auth/login-modal"
 import { WeatherTimeWidget } from "@/components/layout/weather-time-widget"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LayoutDashboard, Users, CreditCard, UserCircle, LogOut, Search, FileText, Home, Globe, ChevronDown } from "lucide-react"
+import { LocationWithFlag } from '@/components/ui/location-with-flag'
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import {
@@ -177,13 +178,13 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                                     onClick={() => router.replace(pathname, { locale: 'es' })}
                                     className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'es' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
                                 >
-                                    🇪🇸 Español
+                                    <LocationWithFlag location="ES Español" />
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     onClick={() => router.replace(pathname, { locale: 'en' })}
                                     className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'en' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
                                 >
-                                    🇺🇸 English
+                                    <LocationWithFlag location="US English" />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

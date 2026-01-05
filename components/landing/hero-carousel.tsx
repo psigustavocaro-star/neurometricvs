@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Quote, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { LocationWithFlag } from '@/components/ui/location-with-flag'
 
 interface Slide {
     image: string
@@ -108,30 +109,21 @@ export function HeroCarousel() {
                             <img
                                 src={slides[currentSlide].image}
                                 alt={slides[currentSlide].alt}
-                                className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105"
+                                className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105 object-[center_25%]"
                                 loading="eager"
                             />
 
-                            {/* Refined Gradient Overlay - Adaptive */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-60 dark:opacity-90 dark:from-[#0B1120] dark:via-slate-900/60 transition-all duration-500" />
+                            {/* Refined Gradient Overlay - Stronger at bottom for text contrast */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 transition-all duration-500" />
 
                             {/* Content Card */}
-                            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
+                            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white flex flex-col justify-end min-h-[60%]">
                                 <motion.div
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
                                     className="relative z-10"
                                 >
-                                    <div className="flex items-center gap-3 mb-5">
-                                        <span className="bg-teal-500/90 backdrop-blur-md text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg shadow-teal-900/20 border border-teal-400/30">
-                                            <CheckCircle2 className="w-3.5 h-3.5" /> {tGeneral('verificado')}
-                                        </span>
-                                        <span className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 bg-slate-900/40 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-                                            {slides[currentSlide].location}
-                                        </span>
-                                    </div>
-
                                     <div className="relative mb-6">
                                         <Quote className="absolute -top-3 -left-2 w-10 h-10 text-teal-400/20 rotate-180" />
                                         <p className="text-lg md:text-xl font-medium leading-relaxed font-serif text-slate-100 drop-shadow-sm relative z-10 pl-2">
@@ -139,10 +131,21 @@ export function HeroCarousel() {
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                                        <div className="flex flex-col">
-                                            <span className="font-bold text-base text-white tracking-tight">{slides[currentSlide].author}</span>
-                                            <span className="text-sm text-teal-400 font-medium tracking-wide">{slides[currentSlide].role}</span>
+                                    <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-base text-white tracking-tight">{slides[currentSlide].author}</span>
+                                                <span className="text-sm text-teal-400 font-medium tracking-wide">{slides[currentSlide].role}</span>
+                                            </div>
+                                            <div className="flex flex-col items-end gap-2">
+                                                <span className="bg-teal-500/90 backdrop-blur-md text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg shadow-teal-900/20 border border-teal-400/30">
+                                                    <CheckCircle2 className="w-3.5 h-3.5" /> {tGeneral('verificado')}
+                                                </span>
+                                                <LocationWithFlag
+                                                    location={slides[currentSlide].location}
+                                                    className="text-[10px] font-semibold text-slate-300 bg-slate-900/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>

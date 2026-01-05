@@ -2,12 +2,13 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from '@/i18n/navigation'
 import { ProfileForm } from "./profile-form"
 
-export default async function ProfilePage() {
+export default async function ProfilePage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-        redirect('/login')
+        redirect({ href: '/login', locale })
     }
 
     // Fetch Profile Data
@@ -25,8 +26,8 @@ export default async function ProfilePage() {
         .single()
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-            <div className="container max-w-5xl pt-24 pb-12">
+        <div className="min-h-screen bg-transparent">
+            <div className="p-4 md:p-8">
                 <ProfileForm
                     profile={profile}
                     subscription={subscription}
@@ -36,4 +37,3 @@ export default async function ProfilePage() {
         </div>
     )
 }
-

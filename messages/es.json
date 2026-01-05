@@ -6,7 +6,7 @@
         "demo": "Ver Demo",
         "login": "Ingresar",
         "register": "Registrarse",
-        "dashboard": "Escritorio",
+        "dashboard": "Workstation",
         "my_tests": "Mis Tests",
         "search_tests": "Buscar Tests",
         "patients": "Pacientes",
@@ -348,37 +348,37 @@
             "name": "Dra. Elena Vaquerizo",
             "role": "Psicóloga Clínica",
             "text": "Antes perdía horas tabulando el PHQ-9. Ahora es instantáneo, y los nuevos gráficos visuales son excelentes para explicar el avance al paciente.",
-            "img": "/assets/v3/female-1.png"
+            "img": "/assets/v6/female-1.png"
         },
         "1": {
             "name": "Dr. Samuel Cohen",
             "role": "Neurólogo",
             "text": "La suite de evaluación cognitiva es robusta. Me permite detectar deterioros leves mucho antes que con métodos tradicionales.",
-            "img": "/assets/v3/male-1.png"
+            "img": "/assets/v6/male-1.png"
         },
         "2": {
             "name": "Mariana Castillo",
             "role": "Terapeuta Ocupacional",
             "text": "La personalización de la plataforma es increíble. Puedo adaptar los informes a lo que realmente necesito comunicar a las familias.",
-            "img": "/assets/v3/female-2.png"
+            "img": "/assets/v6/female-2.png"
         },
         "3": {
             "name": "Dr. Alberto Rossi",
             "role": "Psiquiatra",
             "text": "La herramienta de pre-llenado de anamnesis es como tener un asistente extra. Me ahorra al menos 20 min por paciente.",
-            "img": "/assets/v3/male-2.png"
+            "img": "/assets/v6/male-2.png"
         },
         "4": {
             "name": "Ps. Patricia Solis",
             "role": "Psicóloga Infantil",
             "text": "A los niños les encanta la interfaz en tablet. Es mucho menos intimidante que el papel y lápiz.",
-            "img": "/assets/v3/female-3.png"
+            "img": "/assets/v6/female-3.png"
         },
         "5": {
             "name": "Lucas Méndez",
             "role": "Psicólogo Organizacional",
             "text": "Gestionar evaluaciones masivas de clima organizacional nunca fue tan sencillo. Los reportes agregados son una joya.",
-            "img": "/assets/v3/male-3.png"
+            "img": "/assets/v6/male-3.png"
         }
     },
     "FeaturesPage": {
@@ -544,6 +544,8 @@
         "branding_feature_2": "Baremos validados científicamente",
         "branding_feature_3": "Suite clínica integral",
         "branding_copyright": "© 2026 NEUROMETRICS LATAM",
+        "back_to_landing": "Volver al Inicio",
+        "back": "Volver",
         "step_0_badge": "BIENVENIDO A LA ÉLITE",
         "step_0_heading": "¿Cuál es su foco <prioritario>prioritario</prioritario>?",
         "step_0_subtext": "Seleccione su objetivo para personalizar su estación de trabajo clínica.",
@@ -591,6 +593,7 @@
         "step3_btn_next": "Confirmar Suscripción",
         "step4_title": "Protocolo de Acceso y Seguridad",
         "step4_subtext": "Su información y la de sus pacientes estarán protegidas bajo estándares globales de ciberseguridad médica.",
+        "step4_badge": "SEGURIDAD MÁXIMA",
         "step4_encryption_title": "Encriptación Militar AES-256",
         "step4_encryption_desc": "Implementamos seguridad punto a punto para garantizar que solo usted tenga acceso a la información clínica sensible. Cumplimos con normativas HIPAA y GDPR.",
         "step4_label_email": "Email Profesional (Acceso Primario)",
@@ -605,6 +608,7 @@
         "step5_spam_note": "Revisa tu carpeta de Spam",
         "professions": {
             "psychologist": "Psicólogo Clínico",
+            "psychiatrist": "Psiquiatra",
             "neurologist": "Neurólogo",
             "neuropsychologist": "Neuropsicólogo"
         },

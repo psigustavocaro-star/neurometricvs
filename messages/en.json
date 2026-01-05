@@ -6,7 +6,7 @@
         "demo": "Watch Demo",
         "login": "Login",
         "register": "Sign Up",
-        "dashboard": "Dashboard",
+        "dashboard": "Workstation",
         "my_tests": "My Tests",
         "search_tests": "Search Tests",
         "patients": "Patients",
@@ -348,37 +348,37 @@
             "name": "Dr. Elena Vaquerizo",
             "role": "Clinical Psychologist",
             "text": "Before, I spent hours tabulating the PHQ-9. Now it's instant, and the new visual graphs are excellent for explaining progress to the patient.",
-            "img": "/assets/v3/female-1.png"
+            "img": "/assets/v6/female-1.png"
         },
         "1": {
             "name": "Dr. Samuel Cohen",
             "role": "Neurologist",
             "text": "The cognitive assessment suite is robust. It allows me to detect mild impairment much earlier than with traditional methods.",
-            "img": "/assets/v3/male-1.png"
+            "img": "/assets/v6/male-1.png"
         },
         "2": {
             "name": "Mariana Castillo",
             "role": "Occupational Therapist",
             "text": "The platform's customization is incredible. I can adapt the reports to what I really need to communicate to families.",
-            "img": "/assets/v3/female-2.png"
+            "img": "/assets/v6/female-2.png"
         },
         "3": {
             "name": "Dr. Alberto Rossi",
             "role": "Psychiatrist",
             "text": "The anamnesis pre-filling tool is like having an extra assistant. Saved me at least 20 mins per patient.",
-            "img": "/assets/v3/male-2.png"
+            "img": "/assets/v6/male-2.png"
         },
         "4": {
             "name": "Dr. Patricia Solis",
             "role": "Child Psychologist",
             "text": "Kids love the tablet interface. It's much less intimidating than pen and paper.",
-            "img": "/assets/v3/female-3.png"
+            "img": "/assets/v6/female-3.png"
         },
         "5": {
             "name": "Lucas Mendez",
             "role": "Organizational Psychologist",
             "text": "Managing massive organizational climate assessments has never been easier. The aggregated reports are a gem.",
-            "img": "/assets/v3/male-3.png"
+            "img": "/assets/v6/male-3.png"
         }
     },
     "FeaturesPage": {
@@ -544,6 +544,8 @@
         "branding_feature_2": "Scientifically validated norms",
         "branding_feature_3": "Integral clinical suite",
         "branding_copyright": "© 2026 NEUROMETRICS LATAM",
+        "back_to_landing": "Back to Home",
+        "back": "Back",
         "step_0_badge": "WELCOME TO THE ELITE",
         "step_0_heading": "What is your <prioritario>priority</prioritario> focus?",
         "step_0_subtext": "Select your goal to customize your clinical workstation.",
@@ -591,6 +593,7 @@
         "step3_btn_next": "Confirm Subscription",
         "step4_title": "Access and Security Protocol",
         "step4_subtext": "Your information and that of your patients will be protected under global medical cybersecurity standards.",
+        "step4_badge": "MAXIMUM SECURITY",
         "step4_encryption_title": "AES-256 Military Encryption",
         "step4_encryption_desc": "We implement point-to-point security to guarantee that only you have access to sensitive clinical information. We comply with HIPAA and GDPR regulations.",
         "step4_label_email": "Professional Email (Primary Access)",
@@ -605,6 +608,7 @@
         "step5_spam_note": "Check your Spam folder",
         "professions": {
             "psychologist": "Clinical Psychologist",
+            "psychiatrist": "Psychiatrist",
             "neurologist": "Neurologist",
             "neuropsychologist": "Neuropsychologist"
         },

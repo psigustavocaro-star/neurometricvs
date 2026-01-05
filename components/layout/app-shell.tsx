@@ -131,20 +131,13 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                                 <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
                                 {/* Main Container - Professional Brand Icon */}
-                                <div className="relative w-full h-full bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/30 z-10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-teal-500/50">
-                                    {/* Logo White */}
-                                    <div
-                                        className="w-7 h-7 bg-white"
-                                        style={{
-                                            maskImage: 'url(/neurometrics-logo-small.png)',
-                                            maskSize: 'contain',
-                                            maskRepeat: 'no-repeat',
-                                            maskPosition: 'center',
-                                            WebkitMaskImage: 'url(/neurometrics-logo-small.png)',
-                                            WebkitMaskSize: 'contain',
-                                            WebkitMaskRepeat: 'no-repeat',
-                                            WebkitMaskPosition: 'center'
-                                        }}
+                                <div className="relative w-full h-full flex items-center justify-center transition-all duration-500 group-hover:scale-105">
+                                    <Image
+                                        src="/neurometrics-logo-small.png"
+                                        alt="Neurometrics"
+                                        width={28}
+                                        height={28}
+                                        className="object-contain"
                                     />
                                 </div>
                             </div>
@@ -283,22 +276,16 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-md border-b border-border/50 z-50 flex items-center justify-between px-6 shadow-sm">
                 <Link href="/" className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                        <div
-                            className="w-5 h-5 bg-white"
-                            style={{
-                                maskImage: 'url(/neurometrics-logo-small.png)',
-                                maskSize: 'contain',
-                                maskRepeat: 'no-repeat',
-                                maskPosition: 'center',
-                                WebkitMaskImage: 'url(/neurometrics-logo-small.png)',
-                                WebkitMaskSize: 'contain',
-                                WebkitMaskRepeat: 'no-repeat',
-                                WebkitMaskPosition: 'center'
-                            }}
+                    <div className="w-8 h-8 flex items-center justify-center">
+                        <Image
+                            src="/neurometrics-logo-small.png"
+                            alt="Neurometrics"
+                            width={24}
+                            height={24}
+                            className="object-contain"
                         />
                     </div>
-                    <span className="font-bold text-slate-900 dark:text-white tracking-tight">{t('dashboard')}</span>
+                    <span className="font-bold text-slate-900 dark:text-white tracking-tight">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
                     <ThemeToggle />

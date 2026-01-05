@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useTheme } from "next-themes"
 import { AvatarUpload } from "@/components/profile/avatar-upload"
+import { SubscribeButton } from "@/components/dashboard/subscription/subscribe-button"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { getUserDisplayData } from "@/lib/utils"
@@ -48,8 +50,10 @@ import {
     Loader2,
     Copy,
     Shield,
-    Crown
+    Crown,
+    Zap
 } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
 export function ProfileForm({ profile, subscription, user }: { profile: any, subscription?: any, user?: any }) {
@@ -71,6 +75,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [mounted, setMounted] = useState(false)
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [pendingSpecialty, setPendingSpecialty] = useState('')
+    const [selectedPlan, setSelectedPlan] = useState(currentPlan)
 
     const { theme, setTheme } = useTheme()
 
@@ -128,7 +133,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     if (!mounted) return null
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500 max-w-5xl mx-auto">
+        <div className="space-y-8 animate-in fade-in duration-500 w-full mb-32">
             <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -154,43 +159,51 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                 </AlertDialogContent>
             </AlertDialog>
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 py-2 border-b border-slate-200 dark:border-slate-800 pb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{t('title')}</h1>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm">{t('subtitle')}</p>
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]" />
+                        <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-widest">{t('title')}</span>
+                    </div>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none capitalize">
+                        {fullName || getUserDisplayData(user, profile).displayName}
+                    </h1>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-2 font-medium">{t('subtitle')}</p>
                 </div>
-                <div
-                    onClick={copyId}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/50 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800 w-fit"
-                >
-                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">ID: {user?.id?.substring(0, 12)}...</span>
-                    <Copy className="w-3 h-3 text-slate-400" />
+                <div className="flex flex-col items-end gap-3">
+                    <div
+                        onClick={copyId}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/50 rounded-lg cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-800 group"
+                    >
+                        <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 uppercase tracking-tighter">Account ID: {user?.id?.substring(0, 12)}...</span>
+                        <Copy className="w-3 h-3 text-slate-400 group-hover:text-teal-500 transition-colors" />
+                    </div>
                 </div>
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="w-full justify-start border-b border-slate-200 dark:border-slate-800 bg-transparent p-0 h-auto rounded-none space-x-6">
+                <TabsList className="w-full justify-start border-none bg-slate-100/50 dark:bg-slate-900/40 p-1 h-auto rounded-xl space-x-1 inline-flex max-w-fit mb-4 mt-6">
                     <TabsTrigger
                         value="profile"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-teal-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-teal-600 font-medium text-sm transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.profile')}
                     </TabsTrigger>
                     <TabsTrigger
                         value="security"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-teal-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-teal-600 font-medium text-sm transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.security')}
                     </TabsTrigger>
                     <TabsTrigger
                         value="billing"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-teal-500 data-[state=active]:bg-transparent px-2 py-3 text-slate-500 data-[state=active]:text-teal-600 font-medium text-sm transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.billing')}
                     </TabsTrigger>
                 </TabsList>
 
-                <form onSubmit={handleSubmit} className="mb-32">
+                <form onSubmit={handleSubmit}>
                     {/* PROFILE TAB */}
                     <TabsContent value="profile" className="mt-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -292,225 +305,319 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                     </TabsContent>
 
                     {/* SECURITY TAB */}
-                    <TabsContent value="security" className="mt-6 max-w-2xl">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">{t('security_title')}</CardTitle>
-                                <CardDescription>{t('security_desc')}</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="email">{t('email_label')}</Label>
-                                        <div className="relative">
-                                            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                            <Input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                className="pl-10"
-                                            />
-                                        </div>
-                                        <p className="text-[11px] text-slate-500">{t('email_hint')}</p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="phone">{t('phone_label')}</Label>
-                                        <div className="relative">
-                                            <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                            <Input
-                                                id="phone"
-                                                name="phone"
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                                className="pl-10"
-                                                placeholder={t('phone_placeholder')}
-                                            />
-                                        </div>
-                                        <p className="text-[11px] text-slate-500">{t('phone_hint')}</p>
-                                    </div>
-                                </div>
-
-                                <Separator />
-
-                                <div className="space-y-4">
-                                    <h4 className="font-medium text-sm text-slate-900 dark:text-slate-100">{t('change_password')}</h4>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="currentPassword">{t('current_password')}</Label>
-                                        <div className="relative">
-                                            <Shield className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                            <Input
-                                                id="currentPassword"
-                                                name="currentPassword"
-                                                type="password"
-                                                value={currentPassword}
-                                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="pl-10 max-w-md"
-                                                placeholder={t('current_password_placeholder')}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <TabsContent value="security" className="mt-6">
+                        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+                            <Card className="xl:col-span-8 border-none shadow-sm bg-slate-50/50 dark:bg-slate-900/20">
+                                <CardHeader>
+                                    <CardTitle className="text-lg">{t('security_title')}</CardTitle>
+                                    <CardDescription>{t('security_desc')}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label htmlFor="password">{t('new_password')}</Label>
+                                            <Label htmlFor="email">{t('email_label')}</Label>
                                             <div className="relative">
-                                                <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                                <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
                                                 <Input
-                                                    id="password"
-                                                    name="password"
-                                                    type="password"
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    id="email"
+                                                    name="email"
+                                                    type="email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
                                                     className="pl-10"
-                                                    placeholder={t('new_password_placeholder')}
+                                                />
+                                            </div>
+                                            <p className="text-[11px] text-slate-500">{t('email_hint')}</p>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="phone">{t('phone_label')}</Label>
+                                            <div className="relative">
+                                                <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                                <Input
+                                                    id="phone"
+                                                    name="phone"
+                                                    value={phone}
+                                                    onChange={(e) => setPhone(e.target.value)}
+                                                    className="pl-10"
+                                                    placeholder={t('phone_placeholder')}
+                                                />
+                                            </div>
+                                            <p className="text-[11px] text-slate-500">{t('phone_hint')}</p>
+                                        </div>
+                                    </div>
+
+                                    <Separator />
+
+                                    <div className="space-y-4">
+                                        <h4 className="font-medium text-sm text-slate-900 dark:text-slate-100">{t('change_password')}</h4>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="currentPassword">{t('current_password')}</Label>
+                                            <div className="relative">
+                                                <Shield className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                                <Input
+                                                    id="currentPassword"
+                                                    name="currentPassword"
+                                                    type="password"
+                                                    value={currentPassword}
+                                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                                    className="pl-10"
+                                                    placeholder={t('current_password_placeholder')}
                                                 />
                                             </div>
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="confirmPassword">{t('confirm_password')}</Label>
-                                            <div className="relative">
-                                                <Check className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                                <Input
-                                                    id="confirmPassword"
-                                                    name="confirmPassword"
-                                                    type="password"
-                                                    value={confirmPassword}
-                                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                                    className="pl-10"
-                                                    placeholder={t('confirm_password_placeholder')}
-                                                />
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="password">{t('new_password')}</Label>
+                                                <div className="relative">
+                                                    <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                                    <Input
+                                                        id="password"
+                                                        name="password"
+                                                        type="password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        className="pl-10"
+                                                        placeholder={t('new_password_placeholder')}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="confirmPassword">{t('confirm_password')}</Label>
+                                                <div className="relative">
+                                                    <Check className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                                    <Input
+                                                        id="confirmPassword"
+                                                        name="confirmPassword"
+                                                        type="password"
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                        className="pl-10"
+                                                        placeholder={t('confirm_password_placeholder')}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
+                                        <p className="text-[11px] text-slate-500">{t('password_hint')}</p>
                                     </div>
-                                    <p className="text-[11px] text-slate-500">{t('password_hint')}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </TabsContent>
 
                     {/* BILLING TAB */}
                     <TabsContent value="billing" className="mt-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Basic */}
-                            <Card className={`flex flex-col transition-all cursor-pointer ${currentPlan === 'basic' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-teal-300 dark:hover:border-teal-700'}`}>
-                                <CardHeader>
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <CardTitle>{t('billing.basic.name')}</CardTitle>
-                                            <CardDescription>{t('billing.basic.desc')}</CardDescription>
+                            <motion.div
+                                onClick={() => setSelectedPlan('basic')}
+                                initial={false}
+                                animate={{
+                                    scale: selectedPlan === 'basic' ? 1.05 : 1,
+                                    zIndex: selectedPlan === 'basic' ? 20 : 10
+                                }}
+                                whileHover={{ scale: selectedPlan === 'basic' ? 1.07 : 1.02 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                className="group relative"
+                            >
+                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-lg opacity-80 hover:opacity-100 shadow-sm'}`}>
+                                    {/* Clinician Cutout */}
+                                    <div className="absolute -right-4 -bottom-2 w-40 h-64 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                        <Image
+                                            src="/assets/clinicians/psychologist_basic.png"
+                                            alt="Psychologist"
+                                            width={160}
+                                            height={256}
+                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                    </div>
+
+                                    {/* Selection Glow */}
+                                    {selectedPlan === 'basic' && (
+                                        <div className="absolute inset-0 bg-teal-500/5 blur-2xl rounded-2xl -z-10 animate-pulse" />
+                                    )}
+
+                                    <CardHeader className="relative pr-24">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <div className="flex items-center gap-1.5 mb-1">
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${currentPlan === 'basic' ? 'bg-teal-500' : 'bg-slate-300'}`} />
+                                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-teal-500 transition-colors">Digital Entry</span>
+                                                </div>
+                                                <CardTitle className="text-xl font-black tracking-tight">{t('billing.basic.name')}</CardTitle>
+                                                <CardDescription className="font-bold text-[10px] mt-1 text-slate-500">Para quienes inician con corazón</CardDescription>
+                                            </div>
                                         </div>
-                                        {currentPlan === 'basic' && <Badge className="bg-teal-500 text-white border-none">{t('billing.current_badge')}</Badge>}
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="flex-1">
-                                    <div className="mb-6">
-                                        <span className="text-3xl font-bold">$10</span>
-                                        <span className="text-slate-500">{t('billing.monthly')}</span>
-                                    </div>
-                                    <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 mb-6 font-medium">
-                                        {(t.raw('billing.basic.features') as string[]).map((feature, i) => (
-                                            <li key={i} className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> {feature}</li>
-                                        ))}
-                                    </ul>
-                                </CardContent>
-                                <CardFooter>
-                                    <SubscribeButton
-                                        planId="basic"
-                                        price={10}
-                                        planName="Basic"
-                                        currentPlan={currentPlan}
-                                        className="w-full"
-                                        userId={user?.id}
-                                    />
-                                </CardFooter>
-                            </Card>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 relative pr-20">
+                                        <div className="mb-4 flex items-baseline gap-1">
+                                            <span className="text-4xl font-black text-slate-900 dark:text-white">$10</span>
+                                            <span className="text-slate-500 font-bold text-xs">/ {t('billing.monthly')}</span>
+                                        </div>
+                                        <ul className="space-y-3 text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-6">
+                                            {(t.raw('billing.basic.features') as string[]).map((feature, i) => (
+                                                <li key={i} className="flex items-start gap-2 group/item">
+                                                    <Check className="w-3.5 h-3.5 mt-0.5 text-teal-500 shrink-0" />
+                                                    <span className="leading-tight">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                    <CardFooter className="relative z-30 pt-0">
+                                        <SubscribeButton
+                                            planId="basic"
+                                            price={10}
+                                            planName="Basic"
+                                            currentPlan={currentPlan}
+                                            className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-md transition-all ${selectedPlan === 'basic' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
+                                            userId={user?.id}
+                                        />
+                                    </CardFooter>
+                                </Card>
+                            </motion.div>
 
                             {/* Clinical */}
-                            <Card className={`flex flex-col transition-all cursor-pointer ${currentPlan === 'clinical' ? 'ring-2 ring-teal-500 border-transparent shadow-md' : 'hover:border-teal-300 dark:hover:border-teal-700'}`}>
-                                <CardHeader>
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <CardTitle>{t('billing.clinical.name')}</CardTitle>
-                                            <CardDescription>{t('billing.clinical.desc')}</CardDescription>
+                            <motion.div
+                                onClick={() => setSelectedPlan('clinical')}
+                                initial={false}
+                                animate={{
+                                    scale: selectedPlan === 'clinical' ? 1.05 : 1,
+                                    zIndex: selectedPlan === 'clinical' ? 20 : 10
+                                }}
+                                whileHover={{ scale: selectedPlan === 'clinical' ? 1.07 : 1.02 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                className="group relative"
+                            >
+                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-teal-500/20 shadow-teal-500/5 ${selectedPlan === 'clinical' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-xl opacity-80 hover:opacity-100 border-slate-200/60 dark:border-slate-800/60 shadow-sm'}`}>
+                                    {/* Clinician Cutout */}
+                                    <div className="absolute -right-6 -bottom-2 w-48 h-72 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                        <Image
+                                            src="/assets/clinicians/doctor_clinical.png"
+                                            alt="Clinical Doctor"
+                                            width={192}
+                                            height={288}
+                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                    </div>
+
+                                    <CardHeader className="relative pr-24">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <div className="flex items-center gap-1.5 mb-1">
+                                                    <Zap className="w-2.5 h-2.5 text-teal-500 fill-teal-500" />
+                                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-teal-600 animate-pulse">Advanced Practice</span>
+                                                </div>
+                                                <CardTitle className="text-xl font-black tracking-tight">{t('billing.clinical.name')}</CardTitle>
+                                                <CardDescription className="font-bold text-[10px] mt-1 text-teal-600/80">Potencia tu impacto real</CardDescription>
+                                            </div>
                                         </div>
-                                        {currentPlan === 'clinical' && <Badge className="bg-teal-500 text-white border-none">{t('billing.current_badge')}</Badge>}
-                                        {currentPlan !== 'clinical' && <Badge variant="outline" className="text-[10px] border-teal-500/30 text-teal-600">{t('billing.popular_badge')}</Badge>}
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="flex-1">
-                                    <div className="mb-6">
-                                        <span className="text-3xl font-bold">$15</span>
-                                        <span className="text-slate-500">{t('billing.monthly')}</span>
-                                    </div>
-                                    <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400 mb-6 font-medium">
-                                        {(t.raw('billing.clinical.features') as string[]).map((feature, i) => (
-                                            <li key={i} className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-500 shrink-0" /> {feature}</li>
-                                        ))}
-                                    </ul>
-                                </CardContent>
-                                <CardFooter>
-                                    <SubscribeButton
-                                        planId="clinical"
-                                        price={15}
-                                        planName="Clinical"
-                                        currentPlan={currentPlan}
-                                        className="w-full"
-                                        userId={user?.id}
-                                    />
-                                </CardFooter>
-                            </Card>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 relative pr-20">
+                                        <div className="mb-4 flex items-baseline gap-1">
+                                            <span className="text-4xl font-black text-slate-900 dark:text-white">$15</span>
+                                            <span className="text-slate-500 font-bold text-xs">/ {t('billing.monthly')}</span>
+                                        </div>
+                                        <ul className="space-y-3 text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-6">
+                                            {(t.raw('billing.clinical.features') as string[]).map((feature, i) => (
+                                                <li key={i} className="flex items-start gap-2 group/item">
+                                                    <Check className="w-3.5 h-3.5 mt-0.5 text-teal-500 shrink-0" />
+                                                    <span className="leading-tight">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                    <CardFooter className="relative z-30 pt-0">
+                                        <SubscribeButton
+                                            planId="clinical"
+                                            price={15}
+                                            planName="Clinical"
+                                            currentPlan={currentPlan}
+                                            className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-lg transition-all ${selectedPlan === 'clinical' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
+                                            userId={user?.id}
+                                        />
+                                    </CardFooter>
+                                </Card>
+                            </motion.div>
 
                             {/* Pro */}
-                            <Card className={`flex flex-col bg-slate-900 text-white border-none transition-all cursor-pointer ${currentPlan === 'pro' ? 'ring-2 ring-teal-500 shadow-xl' : 'hover:bg-slate-800'}`}>
-                                <CardHeader>
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <CardTitle className="text-white">{t('billing.pro.name')}</CardTitle>
-                                            <CardDescription className="text-slate-400">{t('billing.pro.desc')}</CardDescription>
+                            <motion.div
+                                onClick={() => setSelectedPlan('pro')}
+                                initial={false}
+                                animate={{
+                                    scale: selectedPlan === 'pro' ? 1.05 : 1,
+                                    zIndex: selectedPlan === 'pro' ? 20 : 10
+                                }}
+                                whileHover={{ scale: selectedPlan === 'pro' ? 1.07 : 1.02 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                className="group relative"
+                            >
+                                <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-visible shadow-2xl ${selectedPlan === 'pro' ? 'ring-2 ring-teal-400' : 'opacity-80 hover:opacity-100'}`}>
+                                    {/* Clinician Cutout */}
+                                    <div className="absolute -right-8 -bottom-2 w-56 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
+                                        <Image
+                                            src="/assets/clinicians/neurologist_pro.png"
+                                            alt="Senior Neurologist"
+                                            width={224}
+                                            height={320}
+                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                    </div>
+
+                                    {/* Premium Cosmic Decoration */}
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 blur-[120px] rounded-full -mr-32 -mt-32 pointer-events-none" />
+
+                                    <CardHeader className="relative pr-28">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <div className="flex items-center gap-1.5 mb-1">
+                                                    <Crown className="w-2.5 h-2.5 text-teal-400 fill-teal-400" />
+                                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-teal-400">Professional Excellence</span>
+                                                </div>
+                                                <CardTitle className="text-xl font-black tracking-tight text-white">{t('billing.pro.name')}</CardTitle>
+                                                <CardDescription className="text-slate-400 font-bold text-[10px] mt-1">Liderazgo y Gestión Total</CardDescription>
+                                            </div>
                                         </div>
-                                        {currentPlan === 'pro' ? (
-                                            <Badge className="bg-teal-500 text-white border-none">{t('billing.current_badge')}</Badge>
-                                        ) : (
-                                            <Badge className="bg-teal-500 text-white border-none text-[10px]">{t('billing.recommended_badge')}</Badge>
-                                        )}
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="flex-1">
-                                    <div className="mb-6">
-                                        <span className="text-3xl font-bold">$65</span>
-                                        <span className="text-slate-400">{t('billing.yearly')}</span>
-                                        <p className="text-[10px] text-teal-400 font-bold mt-1">{t('billing.monthly_equivalent')}</p>
-                                    </div>
-                                    <ul className="space-y-3 text-sm text-slate-300 mb-6 font-medium">
-                                        {(t.raw('billing.pro.features') as string[]).map((feature, i) => (
-                                            <li key={i} className="flex items-center"><Check className="w-4 h-4 mr-2 text-teal-400 shrink-0" /> {feature}</li>
-                                        ))}
-                                    </ul>
-                                </CardContent>
-                                <CardFooter>
-                                    <SubscribeButton
-                                        planId="pro"
-                                        price={65}
-                                        planName="Pro Anual"
-                                        currentPlan={currentPlan}
-                                        variant="secondary"
-                                        userId={user?.id}
-                                        className="w-full disabled:bg-slate-800 disabled:text-slate-200 disabled:opacity-100 disabled:border disabled:border-slate-700"
-                                    />
-                                </CardFooter>
-                            </Card>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 relative pr-20">
+                                        <div className="mb-4 flex flex-col">
+                                            <div className="flex items-baseline gap-1">
+                                                <span className="text-4xl font-black text-white">$65</span>
+                                                <span className="text-slate-400 font-bold text-xs">/ {t('billing.yearly')}</span>
+                                            </div>
+                                            <p className="text-[9px] text-teal-400 font-black uppercase tracking-widest mt-1 opacity-80">{t('billing.monthly_equivalent')}</p>
+                                        </div>
+                                        <ul className="space-y-3 text-[11px] font-bold text-slate-300 mb-6">
+                                            {(t.raw('billing.pro.features') as string[]).map((feature, i) => (
+                                                <li key={i} className="flex items-start gap-2 group/item">
+                                                    <Check className="w-3.5 h-3.5 mt-0.5 text-teal-400 shrink-0" />
+                                                    <span className="leading-tight">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                    <CardFooter className="relative z-30 pt-0">
+                                        <SubscribeButton
+                                            planId="pro"
+                                            price={65}
+                                            planName="Pro Anual"
+                                            currentPlan={currentPlan}
+                                            variant="secondary"
+                                            userId={user?.id}
+                                            className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-xl transition-all ${selectedPlan === 'pro' ? 'bg-white text-slate-900 hover:bg-slate-100' : 'bg-slate-800 text-white'}`}
+                                        />
+                                    </CardFooter>
+                                </Card>
+                            </motion.div>
                         </div>
                     </TabsContent>
 
                     {/* Common Action Bar */}
-                    <div className="mt-12 flex justify-end border-t border-slate-200 dark:border-slate-800 pt-8 pb-10">
+                    <div className="mt-8 flex justify-end border-t border-slate-200 dark:border-slate-800 pt-6 pb-12">
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-slate-900 hover:bg-slate-800 text-white min-w-[200px] h-12 rounded-full shadow-lg text-base"
+                            className="bg-slate-900 hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-500 text-white min-w-[200px] h-12 rounded-xl shadow-lg shadow-black/10 dark:shadow-teal-900/20 text-sm font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95"
                         >
                             {loading ? (
                                 <>
