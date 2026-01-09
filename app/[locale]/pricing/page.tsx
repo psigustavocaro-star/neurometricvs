@@ -52,13 +52,13 @@ export default function PricingPage() {
     ]
 
     return (
-        <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-500/30">
+        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white selection:bg-teal-500/30 transition-colors duration-500">
             <VerticalNavbar />
             <main className="flex-1 relative overflow-hidden">
                 {/* Background FX */}
-                <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/80 via-white to-white">
-                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-teal-100/30 rounded-full blur-[120px] mix-blend-multiply opacity-60" />
-                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-100/30 rounded-full blur-[100px] mix-blend-multiply opacity-60" />
+                <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/80 dark:from-teal-900/20 via-white dark:via-slate-950 to-white dark:to-slate-950">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-normal opacity-60" />
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-100/30 dark:bg-indigo-900/10 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-normal opacity-60" />
                 </div>
 
                 {/* Hero */}
@@ -68,7 +68,7 @@ export default function PricingPage() {
                             Precios Transparentes
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-400 mb-6 tracking-tight">{tPricing('title')}</h1>
-                        <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">{tPricing('subtitle')}</p>
+                        <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">{tPricing('subtitle')}</p>
                     </ScrollAnimation>
                 </section>
 
@@ -88,10 +88,10 @@ export default function PricingPage() {
                                     className={cn(
                                         "flex flex-col p-6 rounded-[2rem] border transition-all duration-300 relative h-full cursor-pointer",
                                         isSelected
-                                            ? "bg-white border-teal-500 shadow-2xl shadow-teal-500/10 scale-[1.02] ring-2 ring-teal-500/20"
+                                            ? "bg-white dark:bg-slate-900 border-teal-500 shadow-2xl shadow-teal-500/10 scale-[1.02] ring-2 ring-teal-500/20"
                                             : isPro
-                                                ? "bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-200 shadow-lg"
-                                                : "bg-white border-slate-200 hover:border-teal-300 hover:shadow-lg"
+                                                ? "bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900/20 dark:to-emerald-900/20 border-teal-200 dark:border-teal-800 shadow-lg"
+                                                : "bg-white dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-lg"
                                     )}
                                 >
                                     {/* Badge */}
@@ -108,13 +108,13 @@ export default function PricingPage() {
                                     <div className="mb-4">
                                         <h3 className={cn(
                                             "text-lg font-bold",
-                                            isPro ? "text-teal-900" : "text-slate-900"
+                                            isPro ? "text-teal-900 dark:text-teal-300" : "text-slate-900 dark:text-white"
                                         )}>
                                             {tPricing(`${plan.key}.name`)}
                                         </h3>
                                         <p className={cn(
                                             "text-xs mt-1",
-                                            isPro ? "text-emerald-600 font-semibold" : "text-slate-500"
+                                            isPro ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-slate-500 dark:text-slate-400"
                                         )}>
                                             {tPricing(`${plan.key}.description`)}
                                         </p>
@@ -123,7 +123,7 @@ export default function PricingPage() {
                                     {/* Price */}
                                     <div className="mb-4">
                                         {isFree ? (
-                                            <div className="text-3xl font-bold text-slate-900">$0<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                                            <div className="text-3xl font-bold text-slate-900 dark:text-white">$0<span className="text-sm font-normal text-slate-500 dark:text-slate-400">/mes</span></div>
                                         ) : (
                                             <PriceDisplay
                                                 amount={plan.priceUSD}
@@ -136,17 +136,17 @@ export default function PricingPage() {
                                             <div className="text-[10px] font-bold text-teal-600 mt-1">{tPricing(`${plan.key}.trial`)}</div>
                                         )}
                                         {isPro && (
-                                            <p className="text-[10px] text-teal-600 mt-1 font-medium" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} />
+                                            <p className="text-[10px] text-teal-600 dark:text-teal-400 mt-1 font-medium" dangerouslySetInnerHTML={{ __html: tPricing.raw('pro.savings_info') }} />
                                         )}
                                     </div>
 
                                     {/* Features */}
                                     <ul className="space-y-3 flex-1 mb-6">
                                         {tPricing.raw(`${plan.key}.features`).map((feature: string, i: number) => (
-                                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
                                                 <div className={cn(
                                                     "p-0.5 rounded-full mt-0.5 shrink-0",
-                                                    isSelected ? "bg-teal-100 text-teal-600" : "bg-slate-50 text-slate-400"
+                                                    isSelected ? "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400" : "bg-slate-50 dark:bg-slate-800 text-slate-400"
                                                 )}>
                                                     <Check className="h-3 w-3" strokeWidth={3} />
                                                 </div>
@@ -155,8 +155,8 @@ export default function PricingPage() {
                                         ))}
                                         {/* Excluded features for free */}
                                         {plan.hasExcluded && Array.isArray(tPricing.raw(`${plan.key}.excluded`)) && tPricing.raw(`${plan.key}.excluded`).map((feature: string, i: number) => (
-                                            <li key={`ex-${i}`} className="flex items-start gap-2 text-sm text-slate-400">
-                                                <div className="p-0.5 rounded-full mt-0.5 shrink-0 bg-slate-50 text-slate-300">
+                                            <li key={`ex-${i}`} className="flex items-start gap-2 text-sm text-slate-400 dark:text-slate-500">
+                                                <div className="p-0.5 rounded-full mt-0.5 shrink-0 bg-slate-50 dark:bg-slate-800 text-slate-300 dark:text-slate-600">
                                                     <X className="h-3 w-3" strokeWidth={3} />
                                                 </div>
                                                 <span className="line-through">{feature}</span>
@@ -172,7 +172,7 @@ export default function PricingPage() {
                                             "w-full rounded-xl h-12 font-bold transition-all",
                                             isSelected
                                                 ? "bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-600/20"
-                                                : "bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200"
+                                                : "bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700"
                                         )}
                                     >
                                         <Link href={`/onboarding?plan=${plan.key}`}>
@@ -186,18 +186,18 @@ export default function PricingPage() {
                 </section>
 
                 {/* FAQ */}
-                <section className="py-20 bg-white/50 backdrop-blur-sm border-t border-slate-100 relative z-10">
+                <section className="py-20 bg-white/50 dark:bg-slate-900/40 backdrop-blur-sm border-t border-slate-100 dark:border-slate-800 relative z-10">
                     <div className="container px-4 max-w-3xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold text-slate-900">{tPricing('faq_title')}</h2>
+                            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">{tPricing('faq_title')}</h2>
                         </div>
                         <Accordion type="single" collapsible className="w-full">
                             {tFAQ.raw('items').map((item: any, i: number) => (
-                                <AccordionItem key={i} value={`item-${i}`} className="border-b border-slate-200">
-                                    <AccordionTrigger className="text-left font-medium text-slate-700 hover:text-teal-600 hover:no-underline py-4">
+                                <AccordionItem key={i} value={`item-${i}`} className="border-b border-slate-200 dark:border-slate-800">
+                                    <AccordionTrigger className="text-left font-medium text-slate-700 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:no-underline py-4">
                                         {item.q}
                                     </AccordionTrigger>
-                                    <AccordionContent className="text-slate-500 leading-relaxed pb-4">
+                                    <AccordionContent className="text-slate-500 dark:text-slate-400 leading-relaxed pb-4">
                                         {item.a}
                                     </AccordionContent>
                                 </AccordionItem>

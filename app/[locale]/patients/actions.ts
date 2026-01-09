@@ -30,6 +30,22 @@ export async function createPatient(formData: FormData) {
     const gender = formData.get('gender') as string
     const email = formData.get('email') as string
 
+    // New Fields
+    const rut = formData.get('rut') as string
+    const age = formData.get('age') as string
+    const phone = formData.get('phone') as string
+    const address = formData.get('address') as string
+    const clinic = formData.get('clinic') as string
+    const education = formData.get('education') as string
+    const occupation = formData.get('occupation') as string
+    const companion = formData.get('companion') as string
+    const emergencyContact = formData.get('emergencyContact') as string
+    const genogram = formData.get('genogram') as string
+
+    // Clinical Data
+    const diagnoses = formData.get('diagnoses') as string
+    const medications = formData.get('medications') as string
+
     // Get profile id
     let { data: profile } = await supabase
         .from('profiles')
@@ -56,7 +72,8 @@ export async function createPatient(formData: FormData) {
         profile = newProfile
     }
 
-    const { error } = await supabase
+    // 1. Create Patient
+    const { data: patient, error: patientError } = await supabase
         .from('patients')
         .insert({
             profile_id: profile.id,
@@ -64,10 +81,41 @@ export async function createPatient(formData: FormData) {
             birth_date: birthDate || null,
             gender: gender,
             contact_email: email || null,
+            // Extended fields (Assuming columns exist or using metadata fallback if preferred)
+            // For now, attempting direct columns as the user asked for these specific elements
+            rut: rut || null,
+            age: age ? parseInt(age) : null,
+            phone: phone || null,
+            address: address || null,
+            clinic: clinic || null,
+            education: education || null,
+            occupation: occupation || null,
+            companion: companion || null,
+            emergency_contact: emergencyContact || null,
+            genogram: genogram || null,
         })
+        .select('id')
+        .single()
 
-    if (error) {
-        return { error: 'Could not create patient' }
+    if (patientError) {
+        console.error('Patient creation error:', patientError)
+        return { error: 'Could not create patient. ' + patientError.message }
+    }
+
+    // 2. Create Clinical Record if there is clinical info
+    if (diagnoses || medications) {
+        const { error: clinicalError } = await supabase
+            .from('clinical_records')
+            .insert({
+                patient_id: patient.id,
+                diagnosis: diagnoses || null,
+                medications: medications || null,
+            })
+
+        if (clinicalError) {
+            console.warn('Could not create clinical record:', clinicalError)
+            // We don't fail the whole process if clinical record fails, but we might want to log it
+        }
     }
 
     revalidatePath('/patients')

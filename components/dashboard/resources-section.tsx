@@ -1,114 +1,133 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { BookOpen, ExternalLink, RefreshCw } from "lucide-react"
+import { BookOpen, ExternalLink, RefreshCw, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { format } from "date-fns"
-import { es } from "date-fns/locale"
+import { es, enUS } from "date-fns/locale"
+import { useLocale, useTranslations } from 'next-intl'
 
 interface Article {
     title: string
     description: string
     url: string
-    urlToImage: string
     source: { name: string }
+    category?: string
     publishedAt: string
 }
 
 export function ResourcesSection() {
-    const [articles, setArticles] = useState<Article[]>([])
+    const [fullPool, setFullPool] = useState<Article[]>([])
+    const [displayArticles, setDisplayArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
+    const locale = useLocale()
+    const t = useTranslations('Dashboard')
+    const dateLocale = locale === 'es' ? es : enUS
+
+    const shuffleAndSet = (pool: Article[]) => {
+        const shuffled = [...pool].sort(() => 0.5 - Math.random());
+        setDisplayArticles(shuffled.slice(0, 5));
+    };
+
+    const fetchNews = async () => {
+        setLoading(true)
+        try {
+            const res = await fetch(`/api/news?lang=${locale}`)
+            const data = await res.json()
+            if (data.articles) {
+                setFullPool(data.articles);
+                shuffleAndSet(data.articles);
+            }
+        } catch (error) {
+            console.error("Failed to fetch news", error)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                const res = await fetch('/api/news')
-                const data = await res.json()
-                if (data.articles) {
-                    setArticles(data.articles.slice(0, 4)) // Limit to 4 items
-                }
-            } catch (error) {
-                console.error("Failed to fetch news", error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
         fetchNews()
-    }, [])
+    }, [locale])
+
+    if (loading) {
+        return (
+            <div className="bg-card rounded-3xl border border-border/40 shadow-sm overflow-hidden flex flex-col h-full animate-in fade-in duration-500">
+                <div className="p-6 border-b border-border/40 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                            <BookOpen className="w-5 h-5 text-primary" />
+                        </div>
+                        <h3 className="font-bold text-foreground tracking-tight text-sm">Recursos y Actualidad</h3>
+                    </div>
+                </div>
+                <div className="p-0 overflow-hidden">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className="p-5 border-b border-border/20 last:border-0 space-y-2">
+                            <div className="h-3 w-20 bg-muted animate-pulse rounded" />
+                            <div className="h-4 w-full bg-muted animate-pulse rounded" />
+                            <div className="h-3 w-2/3 bg-muted animate-pulse rounded" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
 
     return (
-        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden flex flex-col h-full">
-            <div className="p-5 border-b border-border/40">
+        <div className="bg-card rounded-3xl border border-border/40 shadow-sm overflow-hidden flex flex-col h-full transition-all duration-300">
+            <div className="p-6 border-b border-border/40 flex justify-between items-center bg-muted/5">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                        <BookOpen className="w-4 h-4 text-indigo-500" />
+                    <div className="w-10 h-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                        <BookOpen className="w-5 h-5 text-primary" />
                     </div>
-                    <h3 className="font-bold text-foreground text-sm">Recursos y Actualidad</h3>
+                    <div>
+                        <h3 className="font-bold text-foreground tracking-tight text-sm">Recursos y Actualidad</h3>
+                        <p className="text-[10px] text-muted-foreground/70 font-medium">Contenido profesional seleccionado</p>
+                    </div>
                 </div>
+                <RefreshCw
+                    className="w-4 h-4 text-muted-foreground/30 hover:text-primary transition-colors cursor-pointer"
+                    onClick={() => shuffleAndSet(fullPool)}
+                />
             </div>
 
             <div className="p-0 flex-1">
-                {loading ? (
-                    <div className="p-8 flex justify-center items-center text-muted-foreground gap-2 text-xs">
-                        <RefreshCw className="w-3 h-3 animate-spin" />
-                        Cargando noticias...
-                    </div>
-                ) : (
-                    <div className="divide-y divide-border/40">
-                        {articles.map((article, i) => (
-                            <Link
-                                key={i}
-                                href={article.url}
-                                target="_blank"
-                                className="flex gap-4 p-5 hover:bg-primary/5 transition-all duration-300 group relative border-b last:border-0 border-border/40"
-                            >
-                                <div className="h-20 w-20 shrink-0 rounded-xl overflow-hidden bg-muted relative border border-border/40 shadow-sm group-hover:shadow-md transition-all">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={article.urlToImage || '/placeholder.png'}
-                                        alt={article.source.name}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80'
-                                        }}
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-black/40 transition-colors" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${article.source.name === 'ScienceDaily' ? 'text-blue-500 bg-blue-500/10 border-blue-500/20' :
-                                            article.source.name === 'Psychology Today' ? 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20' :
-                                                'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
-                                            }`}>
-                                            {article.source.name}
-                                        </span>
-                                        <span className="text-[10px] font-medium text-muted-foreground/60 flex items-center gap-1">
-                                            <RefreshCw className="w-2.5 h-2.5 opacity-50" />
-                                            {format(new Date(article.publishedAt), "d MMM", { locale: es })}
-                                        </span>
-                                    </div>
-                                    <h4 className="text-[13px] font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-1.5">
-                                        {article.title}
-                                    </h4>
-                                    <p className="text-[11px] text-muted-foreground/80 line-clamp-2 leading-relaxed">
-                                        {article.description}
-                                    </p>
-                                </div>
-                                <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
-                                    <ExternalLink className="w-3.5 h-3.5 text-primary" />
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                )}
+                <div className="divide-y divide-border/20">
+                    {displayArticles.map((article, i) => (
+                        <Link
+                            key={i}
+                            href={article.url}
+                            target="_blank"
+                            className="flex flex-col gap-1 p-5 hover:bg-muted/30 transition-all duration-300 group relative last:border-0"
+                        >
+                            <div className="flex items-center gap-2 mb-0.5">
+                                <span className="text-[9px] font-bold tracking-wider text-primary uppercase bg-primary/5 px-2 py-0.5 rounded-full border border-primary/10">
+                                    {article.category || article.source.name}
+                                </span>
+                                <span className="text-[9px] font-medium text-muted-foreground/60 whitespace-nowrap">
+                                    {format(new Date(article.publishedAt), "d MMM", { locale: dateLocale })}
+                                </span>
+                            </div>
+                            <h4 className="text-[13px] font-bold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                                {article.title}
+                            </h4>
+                            <p className="text-[11px] text-muted-foreground/80 line-clamp-2 leading-relaxed">
+                                {article.description}
+                            </p>
+                            <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
+                                <ChevronRight className="w-4 h-4 text-primary" />
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
 
-            <div className="p-3 border-t border-border/40 bg-muted/5">
-                <Button variant="ghost" size="sm" className="w-full text-xs font-medium h-8 text-muted-foreground" asChild>
+            <div className="p-4 border-t border-border/40 bg-muted/5">
+                <Button variant="ghost" size="sm" className="w-full text-xs font-semibold h-9 text-muted-foreground hover:text-primary gap-2 transition-all rounded-xl" asChild>
                     <Link href="/dashboard/resources">
-                        Ver biblioteca completa
+                        Explorar biblioteca
+                        <ExternalLink className="w-3 h-3" />
                     </Link>
                 </Button>
             </div>

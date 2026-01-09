@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
-import { ArrowRight, Check, ChevronDown, Menu, X, ArrowUp } from "lucide-react"
+import { ArrowRight, Check, ChevronDown, Menu, X, ArrowUp, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { LoginModal } from "@/components/auth/login-modal"
@@ -54,7 +54,7 @@ export default function LandingPage() {
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
+                  <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
                     {tHero.rich('title', {
                       span: (chunks) => <span className="text-teal-600 italic font-serif">{chunks}</span>,
                       span2: (chunks) => <span className="underline decoration-teal-600/30">{chunks}</span>
@@ -77,7 +77,8 @@ export default function LandingPage() {
                       </Link>
                     </Button>
                     <DemoModal>
-                      <Button variant="outline" size="lg" className="border-border text-foreground hover:bg-accent rounded-full px-8 h-12 text-base hover:border-primary/50 transition-all cursor-pointer">
+                      <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/50 rounded-full px-8 h-12 text-base hover:border-primary/50 transition-all cursor-pointer group shadow-sm">
+                        <Play className="mr-2 h-4 w-4 text-teal-600 dark:text-teal-400 fill-teal-600 dark:fill-teal-400 group-hover:scale-110 transition-transform" />
                         {tHero('cta_secondary')}
                       </Button>
                     </DemoModal>

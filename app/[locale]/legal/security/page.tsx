@@ -44,7 +44,7 @@ export default function SecurityPage() {
                     </div>
 
                     <div className="bg-white dark:bg-slate-950 p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
-                        <div className="prose prose-slate max-w-none prose-headings:text-slate-900 prose-p:text-slate-600">
+                        <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-600 dark:prose-p:text-slate-400">
                             <h3>{t('access_title')}</h3>
                             <p>{t('access_body')}</p>
 

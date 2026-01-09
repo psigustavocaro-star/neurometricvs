@@ -26,13 +26,13 @@ export function DemoModal({ children }: DemoModalProps) {
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden bg-slate-50 border-none shadow-2xl">
+            <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden bg-slate-50 dark:bg-slate-950 border-none shadow-2xl">
                 <div className="p-6 pb-0">
                     <DialogHeader className="mb-4">
-                        <DialogTitle className="text-2xl font-bold text-slate-900">
+                        <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-white">
                             {t('title')}
                         </DialogTitle>
-                        <DialogDescription className="text-slate-500">
+                        <DialogDescription className="text-slate-500 dark:text-slate-400">
                             {t('subtitle')}
                         </DialogDescription>
                     </DialogHeader>
@@ -42,11 +42,11 @@ export function DemoModal({ children }: DemoModalProps) {
                     <DemoPlayer />
                 </div>
 
-                <div className="bg-white p-4 border-t border-slate-100 flex justify-between items-center">
+                <div className="bg-white dark:bg-slate-900/60 p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
                     <div className="flex gap-2">
-                        <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">{t('preview')}</span>
+                        <span className="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-widest">{t('preview')}</span>
                     </div>
-                    <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full">
+                    <Button className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-full">
                         {t('cta')}
                     </Button>
                 </div>

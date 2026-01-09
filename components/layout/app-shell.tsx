@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { LanguageToggle } from "@/components/layout/language-toggle"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
@@ -66,10 +67,6 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const { currentPlan, isSimulating } = useAdminStore()
     const effectivePlan = isSimulating ? currentPlan : plan
 
-    const handleLocaleChange = () => {
-        const nextLocale = locale === 'es' ? 'en' : 'es'
-        router.replace(pathname, { locale: nextLocale })
-    }
 
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
@@ -237,23 +234,24 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             "text-sm text-muted-foreground group-hover:text-foreground transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
                         )}>{t('theme')}</span>
-                        <ThemeToggle />
+                        <div className={cn(isCollapsed && "scale-75 origin-center")}>
+                            <ThemeToggle />
+                        </div>
                     </div>
 
                     {/* Language Toggle */}
-                    <button
-                        onClick={handleLocaleChange}
-                        className={cn(
-                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group overflow-hidden whitespace-nowrap",
-                            isCollapsed && "justify-center px-2"
-                        )}
-                    >
-                        <Globe className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
+                    <div className={cn(
+                        "flex items-center group overflow-hidden whitespace-nowrap",
+                        isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
+                    )}>
                         <span className={cn(
-                            "font-medium overflow-hidden transition-all duration-500 ease-in-out",
-                            isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
-                        )}>{locale === 'es' ? 'English' : 'Español'}</span>
-                    </button>
+                            "text-sm text-muted-foreground group-hover:text-foreground transition-all duration-500 ease-in-out",
+                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+                        )}>{locale === 'es' ? 'Idioma' : 'Language'}</span>
+                        <div className={cn(isCollapsed && "scale-75 origin-center")}>
+                            <LanguageToggle />
+                        </div>
+                    </div>
 
                     {/* Sign Out */}
                     <Button
@@ -288,6 +286,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <span className="font-bold text-slate-900 dark:text-white tracking-tight">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
+                    <LanguageToggle />
                     <ThemeToggle />
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

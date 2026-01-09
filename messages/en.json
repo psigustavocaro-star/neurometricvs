@@ -319,7 +319,9 @@
         "stats": {
             "patients": "Patients",
             "active": "Active",
-            "tests": "Tests"
+            "tests": "Tests",
+            "updated": "Updated today",
+            "in_treatment": "in treatment"
         },
         "activity": {
             "title": "Recent Activity",
@@ -895,6 +897,50 @@
             "clinical_psychologist": "Clinical Psychologist",
             "reg_short": "Registry No.",
             "normal_label": "No Clinical Indicators"
+        }
+    },
+    "Patients": {
+        "new": {
+            "title": "New Patient",
+            "subtitle": "Enter the patient's information to create their professional clinical record.",
+            "submit": "Create Patient",
+            "personal_info": "Personal Information",
+            "contact_info": "Location & Contact",
+            "clinical_info": "Clinical Information",
+            "support_info": "Support Network",
+            "fields": {
+                "name": "Full Name",
+                "gender": "Gender",
+                "birth_date": "Date of Birth",
+                "rut": "RUT / Identification",
+                "age": "Age",
+                "phone": "Phone",
+                "email": "Email Address",
+                "address": "Address",
+                "clinic": "Place of Care",
+                "education": "Educational Level",
+                "occupation": "Occupation",
+                "companion": "Companion",
+                "emergency_contact": "Emergency Contact",
+                "genogram": "Genogram (Family Notes)",
+                "diagnoses": "Diagnoses",
+                "medications": "Medications"
+            },
+            "placeholders": {
+                "name": "John Doe",
+                "rut": "12.345.678-9",
+                "phone": "+1 555 ...",
+                "email": "john@example.com",
+                "address": "123 Main St",
+                "clinic": "Main Medical Center",
+                "education": "College Degree",
+                "occupation": "Engineer",
+                "companion": "Spouse - Mary Doe",
+                "emergency_contact": "Brother - Peter Doe (+1 555 ...)",
+                "genogram": "No relevant family history reported...",
+                "diagnoses": "F41.1 Generalized Anxiety Disorder",
+                "medications": "Sertraline 50mg/day"
+            }
         }
     }
 }

@@ -63,56 +63,94 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             className="min-h-full bg-transparent"
         >
 
-            {/* Hero Header Section - Clean & Unified */}
-            <div className="relative">
-                <div className="relative p-6 md:p-8">
-                    {/* Welcome Section */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-4 lg:mb-6 gap-4">
-                        <motion.div variants={itemVariants}>
-                            <div className="flex items-center gap-3 mb-2 lg:mb-3">
-                                <div className="flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
-                                    <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">{t('header.system_active')}</span>
-                                </div>
+            {/* Condensed Header Section */}
+            <div className="relative px-6 md:px-8 pt-6 md:pt-8 pb-2 md:pb-4">
+                {/* Welcome Section */}
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <motion.div variants={itemVariants}>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="flex items-center gap-2 px-2.5 py-0.5 bg-primary/10 rounded-full border border-primary/20">
+                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
+                                <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">{t('header.system_active')}</span>
                             </div>
-                            <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm font-medium">
-                                <div className="flex items-center gap-1.5">
-                                    <CalendarDays className="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70" />
-                                    {format(new Date(), t('header.date_format'), { locale: dateLocale })}
-                                </div>
-                                <div className="hidden sm:block w-1 h-1 rounded-full bg-border" />
-                                <WeatherDisplay />
+                        </div>
+                        <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1 text-xs md:text-sm font-medium">
+                            <div className="flex items-center gap-1.5">
+                                <CalendarDays className="w-3.5 h-3.5 md:w-3 md:h-3 opacity-70" />
+                                {format(new Date(), t('header.date_format'), { locale: dateLocale })}
                             </div>
-                        </motion.div>
-                        <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 md:gap-3">
-                            <Button asChild variant="outline" className="h-9 md:h-10 px-4 md:px-5 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-xs md:text-sm font-medium">
-                                <Link href="/dashboard/tests">
-                                    <Brain className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
-                                    {t('cta.tests')}
-                                </Link>
-                            </Button>
-                            <Button asChild className="h-9 md:h-10 px-4 md:px-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-xs md:text-sm font-medium transition-all hover:scale-105 active:scale-95">
-                                <Link href="/patients/new">
-                                    <Plus className="w-3.5 h-3.5 md:w-4 md:h-4 mr-2" />
-                                    {t('cta.new')}
-                                </Link>
-                            </Button>
-                        </motion.div>
-                    </div>
-
+                            <div className="hidden sm:block w-1 h-1 rounded-full bg-border" />
+                            <WeatherDisplay />
+                        </div>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 md:gap-3">
+                        <Button asChild variant="outline" className="h-8 md:h-9 px-4 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-xs font-medium">
+                            <Link href="/dashboard/tests">
+                                <Brain className="w-3.5 h-3.5 mr-2" />
+                                {t('cta.tests')}
+                            </Link>
+                        </Button>
+                        <Button asChild className="h-8 md:h-9 px-4 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-xs font-medium transition-all hover:scale-105 active:scale-95">
+                            <Link href="/patients/new">
+                                <Plus className="w-3.5 h-3.5 mr-2" />
+                                {t('cta.new')}
+                            </Link>
+                        </Button>
+                    </motion.div>
                 </div>
             </div>
 
             {/* Main Content */}
             <div className="p-4 md:p-8 pt-0">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4">
+
+                    {/* Top Stats Bar - Spans all columns */}
+                    <motion.div variants={itemVariants} className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Users className="w-12 h-12 text-primary" />
+                            </div>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.patients')}</p>
+                            <div className="flex items-baseline gap-2 mt-1">
+                                <h3 className="text-3xl font-bold text-foreground">{stats.totalPatients}</h3>
+                                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-0 text-[10px] font-bold">
+                                    <TrendingUp className="w-3 h-3 mr-1" />
+                                    +12%
+                                </Badge>
+                            </div>
+                        </div>
+
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Activity className="w-12 h-12 text-blue-500" />
+                            </div>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.active')}</p>
+                            <div className="flex items-baseline gap-2 mt-1">
+                                <h3 className="text-3xl font-bold text-foreground">{stats.activePatients}</h3>
+                                <span className="text-[10px] text-muted-foreground font-medium">{t('stats.in_treatment')}</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Brain className="w-12 h-12 text-teal-500" />
+                            </div>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.tests')}</p>
+                            <div className="flex items-baseline gap-2 mt-1">
+                                <h3 className="text-3xl font-bold text-foreground">{stats.totalTests || 0}</h3>
+                                <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 border-0 text-[10px] font-bold">
+                                    {t('stats.updated')}
+                                </Badge>
+                            </div>
+                        </div>
+                    </motion.div>
+
                     {/* Patient List - Takes 2 columns */}
                     <motion.div
                         variants={itemVariants}
                         className="lg:col-span-2 group/main"
-                        whileHover={{ scale: 1.005, perspective: 1000 }}
                     >
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-500 group-hover/main:shadow-xl group-hover/main:border-primary/20 relative">
+                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-500 hover:shadow-xl hover:border-primary/20 relative h-full">
                             {/* Reflection Effect */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover/main:translate-x-full transition-transform duration-1000" />
                             {/* Header */}
@@ -205,37 +243,16 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                     <motion.div
                         variants={itemVariants}
                         className="lg:col-span-1 space-y-6"
-                        whileHover={{ scale: 1.01 }}
                     >
-                        {/* Mini Stats - Minimalist Right Side */}
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden p-4 group/stats relative">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover/stats:translate-x-full transition-transform duration-1000" />
-                            <div className="flex items-center justify-between gap-4">
-                                <Link href="/patients" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
-                                    <span className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalPatients}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.patients')}</span>
-                                </Link>
-                                <div className="w-[1px] h-8 bg-border/60" />
-                                <div className="flex flex-col items-center justify-center flex-1 p-2">
-                                    <span className="text-2xl font-bold text-foreground tracking-tight">{stats.activePatients}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.active')}</span>
-                                </div>
-                                <div className="w-[1px] h-8 bg-border/60" />
-                                <Link href="/dashboard/tests" className="flex flex-col items-center justify-center flex-1 p-2 hover:bg-muted/50 rounded-lg transition-colors group">
-                                    <span className="text-xl md:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{stats.totalTests || 0}</span>
-                                    <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-1">{t('stats.tests')}</span>
-                                </Link>
-                            </div>
-                        </div>
 
                         {/* News / Resources Section - Real Feed */}
-                        <div className="h-[400px]">
+                        <div className="min-h-[450px]">
                             <ResourcesSection />
                         </div>
 
                         {/* Recent Activity Feed */}
-                        <div className="group relative bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-300 opacity-80 hover:opacity-100">
-                            <div className="p-5 border-b border-border/40">
+                        <div className="group relative bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg">
+                            <div className="p-5 border-b border-border/40 bg-muted/5">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
                                         <Activity className="w-4 h-4 text-orange-500" />
@@ -243,9 +260,9 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <h3 className="font-bold text-foreground text-sm">{t('activity.title')}</h3>
                                 </div>
                             </div>
-                            <div className="p-4 space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar relative z-10">
+                            <div className="p-4 space-y-4 max-h-[350px] overflow-y-auto custom-scrollbar relative z-10">
                                 {(stats.recentActivity || []).map((activity: any, i: number) => (
-                                    <div key={i} className="flex gap-4 p-2 rounded-xl transition-colors">
+                                    <div key={i} className="flex gap-4 p-2 rounded-xl transition-colors hover:bg-muted/30">
                                         <div className="relative mt-1">
                                             <div className="w-2 h-2 rounded-full bg-primary/40 ring-4 ring-primary/10" />
                                             {i !== (stats.recentActivity.length - 1) && (
@@ -269,48 +286,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <p className="text-xs text-muted-foreground">{t('activity.empty')}</p>
                                     </div>
                                 )}
-                            </div>
-                        </div>
-
-                        {/* Quick Actions */}
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden">
-                            <div className="p-5 border-b border-border/40">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                                        <Zap className="w-4 h-4 text-blue-500" />
-                                    </div>
-                                    <h3 className="font-bold text-foreground text-sm">{t('quick_actions.title')}</h3>
-                                </div>
-                            </div>
-                            <div className="p-3 space-y-1">
-                                <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
-                                    <Link href="/dashboard/tests" className="flex items-center">
-                                        <Search className="w-4 h-4 mr-3 opacity-70" />
-                                        {t('quick_actions.explore_tests')}
-                                        <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
-                                    </Link>
-                                </Button>
-                                <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
-                                    <Link href="/patients" className="flex items-center">
-                                        <Users className="w-4 h-4 mr-3 opacity-70" />
-                                        {t('quick_actions.view_patients')}
-                                        <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
-                                    </Link>
-                                </Button>
-                                <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
-                                    <Link href="/dashboard/subscription" className="flex items-center">
-                                        <FileText className="w-4 h-4 mr-3 opacity-70" />
-                                        {t('quick_actions.my_subscription')}
-                                        <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
-                                    </Link>
-                                </Button>
-                                <Button asChild variant="ghost" className="w-full justify-start h-10 text-left hover:bg-muted/50 rounded-lg transition-all text-xs font-medium text-muted-foreground hover:text-foreground">
-                                    <Link href="/dashboard/resources" className="flex items-center">
-                                        <BookOpen className="w-4 h-4 mr-3 opacity-70" />
-                                        {t('quick_actions.resources_library')}
-                                        <ChevronRight className="w-3 h-3 ml-auto opacity-50" />
-                                    </Link>
-                                </Button>
                             </div>
                         </div>
 

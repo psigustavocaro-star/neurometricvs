@@ -38,8 +38,8 @@ export default async function TestDetailsPage({ params }: { params: Promise<{ te
                                 </div>
                             )}
                         </div>
-                        <h1 className="text-3xl font-bold text-slate-900 mb-2">{test.name}</h1>
-                        <p className="text-lg text-slate-600 leading-relaxed">
+                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{test.name}</h1>
+                        <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                             {test.description}
                         </p>
                     </div>
@@ -49,28 +49,28 @@ export default async function TestDetailsPage({ params }: { params: Promise<{ te
                             <CardTitle>Acerca de este test</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <p className="text-slate-600">
+                            <p className="text-slate-600 dark:text-slate-400">
                                 Este instrumento está diseñado para ser aplicado en el contexto clínico y educativo.
                                 Asegúrese de contar con el consentimiento informado del paciente antes de proceder.
                             </p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                                    <div className="bg-white p-2 rounded-full shadow-sm">
-                                        <Clock className="h-5 w-5 text-teal-600" />
+                                <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                                    <div className="bg-white dark:bg-slate-950 p-2 rounded-full shadow-sm">
+                                        <Clock className="h-5 w-5 text-teal-600 dar:text-teal-400" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-slate-500 font-medium uppercase">Duración Estimada</p>
-                                        <p className="font-semibold text-slate-900">{test.duration}</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Duración Estimada</p>
+                                        <p className="font-semibold text-slate-900 dark:text-white">{test.duration}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                                    <div className="bg-white p-2 rounded-full shadow-sm">
-                                        <Activity className="h-5 w-5 text-teal-600" />
+                                <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+                                    <div className="bg-white dark:bg-slate-950 p-2 rounded-full shadow-sm">
+                                        <Activity className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-slate-500 font-medium uppercase">Items</p>
-                                        <p className="font-semibold text-slate-900">{test.questions > 0 ? test.questions : 'Variable'} preguntas</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Items</p>
+                                        <p className="font-semibold text-slate-900 dark:text-white">{test.questions > 0 ? test.questions : 'Variable'} preguntas</p>
                                     </div>
                                 </div>
                             </div>

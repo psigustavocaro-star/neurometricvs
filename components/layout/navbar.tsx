@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
 import { WeatherTimeWidget } from "@/components/layout/weather-time-widget"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { LanguageToggle } from "@/components/layout/language-toggle"
 import { LayoutDashboard, Users, CreditCard, UserCircle, LogOut, Search, FileText, Home, Globe, ChevronDown } from "lucide-react"
 import { LocationWithFlag } from '@/components/ui/location-with-flag'
 import { createClient } from "@/lib/supabase/client"
@@ -161,33 +162,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         <ThemeToggle />
                         <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="ml-2 text-slate-500 font-bold hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 outline-none"
-                                    data-testid="language-switcher-trigger"
-                                >
-                                    <Globe className="h-4 w-4 mr-1" />
-                                    {locale.toUpperCase()} <ChevronDown className="h-3 w-3 ml-1 opacity-50" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-[120px] dark:bg-slate-950 dark:border-slate-800">
-                                <DropdownMenuItem
-                                    onClick={() => router.replace(pathname, { locale: 'es' })}
-                                    className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'es' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
-                                >
-                                    <LocationWithFlag location="ES Español" />
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    onClick={() => router.replace(pathname, { locale: 'en' })}
-                                    className={cn("cursor-pointer dark:text-slate-200 dark:focus:bg-slate-800", locale === 'en' && "bg-teal-50 text-teal-700 font-medium dark:bg-teal-900/20 dark:text-teal-400")}
-                                >
-                                    <LocationWithFlag location="US English" />
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <LanguageToggle />
 
                         {/* Weather Widget */}
                         {currentUser && <WeatherTimeWidget />}
@@ -241,15 +216,8 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     </div>
 
                     {/* Mobile Menu Button - Keeping simplified for now */}
-                    <div className="md:hidden flex items-center">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={handleLocaleChange}
-                            className="mr-2 text-slate-500 font-bold"
-                        >
-                            {locale.toUpperCase()}
-                        </Button>
+                    <div className="md:hidden flex items-center gap-2">
+                        <LanguageToggle />
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="text-slate-600 hover:text-slate-900 p-2 rounded-md focus:outline-none"
@@ -282,6 +250,14 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         <Link href="/testimonials" className="px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                             {t('testimonials')}
                         </Link>
+
+                        <div className="px-4 py-2 flex items-center justify-between">
+                            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ajustes</span>
+                            <div className="flex items-center gap-3">
+                                <ThemeToggle />
+                                <LanguageToggle />
+                            </div>
+                        </div>
 
                         <div className="h-px bg-slate-200 dark:bg-slate-800 my-2" />
 

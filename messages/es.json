@@ -115,7 +115,7 @@
         "reports": "Reportes",
         "dr_name": "Dr. Silva",
         "plan_name": "Plan Profesional",
-        "analysis_in_progress": "Análisis en Progreso",
+        "analysis_in_progress": "Análisis en Pregreso",
         "results": "Resultados",
         "patient_list": "Listado de Pacientes",
         "active_count": "{count} pacientes activos",
@@ -319,7 +319,9 @@
         "stats": {
             "patients": "Pacientes",
             "active": "Activos",
-            "tests": "Tests"
+            "tests": "Tests",
+            "updated": "Actualizado hoy",
+            "in_treatment": "en tratamiento"
         },
         "activity": {
             "title": "Actividad Reciente",
@@ -894,6 +896,50 @@
             "clinical_psychologist": "Psicólogo Clínico",
             "reg_short": "Nº Registro",
             "normal_label": "Sin Indicadores Clínicos"
+        }
+    },
+    "Patients": {
+        "new": {
+            "title": "Nuevo Paciente",
+            "subtitle": "Ingresa los datos del paciente para crear su ficha clínica profesional.",
+            "submit": "Crear Paciente",
+            "personal_info": "Información Personal",
+            "contact_info": "Ubicación y Contacto",
+            "clinical_info": "Información Clínica",
+            "support_info": "Red de Apoyo",
+            "fields": {
+                "name": "Nombre Completo",
+                "gender": "Género",
+                "birth_date": "Fecha de Nacimiento",
+                "rut": "RUT / Identificación",
+                "age": "Edad",
+                "phone": "Teléfono",
+                "email": "Correo Electrónico",
+                "address": "Dirección",
+                "clinic": "Lugar de Atención",
+                "education": "Nivel Educacional",
+                "occupation": "Ocupación",
+                "companion": "Acompañante",
+                "emergency_contact": "Contacto de Emergencia",
+                "genogram": "Genograma (Notas Familiares)",
+                "diagnoses": "Diagnósticos",
+                "medications": "Medicamentos"
+            },
+            "placeholders": {
+                "name": "Juan Pérez",
+                "rut": "12.345.678-9",
+                "phone": "+56 9 ...",
+                "email": "juan@ejemplo.com",
+                "address": "Calle Falsa 123",
+                "clinic": "Centro Médico Principal",
+                "education": "Universitario Completo",
+                "occupation": "Ingeniero",
+                "companion": "Cónyuge - María García",
+                "emergency_contact": "Hermano - Pedro Pérez (+56 9 ...)",
+                "genogram": "Sin antecedentes familiares de relevancia...",
+                "diagnoses": "F41.1 Trastorno de ansiedad generalizada",
+                "medications": "Sertralina 50mg/día"
+            }
         }
     }
 }
