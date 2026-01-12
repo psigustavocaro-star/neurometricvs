@@ -39,7 +39,7 @@ export function DemoPlayer() {
                         <Calendar className="h-4 w-4" /> Agenda
                     </div>
                     <div className="flex items-center gap-3 text-slate-600 px-3 py-2 rounded-lg hover:bg-slate-50 cursor-pointer text-sm">
-                        <FileText className="h-4 w-4" /> Reportes
+                        <FileText className="h-4 w-4" /> {t('reports')}
                     </div>
                 </div>
 
@@ -47,8 +47,8 @@ export function DemoPlayer() {
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-slate-200" />
                         <div className="flex flex-col">
-                            <span className="text-xs font-bold text-slate-700">Dr. Silva</span>
-                            <span className="text-[10px] text-slate-500">Plan Profesional</span>
+                            <span className="text-xs font-bold text-slate-700">{t('dr_name')}</span>
+                            <span className="text-[10px] text-slate-500">{t('plan_name')}</span>
                         </div>
                     </div>
                 </div>
@@ -61,8 +61,8 @@ export function DemoPlayer() {
                     <h2 className="font-semibold text-slate-800 text-sm">
                         {step === 0 && t('patients')}
                         {step === 1 && t('new_patient')}
-                        {step === 2 && "Análisis en Progreso"}
-                        {step === 3 && "Resultados"}
+                        {step === 2 && t('analysis_in_progress')}
+                        {step === 3 && t('results')}
                     </h2>
                     <div className="flex items-center gap-4">
                         <Search className="h-4 w-4 text-slate-400" />
@@ -83,8 +83,8 @@ export function DemoPlayer() {
                             >
                                 <div className="flex justify-between items-center">
                                     <div className="space-x-2">
-                                        <h3 className="text-xl font-bold text-slate-900">Listado de Pacientes</h3>
-                                        <p className="text-xs text-slate-500">32 pacientes activos</p>
+                                        <h3 className="text-xl font-bold text-slate-900">{t('patient_list')}</h3>
+                                        <p className="text-xs text-slate-500">{t('active_count', { count: 32 })}</p>
                                     </div>
                                     <motion.button
                                         className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm transition-colors"
@@ -99,13 +99,13 @@ export function DemoPlayer() {
                                 <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
                                     <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 border-b border-slate-100 bg-slate-50/50 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         <div className="w-8"></div>
-                                        <div>Nombre</div>
-                                        <div>Estado</div>
+                                        <div>{t('name_label')}</div>
+                                        <div>{t('status_label')}</div>
                                     </div>
                                     {[
-                                        { name: "Ana Martínez", status: "Activo", color: "bg-green-100 text-green-700" },
-                                        { name: "Carlos López", status: "Pendiente", color: "bg-amber-100 text-amber-700" },
-                                        { name: "María Rodríguez", status: "Evaluación", color: "bg-blue-100 text-blue-700" }
+                                        { name: "Ana Martínez", status: t('patient_status_active'), color: "bg-green-100 text-green-700" },
+                                        { name: "Carlos López", status: t('patient_status_pending'), color: "bg-amber-100 text-amber-700" },
+                                        { name: "María Rodríguez", status: t('patient_status_eval'), color: "bg-blue-100 text-blue-700" }
                                     ].map((p, i) => (
                                         <div key={i} className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 border-b border-slate-50 items-center hover:bg-slate-50 transition-colors">
                                             <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
@@ -147,12 +147,12 @@ export function DemoPlayer() {
                             >
                                 <div className="border-b border-slate-100 pb-4 mb-4">
                                     <h3 className="text-xl font-bold text-slate-900">{t('new_patient')}</h3>
-                                    <p className="text-sm text-slate-500">Complete la información básica</p>
+                                    <p className="text-sm text-slate-500">{t('complete_basic_info')}</p>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">Nombre Completo</label>
+                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('full_name')}</label>
                                         <motion.div
                                             className="h-10 w-full bg-white border border-slate-300 rounded-lg flex items-center px-3 text-sm text-slate-900 shadow-sm"
                                             initial={{ width: "0%", border: "1px solid #cbd5e1" }}
@@ -160,20 +160,20 @@ export function DemoPlayer() {
                                             transition={{ duration: 0.5, delay: 0.2 }}
                                         >
                                             <span className="animate-typewriter overflow-hidden whitespace-nowrap border-r-2 border-teal-500 pr-1">
-                                                Juan Pérez
+                                                {t('placeholder_name')}
                                             </span>
                                         </motion.div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">Email</label>
+                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('email')}</label>
                                         <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">Teléfono</label>
+                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('phone')}</label>
                                         <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">Fecha Nacimiento</label>
+                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('birth_date')}</label>
                                         <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@ export function DemoPlayer() {
                                         initial={{ scale: 0.95 }}
                                         animate={{ scale: 1 }}
                                     >
-                                        Guardar Ficha
+                                        {t('save_record')}
                                     </motion.div>
                                 </div>
                             </motion.div>
@@ -221,7 +221,7 @@ export function DemoPlayer() {
 
                                 <div className="w-64 space-y-2">
                                     <div className="flex justify-between text-xs font-semibold text-slate-400 uppercase">
-                                        <span>Procesando Datos</span>
+                                        <span>{t('processing_data')}</span>
                                         <span>85%</span>
                                     </div>
                                     <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
@@ -251,7 +251,7 @@ export function DemoPlayer() {
                                             <Check className="h-5 w-5 text-green-700" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-900 text-sm">Informe Clínico Generado</h4>
+                                            <h4 className="font-bold text-slate-900 text-sm">{t('report_generated')}</h4>
                                             <p className="text-xs text-slate-500">{t('generated_moment')}</p>
                                         </div>
                                     </div>

@@ -9,6 +9,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
 
     if (!user) {
         redirect({ href: '/login', locale })
+        return null
     }
 
     // Fetch Profile Data

@@ -9,9 +9,9 @@ import {
     ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen
 } from "lucide-react"
 import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
 import { es, enUS } from 'date-fns/locale'
 import { format } from 'date-fns'
+import { useLocale, useTranslations, useFormatter } from 'next-intl'
 import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
 import { WeatherDisplay } from './weather-display'
@@ -47,6 +47,7 @@ const itemVariants: Variants = {
 export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
     const t = useTranslations('Dashboard')
     const locale = useLocale()
+    const formatIntl = useFormatter()
     const dateLocale = locale === 'es' ? es : enUS
     const [searchTerm, setSearchTerm] = useState('')
 
@@ -124,10 +125,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Activity className="w-12 h-12 text-blue-500" />
                             </div>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.active')}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">{t('stats.active')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
                                 <h3 className="text-3xl font-bold text-foreground">{stats.activePatients}</h3>
-                                <span className="text-[10px] text-muted-foreground font-medium">{t('stats.in_treatment')}</span>
+                                <span className="text-[10px] text-muted-foreground dark:text-slate-500 font-medium">{t('stats.in_treatment')}</span>
                             </div>
                         </div>
 
@@ -135,10 +136,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Brain className="w-12 h-12 text-teal-500" />
                             </div>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.tests')}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">{t('stats.tests')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
                                 <h3 className="text-3xl font-bold text-foreground">{stats.totalTests || 0}</h3>
-                                <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 border-0 text-[10px] font-bold">
+                                <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-0 text-[10px] font-bold">
                                     {t('stats.updated')}
                                 </Badge>
                             </div>
@@ -161,10 +162,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     </div>
                                     <div>
                                         <h2 className="font-bold text-foreground text-sm md:text-base">{t('recent_patients.title')}</h2>
-                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
+                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground dark:text-slate-400 font-medium">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
                                     </div>
                                 </div>
-                                <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors">
+                                <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground dark:text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors">
                                     <Link href="/patients">
                                         {t('recent_patients.view_all')} <ChevronRight className="w-3 h-3 ml-1" />
                                     </Link>
@@ -214,7 +215,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                         <div className="col-span-12 md:col-span-3 text-muted-foreground">
                                             <div className="flex items-center gap-2 text-xs">
                                                 <CalendarDays className="w-3.5 h-3.5 opacity-50" />
-                                                {new Date(patient.created_at).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                {formatIntl.dateTime(new Date(patient.created_at), { day: 'numeric', month: 'short', year: 'numeric' })}
                                             </div>
                                         </div>
                                         <div className="col-span-12 md:col-span-2 text-right">

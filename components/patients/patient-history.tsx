@@ -3,11 +3,10 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { format } from "date-fns"
-import { es } from "date-fns/locale"
 import { FileText, CheckSquare, Square, ArrowRight, BarChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTranslations, useFormatter } from 'next-intl'
 
 interface TestResult {
     id: string
@@ -27,6 +26,9 @@ interface PatientHistoryProps {
 }
 
 export function PatientHistory({ results, patientId }: PatientHistoryProps) {
+    const t = useTranslations('Dashboard.Patients.History')
+    const tc = useTranslations('Dashboard.Tests.Catalog.Tests')
+    const format = useFormatter()
     const [selectedTests, setSelectedTests] = useState<Set<string>>(new Set())
     const router = useRouter()
 
@@ -48,10 +50,10 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
     if (results.length === 0) {
         return (
             <div className="text-center py-8 text-muted-foreground">
-                No hay tests realizados aún.
+                {t('empty')}
                 <div className="mt-4">
                     <Button asChild>
-                        <Link href={`/dashboard/tests`}>Realizar Nuevo Test</Link>
+                        <Link href={`/dashboard/tests`}>{t('new_test')}</Link>
                     </Button>
                 </div>
             </div>
@@ -62,12 +64,12 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <p className="text-sm text-slate-500">
-                    Selecciona varios tests para generar un informe de progreso.
+                    {t('select_instructions')}
                 </p>
                 {selectedTests.size > 1 && (
                     <Button onClick={handleGenerateUnifiedReport} className="bg-teal-600 hover:bg-teal-700 animate-in fade-in">
                         <BarChart className="mr-2 h-4 w-4" />
-                        Generar Informe Unificado ({selectedTests.size})
+                        {t('unified_report', { count: selectedTests.size })}
                     </Button>
                 )}
             </div>
@@ -76,12 +78,15 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
                 {results.map((result) => {
                     const isSelected = selectedTests.has(result.id)
                     const date = new Date(result.created_at)
-                    const formattedDate = format(date, "d 'de' MMMM, yyyy", { locale: es })
+                    const formattedDate = format.dateTime(date, {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    })
 
-                    // Map test_type to readable name (simple mapping for now)
-                    const testName = result.test_type === 'snap-iv' ? 'SNAP-IV (TDAH)' :
-                        result.test_type === 'phq-9' ? 'PHQ-9 (Depresión)' :
-                            result.test_type.toUpperCase()
+                    // Map test_type to readable name from catalog
+                    const testKey = result.test_type.replace(/-/g, '')
+                    const testName = tc.has(testKey) ? tc(`${testKey}.name`) : result.test_type.toUpperCase()
 
                     return (
                         <div
@@ -113,7 +118,7 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
                                         {result.results_json.label}
                                     </span>
                                     <span className="text-xs text-slate-500">
-                                        Puntaje: {result.results_json.score}
+                                        {t('score', { score: result.results_json.score })}
                                     </span>
                                 </div>
                             </div>
@@ -129,7 +134,7 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
                                     }}
                                 >
                                     <FileText className="h-4 w-4 mr-2" />
-                                    Ver Informe
+                                    {t('view_report')}
                                 </Button>
                             </div>
                         </div>
@@ -139,7 +144,7 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
 
             <div className="pt-4 border-t border-slate-100 flex justify-center">
                 <Button asChild variant="outline">
-                    <Link href={`/dashboard/tests`}>Realizar Nuevo Test</Link>
+                    <Link href={`/dashboard/tests`}>{t('new_test')}</Link>
                 </Button>
             </div>
         </div>

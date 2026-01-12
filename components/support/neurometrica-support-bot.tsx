@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'sonner'
 
 interface Message {
     id: string
@@ -23,15 +24,52 @@ interface Message {
     content: string
 }
 
-export function NeurometricaSupportBot() {
-    // Custom Chat State
-    const [messages, setMessages] = useState<Message[]>([])
-    const [input, setInput] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
+import { useChat } from '@ai-sdk/react'
+import { useTranslations } from "next-intl"
 
+export function NeurometricaSupportBot() {
+    const t = useTranslations('Pricing.Support')
     // UI State
     const [isOpen, setIsOpen] = useState(false)
     const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+    const [input, setInput] = useState('')
+    // useChat Hook Implementation
+    const { messages, sendMessage, status } = useChat({
+        // @ts-ignore - 'api' might not be in the type but it's often supported or needed
+        api: '/api/chat',
+        onError: (error) => {
+            console.error('Chat Error:', error)
+            toast.error(t('error_chat') + error.message)
+        }
+    })
+
+    useEffect(() => {
+        console.log('CHAT_DEBUG: Messages updated:', messages);
+    }, [messages]);
+
+    useEffect(() => {
+        console.log('CHAT_DEBUG: Status updated:', status);
+    }, [status]);
+
+    const isLoading = status === 'submitted' || status === 'streaming'
+
+    const handleFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!input.trim() || isLoading) return
+
+        const currentInput = input
+        setInput('')
+
+        try {
+            await sendMessage({
+                text: currentInput
+            })
+        } catch (err: any) {
+            console.error('Send message error:', err)
+            toast.error(t('error_send') + err.message)
+        }
+    }
 
     // Dragging state (managed by framer-motion, persisted in localStorage)
     const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -70,67 +108,6 @@ export function NeurometricaSupportBot() {
         }
     }, [messages, isOpen])
 
-    // Handle Send Manual Implementation
-    const handleSendMessage = async (e?: React.FormEvent) => {
-        e?.preventDefault()
-        if (!input.trim() || isLoading) return
-
-        const userMsg: Message = {
-            id: Date.now().toString(),
-            role: 'user',
-            content: input
-        }
-
-        // Optimistic update
-        setMessages(prev => [...prev, userMsg])
-        setInput('')
-        setIsLoading(true)
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: [...messages, userMsg].map(({ role, content }) => ({ role, content }))
-                })
-            })
-
-            if (!response.ok) throw new Error('Network response was not ok')
-            if (!response.body) return
-
-            // Create placeholder for bot message
-            const botMsgId = (Date.now() + 1).toString()
-            const botMsg: Message = { id: botMsgId, role: 'assistant', content: '' }
-            setMessages(prev => [...prev, botMsg])
-
-            // Stream reader
-            const reader = response.body.getReader()
-            const decoder = new TextDecoder()
-            let done = false
-
-            while (!done) {
-                const { value, done: doneReading } = await reader.read()
-                done = doneReading
-                const chunkValue = decoder.decode(value, { stream: true })
-
-                setMessages(prev => prev.map(msg =>
-                    msg.id === botMsgId
-                        ? { ...msg, content: msg.content + chunkValue }
-                        : msg
-                ))
-            }
-        } catch (error) {
-            console.error('Chat Error:', error)
-            setMessages(prev => [...prev, {
-                id: Date.now().toString(),
-                role: 'assistant',
-                content: 'Lo siento, hubo un error al procesar tu mensaje. Por favor intenta de nuevo.'
-            }])
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
     if (!isLoaded) return null;
 
     return (
@@ -155,7 +132,7 @@ export function NeurometricaSupportBot() {
             {/* Helper Label */}
             {!isOpen && (
                 <div className="absolute bottom-full mb-2 right-0 bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg animate-in fade-in slide-in-from-bottom-2">
-                    Asistente AI
+                    {t('helper_label')}
                 </div>
             )}
 
@@ -178,7 +155,7 @@ export function NeurometricaSupportBot() {
                                     <h3 className="font-bold text-sm">Neurometrics AI</h3>
                                     <p className="text-[10px] text-slate-300 flex items-center gap-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                                        En línea
+                                        {t('online')}
                                     </p>
                                 </div>
                             </div>
@@ -192,8 +169,8 @@ export function NeurometricaSupportBot() {
                             <div className="space-y-4 pb-4">
                                 {messages.length === 0 && (
                                     <div className="text-center text-sm text-muted-foreground mt-10 px-6">
-                                        <p className="font-bold text-slate-900 dark:text-slate-100 mb-1">Bienvenido a Neurometrics</p>
-                                        <p>Soy Aura, tu asistente virtual inteligente. Puedo ayudarte con tests neuropsicológicos, gestión de pacientes o cualquier duda sobre la plataforma Workstation.</p>
+                                        <p className="font-bold text-slate-900 dark:text-slate-100 mb-1">{t('welcome_title')}</p>
+                                        <p>{t('welcome_desc')}</p>
                                     </div>
                                 )}
 
@@ -221,7 +198,29 @@ export function NeurometricaSupportBot() {
                                                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
                                                     }}
                                                 >
-                                                    {msg.content}
+                                                    {(() => {
+                                                        const m = msg as any;
+                                                        // 1. Check direct content (standard in most versions)
+                                                        if (typeof m.content === 'string' && m.content) return m.content;
+
+                                                        // 2. Check parts (AI SDK 5.0 protocol)
+                                                        if (m.parts && Array.isArray(m.parts)) {
+                                                            const text = m.parts
+                                                                .filter((p: any) => p.type === 'text')
+                                                                .map((p: any) => p.text)
+                                                                .join('');
+                                                            if (text) return text;
+                                                        }
+
+                                                        // 3. Check for 'text' property
+                                                        if (typeof m.text === 'string' && m.text) return m.text;
+
+                                                        // 4. Debug fallback if still empty (only if it's the assistant or user sent something)
+                                                        if (m.role === 'user' || status === 'ready') {
+                                                            return "";
+                                                        }
+                                                        return "";
+                                                    })()}
                                                 </ReactMarkdown>
                                             </div>
                                         </div>
@@ -247,20 +246,19 @@ export function NeurometricaSupportBot() {
                             </div>
                         </ScrollArea>
 
-                        {/* Input Area */}
                         <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
-                            <form onSubmit={handleSendMessage} className="flex gap-2 relative">
+                            <form onSubmit={handleFormSubmit} className="flex gap-2 relative">
                                 <Input
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Escribe tu consulta..."
+                                    placeholder={t('input_placeholder')}
                                     className="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 pr-10 focus-visible:ring-teal-500"
                                     autoFocus
                                 />
                                 <Button
                                     type="submit"
                                     size="sm"
-                                    disabled={isLoading || !input.trim()}
+                                    disabled={isLoading || !input?.trim()}
                                     className="absolute right-1 top-1 bottom-1 h-auto w-8 p-0 rounded-md bg-teal-600 hover:bg-teal-700 text-white"
                                 >
                                     <Send className="w-4 h-4" />

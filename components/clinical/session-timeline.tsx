@@ -3,10 +3,9 @@
 import { ClinicalSession, AIInsight } from '@/types/clinical'
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
 import { Calendar, Clock, Sparkles } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { useTranslations, useFormatter } from 'next-intl'
 
 interface SessionTimelineProps {
     sessions: (ClinicalSession & { ai_insights?: AIInsight | null })[]
@@ -15,11 +14,13 @@ interface SessionTimelineProps {
 }
 
 export function SessionTimeline({ sessions, selectedSessionId, onSelectSession }: SessionTimelineProps) {
+    const t = useTranslations('Dashboard.Patients.Sessions')
+    const format = useFormatter()
 
     if (sessions.length === 0) {
         return (
             <div className="p-8 text-center text-slate-400">
-                <p className="text-sm">Aún no hay sesiones registradas.</p>
+                <p className="text-sm">{t('no_sessions_yet')}</p>
             </div>
         )
     }
@@ -51,19 +52,19 @@ export function SessionTimeline({ sessions, selectedSessionId, onSelectSession }
                             <div className="flex justify-between items-start mb-2">
                                 <div className="space-y-0.5">
                                     <h4 className={cn("font-bold text-sm", isSelected ? "text-teal-700" : "text-slate-700")}>
-                                        {format(new Date(session.date), "d 'de' MMMM, yyyy", { locale: es })}
+                                        {format.dateTime(new Date(session.date), { day: 'numeric', month: 'long', year: 'numeric' })}
                                     </h4>
                                     <div className="flex items-center gap-3 text-xs text-slate-500">
                                         <Badge variant="secondary" className="font-normal bg-slate-100 text-slate-600 border-0 h-5 px-1.5">
-                                            {session.type}
+                                            {t.has(`types.${session.type}`) ? t(`types.${session.type}`) : session.type}
                                         </Badge>
                                         <span className="flex items-center gap-1">
-                                            <Clock className="w-3 h-3" /> {session.duration} min
+                                            <Clock className="w-3 h-3" /> {session.duration} {t('minutes_suffix')}
                                         </span>
                                     </div>
                                 </div>
                                 {session.ai_insights && (
-                                    <div className="bg-indigo-50 p-1 rounded-md text-indigo-600" title="Análisis IA disponible">
+                                    <div className="bg-indigo-50 p-1 rounded-md text-indigo-600" title={t('ai_analysis_available')}>
                                         <Sparkles className="w-3.5 h-3.5" />
                                     </div>
                                 )}

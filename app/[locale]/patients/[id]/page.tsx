@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { ArrowLeft, Home } from 'lucide-react'
 import { PatientDashboard } from '@/components/clinical/patient-dashboard'
+import { getTranslations } from 'next-intl/server'
 
 
 
 
 
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const t = await getTranslations('Dashboard.Patients.Detail')
     const supabase = await createClient()
     const { id } = await params
     const { data: { user } } = await supabase.auth.getUser()
@@ -34,10 +36,10 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         return (
             <div className="container pt-24 pb-10">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-slate-900 mb-4">Paciente no encontrado</h1>
+                    <h1 className="text-2xl font-bold text-slate-900 mb-4">{t('not_found')}</h1>
                     <Button asChild>
                         <Link href="/patients">
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Pacientes
+                            <ArrowLeft className="mr-2 h-4 w-4" /> {t('back_to_list')}
                         </Link>
                     </Button>
                 </div>
@@ -104,7 +106,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             <div className="container py-4">
                 <Button variant="ghost" asChild className="mb-4 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 -ml-2">
                     <Link href="/dashboard">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Dashboard
+                        <ArrowLeft className="mr-2 h-4 w-4" /> {t('back_to_dashboard')}
                     </Link>
                 </Button>
             </div>

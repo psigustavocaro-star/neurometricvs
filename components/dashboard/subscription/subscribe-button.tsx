@@ -32,7 +32,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
 
     const handleSubscribe = async () => {
         if (!paddle) {
-            toast.error("El sistema de pagos se está cargando...")
+            toast.error(t('loading_payment'))
             return
         }
 
@@ -41,7 +41,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
                 planId === 'basic' ? PRICE_ID_BASIC : ''
 
         if (!priceId) {
-            toast.error("Configuración de precio no encontrada para este plan.")
+            toast.error(t('price_config_not_found'))
             return
         }
 
@@ -58,7 +58,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
             })
         } catch (error) {
             console.error("Paddle Checkout Error:", error)
-            toast.error("Error al iniciar la suscripción.")
+            toast.error(t('error_starting'))
         } finally {
             setLoading(false)
         }
@@ -71,7 +71,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
             className={className}
             onClick={handleSubscribe}
         >
-            {loading ? 'Procesando...' : (isActive ? t('current_plan') : `${t('change_plan')} ${planName}`)}
+            {loading ? t('processing') : (isActive ? t('current_plan') : `${t('change_plan')} ${planName}`)}
         </Button>
     )
 }

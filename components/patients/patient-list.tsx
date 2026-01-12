@@ -31,6 +31,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useTranslations, useFormatter } from "next-intl"
 
 interface Patient {
     id: string
@@ -60,28 +61,30 @@ function calculateAge(birthDate: string): number | null {
     return age >= 0 ? age : null
 }
 
-// Helper function to get gender display
-function getGenderDisplay(gender: string): { label: string; color: string } {
-    switch (gender?.toLowerCase()) {
-        case 'male':
-        case 'masculino':
-            return { label: 'Masculino', color: 'bg-blue-50 text-blue-700 border-blue-200' }
-        case 'female':
-        case 'femenino':
-            return { label: 'Femenino', color: 'bg-pink-50 text-pink-700 border-pink-200' }
-        case 'other':
-        case 'otro':
-            return { label: 'Otro', color: 'bg-purple-50 text-purple-700 border-purple-200' }
-        default:
-            return { label: '—', color: 'bg-slate-50 text-slate-400 border-slate-200' }
-    }
-}
-
 export function PatientList({ initialPatients }: PatientListProps) {
+    const t = useTranslations('Dashboard.Patients.List')
+    const format = useFormatter()
     const [searchTerm, setSearchTerm] = useState("")
     const [patients, setPatients] = useState(initialPatients)
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
     const [patientToDelete, setPatientToDelete] = useState<string | null>(null)
+
+    // Helper function to get gender display
+    function getGenderDisplay(gender: string): { label: string; color: string } {
+        switch (gender?.toLowerCase()) {
+            case 'male':
+            case 'masculino':
+                return { label: t('gender.male'), color: 'bg-blue-50 text-blue-700 border-blue-200' }
+            case 'female':
+            case 'femenino':
+                return { label: t('gender.female'), color: 'bg-pink-50 text-pink-700 border-pink-200' }
+            case 'other':
+            case 'otro':
+                return { label: t('gender.other'), color: 'bg-purple-50 text-purple-700 border-purple-200' }
+            default:
+                return { label: '—', color: 'bg-slate-50 text-slate-400 border-slate-200' }
+        }
+    }
 
     const confirmDelete = (id: string) => {
         setPatientToDelete(id)
@@ -112,13 +115,13 @@ export function PatientList({ initialPatients }: PatientListProps) {
                     <SearchBar
                         value={searchTerm}
                         onChange={setSearchTerm}
-                        placeholder="Buscar por nombre, email..."
+                        placeholder={t('search_placeholder')}
                         className="w-full md:w-96 border-slate-200 dark:border-slate-700"
                     />
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 font-medium">
                     <User className="w-4 h-4" />
-                    <span>{filteredPatients.length} pacientes registrados</span>
+                    <span>{filteredPatients.length} {t('count_suffix')}</span>
                 </div>
             </div>
 
@@ -126,12 +129,12 @@ export function PatientList({ initialPatients }: PatientListProps) {
                 <Table>
                     <TableHeader className="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-800 dark:to-slate-800/50">
                         <TableRow className="border-slate-200/60 dark:border-slate-700">
-                            <TableHead className="w-[280px] font-semibold text-slate-700 dark:text-slate-300">Paciente</TableHead>
-                            <TableHead className="w-[100px] font-semibold text-slate-700 dark:text-slate-300">Edad</TableHead>
-                            <TableHead className="w-[120px] font-semibold text-slate-700 dark:text-slate-300">Género</TableHead>
-                            <TableHead className="font-semibold text-slate-700 dark:text-slate-300">Email</TableHead>
-                            <TableHead className="w-[130px] font-semibold text-slate-700 dark:text-slate-300">Registrado</TableHead>
-                            <TableHead className="text-right w-[100px] font-semibold text-slate-700 dark:text-slate-300">Acciones</TableHead>
+                            <TableHead className="w-[280px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.patient')}</TableHead>
+                            <TableHead className="w-[100px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.age')}</TableHead>
+                            <TableHead className="w-[120px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.gender')}</TableHead>
+                            <TableHead className="font-semibold text-slate-700 dark:text-slate-300">{t('table_header.email')}</TableHead>
+                            <TableHead className="w-[130px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.registered')}</TableHead>
+                            <TableHead className="text-right w-[100px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -157,7 +160,7 @@ export function PatientList({ initialPatients }: PatientListProps) {
                                     </TableCell>
                                     <TableCell className="py-4">
                                         {age !== null ? (
-                                            <span className="font-medium text-slate-700 dark:text-slate-300">{age} años</span>
+                                            <span className="font-medium text-slate-700 dark:text-slate-300">{age} {t('age_suffix')}</span>
                                         ) : (
                                             <span className="text-slate-400 dark:text-slate-500 italic text-sm">—</span>
                                         )}
@@ -168,10 +171,10 @@ export function PatientList({ initialPatients }: PatientListProps) {
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-slate-500 dark:text-slate-400">
-                                        {patient.contact_email || <span className="text-slate-400 dark:text-slate-500 italic">Sin email</span>}
+                                        {patient.contact_email || <span className="text-slate-400 dark:text-slate-500 italic">{t('no_email')}</span>}
                                     </TableCell>
                                     <TableCell className="text-slate-500 dark:text-slate-400">
-                                        {new Date(patient.created_at).toLocaleDateString()}
+                                        {format.dateTime(new Date(patient.created_at), { day: 'numeric', month: 'numeric', year: 'numeric' })}
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
@@ -187,16 +190,16 @@ export function PatientList({ initialPatients }: PatientListProps) {
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                                    <DropdownMenuLabel>{t('table_header.actions')}</DropdownMenuLabel>
                                                     <DropdownMenuItem onClick={() => window.location.href = `/patients/${patient.id}`}>
-                                                        <ArrowRight className="mr-2 h-4 w-4" /> Ver Expediente
+                                                        <ArrowRight className="mr-2 h-4 w-4" /> {t('actions.view')}
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem
                                                         className="text-red-600 focus:text-red-600 focus:bg-red-50"
                                                         onClick={() => confirmDelete(patient.id)}
                                                     >
-                                                        <Trash2 className="mr-2 h-4 w-4" /> Eliminar Paciente
+                                                        <Trash2 className="mr-2 h-4 w-4" /> {t('actions.delete')}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
@@ -208,7 +211,7 @@ export function PatientList({ initialPatients }: PatientListProps) {
                         {filteredPatients.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={6} className="h-24 text-center text-slate-500">
-                                    No se encontraron pacientes.
+                                    {t('no_patients')}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -219,14 +222,14 @@ export function PatientList({ initialPatients }: PatientListProps) {
             <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Confirmar eliminación</DialogTitle>
+                        <DialogTitle>{t('delete_dialog.title')}</DialogTitle>
                         <DialogDescription>
-                            ¿Estás seguro de que deseas eliminar a este paciente? Esta acción no se puede deshacer y se perderán todos los registros clínicos asociados.
+                            {t('delete_dialog.description')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>Cancelar</Button>
-                        <Button variant="destructive" onClick={executeDelete}>Eliminar</Button>
+                        <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>{t('delete_dialog.cancel')}</Button>
+                        <Button variant="destructive" onClick={executeDelete}>{t('delete_dialog.confirm')}</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

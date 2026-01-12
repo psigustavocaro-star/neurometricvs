@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/input"
 import { Brain, Clock, Users, FileText, Sparkles, User, Search, Maximize2, Minimize2, ChevronDown, ChevronRight, Filter } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useTranslations } from "next-intl"
 
 interface Test {
     id: string
@@ -20,206 +21,67 @@ interface Test {
     tags?: string[]
 }
 
-const testsByCategory = {
-    "Depresión": [
-        {
-            id: 'phq9',
-            name: 'PHQ-9',
-            category: 'Depresión',
-            age: '12+ años',
-            duration: '5 min',
-            description: 'Cuestionario de Salud del Paciente para evaluar severidad de depresión',
-            color: 'from-rose-500 to-rose-600',
-            questions: 9,
-            tags: ['depresión', 'screening', 'adultos']
-        },
-        {
-            id: 'beck',
-            name: 'Beck Depression Inventory',
-            category: 'Depresión',
-            age: '13+ años',
-            duration: '10 min',
-            description: 'Inventario de Depresión de Beck para medir intensidad de síntomas depresivos',
-            color: 'from-rose-500 to-rose-600',
-            questions: 21,
-            tags: ['depresión', 'evaluación', 'adolescentes', 'adultos']
-        },
-    ],
-    "Ansiedad": [
-        {
-            id: 'gad7',
-            name: 'GAD-7',
-            category: 'Ansiedad',
-            age: '12+ años',
-            duration: '5 min',
-            description: 'Escala de Ansiedad Generalizada para detectar trastornos de ansiedad',
-            color: 'from-amber-500 to-amber-600',
-            questions: 7,
-            tags: ['ansiedad', 'screening', 'adultos']
-        },
-    ],
-    "Cognitivo": [
-        {
-            id: 'mmse',
-            name: 'MMSE',
-            category: 'Cognitivo',
-            age: '18+ años',
-            duration: '10 min',
-            description: 'Mini-Mental State Examination para evaluación cognitiva general',
-            color: 'from-blue-500 to-blue-600',
-            questions: 30,
-            tags: ['cognitivo', 'demencia', 'adultos mayores']
-        },
-    ],
-    "Inteligencia": [
-        {
-            id: 'wais',
-            name: 'WAIS-IV',
-            category: 'Inteligencia',
-            age: '16-90 años',
-            duration: '60-90 min',
-            description: 'Escala Wechsler de Inteligencia para Adultos, evaluación completa de CI',
-            color: 'from-purple-500 to-purple-600',
-            questions: 15,
-            tags: ['inteligencia', 'CI', 'wechsler', 'adultos']
-        },
-        {
-            id: 'wisc',
-            name: 'WISC-V',
-            category: 'Inteligencia',
-            age: '6-16 años',
-            duration: '60-90 min',
-            description: 'Escala Wechsler de Inteligencia para Niños, evaluación cognitiva infantil',
-            color: 'from-indigo-500 to-indigo-600',
-            questions: 16,
-            tags: ['inteligencia', 'CI', 'wechsler', 'niños']
-        },
-    ],
-    "Atención": [
-        {
-            id: 'stroop',
-            name: 'Stroop Test',
-            category: 'Atención',
-            age: '7+ años',
-            duration: '15 min',
-            description: 'Test de Stroop para evaluar atención selectiva e inhibición cognitiva',
-            color: 'from-emerald-500 to-emerald-600',
-            questions: 100,
-            tags: ['atención', 'inhibición', 'niños', 'adultos']
-        },
-    ],
-    "Funciones Ejecutivas": [
-        {
-            id: 'trail',
-            name: 'Trail Making Test',
-            category: 'Funciones Ejecutivas',
-            age: '8+ años',
-            duration: '10 min',
-            description: 'Test de rastreo para evaluar funciones ejecutivas y flexibilidad cognitiva',
-            color: 'from-cyan-500 to-cyan-600',
-            questions: 2,
-            tags: ['ejecutivo', 'flexibilidad', 'adultos']
-        },
-    ],
-    "Desarrollo Infantil": [
-        {
-            id: 'mchat',
-            name: 'M-CHAT-R/F',
-            category: 'Desarrollo Infantil',
-            age: '16-30 meses',
-            duration: '5-10 min',
-            description: 'Detección de riesgo de Trastorno del Espectro Autista en niños pequeños',
-            color: 'from-orange-400 to-orange-500',
-            questions: 20,
-            tags: ['autismo', 'desarrollo', 'pediatría']
-        },
-        {
-            id: 'asq3',
-            name: 'ASQ-3',
-            category: 'Desarrollo Infantil',
-            age: '1-66 meses',
-            duration: '15 min',
-            description: 'Cuestionario de edades y etapas para monitoreo del desarrollo infantil',
-            color: 'from-orange-500 to-orange-600',
-            tags: ['desarrollo', 'hitos', 'pediatría']
-        }
-    ],
-    "Movilidad y Función": [
-        {
-            id: 'tinetti',
-            name: 'Test de Tinetti',
-            category: 'Movilidad y Función',
-            age: '65+ años',
-            duration: '10 min',
-            description: 'Evaluación de la marcha y el equilibrio para determinar riesgo de caídas',
-            color: 'from-lime-500 to-lime-600',
-            tags: ['kinesiología', 'geriatría', 'equilibrio']
-        },
-        {
-            id: 'barthel',
-            name: 'Índice de Barthel',
-            category: 'Movilidad y Función',
-            age: 'Todas',
-            duration: '5 min',
-            description: 'Medida de la independencia en actividades de la vida diaria (AVD)',
-            color: 'from-lime-600 to-lime-700',
-            tags: ['terapia ocupacional', 'autonomía', 'rehabilitación']
-        }
-    ],
-    "Lenguaje y Comunicación": [
-        {
-            id: 'boston',
-            name: 'Test de Boston',
-            category: 'Lenguaje y Comunicación',
-            age: 'Adultos',
-            duration: '20-30 min',
-            description: 'Evaluación de afasias y trastornos relacionados del lenguaje',
-            color: 'from-fuchsia-500 to-fuchsia-600',
-            tags: ['fonoaudiología', 'lenguaje', 'afasia']
-        }
-    ],
-    "Salud General y Riesgo": [
-        {
-            id: 'imc',
-            name: 'Calculadora IMC',
-            category: 'Salud General',
-            age: 'Todas',
-            duration: '1 min',
-            description: 'Cálculo del Índice de Masa Corporal y clasificación nutricional',
-            color: 'from-slate-500 to-slate-600',
-            tags: ['nutrición', 'medicina', 'calculadora']
-        },
-        {
-            id: 'norton',
-            name: 'Escala de Norton',
-            category: 'Salud General',
-            age: 'Adultos',
-            duration: '3 min',
-            description: 'Evaluación del riesgo de úlceras por presión en pacientes encamados',
-            color: 'from-slate-600 to-slate-700',
-            tags: ['enfermería', 'medicina', 'riesgo']
-        }
-    ],
-    "Geriatría y Fragilidad": [
-        {
-            id: 'gds',
-            name: 'Escala Yesavage',
-            category: 'Geriatría',
-            age: '65+ años',
-            duration: '10 min',
-            description: 'Escala de Depresión Geriátrica para tamizaje en adultos mayores',
-            color: 'from-indigo-400 to-indigo-500',
-            questions: 15,
-            tags: ['geriatría', 'psicoterapia', 'adultos mayores']
-        }
-    ],
-}
-
 export function DashboardTestCatalog() {
+    const t = useTranslations('Dashboard.Tests')
+    const tc = useTranslations('Dashboard.Tests.Catalog')
     const [selectedTest, setSelectedTest] = useState<Test | null>(null)
     const [showTestModal, setShowTestModal] = useState(false)
     const [isFullscreen, setIsFullscreen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
+
+    const getTest = (id: string, categoryKey: string, color: string, questions?: number): Test => ({
+        id,
+        name: tc(`Tests.${id}.name`),
+        category: tc(`Categories.${categoryKey}`),
+        age: tc(`Tests.${id}.age`),
+        duration: tc(`Tests.${id}.duration`),
+        description: tc(`Tests.${id}.description`),
+        color,
+        questions,
+        tags: tc.raw(`Tests.${id}.tags`)
+    })
+
+    const testsByCategory: Record<string, Test[]> = {
+        [tc('Categories.depression')]: [
+            getTest('phq9', 'depression', 'from-rose-500 to-rose-600', 9),
+            getTest('beck', 'depression', 'from-rose-500 to-rose-600', 21),
+        ],
+        [tc('Categories.anxiety')]: [
+            getTest('gad7', 'anxiety', 'from-amber-500 to-amber-600', 7),
+        ],
+        [tc('Categories.cognitive')]: [
+            getTest('mmse', 'cognitive', 'from-blue-500 to-blue-600', 30),
+        ],
+        [tc('Categories.intelligence')]: [
+            getTest('wais', 'intelligence', 'from-purple-500 to-purple-600', 15),
+            getTest('wisc', 'intelligence', 'from-indigo-500 to-indigo-600', 16),
+        ],
+        [tc('Categories.attention')]: [
+            getTest('stroop', 'attention', 'from-emerald-500 to-emerald-600', 100),
+        ],
+        [tc('Categories.executive')]: [
+            getTest('trail', 'executive', 'from-cyan-500 to-cyan-600', 2),
+        ],
+        [tc('Categories.child_dev')]: [
+            getTest('mchat', 'child_dev', 'from-orange-400 to-orange-500', 20),
+            getTest('asq3', 'child_dev', 'from-orange-500 to-orange-600'),
+        ],
+        [tc('Categories.mobility')]: [
+            getTest('tinetti', 'mobility', 'from-lime-500 to-lime-600'),
+            getTest('barthel', 'mobility', 'from-lime-600 to-lime-700'),
+        ],
+        [tc('Categories.language')]: [
+            getTest('boston', 'language', 'from-fuchsia-500 to-fuchsia-600'),
+        ],
+        [tc('Categories.general_health')]: [
+            getTest('imc', 'general_health', 'from-slate-500 to-slate-600'),
+            getTest('norton', 'general_health', 'from-slate-600 to-slate-700'),
+        ],
+        [tc('Categories.geriatrics')]: [
+            getTest('gds', 'geriatrics', 'from-indigo-400 to-indigo-500', 15),
+        ],
+    }
+
     const [expandedCategories, setExpandedCategories] = useState<string[]>(Object.keys(testsByCategory))
 
     // Calculate total tests
@@ -274,7 +136,7 @@ export function DashboardTestCatalog() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <Input
                         type="text"
-                        placeholder="Buscar por nombre, temática o etiqueta..."
+                        placeholder={t('search_placeholder')}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 bg-white border-slate-200 focus:border-teal-400 focus:ring-teal-400"
@@ -283,7 +145,7 @@ export function DashboardTestCatalog() {
                 <div className="flex items-center gap-2">
                     <Badge variant="secondary" className="bg-teal-100 text-teal-700 font-semibold px-3 py-1.5">
                         <Brain className="w-3.5 h-3.5 mr-1.5" />
-                        {filteredCount} de {totalTests} tests
+                        {t('stats_count', { filtered: filteredCount, total: totalTests })}
                     </Badge>
                     <Button
                         size="sm"
@@ -359,7 +221,7 @@ export function DashboardTestCatalog() {
                                                         </span>
                                                         {test.questions && (
                                                             <span className="text-xs text-slate-500">
-                                                                {test.questions} preguntas
+                                                                {t('questions_count', { count: test.questions })}
                                                             </span>
                                                         )}
                                                     </div>
@@ -382,7 +244,7 @@ export function DashboardTestCatalog() {
                                                         onClick={() => handleStartTest(test)}
                                                     >
                                                         <Brain className="w-4 h-4 mr-2" />
-                                                        Iniciar Evaluación
+                                                        {t('start_evaluation')}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -397,8 +259,8 @@ export function DashboardTestCatalog() {
                 {Object.keys(filteredTests).length === 0 && (
                     <div className="text-center py-12">
                         <Search className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-                        <p className="text-slate-600 font-medium mb-2">No se encontraron tests</p>
-                        <p className="text-sm text-slate-500">Intenta con otros términos de búsqueda</p>
+                        <p className="text-slate-600 font-medium mb-2">{t('not_found_title')}</p>
+                        <p className="text-sm text-slate-500">{t('not_found_desc')}</p>
                     </div>
                 )}
             </div>
@@ -415,10 +277,10 @@ export function DashboardTestCatalog() {
                                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg">
                                     <Brain className="w-5 h-5 text-white" />
                                 </div>
-                                Catálogo Completo de Evaluaciones
+                                {t('catalog_modal_title')}
                             </DialogTitle>
                             <DialogDescription>
-                                Explora nuestra biblioteca completa de tests psicológicos y neuropsicológicos
+                                {t('catalog_modal_desc')}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="flex-1 overflow-y-auto p-6">
@@ -435,10 +297,10 @@ export function DashboardTestCatalog() {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-bold text-slate-900">
-                            ¿Cómo deseas realizar esta evaluación?
+                            {t('selection_modal_title')}
                         </DialogTitle>
                         <DialogDescription className="text-slate-600">
-                            Selecciona si quieres hacer un test efímero o asociarlo a un paciente para seguimiento
+                            {t('selection_modal_desc')}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -455,15 +317,15 @@ export function DashboardTestCatalog() {
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="font-bold text-slate-900 mb-1 group-hover:text-teal-700 transition-colors">
-                                            Test Efímero
+                                            {t('ephemeral_title')}
                                         </h3>
                                         <p className="text-sm text-slate-600 mb-2">
-                                            Realiza una evaluación rápida sin asociarla a un paciente específico
+                                            {t('ephemeral_desc')}
                                         </p>
                                         <ul className="text-xs text-slate-500 space-y-1">
-                                            <li>• No se guarda en el historial del paciente</li>
-                                            <li>• Ideal para demostraciones o pruebas</li>
-                                            <li>• Resultados disponibles temporalmente</li>
+                                            <li>• {t('ephemeral_l1')}</li>
+                                            <li>• {t('ephemeral_l2')}</li>
+                                            <li>• {t('ephemeral_l3')}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -483,20 +345,20 @@ export function DashboardTestCatalog() {
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
                                             <h3 className="font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
-                                                Asociar a Paciente
+                                                {t('patient_assoc_title')}
                                             </h3>
                                             <span className="text-xs font-semibold bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
-                                                RECOMENDADO
+                                                {t('patient_assoc_recommended')}
                                             </span>
                                         </div>
                                         <p className="text-sm text-slate-600 mb-2">
-                                            Vincula la evaluación al expediente de un paciente para seguimiento
+                                            {t('patient_assoc_desc')}
                                         </p>
                                         <ul className="text-xs text-slate-500 space-y-1">
-                                            <li>• Se guarda en el historial del paciente</li>
-                                            <li>• Permite generar informes de progreso automáticos</li>
-                                            <li>• Comparación con evaluaciones anteriores</li>
-                                            <li>• Seguimiento longitudinal completo</li>
+                                            <li>• {t('patient_assoc_l1')}</li>
+                                            <li>• {t('patient_assoc_l2')}</li>
+                                            <li>• {t('patient_assoc_l3')}</li>
+                                            <li>• {t('patient_assoc_l4')}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -506,7 +368,7 @@ export function DashboardTestCatalog() {
 
                     <div className="text-xs text-center text-slate-500 mt-2">
                         <Brain className="w-4 h-4 inline mr-1" />
-                        La IA generará informes automáticos basados en tests asociados a pacientes
+                        {t('ai_disclaimer')}
                     </div>
                 </DialogContent>
             </Dialog>

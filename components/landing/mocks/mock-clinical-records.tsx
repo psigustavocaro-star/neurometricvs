@@ -3,10 +3,12 @@
 import { motion } from "framer-motion"
 import { FileText, Save, Clock, User, Mic } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useTranslations } from "next-intl"
 
 export function MockClinicalRecords() {
+    const t = useTranslations('Mocks.ClinicalRecords')
     const [text, setText] = useState("")
-    const fullText = "Paciente reporta una mejora significativa en sus patrones de sueño. Los niveles de ansiedad han disminuido tras implementar los ejercicios de respiración. Se recomienda continuar con el protocolo de TCC-I..."
+    const fullText = t('placeholder_text')
 
     useEffect(() => {
         let i = 0
@@ -29,13 +31,13 @@ export function MockClinicalRecords() {
                         <FileText className="h-5 w-5 text-teal-400" />
                     </div>
                     <div>
-                        <span className="text-white text-base font-bold tracking-tight block">Ficha Clínica Digital</span>
-                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">Módulo de Evolución</span>
+                        <span className="text-white text-base font-bold tracking-tight block">{t('title')}</span>
+                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">{t('subtitle')}</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-2.5 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm">
                     <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-                    <span className="text-[10px] text-emerald-50 font-bold uppercase tracking-widest">Sistema Activo</span>
+                    <span className="text-[10px] text-emerald-50 font-bold uppercase tracking-widest">{t('active_system')}</span>
                 </div>
             </div>
 
@@ -47,8 +49,8 @@ export function MockClinicalRecords() {
                             <User className="h-4 w-4 text-slate-500" />
                         </div>
                         <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-slate-100">Paciente: Juan Pérez</p>
-                            <p className="text-[10px] text-slate-500 font-medium">Última sesión: Hoy, 10:30 AM</p>
+                            <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{t('patient_label')}</p>
+                            <p className="text-[10px] text-slate-500 font-medium">{t('last_session')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -89,7 +91,7 @@ export function MockClinicalRecords() {
                         whileTap={{ scale: 0.98 }}
                         className="bg-slate-900 dark:bg-teal-600 dark:hover:bg-teal-500 text-white px-8 py-3.5 rounded-xl text-xs font-bold flex items-center gap-3 shadow-xl shadow-slate-900/10 transition-all border border-slate-800 dark:border-teal-500/30"
                     >
-                        <Save className="h-4 w-4" /> Finalizar Evolución
+                        <Save className="h-4 w-4" /> {t('finish_button')}
                     </motion.button>
                 </div>
             </div>

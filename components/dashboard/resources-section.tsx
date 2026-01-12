@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { format } from "date-fns"
 import { es, enUS } from "date-fns/locale"
-import { useLocale, useTranslations } from 'next-intl'
+import { useLocale, useTranslations, useFormatter } from 'next-intl'
 
 interface Article {
     title: string
@@ -22,7 +22,8 @@ export function ResourcesSection() {
     const [displayArticles, setDisplayArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
     const locale = useLocale()
-    const t = useTranslations('Dashboard')
+    const t = useTranslations('Dashboard.Resources')
+    const formatIntl = useFormatter()
     const dateLocale = locale === 'es' ? es : enUS
 
     const shuffleAndSet = (pool: Article[]) => {
@@ -58,7 +59,7 @@ export function ResourcesSection() {
                         <div className="w-10 h-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
                             <BookOpen className="w-5 h-5 text-primary" />
                         </div>
-                        <h3 className="font-bold text-foreground tracking-tight text-sm">Recursos y Actualidad</h3>
+                        <h3 className="font-bold text-foreground tracking-tight text-sm">{t('title')}</h3>
                     </div>
                 </div>
                 <div className="p-0 overflow-hidden">
@@ -82,8 +83,8 @@ export function ResourcesSection() {
                         <BookOpen className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-foreground tracking-tight text-sm">Recursos y Actualidad</h3>
-                        <p className="text-[10px] text-muted-foreground/70 font-medium">Contenido profesional seleccionado</p>
+                        <h3 className="font-bold text-foreground tracking-tight text-sm">{t('title')}</h3>
+                        <p className="text-[10px] text-muted-foreground/70 font-medium">{t('subtitle')}</p>
                     </div>
                 </div>
                 <RefreshCw
@@ -106,13 +107,13 @@ export function ResourcesSection() {
                                     {article.category || article.source.name}
                                 </span>
                                 <span className="text-[9px] font-medium text-muted-foreground/60 whitespace-nowrap">
-                                    {format(new Date(article.publishedAt), "d MMM", { locale: dateLocale })}
+                                    {formatIntl.dateTime(new Date(article.publishedAt), { day: 'numeric', month: 'short' })}
                                 </span>
                             </div>
                             <h4 className="text-[13px] font-bold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                                 {article.title}
                             </h4>
-                            <p className="text-[11px] text-muted-foreground/80 line-clamp-2 leading-relaxed">
+                            <p className="text-[11px] text-muted-foreground/80 dark:text-slate-400 line-clamp-2 leading-relaxed">
                                 {article.description}
                             </p>
                             <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
@@ -126,7 +127,7 @@ export function ResourcesSection() {
             <div className="p-4 border-t border-border/40 bg-muted/5">
                 <Button variant="ghost" size="sm" className="w-full text-xs font-semibold h-9 text-muted-foreground hover:text-primary gap-2 transition-all rounded-xl" asChild>
                     <Link href="/dashboard/resources">
-                        Explorar biblioteca
+                        {t('explore')}
                         <ExternalLink className="w-3 h-3" />
                     </Link>
                 </Button>

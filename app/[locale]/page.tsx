@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
@@ -64,7 +65,7 @@ export default function LandingPage() {
 
                 <ScrollAnimation animation="fade-up" delay={200}>
                   <p className="max-w-[700px] text-slate-500 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
-                    La workstation definitiva para psicólogos, psiquiatras y neurólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.
+                    {tHero('subtitle')}
                   </p>
                 </ScrollAnimation>
 

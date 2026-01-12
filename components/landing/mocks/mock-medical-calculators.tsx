@@ -4,8 +4,10 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calculator, Activity, ChevronRight, Hash, User, ArrowRight } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 export function MockMedicalCalculators() {
+    const t = useTranslations('Mocks.MedicalCalculators')
     const [activeTab, setActiveTab] = useState('imc')
 
     return (
@@ -17,13 +19,13 @@ export function MockMedicalCalculators() {
                         <Calculator className="h-5 w-5 text-teal-400" />
                     </div>
                     <div>
-                        <span className="text-white text-base font-bold tracking-tight block">Calculadoras Médicas</span>
-                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">Módulo de Precisión</span>
+                        <span className="text-white text-base font-bold tracking-tight block">{t('title')}</span>
+                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">{t('precision_module')}</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-2.5 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm">
                     <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-                    <span className="text-[10px] text-emerald-50 font-bold uppercase tracking-widest">Sistema Activo</span>
+                    <span className="text-[10px] text-emerald-50 font-bold uppercase tracking-widest">{t('active_system', { defaultValue: 'Sistema Activo' })}</span>
                 </div>
             </div>
 
@@ -60,13 +62,13 @@ export function MockMedicalCalculators() {
                         >
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Peso (kg)</label>
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('weight')}</label>
                                     <div className="h-14 px-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center text-slate-900 dark:text-white font-black text-xl">
                                         72.5
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Altura (cm)</label>
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('height')}</label>
                                     <div className="h-14 px-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center text-slate-900 dark:text-white font-black text-xl">
                                         178
                                     </div>
@@ -75,11 +77,11 @@ export function MockMedicalCalculators() {
 
                             <div className="p-6 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-3xl flex items-center justify-between shadow-lg shadow-teal-500/5">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-widest">Índice Masa Corporal</p>
+                                    <p className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-widest">{t('bmi')}</p>
                                     <p className="text-4xl font-black text-teal-900 dark:text-white tracking-tighter">22.9</p>
                                 </div>
                                 <div className="px-4 py-2 bg-teal-500 text-white text-[10px] font-black rounded-xl shadow-lg shadow-teal-500/20 uppercase tracking-widest leading-none">
-                                    Normal
+                                    {t('normal')}
                                 </div>
                             </div>
                         </motion.div>
@@ -94,7 +96,7 @@ export function MockMedicalCalculators() {
                             className="space-y-6"
                         >
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Medicamento</label>
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('medication')}</label>
                                 <div className="h-14 px-4 bg-slate-900 text-white rounded-2xl flex items-center justify-between border border-white/5">
                                     <span className="font-bold">Sertralina (PHQ-9)</span>
                                     <ChevronRight className="w-5 h-5 text-teal-500" />
@@ -102,11 +104,11 @@ export function MockMedicalCalculators() {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-center">
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Mínimo</p>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">{t('min_label')}</p>
                                     <p className="text-2xl font-black text-slate-900 dark:text-white">50mg</p>
                                 </div>
                                 <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl text-center">
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Máximo</p>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">{t('max_label')}</p>
                                     <p className="text-2xl font-black text-rose-500">200mg</p>
                                 </div>
                             </div>
@@ -123,8 +125,8 @@ export function MockMedicalCalculators() {
                         >
                             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 shadow-xl shadow-slate-900/5">
                                 <div className="flex justify-between items-center text-sm font-bold border-b border-slate-50 dark:border-slate-800 pb-2">
-                                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-widest text-[11px]">Cálculo Proyectado</span>
-                                    <span className="text-teal-600">Riesgo Clínico</span>
+                                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-widest text-[11px]">{t('projected_calc')}</span>
+                                    <span className="text-teal-600">{t('clinical_risk')}</span>
                                 </div>
                                 <div className="space-y-3">
                                     {[1, 2, 3].map(i => (
@@ -141,7 +143,7 @@ export function MockMedicalCalculators() {
 
                 <div className="mt-8">
                     <button className="w-full h-14 bg-slate-900 dark:bg-teal-600 dark:hover:bg-teal-500 text-white font-bold rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 active:scale-95 group">
-                        <span>Insertar cálculos en Ficha</span>
+                        <span>{t('insert_record')}</span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>

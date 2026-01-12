@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { User, Mail, Phone, Briefcase, GraduationCap, Heart, Calendar, FileText, Activity, TrendingUp, Brain } from "lucide-react"
+import { useTranslations, useFormatter } from 'next-intl'
 
 interface PatientProfileModalProps {
     patient: any
@@ -13,6 +14,9 @@ interface PatientProfileModalProps {
 }
 
 export function PatientProfileModal({ patient, open, onOpenChange }: PatientProfileModalProps) {
+    const t = useTranslations('Dashboard.Patients.Profile')
+    const format = useFormatter()
+
     if (!patient) return null
 
     const getGradient = (index: number = 0) => {
@@ -39,7 +43,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                         <div>
                             <h2 className="text-2xl font-bold text-slate-900">{patient.full_name}</h2>
                             <p className="text-sm text-slate-500 font-normal mt-1">
-                                {patient.age} años • {patient.gender}
+                                {patient.age} {t('age_suffix')} • {patient.gender}
                             </p>
                         </div>
                     </DialogTitle>
@@ -55,7 +59,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                         <Brain className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-semibold text-teal-700 uppercase tracking-wide mb-1">Diagnóstico Principal</p>
+                                        <p className="text-xs font-semibold text-teal-700 uppercase tracking-wide mb-1">{t('main_diagnosis')}</p>
                                         <p className="text-lg font-bold text-slate-900">{patient.diagnosis}</p>
                                     </div>
                                 </div>
@@ -68,8 +72,8 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                         <Card>
                             <CardHeader className="pb-3">
                                 <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                                    <User className="w-4 h-4" />
-                                    Información Personal
+                                    <Calendar className="w-4 h-4" />
+                                    {t('timeline')}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
@@ -77,7 +81,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-center gap-3">
                                         <Mail className="w-4 h-4 text-slate-400" />
                                         <div>
-                                            <p className="text-xs text-slate-500">Email</p>
+                                            <p className="text-xs text-slate-500">{t('email')}</p>
                                             <p className="text-sm font-medium text-slate-900">{patient.email}</p>
                                         </div>
                                     </div>
@@ -86,7 +90,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-center gap-3">
                                         <Phone className="w-4 h-4 text-slate-400" />
                                         <div>
-                                            <p className="text-xs text-slate-500">Teléfono</p>
+                                            <p className="text-xs text-slate-500">{t('phone')}</p>
                                             <p className="text-sm font-medium text-slate-900">{patient.phone}</p>
                                         </div>
                                     </div>
@@ -95,7 +99,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-center gap-3">
                                         <Heart className="w-4 h-4 text-slate-400" />
                                         <div>
-                                            <p className="text-xs text-slate-500">Estado Civil</p>
+                                            <p className="text-xs text-slate-500">{t('marital_status')}</p>
                                             <p className="text-sm font-medium text-slate-900">{patient.marital_status}</p>
                                         </div>
                                     </div>
@@ -107,7 +111,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                             <CardHeader className="pb-3">
                                 <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                                     <Briefcase className="w-4 h-4" />
-                                    Información Profesional
+                                    {t('professional_info')}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-3">
@@ -115,7 +119,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-center gap-3">
                                         <Briefcase className="w-4 h-4 text-slate-400" />
                                         <div>
-                                            <p className="text-xs text-slate-500">Ocupación</p>
+                                            <p className="text-xs text-slate-500">{t('occupation')}</p>
                                             <p className="text-sm font-medium text-slate-900">{patient.occupation}</p>
                                         </div>
                                     </div>
@@ -124,7 +128,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-center gap-3">
                                         <GraduationCap className="w-4 h-4 text-slate-400" />
                                         <div>
-                                            <p className="text-xs text-slate-500">Educación</p>
+                                            <p className="text-xs text-slate-500">{t('education')}</p>
                                             <p className="text-sm font-medium text-slate-900">{patient.education}</p>
                                         </div>
                                     </div>
@@ -138,26 +142,26 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                         <CardHeader className="pb-3">
                             <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                                 <Activity className="w-4 h-4" />
-                                Estadísticas de Tratamiento
+                                {t('treatment_stats')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
                                     <p className="text-2xl font-bold text-indigo-700">{patient.sessions_count || 0}</p>
-                                    <p className="text-xs text-slate-600 mt-1">Sesiones Totales</p>
+                                    <p className="text-xs text-slate-600 mt-1">{t('total_sessions')}</p>
                                 </div>
                                 <div className="text-center p-4 bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg">
                                     <p className="text-2xl font-bold text-teal-700">
                                         {patient.created_at ? Math.floor((Date.now() - new Date(patient.created_at).getTime()) / (1000 * 60 * 60 * 24 * 30)) : 0}
                                     </p>
-                                    <p className="text-xs text-slate-600 mt-1">Meses en Tratamiento</p>
+                                    <p className="text-xs text-slate-600 mt-1">{t('months_in_treatment')}</p>
                                 </div>
                                 <div className="text-center p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg">
                                     <p className="text-2xl font-bold text-emerald-700">
                                         {patient.last_session ? Math.floor((Date.now() - new Date(patient.last_session).getTime()) / (1000 * 60 * 60 * 24)) : 0}
                                     </p>
-                                    <p className="text-xs text-slate-600 mt-1">Días desde última sesión</p>
+                                    <p className="text-xs text-slate-600 mt-1">{t('days_since_last_session')}</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -169,7 +173,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                             <CardHeader className="pb-3">
                                 <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                                     <FileText className="w-4 h-4" />
-                                    Notas Clínicas
+                                    {t('clinical_notes')}
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -183,7 +187,7 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                         <CardHeader className="pb-3">
                             <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                                 <Calendar className="w-4 h-4" />
-                                Línea de Tiempo
+                                {t('timeline')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -191,9 +195,9 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                 <div className="flex items-start gap-3">
                                     <div className="w-2 h-2 rounded-full bg-teal-500 mt-2"></div>
                                     <div>
-                                        <p className="text-xs text-slate-500">Fecha de Registro</p>
+                                        <p className="text-xs text-slate-500">{t('registration_date')}</p>
                                         <p className="text-sm font-medium text-slate-900">
-                                            {new Date(patient.created_at).toLocaleDateString('es-ES', {
+                                            {format.dateTime(new Date(patient.created_at), {
                                                 day: 'numeric',
                                                 month: 'long',
                                                 year: 'numeric'
@@ -205,9 +209,9 @@ export function PatientProfileModal({ patient, open, onOpenChange }: PatientProf
                                     <div className="flex items-start gap-3">
                                         <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2"></div>
                                         <div>
-                                            <p className="text-xs text-slate-500">Última Sesión</p>
+                                            <p className="text-xs text-slate-500">{t('last_session')}</p>
                                             <p className="text-sm font-medium text-slate-900">
-                                                {new Date(patient.last_session).toLocaleDateString('es-ES', {
+                                                {format.dateTime(new Date(patient.last_session), {
                                                     day: 'numeric',
                                                     month: 'long',
                                                     year: 'numeric'

@@ -125,7 +125,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                     })
                     setIsLoading(false)
                 } else {
-                    setError("ID de precio no configurado para este plan.")
+                    setError(t('errors.price_not_configured'))
                     setIsLoading(false)
                 }
             } catch (err: any) {
@@ -200,7 +200,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                 theme === 'dark' ? "bg-slate-950/40 backdrop-blur-2xl border-white/5" : "bg-white border-slate-200"
             )}>
                 {/* Visual Accent - Background Realistic Image */}
-                <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]">
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.06]">
                     <Image
                         src="/brain/73d5cd2b-e558-473c-a0dd-285d09e0566c/modern_clinical_reception_realistic_1767561220730.png"
                         alt="Clinical"
@@ -246,7 +246,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                 prioritario: (chunks) => <span className="text-teal-500 italic font-normal font-serif">{chunks}</span>
                                             })}
                                         </h1>
-                                        <p className="text-base font-medium opacity-40 max-w-lg mx-auto">
+                                        <p className="text-base font-medium opacity-40 dark:opacity-60 dark:text-slate-300 max-w-lg mx-auto">
                                             {t('step_0_subtext')}
                                         </p>
                                     </div>
@@ -277,7 +277,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                 </div>
                                                 <div className="flex-1">
                                                     <div className="font-bold text-xs uppercase tracking-widest mb-0.5">{option.label}</div>
-                                                    <div className="text-[9px] opacity-30 font-bold uppercase tracking-widest">{option.desc}</div>
+                                                    <div className="text-[9px] opacity-30 dark:opacity-50 dark:text-slate-400 font-bold uppercase tracking-widest">{option.desc}</div>
                                                 </div>
                                                 <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
                                             </button>
@@ -317,11 +317,14 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                     )}>
                                                         <SelectValue placeholder={t('step1_placeholder_role')} />
                                                     </SelectTrigger>
-                                                    <SelectContent className={theme === 'dark' ? "bg-slate-900 border-white/10" : "bg-white border-slate-200"}>
+                                                    <SelectContent className={theme === 'dark' ? "bg-slate-900 border-white/10 dark:text-slate-100" : "bg-white border-slate-200"}>
+                                                        <SelectItem value="physician">{t('professions.physician')}</SelectItem>
                                                         <SelectItem value="psychologist">{t('professions.psychologist')}</SelectItem>
                                                         <SelectItem value="psychiatrist">{t('professions.psychiatrist')}</SelectItem>
                                                         <SelectItem value="neurologist">{t('professions.neurologist')}</SelectItem>
                                                         <SelectItem value="neuropsychologist">{t('professions.neuropsychologist')}</SelectItem>
+                                                        <SelectItem value="occupational_therapist">{t('professions.occupational_therapist')}</SelectItem>
+                                                        <SelectItem value="speech_therapist">{t('professions.speech_therapist')}</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             </div>
@@ -373,7 +376,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                 <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 max-w-2xl mx-auto w-full px-4 text-center">
                                     <div className="space-y-3">
                                         <h2 className="text-4xl font-black tracking-tighter">{t('step2_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 max-w-sm mx-auto">{t('step2_subtext')}</p>
+                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-sm mx-auto">{t('step2_subtext')}</p>
                                     </div>
 
                                     <div className="space-y-10">
@@ -390,7 +393,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                                 : "border-slate-100 bg-slate-50 peer-data-[state=checked]:border-slate-900 peer-data-[state=checked]:bg-white"
                                                         )}>
                                                             <span className="text-2xl font-black tracking-tighter">{opt}</span>
-                                                            <span className="text-[7px] font-black uppercase tracking-[0.3em] mt-1 opacity-30">{t('step2_unit_patients')}</span>
+                                                            <span className="text-[7px] font-black uppercase tracking-[0.3em] mt-1 opacity-30 dark:opacity-60">{t('step2_unit_patients')}</span>
                                                         </Label>
                                                     </div>
                                                 ))}
@@ -445,7 +448,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                 <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 max-w-5xl mx-auto w-full px-4 text-center">
                                     <div className="space-y-3">
                                         <h2 className="text-4xl font-black tracking-tighter">{t('step3_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 max-w-lg mx-auto">{t('step3_subtext')}</p>
+                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-lg mx-auto">{t('step3_subtext')}</p>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -474,7 +477,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                 <div className="flex-1 space-y-4">
                                                     <div className="space-y-1">
                                                         <div className="font-bold text-[11px] uppercase tracking-widest">{p.name}</div>
-                                                        <div className="text-[8px] opacity-20 font-bold uppercase tracking-tighter leading-tight line-clamp-2">{p.desc}</div>
+                                                        <div className="text-[8px] opacity-20 dark:opacity-50 dark:text-slate-400 font-bold uppercase tracking-tighter leading-tight line-clamp-2">{p.desc}</div>
                                                     </div>
                                                     <div className="py-2">
                                                         {p.price === 0 ? <div className="font-black text-2xl">0.00</div> : <PriceDisplay amount={p.price} period={p.period} priceId={p.pid} className="font-black text-2xl" />}
@@ -487,7 +490,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                         ? (theme === 'dark' ? "bg-teal-500 border-teal-500 text-black" : "bg-slate-900 border-slate-900 text-white")
                                                         : "border-white/10 text-slate-500 opacity-50 group-hover:opacity-100"
                                                 )}>
-                                                    {formData.plan === p.id ? t('step3_btn_next') : "SELECCIONAR"}
+                                                    {formData.plan === p.id ? t('step3_btn_next') : t('step3_btn_select')}
                                                 </div>
                                             </div>
                                         ))}
@@ -518,7 +521,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                             <Lock className="w-3.5 h-3.5" /> {t('step4_badge')}
                                         </div>
                                         <h2 className="text-4xl font-black tracking-tighter">{t('step4_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 max-w-md mx-auto">{t('step4_subtext')}</p>
+                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-md mx-auto">{t('step4_subtext')}</p>
                                     </div>
 
                                     <div className="grid gap-6 text-left">

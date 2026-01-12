@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Check, Brain, Activity, FileText, Sparkles } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 export function MockTestScoring() {
+    const t = useTranslations('Mocks.TestScoring')
     const [step, setStep] = useState(0)
 
     useEffect(() => {
@@ -24,14 +26,14 @@ export function MockTestScoring() {
                         <Sparkles className="h-5 w-5 text-teal-400" />
                     </div>
                     <div>
-                        <span className="text-white text-base font-bold tracking-tight block">Corrección Automática</span>
-                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">Módulo de IA Psicométrica</span>
+                        <span className="text-white text-base font-bold tracking-tight block">{t('title')}</span>
+                        <span className="text-slate-400 text-[10px] uppercase tracking-widest font-bold">{t('subtitle')}</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-2.5 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm">
                     <div className={cn("w-2 h-2 rounded-full transition-all duration-500", step === 1 ? "bg-amber-400 animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.5)]" : "bg-emerald-400")} />
                     <span className="text-[10px] text-emerald-50 font-bold uppercase tracking-widest">
-                        {step === 1 ? "Procesando..." : "Sistema Activo"}
+                        {step === 1 ? t('processing') : t('active_system')}
                     </span>
                 </div>
             </div>
@@ -73,7 +75,7 @@ export function MockTestScoring() {
                             </div>
                             <div className="mt-4 p-4 bg-slate-900/5 dark:bg-white/5 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-2">
                                 <div className="h-2 w-48 bg-slate-200 dark:bg-slate-800 rounded-full" />
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Sincronizando respuestas...</p>
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{t('syncing')}</p>
                             </div>
                         </motion.div>
                     )}
@@ -102,7 +104,7 @@ export function MockTestScoring() {
                                 </div>
                             </div>
                             <div className="text-center space-y-3">
-                                <h4 className="text-slate-900 dark:text-white font-bold text-lg">Analizando patrones...</h4>
+                                <h4 className="text-slate-900 dark:text-white font-bold text-lg">{t('analyzing')}</h4>
                                 <div className="h-1.5 w-48 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden mx-auto">
                                     <motion.div
                                         className="h-full bg-teal-500"
@@ -127,20 +129,20 @@ export function MockTestScoring() {
                                     <Sparkles className="w-8 h-8 text-teal-500/10" />
                                 </div>
                                 <div className="text-center space-y-4">
-                                    <span className="inline-block px-3 py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-bold rounded-full border border-amber-100 dark:border-amber-500/20 uppercase tracking-widest">Severidad Moderada</span>
+                                    <span className="inline-block px-3 py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-bold rounded-full border border-amber-100 dark:border-amber-500/20 uppercase tracking-widest">{t('severity_moderate')}</span>
                                     <div className="relative inline-block">
                                         <h3 className="text-7xl font-black text-slate-900 dark:text-white tracking-tighter">14</h3>
                                         <span className="absolute -right-10 bottom-2 text-2xl text-slate-400 dark:text-slate-500 font-bold">/27</span>
                                     </div>
-                                    <p className="text-slate-500 dark:text-slate-400 font-medium italic">Sintomatología concordante con TAG</p>
+                                    <p className="text-slate-500 dark:text-slate-400 font-medium italic">{t('tag_concordant')}</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-slate-50 dark:border-slate-800">
                                     <div className="text-center">
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Precisión</p>
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">{t('precision_label')}</p>
                                         <p className="text-slate-900 dark:text-slate-100 font-bold">99.9%</p>
                                     </div>
                                     <div className="text-center border-l border-slate-50 dark:border-slate-800">
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Tempo</p>
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">{t('tempo_label')}</p>
                                         <p className="text-slate-900 dark:text-slate-100 font-bold">0.4s</p>
                                     </div>
                                 </div>

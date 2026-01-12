@@ -180,11 +180,11 @@ export default async function SubscriptionPage() {
                                 <CreditCard className="h-6 w-6 text-muted-foreground" />
                             </div>
                             <div>
-                                <p className="font-medium text-foreground">Visa terminada en 4242</p>
+                                <p className="font-medium text-foreground">{t('PaymentMethod.card_ending', { digits: '4242' })}</p>
                                 <p className="text-sm text-muted-foreground">{t('PaymentMethod.expires')} 12/2025</p>
                             </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="hover:bg-accent text-muted-foreground hover:text-foreground">Editar</Button>
+                        <Button variant="ghost" size="sm" className="hover:bg-accent text-muted-foreground hover:text-foreground">{t('PaymentMethod.edit')}</Button>
                     </div>
                 </CardContent>
             </Card>

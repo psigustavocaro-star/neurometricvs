@@ -1,0 +1,5 @@
+[2026-01-12T00:53:03.778Z] POST Request received
+[2026-01-12T00:53:03.781Z] Messages: [{"role":"user","content":"Hola"}]
+[2026-01-12T00:53:03.890Z]ERROR: Cannot read properties of undefined (reading 'map')
+[2026-01-12T00:53:43.543Z] POST Request received
+[2026-01-12T00:53:43.545Z] Messages: [{"role":"user","content":"Hola"}]

@@ -71,13 +71,11 @@ export function FeaturesSection() {
                 <div className="text-center max-w-3xl mx-auto mb-20 md:mb-32">
                     <ScrollAnimation animation="fade-up">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] font-bold uppercase tracking-widest mb-6 border border-border">
-                            Propuesta de Valor Clínica
+                            {t('hero_badge')}
                         </div>
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight mb-6">
-                            Herramientas de <span className="text-teal-600">precisión médica</span> para tu consultorio.
-                        </h2>
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight mb-6" dangerouslySetInnerHTML={{ __html: t.raw('hero_title') }} />
                         <p className="text-lg text-muted-foreground leading-relaxed font-light text-balance">
-                            Diseñamos cada módulo pensando en el rigor que exige la práctica de la psicología, psiquiatría y neurología moderna.
+                            {t('hero_description')}
                         </p>
                     </ScrollAnimation>
                 </div>
@@ -113,7 +111,7 @@ export function FeaturesSection() {
                                     <div className="pt-8">
                                         <Button asChild variant="outline" className="rounded-xl border-slate-200 text-slate-600 hover:text-teal-600 hover:border-teal-200 px-6 h-12 shadow-sm">
                                             <Link href={`/features/${feature.slug}`}>
-                                                Explorar módulo <ArrowRight className="ml-2 w-4 h-4" />
+                                                {t('explore_module')} <ArrowRight className="ml-2 w-4 h-4" />
                                             </Link>
                                         </Button>
                                     </div>

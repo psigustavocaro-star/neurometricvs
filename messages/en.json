@@ -30,7 +30,7 @@
     },
     "Hero": {
         "title": "Advanced digital <span>ecosystem</span> for health <span2>specialists</span2>.",
-        "subtitle": "Professional software for doctors, psychologists, neurologists, occupational therapists, and speech therapists. Advanced clinical records and digital tools for your entire practice.",
+        "subtitle": "The definitive workstation for physicians, psychologists, psychiatrists, neurologists, occupational therapists, and speech therapists. Centralize your clinical practice with precision tools and scientific automation.",
         "cta_primary": "Start Free Trial",
         "cta_secondary": "Watch Demo",
         "trusted_by": "Trusted by +500 health professionals"
@@ -68,7 +68,7 @@
             },
             {
                 "image": "/assets/v2/male-2.png",
-                "quote": "Automating test scoring has given me back hours of life every week.",
+                "quote": "Automating test scoring has given me back precious hours every week.",
                 "author": "Dr. Alejandro Vega",
                 "role": "Neurologist",
                 "location": "Argentina 🇦🇷",
@@ -135,7 +135,7 @@
         "report_generated": "Clinical Report Generated"
     },
     "Footer": {
-        "description": "Transforming psychological assessment with cutting-edge technology.",
+        "description": "Transforming clinical practice with cutting-edge technology.",
         "product": "Product",
         "company": "Company",
         "legal": "Legal",
@@ -161,6 +161,67 @@
     "Trust": {
         "label": "Trusted by professionals from"
     },
+    "Mocks": {
+        "ClinicalRecords": {
+            "title": "Digital Clinical Record",
+            "subtitle": "Evolution Module",
+            "active_system": "Active System",
+            "patient_label": "Patient: John Doe",
+            "last_session": "Last session: Today, 10:30 AM",
+            "placeholder_text": "Patient reports significant improvement in sleep patterns. Anxiety levels have decreased after implementing breathing exercises. Recommended to continue with CBT-I protocol...",
+            "finish_button": "Finish Evolution"
+        },
+        "TestScoring": {
+            "title": "Automated Scoring",
+            "subtitle": "Psychometric AI Module",
+            "active_system": "Active System",
+            "processing": "Processing...",
+            "syncing": "Syncing responses...",
+            "analyzing": "Analyzing patterns...",
+            "severity_moderate": "Moderate Severity",
+            "tag_concordant": "Symptomatology consistent with GAD",
+            "precision_label": "Precision",
+            "tempo_label": "Tempo"
+        },
+        "AICopilot": {
+            "title": "AI Clinical Copilot",
+            "subtitle": "Decision Support",
+            "active_system": "AI Processing",
+            "user_note": "Session note: Patient mentions recurring insomnia and lack of concentration during work.",
+            "predictive_analysis": "Predictive Analysis",
+            "tag_match": "Symptomatology compatible with GAD (ICD-10 F41.1).",
+            "action_gad7": "Action: Apply GAD-7 scale.",
+            "add_to_diagnosis": "Add to Diagnosis"
+        },
+        "MobileApp": {
+            "welcome": "Welcome",
+            "doctor_name": "Dr. Gustavo",
+            "realtime_sync": "Real-Time Sync",
+            "patient_name": "Sophia Garcia",
+            "completed": "Completed",
+            "new": "New",
+            "depression": "Depression",
+            "anxiety": "Anxiety",
+            "teleconsultation": "Teleconsultation",
+            "alerts": "Alerts"
+        },
+        "MedicalCalculators": {
+            "title": "Medical Calculators",
+            "precision_module": "Precision Module",
+            "active_system": "Active System",
+            "weight": "Weight (kg)",
+            "height": "Height (cm)",
+            "bmi": "Body Mass Index",
+            "normal": "Normal",
+            "medication": "Medication",
+            "min_label": "Min Dose",
+            "max_label": "Max Dose",
+            "projected_calc": "Projected Calc",
+            "clinical_risk": "Clinical Risk",
+            "insert_record": "Insert into Chart",
+            "anxiety": "Anxiety"
+        }
+    },
     "Pricing": {
         "no_cost": "No Cost",
         "title": "Transparent Plans",
@@ -170,13 +231,15 @@
         "faq_title": "Frequently Asked Questions",
         "view_details": "View configuration details",
         "locale_redirect": "en",
+        "month": "/mo",
+        "year": "/yr",
         "free": {
             "name": "Free",
             "description": "Read / Exploration Mode",
             "cta": "Start for Free",
             "features": [
-                "View test library",
-                "Filter by profession"
+                "Browse test library",
+                "Filter by specialty"
             ],
             "excluded": [
                 "Test usage and scoring"
@@ -248,6 +311,538 @@
         "secure_payment": "Secure Payment 256-bit",
         "clinical_protocol": "Clinical Protocol",
         "config_details": "Configuration Details",
+        "Support": {
+            "helper_label": "AI Assistant",
+            "online": "Online",
+            "welcome_title": "Welcome to Neurometrics",
+            "welcome_desc": "I am Aura, your intelligent virtual assistant. I can help you with neuropsychological tests, patient management, or any questions about the Workstation platform.",
+            "input_placeholder": "Type your query...",
+            "error_chat": "Chat error: ",
+            "error_send": "Send error: "
+        },
+        "Dashboard": {
+            "Resources": {
+                "title": "Resource Library",
+                "description": "Access our curated collection of psychoeducational material, stimulation exercises, and clinical guides. Download and share these resources with your patients to enrich the therapeutic process."
+            },
+            "Tests": {
+                "back_to_catalog": "Back to Catalog",
+                "about_test": "About this test",
+                "estimated_duration": "Estimated Duration",
+                "items_label": "Items",
+                "questions_count": "{count} questions",
+                "variable_questions": "Variable",
+                "actions_title": "Actions",
+                "actions_desc": "Options available for this test",
+                "view_report_sample": "View Report Sample",
+                "disclaimer": "This instrument is designed to be applied in clinical and educational contexts. Ensure you have the patient's informed consent before proceeding.",
+                "search_placeholder": "Search by name, category or tag...",
+                "stats_count": "{filtered} of {total} tests",
+                "not_found_title": "No tests found",
+                "not_found_desc": "Try with other search terms",
+                "catalog_modal_title": "Complete Evaluation Catalog",
+                "catalog_modal_desc": "Explore our complete library of psychological and neuropsychological tests",
+                "selection_modal_title": "How do you want to perform this evaluation?",
+                "selection_modal_desc": "Select if you want to perform an ephemeral test or associate it with a patient for follow-up",
+                "ephemeral_title": "Ephemeral Test",
+                "ephemeral_desc": "Perform a quick evaluation without associating it with a specific patient",
+                "ephemeral_l1": "Not saved in patient history",
+                "ephemeral_l2": "Ideal for demonstrations or testing",
+                "ephemeral_l3": "Results available temporarily",
+                "patient_assoc_title": "Associate with Patient",
+                "patient_assoc_desc": "Link the evaluation to a patient's file for follow-up",
+                "patient_assoc_l1": "Saved in patient history",
+                "patient_assoc_l2": "Allows generating automatic progress reports",
+                "patient_assoc_l3": "Comparison with previous evaluations",
+                "patient_assoc_l4": "Complete longitudinal follow-up",
+                "patient_assoc_recommended": "RECOMMENDED",
+                "ai_disclaimer": "AI will generate automatic reports based on tests associated with patients",
+                "start_evaluation": "Start Evaluation",
+                "Catalog": {
+                    "Categories": {
+                        "depression": "Depression",
+                        "anxiety": "Anxiety",
+                        "cognitive": "Cognitive",
+                        "intelligence": "Intelligence",
+                        "attention": "Attention",
+                        "executive": "Executive Functions",
+                        "child_dev": "Child Development",
+                        "mobility": "Mobility & Function",
+                        "language": "Language & Communication",
+                        "general_health": "General Health & Risk",
+                        "geriatrics": "Geriatrics & Frailty"
+                    },
+                    "Tests": {
+                        "phq9": {
+                            "name": "PHQ-9",
+                            "description": "Patient Health Questionnaire for assessing depression severity",
+                            "age": "12+ years",
+                            "duration": "5 min",
+                            "tags": [
+                                "depression",
+                                "screening",
+                                "adults"
+                            ]
+                        },
+                        "snapiv": {
+                            "name": "SNAP-IV",
+                            "description": "Scale for evaluating ADHD symptoms in children and adolescents",
+                            "age": "6-18 years",
+                            "duration": "10 min",
+                            "tags": [
+                                "ADHD",
+                                "attention",
+                                "children"
+                            ]
+                        },
+                        "beck": {
+                            "name": "Beck Depression Inventory",
+                            "description": "Beck Depression Inventory for measuring the intensity of depressive symptoms",
+                            "age": "13+ years",
+                            "duration": "10 min",
+                            "tags": [
+                                "depression",
+                                "evaluation",
+                                "adolescents",
+                                "adults"
+                            ]
+                        },
+                        "gad7": {
+                            "name": "GAD-7",
+                            "description": "Generalized Anxiety Disorder scale for detecting anxiety disorders",
+                            "age": "12+ years",
+                            "duration": "5 min",
+                            "tags": [
+                                "anxiety",
+                                "screening",
+                                "adults"
+                            ]
+                        },
+                        "mmse": {
+                            "name": "MMSE",
+                            "description": "Mini-Mental State Examination for general cognitive assessment",
+                            "age": "18+ years",
+                            "duration": "10 min",
+                            "tags": [
+                                "cognitive",
+                                "dementia",
+                                "older adults"
+                            ]
+                        },
+                        "wais": {
+                            "name": "WAIS-IV",
+                            "description": "Wechsler Adult Intelligence Scale, comprehensive assessment of IQ",
+                            "age": "16-90 years",
+                            "duration": "60-90 min",
+                            "tags": [
+                                "intelligence",
+                                "IQ",
+                                "wechsler",
+                                "adults"
+                            ]
+                        },
+                        "wisc": {
+                            "name": "WISC-V",
+                            "description": "Wechsler Intelligence Scale for Children, child cognitive assessment",
+                            "age": "6-16 years",
+                            "duration": "60-90 min",
+                            "tags": [
+                                "intelligence",
+                                "IQ",
+                                "wechsler",
+                                "children"
+                            ]
+                        },
+                        "stroop": {
+                            "name": "Stroop Test",
+                            "description": "Stroop Test for assessing selective attention and cognitive inhibition",
+                            "age": "7+ years",
+                            "duration": "15 min",
+                            "tags": [
+                                "attention",
+                                "inhibition",
+                                "children",
+                                "adults"
+                            ]
+                        },
+                        "trail": {
+                            "name": "Trail Making Test",
+                            "description": "Trail Making Test for assessing executive functions and cognitive flexibility",
+                            "age": "8+ years",
+                            "duration": "10 min",
+                            "tags": [
+                                "executive",
+                                "flexibility",
+                                "adults"
+                            ]
+                        },
+                        "mchat": {
+                            "name": "M-CHAT-R/F",
+                            "description": "Screening for Autism Spectrum Disorder risk in young children",
+                            "age": "16-30 months",
+                            "duration": "5-10 min",
+                            "tags": [
+                                "autism",
+                                "development",
+                                "pediatrics"
+                            ]
+                        },
+                        "asq3": {
+                            "name": "ASQ-3",
+                            "description": "Ages and Stages Questionnaire for monitoring child development",
+                            "age": "1-66 months",
+                            "duration": "15 min",
+                            "tags": [
+                                "development",
+                                "milestones",
+                                "pediatrics"
+                            ]
+                        },
+                        "tinetti": {
+                            "name": "Tinetti Test",
+                            "description": "Assessment of gait and balance to determine fall risk",
+                            "age": "65+ years",
+                            "duration": "10 min",
+                            "tags": [
+                                "kinesiology",
+                                "geriatrics",
+                                "balance"
+                            ]
+                        },
+                        "barthel": {
+                            "name": "Barthel Index",
+                            "description": "Measure of independence in activities of daily living (ADL)",
+                            "age": "All",
+                            "duration": "5 min",
+                            "tags": [
+                                "occupational therapy",
+                                "autonomy",
+                                "rehabilitation"
+                            ]
+                        },
+                        "boston": {
+                            "name": "Boston Diagnostic Aphasia Examination",
+                            "description": "Assessment of aphasia and related language disorders",
+                            "age": "Adults",
+                            "duration": "20-30 min",
+                            "tags": [
+                                "speech therapy",
+                                "language",
+                                "aphasia"
+                            ]
+                        },
+                        "imc": {
+                            "name": "BMI Calculator",
+                            "description": "Calculation of Body Mass Index and nutritional classification",
+                            "age": "All",
+                            "duration": "1 min",
+                            "tags": [
+                                "nutrition",
+                                "medicine",
+                                "calculator"
+                            ]
+                        },
+                        "norton": {
+                            "name": "Norton Scale",
+                            "description": "Assessment of risk for pressure ulcers in bedridden patients",
+                            "age": "Adults",
+                            "duration": "3 min",
+                            "tags": [
+                                "nursing",
+                                "medicine",
+                                "risk"
+                            ]
+                        },
+                        "gds": {
+                            "name": "Yesavage Scale",
+                            "description": "Geriatric Depression Scale for screening in older adults",
+                            "age": "65+ years",
+                            "duration": "10 min",
+                            "tags": [
+                                "geriatrics",
+                                "psychotherapy",
+                                "older adults"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "Patients": {
+            "Access": {
+                "restricted_title": "Restricted Access",
+                "restricted_desc": "Patient management is exclusively available for Clinical and Pro plans.",
+                "upgrade_plan": "Upgrade Plan",
+                "back_to_dashboard": "Back to Dashboard"
+            },
+            "List": {
+                "title": "Patients",
+                "subtitle": "Manage your patients' files.",
+                "new_patient": "New Patient",
+                "search_placeholder": "Search by name, email...",
+                "count_suffix": "registered patients",
+                "table_header": {
+                    "patient": "Patient",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "email": "Email",
+                    "registered": "Registered",
+                    "actions": "Actions"
+                },
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "age_suffix": "years",
+                "no_email": "No email",
+                "actions": {
+                    "view": "View File",
+                    "delete": "Delete Patient"
+                },
+                "no_patients": "No patients found.",
+                "delete_dialog": {
+                    "title": "Confirm deletion",
+                    "description": "Are you sure you want to delete this patient? This action cannot be undone and all associated clinical records will be lost.",
+                    "cancel": "Cancel",
+                    "confirm": "Delete"
+                }
+            },
+            "Edit": {
+                "trigger": "Edit",
+                "title": "Edit Patient",
+                "description": "Modify the patient's personal data. Click save when you are finished.",
+                "fields": {
+                    "name": "Full Name",
+                    "birth_date": "Birth Date",
+                    "gender": "Gender",
+                    "email": "Contact Email"
+                },
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "placeholders": {
+                    "email": "example@email.com"
+                },
+                "cancel": "Cancel",
+                "save": "Save Changes",
+                "success": "Patient updated successfully",
+                "error": "Error updating patient"
+            },
+            "History": {
+                "empty": "No tests performed yet.",
+                "new_test": "Perform New Test",
+                "select_instructions": "Select multiple tests to generate a progress report.",
+                "unified_report": "Generate Unified Report ({count})",
+                "score": "Score: {score}",
+                "view_report": "View Report",
+                "date_format": "MMMM d, yyyy"
+            },
+            "Profile": {
+                "age_suffix": "years",
+                "main_diagnosis": "Main Diagnosis",
+                "personal_info": "Personal Information",
+                "email": "Email",
+                "phone": "Phone",
+                "marital_status": "Marital Status",
+                "professional_info": "Professional Information",
+                "occupation": "Occupation",
+                "education": "Education",
+                "treatment_stats": "Treatment Statistics",
+                "total_sessions": "Total Sessions",
+                "months_in_treatment": "Months in Treatment",
+                "days_since_last_session": "Days since last session",
+                "clinical_notes": "Clinical Notes",
+                "timeline": "Timeline",
+                "registration_date": "Registration Date",
+                "last_session": "Last Session"
+            },
+            "Remote": {
+                "title": "Sent / Remote Tests",
+                "description": "Manage the links for remote evaluation.",
+                "new_assignment": "New Submission",
+                "modal_title": "Send Test to Patient",
+                "modal_description": "Generate a secure link for the patient to respond from their device.",
+                "select_placeholder": "Select a test...",
+                "cancel": "Cancel",
+                "generate_link": "Generate Link",
+                "empty": "There are no pending sent tests.",
+                "table": {
+                    "test": "Test",
+                    "status": "Status",
+                    "created": "Created",
+                    "actions": "Actions"
+                },
+                "status": {
+                    "completed": "Completed",
+                    "pending": "Pending"
+                },
+                "copy_link": "Copy Link",
+                "messages": {
+                    "assigned": "Test Assigned",
+                    "assigned_desc": "The link has been generated successfully.",
+                    "error": "Error",
+                    "error_desc": "An unexpected error occurred",
+                    "copied": "Link Copied",
+                    "copied_desc": "The link is in your clipboard."
+                }
+            },
+            "Detail": {
+                "not_found": "Patient not found",
+                "back_to_list": "Back to Patients",
+                "back_to_dashboard": "Back to Dashboard"
+            },
+            "Dashboard": {
+                "clinical_record": "Clinical Record",
+                "age": "Age",
+                "age_suffix": "years",
+                "diagnosis": "Diagnosis",
+                "under_evaluation": "Under Evaluation",
+                "sessions_count": "{count} Sessions",
+                "active": "Active",
+                "nav": {
+                    "overview": "Overview",
+                    "clinical": "Clinical",
+                    "tests": "Tests",
+                    "family": "Family"
+                },
+                "session_history": "Session History",
+                "new_session": "New Session",
+                "search_placeholder": "Search in notes...",
+                "no_notes": "No notes...",
+                "no_history": "No clinical history.",
+                "remote_evaluations": "Pending Evaluations (Remote Tests)",
+                "results_history": "Results History",
+                "date_format": "MMM d, yyyy"
+            },
+            "Overview": {
+                "current_status": "Current Status",
+                "main_diagnosis": "Main Diagnosis",
+                "in_evaluation": "Under evaluation",
+                "stable": "Stable",
+                "last_session": "Last Session",
+                "regular_session": "Regular Session",
+                "no_sessions_yet": "No sessions registered",
+                "new_session": "New Session",
+                "register_visit": "Register clinical visit",
+                "pharmacological_treatment": "Pharmacological Treatment",
+                "cognitive_evolution": "Cognitive Evolution",
+                "mmse_trend": "MMSE Trend: Upward",
+                "session_history": "Session History",
+                "total_count": "Total: {count}",
+                "session_fallback": "Session",
+                "ai_analysis": "AI Cerebral Analysis",
+                "analysis_available": "Analysis available",
+                "view_details": "View details",
+                "no_history": "No sessions registered",
+                "start_first_session": "Start First Session",
+                "progress": "Progress",
+                "continuity": "Continuity",
+                "total_sessions": "Total Sessions",
+                "with_analysis": "With Analysis"
+            },
+            "Sessions": {
+                "timeline": "Timeline",
+                "new_session": "New Session",
+                "session_date": "Session from {date}",
+                "registering_evolution": "Registering clinical evolution",
+                "register": "Register",
+                "save_changes": "Save Changes",
+                "psychiatry_mode": "Psychiatry Mode",
+                "neurology_mode": "Neurology Mode",
+                "date": "Date",
+                "duration": "Duration",
+                "type": "Type",
+                "types": {
+                    "regular": "Regular Session",
+                    "evaluation": "Evaluation",
+                    "crisis": "Crisis",
+                    "closure": "Closure"
+                },
+                "evolution_notes": "Evolution Notes",
+                "notes_placeholder": "Start writing or use the microphone to transcribe the session...",
+                "pharmacological_notes": "Pharmacological Notes",
+                "pharmacological_placeholder": "Register changes in medication, adverse effects, etc...",
+                "neurological_notes": "Neurological / Physical Examination",
+                "neurological_placeholder": "Register findings of the physical exam, cranial nerves, motor skills...",
+                "messages": {
+                    "created": "Session created successfully",
+                    "updated": "Session updated",
+                    "error": "Error saving session",
+                    "first_completed": "First session completed!"
+                },
+                "no_sessions_yet": "No sessions registered yet.",
+                "minutes_suffix": "min",
+                "ai_analysis_available": "AI analysis available",
+                "mock_notes": "[SESSION GENERATED AUTOMATICALLY]\n\nPatient reports feeling calmer since the last session. Mentions having performed the recommended breathing exercises.\n\nObservations:\n- Coherent and fluid speech.\n- Congruent affect.\n- No active suicidal ideation.\n\nPlan:\n- Continue with Cognitive Behavioral Therapy.\n- Review homework in the next session.",
+                "FirstForm": {
+                    "title": "First Session of {name}",
+                    "description": "To start treatment, we need to complete the patient's clinical history.",
+                    "notes_title": "Session Notes",
+                    "notes_description": "Free space to record the patient's narrative during the initial evaluation.",
+                    "notes_placeholder": "Start writing here... You can use the guide on the right to orient the interview.",
+                    "interview_guide": {
+                        "title": "Interview Guide",
+                        "tip_title": "Tip",
+                        "tip_text": "It is not necessary to ask all the questions. Let the patient speak freely and guide the conversation gently toward uncovered areas.",
+                        "sections": {
+                            "reason": {
+                                "title": "Reason for Consultation",
+                                "questions": [
+                                    "What brings you here today?",
+                                    "How long have you felt this way?",
+                                    "Has anything specific happened recently?"
+                                ]
+                            },
+                            "history": {
+                                "title": "Background",
+                                "questions": [
+                                    "Have you been to a psychologist before?",
+                                    "Are you taking any medication?",
+                                    "Are there any important illnesses in the family?"
+                                ]
+                            },
+                            "family": {
+                                "title": "Family Dynamics",
+                                "questions": [
+                                    "Who do you live with?",
+                                    "How is the relationship with your parents/partner?",
+                                    "Are there frequent conflicts?"
+                                ]
+                            },
+                            "social": {
+                                "title": "Social and Work Life",
+                                "questions": [
+                                    "What do you do for a living?",
+                                    "How do you get along with your colleagues?",
+                                    "Do you have close friends?"
+                                ]
+                            },
+                            "habits": {
+                                "title": "Habits and Routine",
+                                "questions": [
+                                    "How do you sleep?",
+                                    "Do you exercise?",
+                                    "Do you consume alcohol or tobacco?"
+                                ]
+                            }
+                        }
+                    },
+                    "save_draft": "Save Draft",
+                    "finish_session": "Finish First Session",
+                    "initial_evaluation": "Initial Evaluation",
+                    "see_notes": "See notes from initial session",
+                    "messages": {
+                        "write_notes": "Please write some session notes",
+                        "success_complete": "Session completed successfully",
+                        "success_draft": "Draft saved",
+                        "error": "Error saving: {message}"
+                    }
+                }
+            }
+        },
         "monthly_investment": "Monthly Investment",
         "choose_this_plan": "Choose this Plan"
     },
@@ -257,7 +852,7 @@
         "items": [
             {
                 "q": "Can I cancel my subscription at any time?",
-                "a": "Yes, absolutely. There are no forced contracts. You can cancel from your dashboard with a single click and your access will remain until the end of the billing cycle."
+                "a": "Yes, absolutely. There are no long-term commitments. You can cancel from your dashboard with a single click and your access will remain until the end of the billing cycle."
             },
             {
                 "q": "Are my patients' data safe?",
@@ -291,7 +886,7 @@
     },
     "Dashboard": {
         "title": "Dashboard",
-        "loading": "Loading operations center...",
+        "loading": "Launching clinical workstation...",
         "header": {
             "system_active": "System Active",
             "date_format": "EEEE, MMMM do"
@@ -328,11 +923,12 @@
             "empty": "No recent activity"
         },
         "quick_actions": {
-            "title": "Quick Actions",
-            "explore_tests": "Explore Tests",
-            "view_patients": "View Patients",
-            "my_subscription": "My Subscription",
             "resources_library": "Resources Library"
+        },
+        "Resources": {
+            "title": "Resources & News",
+            "subtitle": "Selected professional content",
+            "explore": "Explore library"
         },
         "Subscription": {
             "title": "Subscription",
@@ -377,7 +973,21 @@
             "PaymentMethod": {
                 "title": "Payment Method",
                 "desc": "Manage your cards and billing.",
-                "expires": "Expires on"
+                "expires": "Expires on",
+                "card_ending": "Visa ending in {digits}",
+                "edit": "Edit"
+            },
+            "loading_payment": "Payment system is loading...",
+            "price_config_not_found": "Price configuration not found for this plan.",
+            "error_starting": "Error starting subscription.",
+            "processing": "Processing...",
+            "Status": {
+                "success_title": "Subscription successful!",
+                "success_desc": "Your plan has been successfully updated.",
+                "failure_title": "Payment error",
+                "failure_desc": "We couldn't process your subscription. Please try again.",
+                "pending_title": "Payment pending",
+                "pending_desc": "We are processing your payment. We will notify you when it's complete."
             }
         }
     },
@@ -392,7 +1002,7 @@
             "title": "Our Philosophy",
             "scientific_rigor": {
                 "title": "Scientific Rigor",
-                "desc": "We do not sacrifice validity for immediacy. We base our tools on validated evidence."
+                "desc": "We never sacrifice validity for speed. Our tools are built on rigorous clinical evidence."
             },
             "total_privacy": {
                 "title": "Total Privacy",
@@ -444,12 +1054,16 @@
     },
     "FeaturesPage": {
         "title": "Power your clinical <span>excellence</span>.",
-        "subtitle": "Next-generation tools designed for diagnostic precision and operational efficiency in mental health.",
+        "subtitle": "Next-generation tools designed for diagnostic precision and operational efficiency for modern specialists.",
         "badge": "Precision Ecosystem",
         "cta_main": "Get started now",
         "cta_secondary": "Explore module",
         "cta_description": "Join the hundreds of professionals who are already raising the standard of care with Neurometrics.",
         "join_today": "Transform your practice <span>today</span>.",
+        "hero_badge": "Clinical Value Proposition",
+        "hero_title": "Medical <span className=\"text-teal-600\">precision tools</span> for your practice.",
+        "hero_description": "We design every module with the rigor required by modern psychology, psychiatry, and neurology.",
+        "explore_module": "Explore module",
         "ClinicalRecords": {
             "title": "Smart Clinical Records",
             "desc": "Optimized document management with automatic timeline and centralization of patient history.",
@@ -601,7 +1215,7 @@
     "Onboarding": {
         "no_cost": "No Cost",
         "branding_heading": "Designed by and for <specialists>specialists.</specialists>",
-        "branding_subtext": "Join the most advanced network of mental health and neuroscience professionals in Latin America.",
+        "branding_subtext": "Join the most advanced network of healthcare and neuroscience professionals in Latin America.",
         "branding_feature_1": "HIPAA / GDPR Compliance",
         "branding_feature_2": "Scientifically validated norms",
         "branding_feature_3": "Integral clinical suite",
@@ -627,7 +1241,7 @@
             "security": "Security"
         },
         "step1_title": "Professional Identity Registration",
-        "step1_quote": "\"Your identity is the first step of clinical trust.\"",
+        "step1_quote": "\"Professional identity is the foundation of clinical trust.\"",
         "step1_label_name": "Specialist's Full Name",
         "step1_placeholder_name": "e.g., Dr. Alexander Rossi",
         "step1_label_role": "Certified Specialty",
@@ -649,13 +1263,14 @@
         "step3_badge": "Investment in your Clinical Future",
         "step3_title": "Select your Workstation Configuration",
         "step3_subtext": "Choose the level of power and depth your practice demands today.",
-        "step3_recommendation": "CLINICAL RECOMMENDATION",
+        "step3_recommendation": "RECOMMENDED",
         "step3_savings": "Maximum Savings",
         "step3_trial_info": "Start today: all commercial plans include a **7-day no-obligation trial period**.",
-        "step3_btn_next": "Confirm Subscription",
+        "step3_btn_next": "CONTINUE",
+        "step3_btn_select": "SELECT",
         "step4_title": "Access and Security Protocol",
         "step4_subtext": "Your information and that of your patients will be protected under global medical cybersecurity standards.",
-        "step4_badge": "MAXIMUM SECURITY",
+        "step4_badge": "Secure Infrastructure",
         "step4_encryption_title": "AES-256 Military Encryption",
         "step4_encryption_desc": "We implement point-to-point security to guarantee that only you have access to sensitive clinical information. We comply with HIPAA and GDPR regulations.",
         "step4_label_email": "Professional Email (Primary Access)",
@@ -669,9 +1284,12 @@
         "step5_btn_dashboard": "Go to my Workstation",
         "step5_spam_note": "Check your Spam folder",
         "professions": {
+            "physician": "Physician / MD",
             "psychologist": "Clinical Psychologist",
             "psychiatrist": "Psychiatrist",
             "neurologist": "Neurologist",
+            "occupational_therapist": "Occupational Therapist",
+            "speech_therapist": "Speech Therapist",
             "neuropsychologist": "Neuropsychologist"
         },
         "needs": {
@@ -691,8 +1309,9 @@
             "pro_desc": "Unlimited everything + Priority VIP Support"
         },
         "errors": {
-            "empty_fields": "Please complete all account fields.",
-            "payment_unavailable": "The payment system is currently unavailable. Please ensure Paddle environment variables are configured or choose the free plan."
+            "empty_fields": "Please complete all required fields.",
+            "payment_unavailable": "Payment system is currently unavailable.",
+            "price_not_configured": "Price ID not configured for this plan."
         }
     },
     "FeaturesDetail": {
@@ -701,7 +1320,7 @@
             "emotionalTitle": "Remember why you chose this vocation?",
             "emotionalDesc": "It wasn't to fill out endless forms or struggle with paper records. You heal, listen, and transform lives. Neurometrics gives that sacred time back to you.",
             "problem": "Bureaucracy consumes 40% of the time of a private session, wearing down the professional and distancing them from what really matters: the patient.",
-            "solution": "Our Intelligent Clinical Record flows with you. Record progress in seconds, access history with one click, and let technology handle administrative details while you care for mental health.",
+            "solution": "Our Intelligent Clinical Record flows with you. Record progress in seconds, access history with one click, and let technology handle administrative details while you focus on care.",
             "benefits": [
                 "Goodbye to clutter: Everything centralized in one secure place.",
                 "Attention recovery: Less screen, more eye contact.",
@@ -747,7 +1366,7 @@
         "mobile-access": {
             "title": "Neurometrics Mobile",
             "emotionalTitle": "Your commitment has no walls",
-            "emotionalDesc": "Mental health happens everywhere, not just behind a desk. Real professional freedom is being able to care without being tied to an office.",
+            "emotionalDesc": "Healthcare happens everywhere, not just behind a desk. Real professional freedom is being able to care without being tied to an office.",
             "problem": "The rigidity of traditional systems that only work on a desktop computer.",
             "solution": "All the power of Neurometrics in your pocket. Apply tests during home visits, review records on the go, and maintain total control of your practice with an interface designed to be fluid, mobile, and secure.",
             "benefits": [
@@ -780,9 +1399,12 @@
         "specialty": "Profession",
         "specialty_placeholder": "Select your profession",
         "specialties": {
+            "physician": "Physician / MD",
             "psychologist": "Psychologist",
             "psychiatrist": "Psychiatrist",
-            "neurologist": "Neurologist"
+            "neurologist": "Neurologist",
+            "occupational_therapist": "Occupational Therapist",
+            "speech_therapist": "Speech Therapist"
         },
         "registry_number": "Registry / License No.",
         "signature_preview": "Signature Preview",
@@ -893,7 +1515,7 @@
         },
         "professional": {
             "treating_professional": "Treating Professional",
-            "default_specialty": "Clinical Psychology / Neuropsychology",
+            "default_specialty": "Healthcare Professional",
             "clinical_psychologist": "Clinical Psychologist",
             "reg_short": "Registry No.",
             "normal_label": "No Clinical Indicators"
@@ -901,13 +1523,32 @@
     },
     "Patients": {
         "new": {
-            "title": "New Patient",
-            "subtitle": "Enter the patient's information to create their professional clinical record.",
-            "submit": "Create Patient",
+            "title": "New Patient Registration",
+            "subtitle": "Complete the patient's clinical and personal background.",
             "personal_info": "Personal Information",
-            "contact_info": "Location & Contact",
-            "clinical_info": "Clinical Information",
-            "support_info": "Support Network",
+            "contact_info": "Contact & Location",
+            "clinical_info": "Clinical Background",
+            "support_info": "Support Network & Family",
+            "submit": "Create Patient Record",
+            "loading": "Loading...",
+            "success": "Patient created successfully",
+            "mock_injected": "Mock data injected",
+            "gender_labels": {
+                "male": "M",
+                "female": "F",
+                "other": "O"
+            },
+            "mock_data": {
+                "name": "Mock Test Patient",
+                "education": "University Graduate",
+                "occupation": "Psychologist",
+                "companion": "Marie Smith (Sister)",
+                "address": "123 Main St, New York",
+                "emergency_contact": "Charles Ruiz (+1 555 8765 4321)",
+                "genogram": "Family history of depression on maternal side.",
+                "diagnoses": "F41.1 Generalized Anxiety Disorder",
+                "medications": "Sertraline 50mg/day"
+            },
             "fields": {
                 "name": "Full Name",
                 "gender": "Gender",
@@ -929,6 +1570,7 @@
             "placeholders": {
                 "name": "John Doe",
                 "rut": "12.345.678-9",
+                "age": "25",
                 "phone": "+1 555 ...",
                 "email": "john@example.com",
                 "address": "123 Main St",

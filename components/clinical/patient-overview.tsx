@@ -23,8 +23,7 @@ import {
 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { useTranslations, useFormatter } from 'next-intl'
 
 interface PatientOverviewProps {
     patient: any
@@ -36,6 +35,8 @@ interface PatientOverviewProps {
 }
 
 export function PatientOverview({ patient, lastSession, diagnosis, onStartSession, sessions = [], userSpecialty = 'psychologist' }: PatientOverviewProps) {
+    const t = useTranslations('Dashboard.Patients.Overview')
+    const format = useFormatter()
     const router = useRouter()
     const [showGenogram, setShowGenogram] = useState(false)
 
@@ -57,17 +58,17 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <div className="p-1.5 rounded bg-primary/10 text-primary">
                                     <Target className="w-4 h-4" />
                                 </div>
-                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Estado Actual</CardTitle>
+                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">{t('current_status')}</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="px-4 pb-4 space-y-3">
                             <div>
-                                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">Diagnóstico Principal</p>
-                                <p className="font-bold text-foreground text-base leading-tight">{diagnosis || 'En proceso de evaluación'}</p>
+                                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">{t('main_diagnosis')}</p>
+                                <p className="font-bold text-foreground text-base leading-tight">{diagnosis || t('in_evaluation')}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Badge variant="outline" className="text-primary bg-primary/10 border-primary/20 text-xs px-2 py-0.5 font-medium">
-                                    Estable
+                                    {t('stable')}
                                 </Badge>
                             </div>
                         </CardContent>
@@ -81,18 +82,18 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <div className="p-1.5 rounded bg-primary/10 text-primary">
                                     <Clock className="w-4 h-4" />
                                 </div>
-                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Última Sesión</CardTitle>
+                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">{t('last_session')}</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="px-4 pb-4">
                             {lastSession ? (
                                 <div className="space-y-2">
                                     <p className="font-bold text-foreground text-base">
-                                        {format(new Date(lastSession.date), "d 'de' MMMM, yyyy", { locale: es })}
+                                        {format.dateTime(new Date(lastSession.date), { day: 'numeric', month: 'long', year: 'numeric' })}
                                     </p>
                                     <div className="flex items-center gap-2">
                                         <Badge variant="outline" className="text-primary bg-primary/5 border-primary/20 text-xs px-2 py-0.5 font-medium">
-                                            {lastSession.type || 'Sesión Regular'}
+                                            {lastSession.type || t('regular_session')}
                                         </Badge>
                                         {lastSession.duration && (
                                             <span className="text-xs font-medium text-muted-foreground">{lastSession.duration} min</span>
@@ -100,7 +101,7 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-sm text-muted-foreground italic">Sin sesiones registradas</p>
+                                <p className="text-sm text-muted-foreground italic">{t('no_sessions_yet')}</p>
                             )}
                         </CardContent>
                     </Card>
@@ -117,8 +118,8 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                     <UserPlus className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Nueva Sesión</h4>
-                                    <p className="text-xs text-muted-foreground">Registrar visita clínica</p>
+                                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">{t('new_session')}</h4>
+                                    <p className="text-xs text-muted-foreground">{t('register_visit')}</p>
                                 </div>
                                 <ArrowRight className="w-5 h-5 ml-auto text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                             </div>
@@ -138,7 +139,7 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-primary/10">
                                     <div className="flex items-center gap-2">
                                         <Pill className="w-4 h-4 text-primary" />
-                                        <CardTitle className="text-sm font-bold text-foreground">Tratamiento Farmacológico</CardTitle>
+                                        <CardTitle className="text-sm font-bold text-foreground">{t('pharmacological_treatment')}</CardTitle>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="px-4 py-3">
@@ -159,7 +160,7 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <CardHeader className="pb-2 pt-4 px-4 bg-transparent border-b border-primary/10">
                                     <div className="flex items-center gap-2">
                                         <Brain className="w-4 h-4 text-primary" />
-                                        <CardTitle className="text-sm font-bold text-foreground">Evolución Cognitiva</CardTitle>
+                                        <CardTitle className="text-sm font-bold text-foreground">{t('cognitive_evolution')}</CardTitle>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="px-4 py-3">
@@ -176,7 +177,7 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                             </div>
                                         ))}
                                     </div>
-                                    <p className="text-[10px] font-medium text-muted-foreground mt-2 uppercase tracking-wide">Tendencia MMSE: Ascendente</p>
+                                    <p className="text-[10px] font-medium text-muted-foreground mt-2 uppercase tracking-wide">{t('mmse_trend')}</p>
                                 </CardContent>
                             </Card>
                         )}
@@ -189,10 +190,10 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <MessageSquare className="w-4 h-4 text-muted-foreground" />
-                                        <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Historial de Sesiones</CardTitle>
+                                        <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">{t('session_history')}</CardTitle>
                                     </div>
                                     <Badge variant="outline" className="text-muted-foreground bg-muted border-border text-[10px] px-2">
-                                        Total: {sessions.length}
+                                        {t('total_count', { count: sessions.length })}
                                     </Badge>
                                 </div>
                             </CardHeader>
@@ -221,10 +222,10 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                                     <div className="flex-1 min-w-0 pb-2">
                                                         <div className="flex items-center justify-between mb-1.5">
                                                             <span className="font-bold text-foreground text-sm">
-                                                                {format(new Date(session.date), "d 'de' MMMM, yyyy", { locale: es })}
+                                                                {format.dateTime(new Date(session.date), { day: 'numeric', month: 'long', year: 'numeric' })}
                                                             </span>
                                                             <Badge variant="secondary" className="text-[10px] bg-muted text-muted-foreground font-medium">
-                                                                {session.type || 'Sesión'}
+                                                                {session.type || t('session_fallback')}
                                                             </Badge>
                                                         </div>
 
@@ -240,16 +241,16 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                                             <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 shadow-[0_0_10px_rgba(var(--primary),0.05)]">
                                                                 <div className="flex items-center gap-1.5 mb-1.5">
                                                                     <Sparkles className="w-4 h-4 text-primary" />
-                                                                    <span className="text-[10px] font-bold text-foreground uppercase tracking-wide opacity-70">Análisis Cerebral AI</span>
+                                                                    <span className="text-[10px] font-bold text-foreground uppercase tracking-wide opacity-70">{t('ai_analysis')}</span>
                                                                 </div>
                                                                 <p className="text-xs text-muted-foreground italic leading-relaxed">
-                                                                    "{session.ai_insights.summary || session.ai_insights.key_themes || 'Análisis disponible'}"
+                                                                    "{session.ai_insights.summary || session.ai_insights.key_themes || t('analysis_available')}"
                                                                 </p>
                                                             </div>
                                                         )}
 
                                                         <div className="flex justify-end mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            <span className="text-xs font-medium text-primary flex items-center gap-1">Ver detalles <ArrowRight className="w-3 h-3" /></span>
+                                                            <span className="text-xs font-medium text-primary flex items-center gap-1">{t('view_details')} <ArrowRight className="w-3 h-3" /></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -261,10 +262,10 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                         <div className="w-12 h-12 rounded-full bg-muted mx-auto mb-3 flex items-center justify-center border border-border">
                                             <MessageSquare className="w-5 h-5 text-muted-foreground" />
                                         </div>
-                                        <p className="text-sm font-medium text-muted-foreground mb-4">No hay sesiones registradas</p>
+                                        <p className="text-sm font-medium text-muted-foreground mb-4">{t('no_history')}</p>
                                         <Button size="sm" onClick={onStartSession} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
                                             <UserPlus className="w-4 h-4 mr-2" />
-                                            Iniciar Primera Sesión
+                                            {t('start_first_session')}
                                         </Button>
                                     </div>
                                 )}
@@ -281,13 +282,13 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                     <div className="p-1 rounded bg-primary/10 text-primary">
                                         <TrendingUp className="w-4 h-4" />
                                     </div>
-                                    <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Progreso</CardTitle>
+                                    <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">{t('progress')}</CardTitle>
                                 </div>
                             </CardHeader>
                             <CardContent className="px-4 py-4 space-y-4">
                                 <div>
                                     <div className="flex justify-between text-xs mb-2">
-                                        <span className="font-medium text-muted-foreground">Continuidad</span>
+                                        <span className="font-medium text-muted-foreground">{t('continuity')}</span>
                                         <span className="font-bold text-foreground">{Math.min((sessions.length / 12) * 100, 100).toFixed(0)}%</span>
                                     </div>
                                     <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
@@ -300,13 +301,13 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="text-center p-3 rounded-xl bg-muted border border-border">
                                         <p className="text-2xl font-bold text-foreground mb-0.5">{sessions.length}</p>
-                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total Sesiones</p>
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t('total_sessions')}</p>
                                     </div>
                                     <div className="text-center p-3 rounded-xl bg-muted border border-border">
                                         <p className="text-2xl font-bold text-foreground mb-0.5">
                                             {sessions.filter(s => s.ai_insights).length}
                                         </p>
-                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Con Análisis</p>
+                                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t('with_analysis')}</p>
                                     </div>
                                 </div>
                             </CardContent>

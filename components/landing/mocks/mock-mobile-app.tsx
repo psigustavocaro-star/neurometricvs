@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion"
 import { Calendar, Bell, ChevronRight, User, Stethoscope, Video, Mic } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function MockMobileApp() {
+    const t = useTranslations('Mocks.MobileApp')
     return (
         <div className="w-full h-full flex items-center justify-center py-8">
             {/* Mobile Frame - Clean iPhone 15 Pro Style */}
@@ -25,8 +27,8 @@ export function MockMobileApp() {
                     {/* Header */}
                     <div className="bg-slate-900 pt-14 pb-5 px-6 border-b border-white/5 flex justify-between items-center shadow-lg relative z-10">
                         <div>
-                            <p className="text-[10px] text-teal-400 font-bold uppercase tracking-widest mb-1">Bienvenido</p>
-                            <h3 className="text-white font-bold text-lg leading-tight tracking-tight">Dr. Gustavo</h3>
+                            <p className="text-[10px] text-teal-400 font-bold uppercase tracking-widest mb-1">{t('welcome')}</p>
+                            <h3 className="text-white font-bold text-lg leading-tight tracking-tight">{t('doctor_name')}</h3>
                         </div>
                         <div className="w-11 h-11 bg-teal-500/10 rounded-2xl border border-teal-500/20 flex items-center justify-center relative overflow-hidden">
                             <User className="w-6 h-6 text-teal-400" />
@@ -40,7 +42,7 @@ export function MockMobileApp() {
                         {/* Status Pulse Banner */}
                         <div className="bg-emerald-500/10 border border-emerald-500/20 px-4 py-3 rounded-2xl flex items-center gap-3">
                             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                            <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-black uppercase tracking-widest">Sincronización en Tiempo Real</span>
+                            <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-black uppercase tracking-widest">{t('realtime_sync')}</span>
                         </div>
 
                         {/* Recent Result Card */}
@@ -56,19 +58,19 @@ export function MockMobileApp() {
                             <div className="relative z-10">
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
-                                        <h4 className="font-black text-xl tracking-tight">M. Rodríguez</h4>
-                                        <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">PHQ-9 Completado</p>
+                                        <h4 className="font-black text-xl tracking-tight">{t('patient_name')}</h4>
+                                        <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">PHQ-9 {t('completed')}</p>
                                     </div>
-                                    <div className="bg-teal-500 text-white text-[9px] font-black px-2 py-1 rounded-lg uppercase">Nuevo</div>
+                                    <div className="bg-teal-500 text-white text-[9px] font-black px-2 py-1 rounded-lg uppercase">{t('new')}</div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="bg-white/5 rounded-2xl p-3 border border-white/5 backdrop-blur-md">
-                                        <p className="text-[9px] text-slate-400 uppercase font-black mb-1">Depresión</p>
+                                        <p className="text-[9px] text-slate-400 uppercase font-black mb-1">{t('depression')}</p>
                                         <p className="text-lg font-black text-teal-400 leading-none">12</p>
                                     </div>
                                     <div className="bg-white/5 rounded-2xl p-3 border border-white/5 backdrop-blur-md">
-                                        <p className="text-[9px] text-slate-400 uppercase font-black mb-1">Ansiedad</p>
+                                        <p className="text-[9px] text-slate-400 uppercase font-black mb-1">{t('anxiety')}</p>
                                         <p className="text-lg font-black text-indigo-400 leading-none">08</p>
                                     </div>
                                 </div>
@@ -84,7 +86,7 @@ export function MockMobileApp() {
                                 <div className="w-10 h-10 rounded-2xl bg-teal-50 dark:bg-teal-500/10 flex items-center justify-center text-teal-600">
                                     <Video className="w-5 h-5" />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Teleconsulta</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('teleconsultation')}</span>
                             </motion.div>
                             <motion.div
                                 whileTap={{ scale: 0.95 }}
@@ -93,7 +95,7 @@ export function MockMobileApp() {
                                 <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600">
                                     <Bell className="w-5 h-5" />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Alertas</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{t('alerts')}</span>
                             </motion.div>
                         </div>
 

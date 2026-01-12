@@ -30,7 +30,7 @@
     },
     "Hero": {
         "title": "Ecosistema digital <span>avanzado</span> para <span2>especialistas</span2> de la salud.",
-        "subtitle": "Software profesional para médicos, psicólogos, neurólogos, terapeutas ocupacionales y fonoaudiólogos. Ficha clínica avanzada y herramientas digitales para toda su práctica.",
+        "subtitle": "La workstation definitiva para médicos, psicólogos, psiquiatras, neurólogos, terapeutas ocupacionales y fonoaudiólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.",
         "cta_primary": "Empieza Gratis",
         "cta_secondary": "Ver Demo",
         "trusted_by": "Confiado por +500 profesionales de la salud"
@@ -135,7 +135,7 @@
         "report_generated": "Informe Clínico Generado"
     },
     "Footer": {
-        "description": "Transformando la evaluación psicológica con tecnología de vanguardia.",
+        "description": "Transformando la práctica clínica con tecnología de vanguardia.",
         "product": "Producto",
         "company": "Compañía",
         "legal": "Legal",
@@ -161,6 +161,67 @@
     "Trust": {
         "label": "Confiado por profesionales de"
     },
+    "Mocks": {
+        "ClinicalRecords": {
+            "title": "Ficha Clínica Digital",
+            "subtitle": "Módulo de Evolución",
+            "active_system": "Sistema Activo",
+            "patient_label": "Paciente: Juan Pérez",
+            "last_session": "Última sesión: Hoy, 10:30 AM",
+            "placeholder_text": "Paciente reporta una mejora significativa en sus patrones de sueño. Los niveles de ansiedad han disminuido tras implementar los ejercicios de respiración. Se recomienda continuar con el protocolo de TCC-I...",
+            "finish_button": "Finalizar Evolución"
+        },
+        "TestScoring": {
+            "title": "Corrección Automática",
+            "subtitle": "Módulo de IA Psicométrica",
+            "active_system": "Sistema Activo",
+            "processing": "Procesando...",
+            "syncing": "Sincronizando respuestas...",
+            "analyzing": "Analizando patrones...",
+            "severity_moderate": "Severidad Moderada",
+            "tag_concordant": "Sintomatología concordante con TAG",
+            "precision_label": "Precisión",
+            "tempo_label": "Tempo"
+        },
+        "AICopilot": {
+            "title": "Copiloto Clínico IA",
+            "subtitle": "Apoyo en Toma de Decisión",
+            "active_system": "IA Procesando",
+            "user_note": "Nota de sesión: Paciente menciona insomnio recurrente y falta de concentración durante el trabajo.",
+            "predictive_analysis": "Análisis Predictivo",
+            "tag_match": "Sintomatología compatible con TAG (CIE-10 F41.1).",
+            "action_gad7": "Acción: Aplicar escala GAD-7.",
+            "add_to_diagnosis": "Añadir al Diagnóstico"
+        },
+        "MobileApp": {
+            "welcome": "Bienvenido/a",
+            "doctor_name": "Dr. Gustavo",
+            "realtime_sync": "Sincronización en Tiempo Real",
+            "patient_name": "Sofía García",
+            "completed": "Completado",
+            "new": "Nuevo",
+            "depression": "Depresión",
+            "anxiety": "Ansiedad",
+            "teleconsultation": "Teleconsulta",
+            "alerts": "Alertas"
+        },
+        "MedicalCalculators": {
+            "title": "Calculadoras Médicas",
+            "precision_module": "Módulo de Precisión",
+            "active_system": "Sistema Activo",
+            "weight": "Peso (kg)",
+            "height": "Altura (cm)",
+            "bmi": "Índice Masa Corporal",
+            "normal": "Normal",
+            "medication": "Medicamento",
+            "min_label": "Dosis Mínima",
+            "max_label": "Dosis Máxima",
+            "projected_calc": "Cálculo Proyectado",
+            "clinical_risk": "Riesgo Clínico",
+            "insert_record": "Insertar en Ficha",
+            "anxiety": "Ansiedad"
+        }
+    },
     "Pricing": {
         "no_cost": "Sin Costo",
         "title": "Planes Transparentes",
@@ -170,6 +231,8 @@
         "faq_title": "Preguntas Frecuentes",
         "view_details": "Ver detalle de configuración",
         "locale_redirect": "es",
+        "month": "/mes",
+        "year": "/año",
         "free": {
             "name": "Gratis",
             "description": "Modo Lectura / Exploración",
@@ -248,6 +311,538 @@
         "secure_payment": "Pago Seguro 256-bit",
         "clinical_protocol": "Protocolo Clínico",
         "config_details": "Detalles de Configuración",
+        "Support": {
+            "helper_label": "Asistente AI",
+            "online": "En línea",
+            "welcome_title": "Bienvenido a Neurometrics",
+            "welcome_desc": "Soy Aura, tu asistente virtual inteligente. Puedo ayudarte con tests neuropsicológicos, gestión de pacientes o cualquier duda sobre la plataforma Workstation.",
+            "input_placeholder": "Escribe tu consulta...",
+            "error_chat": "Error de chat: ",
+            "error_send": "Error al enviar: "
+        },
+        "Dashboard": {
+            "Resources": {
+                "title": "Biblioteca de Recursos",
+                "description": "Accede a nuestra colección curada de material psicoeducativo, ejercicios de estimulación y guías clínicas. Descarga y comparte estos recursos con tus pacientes para enriquecer el proceso terapéutico."
+            },
+            "Tests": {
+                "back_to_catalog": "Volver al Catálogo",
+                "about_test": "Acerca de este test",
+                "estimated_duration": "Duración Estimada",
+                "items_label": "Items",
+                "questions_count": "{count} preguntas",
+                "variable_questions": "Variable",
+                "actions_title": "Acciones",
+                "actions_desc": "Opciones disponibles para este test",
+                "view_report_sample": "Ver Muestra de Informe",
+                "disclaimer": "Este instrumento está diseñado para ser aplicado en el contexto clínico y educativo. Asegúrese de contar con el consentimiento informado del paciente antes de proceder.",
+                "search_placeholder": "Buscar por nombre, temática o etiqueta...",
+                "stats_count": "{filtered} de {total} tests",
+                "not_found_title": "No se encontraron tests",
+                "not_found_desc": "Intenta con otros términos de búsqueda",
+                "catalog_modal_title": "Catálogo Completo de Evaluaciones",
+                "catalog_modal_desc": "Explora nuestra biblioteca completa de tests psicológicos y neuropsicológicos",
+                "selection_modal_title": "¿Cómo deseas realizar esta evaluación?",
+                "selection_modal_desc": "Selecciona si quieres hacer un test efímero o asociarlo a un paciente para seguimiento",
+                "ephemeral_title": "Test Efímero",
+                "ephemeral_desc": "Realiza una evaluación rápida sin asociarla a un paciente específico",
+                "ephemeral_l1": "No se guarda en el historial del paciente",
+                "ephemeral_l2": "Ideal para demostraciones o pruebas",
+                "ephemeral_l3": "Resultados disponibles temporalmente",
+                "patient_assoc_title": "Asociar a Paciente",
+                "patient_assoc_desc": "Vincula la evaluación al expediente de un paciente para seguimiento",
+                "patient_assoc_l1": "Se guarda en el historial del paciente",
+                "patient_assoc_l2": "Permite generar informes de progreso automáticos",
+                "patient_assoc_l3": "Comparación con evaluaciones anteriores",
+                "patient_assoc_l4": "Seguimiento longitudinal completo",
+                "patient_assoc_recommended": "RECOMENDADO",
+                "ai_disclaimer": "La IA generará informes automáticos basados en tests asociados a pacientes",
+                "start_evaluation": "Iniciar Evaluación",
+                "Catalog": {
+                    "Categories": {
+                        "depression": "Depresión",
+                        "anxiety": "Ansiedad",
+                        "cognitive": "Cognitivo",
+                        "intelligence": "Inteligencia",
+                        "attention": "Atención",
+                        "executive": "Funciones Ejecutivas",
+                        "child_dev": "Desarrollo Infantil",
+                        "mobility": "Movilidad y Función",
+                        "language": "Lenguaje y Comunicación",
+                        "general_health": "Salud General y Riesgo",
+                        "geriatrics": "Geriatría y Fragilidad"
+                    },
+                    "Tests": {
+                        "phq9": {
+                            "name": "PHQ-9",
+                            "description": "Cuestionario de Salud del Paciente para evaluar severidad de depresión",
+                            "age": "12+ años",
+                            "duration": "5 min",
+                            "tags": [
+                                "depresión",
+                                "screening",
+                                "adultos"
+                            ]
+                        },
+                        "snapiv": {
+                            "name": "SNAP-IV",
+                            "description": "Escala para evaluación de síntomas de TDAH en niños y adolescentes",
+                            "age": "6-18 años",
+                            "duration": "10 min",
+                            "tags": [
+                                "TDAH",
+                                "atención",
+                                "niños"
+                            ]
+                        },
+                        "beck": {
+                            "name": "Beck Depression Inventory",
+                            "description": "Inventario de Depresión de Beck para medir intensidad de síntomas depresivos",
+                            "age": "13+ años",
+                            "duration": "10 min",
+                            "tags": [
+                                "depresión",
+                                "evaluación",
+                                "adolescentes",
+                                "adultos"
+                            ]
+                        },
+                        "gad7": {
+                            "name": "GAD-7",
+                            "description": "Escala de Ansiedad Generalizada para detectar trastornos de ansiedad",
+                            "age": "12+ años",
+                            "duration": "5 min",
+                            "tags": [
+                                "ansiedad",
+                                "screening",
+                                "adultos"
+                            ]
+                        },
+                        "mmse": {
+                            "name": "MMSE",
+                            "description": "Mini-Mental State Examination para evaluación cognitiva general",
+                            "age": "18+ años",
+                            "duration": "10 min",
+                            "tags": [
+                                "cognitivo",
+                                "demencia",
+                                "adultos mayores"
+                            ]
+                        },
+                        "wais": {
+                            "name": "WAIS-IV",
+                            "description": "Escala Wechsler de Inteligencia para Adultos, evaluación completa de CI",
+                            "age": "16-90 años",
+                            "duration": "60-90 min",
+                            "tags": [
+                                "inteligencia",
+                                "CI",
+                                "wechsler",
+                                "adultos"
+                            ]
+                        },
+                        "wisc": {
+                            "name": "WISC-V",
+                            "description": "Escala Wechsler de Inteligencia para Niños, evaluación cognitiva infantil",
+                            "age": "6-16 años",
+                            "duration": "60-90 min",
+                            "tags": [
+                                "inteligencia",
+                                "CI",
+                                "wechsler",
+                                "niños"
+                            ]
+                        },
+                        "stroop": {
+                            "name": "Stroop Test",
+                            "description": "Test de Stroop para evaluar atención selectiva e inhibición cognitiva",
+                            "age": "7+ años",
+                            "duration": "15 min",
+                            "tags": [
+                                "atención",
+                                "inhibición",
+                                "niños",
+                                "adultos"
+                            ]
+                        },
+                        "trail": {
+                            "name": "Trail Making Test",
+                            "description": "Test de rastreo para evaluar funciones ejecutivas y flexibilidad cognitiva",
+                            "age": "8+ años",
+                            "duration": "10 min",
+                            "tags": [
+                                "ejecutivo",
+                                "flexibilidad",
+                                "adultos"
+                            ]
+                        },
+                        "mchat": {
+                            "name": "M-CHAT-R/F",
+                            "description": "Detección de riesgo de Trastorno del Espectro Autista en niños pequeños",
+                            "age": "16-30 meses",
+                            "duration": "5-10 min",
+                            "tags": [
+                                "autismo",
+                                "desarrollo",
+                                "pediatría"
+                            ]
+                        },
+                        "asq3": {
+                            "name": "ASQ-3",
+                            "description": "Cuestionario de edades y etapas para monitoreo del desarrollo infantil",
+                            "age": "1-66 meses",
+                            "duration": "15 min",
+                            "tags": [
+                                "desarrollo",
+                                "hitos",
+                                "pediatría"
+                            ]
+                        },
+                        "tinetti": {
+                            "name": "Test de Tinetti",
+                            "description": "Evaluación de la marcha y el equilibrio para determinar riesgo de caídas",
+                            "age": "65+ años",
+                            "duration": "10 min",
+                            "tags": [
+                                "kinesiología",
+                                "geriatría",
+                                "equilibrio"
+                            ]
+                        },
+                        "barthel": {
+                            "name": "Índice de Barthel",
+                            "description": "Medida de la independencia en actividades de la vida diaria (AVD)",
+                            "age": "Todas",
+                            "duration": "5 min",
+                            "tags": [
+                                "terapia ocupacional",
+                                "autonomía",
+                                "rehabilitación"
+                            ]
+                        },
+                        "boston": {
+                            "name": "Test de Boston",
+                            "description": "Evaluación de afasias y trastornos relacionados del lenguaje",
+                            "age": "Adultos",
+                            "duration": "20-30 min",
+                            "tags": [
+                                "fonoaudiología",
+                                "lenguaje",
+                                "afasia"
+                            ]
+                        },
+                        "imc": {
+                            "name": "Calculadora IMC",
+                            "description": "Cálculo del Índice de Masa Corporal y clasificación nutricional",
+                            "age": "Todas",
+                            "duration": "1 min",
+                            "tags": [
+                                "nutrición",
+                                "medicina",
+                                "calculadora"
+                            ]
+                        },
+                        "norton": {
+                            "name": "Escala de Norton",
+                            "description": "Evaluación del riesgo de úlceras por presión en pacientes encamados",
+                            "age": "Adultos",
+                            "duration": "3 min",
+                            "tags": [
+                                "enfermería",
+                                "medicina",
+                                "riesgo"
+                            ]
+                        },
+                        "gds": {
+                            "name": "Escala Yesavage",
+                            "description": "Escala de Depresión Geriátrica para tamizaje en adultos mayores",
+                            "age": "65+ años",
+                            "duration": "10 min",
+                            "tags": [
+                                "geriatría",
+                                "psicoterapia",
+                                "adultos mayores"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "Patients": {
+            "Access": {
+                "restricted_title": "Acceso Restringido",
+                "restricted_desc": "La gestión de pacientes está disponible exclusivamente para los planes Clínico y Pro.",
+                "upgrade_plan": "Actualizar Plan",
+                "back_to_dashboard": "Volver al Dashboard"
+            },
+            "List": {
+                "title": "Pacientes",
+                "subtitle": "Gestiona los expedientes de tus pacientes.",
+                "new_patient": "Nuevo Paciente",
+                "search_placeholder": "Buscar por nombre, email...",
+                "count_suffix": "pacientes registrados",
+                "table_header": {
+                    "patient": "Paciente",
+                    "age": "Edad",
+                    "gender": "Género",
+                    "email": "Email",
+                    "registered": "Registrado",
+                    "actions": "Acciones"
+                },
+                "gender": {
+                    "male": "Masculino",
+                    "female": "Femenino",
+                    "other": "Otro"
+                },
+                "age_suffix": "años",
+                "no_email": "Sin email",
+                "actions": {
+                    "view": "Ver Expediente",
+                    "delete": "Eliminar Paciente"
+                },
+                "no_patients": "No se encontraron pacientes.",
+                "delete_dialog": {
+                    "title": "Confirmar eliminación",
+                    "description": "¿Estás seguro de que deseas eliminar a este paciente? Esta acción no se puede deshacer y se perderán todos los registros clínicos asociados.",
+                    "cancel": "Cancelar",
+                    "confirm": "Eliminar"
+                }
+            },
+            "Edit": {
+                "trigger": "Editar",
+                "title": "Editar Paciente",
+                "description": "Modifica los datos personales del paciente. Haz clic en guardar cuando termines.",
+                "fields": {
+                    "name": "Nombre Completo",
+                    "birth_date": "Fecha de Nacimiento",
+                    "gender": "Género",
+                    "email": "Email de Contacto"
+                },
+                "gender": {
+                    "male": "Masculino",
+                    "female": "Femenino",
+                    "other": "Otro"
+                },
+                "placeholders": {
+                    "email": "ejemplo@correo.com"
+                },
+                "cancel": "Cancelar",
+                "save": "Guardar Cambios",
+                "success": "Paciente actualizado correctamente",
+                "error": "Error al actualizar paciente"
+            },
+            "History": {
+                "empty": "No hay tests realizados aún.",
+                "new_test": "Realizar Nuevo Test",
+                "select_instructions": "Selecciona varios tests para generar un informe de progreso.",
+                "unified_report": "Generar Informe Unificado ({count})",
+                "score": "Puntaje: {score}",
+                "view_report": "Ver Informe",
+                "date_format": "d 'de' MMMM, yyyy"
+            },
+            "Profile": {
+                "age_suffix": "años",
+                "main_diagnosis": "Diagnóstico Principal",
+                "personal_info": "Información Personal",
+                "email": "Email",
+                "phone": "Teléfono",
+                "marital_status": "Estado Civil",
+                "professional_info": "Información Profesional",
+                "occupation": "Ocupación",
+                "education": "Educación",
+                "treatment_stats": "Estadísticas de Tratamiento",
+                "total_sessions": "Sesiones Totales",
+                "months_in_treatment": "Meses en Tratamiento",
+                "days_since_last_session": "Días desde última sesión",
+                "clinical_notes": "Notas Clínicas",
+                "timeline": "Línea de Tiempo",
+                "registration_date": "Fecha de Registro",
+                "last_session": "Última Sesión"
+            },
+            "Remote": {
+                "title": "Tests Enviados / Remotos",
+                "description": "Gestiona los enlaces para evaluación a distancia.",
+                "new_assignment": "Nuevo Envío",
+                "modal_title": "Enviar Test al Paciente",
+                "modal_description": "Generar un enlace seguro para que el paciente responda desde su dispositivo.",
+                "select_placeholder": "Selecciona un test...",
+                "cancel": "Cancelar",
+                "generate_link": "Generar Link",
+                "empty": "No hay tests enviados pendientes.",
+                "table": {
+                    "test": "Test",
+                    "status": "Estado",
+                    "created": "Creado",
+                    "actions": "Acciones"
+                },
+                "status": {
+                    "completed": "Completado",
+                    "pending": "Pendiente"
+                },
+                "copy_link": "Copiar Link",
+                "messages": {
+                    "assigned": "Test Asignado",
+                    "assigned_desc": "El link ha sido generado exitosamente.",
+                    "error": "Error",
+                    "error_desc": "Ocurrió un error inesperado",
+                    "copied": "Link Copiado",
+                    "copied_desc": "El enlace está en tu portapapeles."
+                }
+            },
+            "Detail": {
+                "not_found": "Paciente no encontrado",
+                "back_to_list": "Volver a Pacientes",
+                "back_to_dashboard": "Volver al Dashboard"
+            },
+            "Dashboard": {
+                "clinical_record": "Expediente Clínico",
+                "age": "Edad",
+                "age_suffix": "años",
+                "diagnosis": "Diagnóstico",
+                "under_evaluation": "En Evaluación",
+                "sessions_count": "{count} Sesiones",
+                "active": "Activo",
+                "nav": {
+                    "overview": "Resumen",
+                    "clinical": "Clínica",
+                    "tests": "Tests",
+                    "family": "Familia"
+                },
+                "session_history": "Historial de Sesiones",
+                "new_session": "Nueva Sesión",
+                "search_placeholder": "Buscar en notas...",
+                "no_notes": "Sin notas...",
+                "no_history": "No hay historial clínico.",
+                "remote_evaluations": "Evaluaciones Pendientes (Test Remotos)",
+                "results_history": "Historial de Resultados",
+                "date_format": "d MMM yyyy"
+            },
+            "Overview": {
+                "current_status": "Estado Actual",
+                "main_diagnosis": "Diagnóstico Principal",
+                "in_evaluation": "En proceso de evaluación",
+                "stable": "Estable",
+                "last_session": "Última Sesión",
+                "regular_session": "Sesión Regular",
+                "no_sessions_yet": "Sin sesiones registradas",
+                "new_session": "Nueva Sesión",
+                "register_visit": "Registrar visita clínica",
+                "pharmacological_treatment": "Tratamiento Farmacológico",
+                "cognitive_evolution": "Evolución Cognitiva",
+                "mmse_trend": "Tendencia MMSE: Ascendente",
+                "session_history": "Historial de Sesiones",
+                "total_count": "Total: {count}",
+                "session_fallback": "Sesión",
+                "ai_analysis": "Análisis Cerebral AI",
+                "analysis_available": "Análisis disponible",
+                "view_details": "Ver detalles",
+                "no_history": "No hay sesiones registradas",
+                "start_first_session": "Iniciar Primera Sesión",
+                "progress": "Progreso",
+                "continuity": "Continuidad",
+                "total_sessions": "Total Sesiones",
+                "with_analysis": "Con Análisis"
+            },
+            "Sessions": {
+                "timeline": "Línea de Tiempo",
+                "new_session": "Nueva Sesión",
+                "session_date": "Sesión del {date}",
+                "registering_evolution": "Registrando evolución clínica",
+                "register": "Registrar",
+                "save_changes": "Guardar Cambios",
+                "psychiatry_mode": "Modo Psiquiatría",
+                "neurology_mode": "Modo Neurología",
+                "date": "Fecha",
+                "duration": "Duración",
+                "type": "Tipo",
+                "types": {
+                    "regular": "Sesión Regular",
+                    "evaluation": "Evaluación",
+                    "crisis": "Crisis",
+                    "closure": "Cierre"
+                },
+                "evolution_notes": "Notas de Evolución",
+                "notes_placeholder": "Comienza a escribir o usa el micrófono para transcribir la sesión...",
+                "pharmacological_notes": "Notas Farmacológicas",
+                "pharmacological_placeholder": "Registrar cambios en medicación, efectos adversos, etc...",
+                "neurological_notes": "Exploración Neurológica / Física",
+                "neurological_placeholder": "Registrar hallazgos del examen físico, pares craneales, motricidad...",
+                "messages": {
+                    "created": "Sesión creada correctamente",
+                    "updated": "Sesión actualizada",
+                    "error": "Error al guardar sesión",
+                    "first_completed": "¡Primera sesión completada!"
+                },
+                "no_sessions_yet": "Aún no hay sesiones registradas.",
+                "minutes_suffix": "min",
+                "ai_analysis_available": "Análisis IA disponible",
+                "mock_notes": "[SESIÓN GENERADA AUTOMÁTICAMENTE]\n\nPaciente refiere sentirse más tranquilo desde la última sesión. Menciona haber realizado los ejercicios de respiración recomendados.\n\nObservaciones:\n- Discurso coherente y fluido.\n- Afecto congruente.\n- Sin ideación suicida activa.\n\nPlan:\n- Continuar con Terapia Cognitivo Conductual.\n- Revisar tareas para el hogar en la próxima sesión.",
+                "FirstForm": {
+                    "title": "Primera Sesión de {name}",
+                    "description": "Para comenzar el tratamiento, necesitamos completar la historia clínica del paciente.",
+                    "notes_title": "Notas de Sesión",
+                    "notes_description": "Espacio libre para registrar la narrativa del paciente durante la evaluación inicial.",
+                    "notes_placeholder": "Comienza escribiendo aquí... Puedes usar la guía de la derecha para orientar la entrevista.",
+                    "interview_guide": {
+                        "title": "Guía de Entrevista",
+                        "tip_title": "Tip",
+                        "tip_text": "No es necesario hacer todas las preguntas. Deja que el paciente hable libremente y guía la conversación suavemente hacia las áreas no cubiertas.",
+                        "sections": {
+                            "reason": {
+                                "title": "Motivo de Consulta",
+                                "questions": [
+                                    "¿Qué lo/la trae por aquí hoy?",
+                                    "¿Desde cuándo se siente así?",
+                                    "¿Ha ocurrido algo específico recientemente?"
+                                ]
+                            },
+                            "history": {
+                                "title": "Antecedentes",
+                                "questions": [
+                                    "¿Ha ido al psicólogo antes?",
+                                    "¿Toma alguna medicación?",
+                                    "¿Hay enfermedades importantes en la familia?"
+                                ]
+                            },
+                            "family": {
+                                "title": "Dinámica Familiar",
+                                "questions": [
+                                    "¿Con quién vive?",
+                                    "¿Cómo es la relación con sus padres/pareja?",
+                                    "¿Hay conflictos frecuentes?"
+                                ]
+                            },
+                            "social": {
+                                "title": "Vida Social y Laboral",
+                                "questions": [
+                                    "¿A qué se dedica?",
+                                    "¿Cómo se lleva con sus compañeros?",
+                                    "¿Tiene amigos cercanos?"
+                                ]
+                            },
+                            "habits": {
+                                "title": "Habitos y Rutina",
+                                "questions": [
+                                    "¿Cómo duerme?",
+                                    "¿Hace ejercicio?",
+                                    "¿Consume alcohol o tabaco?"
+                                ]
+                            }
+                        }
+                    },
+                    "save_draft": "Guardar Borrador",
+                    "finish_session": "Finalizar Primera Sesión",
+                    "initial_evaluation": "Evaluación Inicial",
+                    "see_notes": "Ver notas de sesión inicial",
+                    "messages": {
+                        "write_notes": "Por favor escribe algunas notas de la sesión",
+                        "success_complete": "Sesión completada exitosamente",
+                        "success_draft": "Borrador guardado",
+                        "error": "Error al guardar: {message}"
+                    }
+                }
+            }
+        },
         "monthly_investment": "Inversión Mensual",
         "choose_this_plan": "Elegir este Plan"
     },
@@ -291,7 +886,7 @@
     },
     "Dashboard": {
         "title": "Escritorio",
-        "loading": "Cargando centro de operaciones...",
+        "loading": "Iniciando estación de trabajo clínica...",
         "header": {
             "system_active": "Sistema Activo",
             "date_format": "EEEE d 'de' MMMM"
@@ -328,11 +923,12 @@
             "empty": "Sin actividad reciente"
         },
         "quick_actions": {
-            "title": "Acciones Rápidas",
-            "explore_tests": "Explorar Tests",
-            "view_patients": "Ver Pacientes",
-            "my_subscription": "Mi Suscripción",
             "resources_library": "Biblioteca de Recursos"
+        },
+        "Resources": {
+            "title": "Recursos y Actualidad",
+            "subtitle": "Contenido profesional seleccionado",
+            "explore": "Explorar biblioteca"
         },
         "Subscription": {
             "title": "Suscripción",
@@ -377,7 +973,21 @@
             "PaymentMethod": {
                 "title": "Método de Pago",
                 "desc": "Gestiona tus tarjetas y facturación.",
-                "expires": "Expira el"
+                "expires": "Expira el",
+                "card_ending": "Visa terminada en {digits}",
+                "edit": "Editar"
+            },
+            "loading_payment": "El sistema de pagos se está cargando...",
+            "price_config_not_found": "Configuración de precio no encontrada para este plan.",
+            "error_starting": "Error al iniciar la suscripción.",
+            "processing": "Procesando...",
+            "Status": {
+                "success_title": "¡Suscripción exitosa!",
+                "success_desc": "Tu plan ha sido actualizado correctamente.",
+                "failure_title": "Error en el pago",
+                "failure_desc": "No se pudo procesar tu suscripción. Intenta nuevamente.",
+                "pending_title": "Pago pendiente",
+                "pending_desc": "Estamos procesando tu pago. Te avisaremos cuando se complete."
             }
         }
     },
@@ -448,8 +1058,12 @@
         "badge": "Ecosistema de Precisión",
         "cta_main": "Empieza ahora",
         "cta_secondary": "Explorar módulo",
-        "cta_description": "Únase a los cientos de profesionales que ya están elevando el estándar de atención con Neurometrics.",
+        "cta_description": "Únete a los cientos de profesionales que ya están elevando el estándar de atención con Neurometrics.",
         "join_today": "Transforma tu práctica <span>hoy</span>.",
+        "hero_badge": "Propuesta de Valor Clínica",
+        "hero_title": "Herramientas de <span className=\"text-teal-600\">precisión médica</span> para tu consultorio.",
+        "hero_description": "Diseñamos cada módulo pensando en el rigor que exige la práctica de la psicología, psiquiatría y neurología moderna.",
+        "explore_module": "Explorar módulo",
         "ClinicalRecords": {
             "title": "Fichas Clínicas Inteligentes",
             "desc": "Gestión documental optimizada con línea de tiempo automática y centralización de antecedentes.",
@@ -652,6 +1266,7 @@
         "step3_savings": "Ahorro Máximo",
         "step3_trial_info": "Empieza hoy: todos los planes comerciales incluyen un **periodo de prueba de 7 días sin compromiso**.",
         "step3_btn_next": "Confirmar Suscripción",
+        "step3_btn_select": "SELECCIONAR",
         "step4_title": "Protocolo de Acceso y Seguridad",
         "step4_subtext": "Su información y la de sus pacientes estarán protegidas bajo estándares globales de ciberseguridad médica.",
         "step4_badge": "SEGURIDAD MÁXIMA",
@@ -668,10 +1283,13 @@
         "step5_btn_dashboard": "Ir a mi Estación de Trabajo",
         "step5_spam_note": "Revisa tu carpeta de Spam",
         "professions": {
-            "psychologist": "Psicólogo Clínico",
+            "physician": "Médico/a",
+            "psychologist": "Psicólogo/a Clínico/a",
             "psychiatrist": "Psiquiatra",
-            "neurologist": "Neurólogo",
-            "neuropsychologist": "Neuropsicólogo"
+            "neurologist": "Neurólogo/a",
+            "occupational_therapist": "Terapeuta Ocupacional",
+            "speech_therapist": "Fonoaudiólogo/a",
+            "neuropsychologist": "Neuropsicólogo/a"
         },
         "needs": {
             "tests": "Estandarización de Pruebas y Baremos",
@@ -691,7 +1309,8 @@
         },
         "errors": {
             "empty_fields": "Por favor completa todos los campos de la cuenta.",
-            "payment_unavailable": "El sistema de pagos no está disponible en este momento. Por favor, asegúrate de que las variables de entorno de Paddle estén configuradas o elige el plan gratuito."
+            "payment_unavailable": "El sistema de pagos no está disponible en este momento. Por favor, asegúrate de que las variables de entorno de Paddle estén configuradas o elige el plan gratuito.",
+            "price_not_configured": "ID de precio no configurado para este plan."
         }
     },
     "FeaturesDetail": {
@@ -779,9 +1398,12 @@
         "specialty": "Profesión",
         "specialty_placeholder": "Selecciona tu profesión",
         "specialties": {
+            "physician": "Médico/a",
             "psychologist": "Psicólogo/a",
             "psychiatrist": "Psiquiatra",
-            "neurologist": "Neurólogo/a"
+            "neurologist": "Neurólogo/a",
+            "occupational_therapist": "Terapeuta Ocupacional",
+            "speech_therapist": "Fonoaudiólogo/a"
         },
         "registry_number": "Nº Registro / Licencia",
         "signature_preview": "Vista Previa de Firma",
@@ -900,13 +1522,32 @@
     },
     "Patients": {
         "new": {
-            "title": "Nuevo Paciente",
-            "subtitle": "Ingresa los datos del paciente para crear su ficha clínica profesional.",
-            "submit": "Crear Paciente",
+            "title": "Registro de Nuevo Paciente",
+            "subtitle": "Complete los antecedentes clínicos y personales del paciente.",
             "personal_info": "Información Personal",
-            "contact_info": "Ubicación y Contacto",
-            "clinical_info": "Información Clínica",
-            "support_info": "Red de Apoyo",
+            "contact_info": "Contacto y Ubicación",
+            "clinical_info": "Antecedentes Clínicos",
+            "support_info": "Red de Apoyo y Familia",
+            "submit": "Crear Expediente del Paciente",
+            "loading": "Cargando...",
+            "success": "Paciente creado exitosamente",
+            "mock_injected": "Datos de prueba inyectados",
+            "gender_labels": {
+                "male": "H",
+                "female": "M",
+                "other": "O"
+            },
+            "mock_data": {
+                "name": "Paciente de Prueba Mock",
+                "education": "Universitario Completo",
+                "occupation": "Psicólogo",
+                "companion": "María Pérez (Hermana)",
+                "address": "Av. Providencia 1234, Santiago",
+                "emergency_contact": "Carlos Ruiz (+56 9 8765 4321)",
+                "genogram": "Antecedentes de depresión en rama materna.",
+                "diagnoses": "F41.1 Trastorno de Ansiedad Generalizada",
+                "medications": "Sertralina 50mg/día"
+            },
             "fields": {
                 "name": "Nombre Completo",
                 "gender": "Género",
@@ -928,6 +1569,7 @@
             "placeholders": {
                 "name": "Juan Pérez",
                 "rut": "12.345.678-9",
+                "age": "25",
                 "phone": "+56 9 ...",
                 "email": "juan@ejemplo.com",
                 "address": "Calle Falsa 123",

@@ -170,8 +170,8 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         {/* Auth Buttons */}
                         {currentUser ? (
                             <div className="flex items-center gap-3 pl-2">
-                                <Link href="/profile" className="flex items-center gap-2 hover:bg-slate-50 rounded-full pr-3 pl-1 py-1 transition-colors group">
-                                    <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 bg-teal-50 flex items-center justify-center relative">
+                                <Link href="/profile" className="flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full pr-3 pl-1 py-1 transition-colors group">
+                                    <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 bg-teal-50 dark:bg-slate-900 flex items-center justify-center relative">
                                         {currentUser.user_metadata?.avatar_url ? (
                                             <Image
                                                 src={currentUser.user_metadata?.avatar_url}
@@ -180,12 +180,12 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                                                 className="object-cover"
                                             />
                                         ) : (
-                                            <span className="text-xs font-bold text-teal-700">
+                                            <span className="text-xs font-bold text-teal-700 dark:text-teal-400">
                                                 {getUserDisplayData(currentUser, currentProfile).initials}
                                             </span>
                                         )}
                                     </div>
-                                    <span className="text-sm font-medium text-slate-700 group-hover:text-teal-700 max-w-[150px] truncate">
+                                    <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-teal-700 dark:group-hover:text-teal-400 max-w-[150px] truncate transition-colors">
                                         {getUserDisplayData(currentUser, currentProfile).displayName}
                                     </span>
                                 </Link>

@@ -68,24 +68,24 @@ export function NewPatientForm() {
         if (fillFormTrigger > 0) {
             setFormData(prev => ({
                 ...prev,
-                fullName: "Paciente de Prueba Mock",
+                fullName: t('mock_data.name'),
                 birthDate: "1990-05-15",
                 email: "prueba@neurometrics.lat",
                 gender: "male",
                 rut: "12.345.678-9",
                 age: "35",
                 phone: "+56 9 1234 5678",
-                address: "Av. Providencia 1234, Santiago",
+                address: t('mock_data.address'),
                 clinic: "Centro Médico Cordillera",
-                education: "Universitario Completo",
-                occupation: "Psicólogo",
-                companion: "María Pérez (Hermana)",
-                emergencyContact: "Carlos Ruiz (+56 9 8765 4321)",
-                genogram: "Antecedentes de depresión en rama materna.",
-                diagnoses: "F41.1 Trastorno de Ansiedad Generalizada",
-                medications: "Sertralina 50mg/día"
+                education: t('mock_data.education'),
+                occupation: t('mock_data.occupation'),
+                companion: t('mock_data.companion'),
+                emergencyContact: t('mock_data.emergency_contact'),
+                genogram: t('mock_data.genogram'),
+                diagnoses: t('mock_data.diagnoses'),
+                medications: t('mock_data.medications')
             }))
-            toast.info("Datos de prueba inyectados")
+            toast.info(t('mock_injected'))
         }
     }, [fillFormTrigger])
 
@@ -102,7 +102,7 @@ export function NewPatientForm() {
             toast.error(result.error)
             setIsSubmitting(false)
         } else {
-            toast.success("Paciente creado exitosamente")
+            toast.success(t('success'))
         }
     }
 
@@ -199,7 +199,7 @@ export function NewPatientForm() {
                                     label={t('fields.age')}
                                     icon={Activity}
                                     type="number"
-                                    placeholder="25"
+                                    placeholder={t('placeholders.age')}
                                 />
                                 <FormField
                                     id="birthDate"
@@ -234,7 +234,7 @@ export function NewPatientForm() {
                                             <div key={g} className="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                                                 <RadioGroupItem value={g} id={g} className="text-teal-600 border-slate-300" />
                                                 <Label htmlFor={g} className="capitalize cursor-pointer text-sm font-medium">
-                                                    {g === 'male' ? 'H' : g === 'female' ? 'M' : 'O'}
+                                                    {t(`gender_labels.${g}`)}
                                                 </Label>
                                             </div>
                                         ))}
@@ -381,7 +381,7 @@ export function NewPatientForm() {
                             {isSubmitting ? (
                                 <span className="flex items-center gap-2">
                                     <Search className="w-5 h-5 animate-spin" />
-                                    Cargando...
+                                    {t('loading')}
                                 </span>
                             ) : (
                                 <span className="flex items-center gap-2">

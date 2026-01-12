@@ -31,7 +31,7 @@ export function PricingSection() {
         { key: 'free', priceId: undefined, amount: 0, hasExcluded: true },
         { key: 'basic', priceId: PRICE_ID_BASIC, amount: 10 },
         { key: 'clinical', priceId: PRICE_ID_CLINICAL, amount: 15, popular: true },
-        { key: 'pro', priceId: PRICE_ID_PRO, amount: 65, period: '/año' }
+        { key: 'pro', priceId: PRICE_ID_PRO, amount: 65, period: t('year') }
     ]
 
     return (
@@ -82,7 +82,7 @@ export function PricingSection() {
                                             {plan.amount === 0 ? (
                                                 <span className="text-3xl font-bold text-slate-900">$0</span>
                                             ) : (
-                                                <PriceDisplay amount={plan.amount} period={plan.period || '/mes'} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
+                                                <PriceDisplay amount={plan.amount} period={plan.period || t('month')} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
                                             )}
                                         </div>
                                         {t.has(`${plan.key}.trial`) && <div className="text-[10px] font-bold text-teal-600 mt-1">{t(`${plan.key}.trial`)}</div>}
@@ -180,7 +180,7 @@ export function PricingSection() {
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('monthly_investment')}</span>
                                 <span className="text-2xl font-black text-slate-900">
-                                    {activeDetailsPlan && plans.find(p => p.key === activeDetailsPlan)?.amount === 0 ? "$0" : (activeDetailsPlan && `$${plans.find(p => p.key === activeDetailsPlan)?.amount}${activeDetailsPlan === 'pro' ? '/año' : '/mes'}`)}
+                                    {activeDetailsPlan && plans.find(p => p.key === activeDetailsPlan)?.amount === 0 ? "$0" : (activeDetailsPlan && `$${plans.find(p => p.key === activeDetailsPlan)?.amount}${activeDetailsPlan === 'pro' ? t('year') : t('month')}`)}
                                 </span>
                             </div>
                             <Button asChild onClick={() => setDetailsOpen(false)} className="rounded-xl h-12 px-8 bg-teal-600 hover:bg-teal-500 text-white font-bold shadow-lg shadow-teal-900/10">

@@ -24,8 +24,7 @@ import {
     Search
 } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { useTranslations, useFormatter } from 'next-intl'
 
 interface PatientDashboardProps {
     patient: any
@@ -73,6 +72,8 @@ const HighlightText = ({ text, highlight }: { text: string, highlight: string })
 type ViewState = 'overview' | 'session_manager' | 'tests' | 'documents' | 'genogram' | 'treatment'
 
 export function PatientDashboard({ patient, clinicalRecord, sessions, testResults, testAssignments = [], userProfile }: PatientDashboardProps) {
+    const t = useTranslations('Dashboard.Patients.Dashboard')
+    const format = useFormatter()
     const [currentView, setCurrentView] = useState<ViewState>('overview')
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
@@ -97,7 +98,11 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
     const filteredSessions = sessions.filter(session => {
         if (!searchQuery) return true
         const query = searchQuery.toLowerCase()
-        const dateStr = format(new Date(session.date), "d MMM yyyy", { locale: es }).toLowerCase()
+        const dateStr = format.dateTime(new Date(session.date), {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        }).toLowerCase()
         return (
             (session.notes && session.notes.toLowerCase().includes(query)) ||
             (session.type && session.type.toLowerCase().includes(query)) ||
@@ -134,21 +139,21 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                         </div>
                         <div className="min-w-0">
                             <h2 className="font-bold text-slate-900 dark:text-white leading-tight text-lg truncate tracking-tight">{patient.full_name}</h2>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Expediente Clínico</span>
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">{t('clinical_record')}</span>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
                         <div>
-                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">Edad</span>
+                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">{t('age')}</span>
                             <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">
-                                {patient.birth_date ? `${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()} años` : '-'}
+                                {patient.birth_date ? `${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()} ${t('age_suffix')}` : '-'}
                             </span>
                         </div>
                         <div>
-                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">Diagnóstico</span>
-                            <span className="font-semibold text-teal-600 dark:text-cyan-400 truncate block text-sm" title={clinicalRecord?.diagnosis || 'En Evaluación'}>
-                                {clinicalRecord?.diagnosis || 'En Evaluación'}
+                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">{t('diagnosis')}</span>
+                            <span className="font-semibold text-teal-600 dark:text-cyan-400 truncate block text-sm" title={clinicalRecord?.diagnosis || t('under_evaluation')}>
+                                {clinicalRecord?.diagnosis || t('under_evaluation')}
                             </span>
                         </div>
                     </div>
@@ -156,10 +161,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                     {/* Alerts/Status Tags */}
                     <div className="flex gap-2 mt-4 flex-wrap">
                         <Badge variant="outline" className="bg-slate-50 dark:bg-slate-800/50 text-xs font-medium border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
-                            {sessions.length} Sesiones
+                            {t('sessions_count', { count: sessions.length })}
                         </Badge>
                         <Badge variant="outline" className="bg-green-50 dark:bg-green-900/10 text-xs font-medium border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
-                            Activo
+                            {t('active')}
                         </Badge>
                     </div>
                 </div>
@@ -174,10 +179,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             : 'bg-transparent border-transparent text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         onClick={() => handleViewChange('overview')}
-                        title="Resumen"
+                        title={t('nav.overview')}
                     >
                         <LayoutDashboard className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-wide">Resumen</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wide">{t('nav.overview')}</span>
                     </Button>
                     <Button
                         variant={currentView === 'session_manager' ? 'default' : 'ghost'}
@@ -187,10 +192,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             : 'bg-transparent border-transparent text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         onClick={() => handleViewChange('session_manager')}
-                        title="Sesiones"
+                        title={t('nav.clinical')}
                     >
                         <MessageSquare className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-wide">Clínica</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wide">{t('nav.clinical')}</span>
                     </Button>
                     <Button
                         variant={currentView === 'tests' ? 'default' : 'ghost'}
@@ -200,10 +205,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             : 'bg-transparent border-transparent text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         onClick={() => handleViewChange('tests')}
-                        title="Evaluaciones"
+                        title={t('nav.tests')}
                     >
                         <Files className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-wide">Tests</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wide">{t('nav.tests')}</span>
                     </Button>
                     <Button
                         variant={currentView === 'genogram' ? 'default' : 'ghost'}
@@ -213,10 +218,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             : 'bg-transparent border-transparent text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200'
                             }`}
                         onClick={() => handleViewChange('genogram')}
-                        title="Genograma"
+                        title={t('nav.family')}
                     >
                         <Network className="w-5 h-5" />
-                        <span className="text-[10px] font-bold uppercase tracking-wide">Familia</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wide">{t('nav.family')}</span>
                     </Button>
                 </nav>
 
@@ -224,7 +229,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                 <div className="flex-1 flex flex-col min-h-0 bg-slate-50/50 dark:bg-slate-950/50">
                     <div className="px-5 py-4 flex flex-col gap-3">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest text-[10px]">Historial de Sesiones</span>
+                            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest text-[10px]">{t('session_history')}</span>
                             <Button
                                 variant="ghost"
                                 size="sm"
@@ -233,7 +238,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     handleViewChange('session_manager')
                                     setSelectedSessionId('new')
                                 }}
-                                title="Nueva Sesión"
+                                title={t('new_session')}
                             >
                                 <Plus className="w-4 h-4" />
                             </Button>
@@ -241,7 +246,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                         <div className="relative group">
                             <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 group-focus-within:text-teal-500 dark:group-focus-within:text-cyan-400 transition-colors" />
                             <Input
-                                placeholder="Buscar en notas..."
+                                placeholder={t('search_placeholder')}
                                 className="h-9 pl-9 text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 focus-visible:ring-1 focus-visible:ring-teal-500 dark:focus-visible:ring-cyan-500 focus-visible:border-teal-500 dark:focus-visible:border-cyan-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 rounded-lg shadow-sm"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -262,14 +267,14 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                 >
                                     <div className="flex justify-between items-start mb-1.5">
                                         <span className={`font-bold text-sm ${selectedSessionId === session.id ? 'text-teal-700 dark:text-cyan-400' : 'text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white'}`}>
-                                            {format(new Date(session.date), "d MMM yyyy", { locale: es })}
+                                            {format.dateTime(new Date(session.date), { day: 'numeric', month: 'short', year: 'numeric' })}
                                         </span>
                                         <LoaderIcon type={session.type} />
                                     </div>
                                     <p className="text-xs text-slate-500 dark:text-slate-500 truncate pr-2 group-hover:text-slate-600 dark:group-hover:text-slate-400 transition-colors line-clamp-2 leading-relaxed">
                                         {session.notes ? (
                                             <HighlightText text={session.notes} highlight={searchQuery} />
-                                        ) : <span className="italic opacity-70">Sin notas...</span>}
+                                        ) : <span className="italic opacity-70">{t('no_notes')}</span>}
                                     </p>
                                 </button>
                             ))}
@@ -278,7 +283,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400">
                                         <Files className="w-5 h-5 opacity-50" />
                                     </div>
-                                    <span className="text-xs text-slate-500 dark:text-slate-500">No hay historial clínico.</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-500">{t('no_history')}</span>
                                 </div>
                             )}
                         </div>
@@ -299,7 +304,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                 <PatientOverview
                                     patient={patient}
                                     lastSession={sessions[0]}
-                                    diagnosis={clinicalRecord?.diagnosis || 'En evaluación'}
+                                    diagnosis={clinicalRecord?.diagnosis || t('under_evaluation')}
                                     onStartSession={() => handleViewChange('session_manager')}
                                     sessions={sessions}
                                     userSpecialty={effectiveSpecialty} // Pass effective specialty
@@ -339,7 +344,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     <section>
                                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                             <Network className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                                            Evaluaciones Pendientes (Test Remotos)
+                                            {t('remote_evaluations')}
                                         </h2>
                                         <SentTestsList assignments={testAssignments} patientId={patient.id} />
                                     </section>
@@ -347,7 +352,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     <section>
                                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                             <Files className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-                                            Historial de Resultados
+                                            {t('results_history')}
                                         </h2>
                                         <PatientHistory results={testResults} patientId={patient.id} />
                                     </section>

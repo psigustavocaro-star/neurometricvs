@@ -173,7 +173,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                 <div className="flex flex-col items-end gap-3">
                     <div
                         onClick={copyId}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/50 rounded-lg cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-800 group"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/40 rounded-lg cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700/50 group"
                     >
                         <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 uppercase tracking-tighter">Account ID: {user?.id?.substring(0, 12)}...</span>
                         <Copy className="w-3 h-3 text-slate-400 group-hover:text-teal-500 transition-colors" />
@@ -185,19 +185,19 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                 <TabsList className="w-full justify-start border-none bg-slate-100/50 dark:bg-slate-900/40 p-1 h-auto rounded-xl space-x-1 inline-flex max-w-fit mb-4 mt-6">
                     <TabsTrigger
                         value="profile"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.profile')}
                     </TabsTrigger>
                     <TabsTrigger
                         value="security"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.security')}
                     </TabsTrigger>
                     <TabsTrigger
                         value="billing"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 font-bold text-xs uppercase tracking-wider transition-all"
+                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
                     >
                         {t('tabs.billing')}
                     </TabsTrigger>
@@ -224,7 +224,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                             <div className="md:col-span-8 space-y-6">
                                 <Card className="border-none shadow-sm bg-slate-50/50 dark:bg-slate-900/20">
                                     <CardHeader className="pb-2">
-                                        <CardTitle className="text-sm font-medium text-slate-500 uppercase tracking-wider">{t('basic_info')}</CardTitle>
+                                        <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('basic_info')}</CardTitle>
                                     </CardHeader>
                                     <CardContent className="grid grid-cols-1 gap-4">
                                         <div className="grid grid-cols-1 gap-4">

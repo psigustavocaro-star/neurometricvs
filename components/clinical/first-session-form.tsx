@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { createSession, updateClinicalRecord } from "@/app/[locale]/patients/clinical-actions"
 import { toast } from "sonner"
 import { Loader2, AlertCircle, CheckCircle2, ArrowLeft, Sparkles, ClipboardList } from "lucide-react"
+import { useTranslations } from 'next-intl'
 
 interface FirstSessionFormProps {
     patientId: string
@@ -20,6 +21,8 @@ interface FirstSessionFormProps {
 }
 
 export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSessionFormProps) {
+    const t = useTranslations('Dashboard.Patients.Sessions.FirstForm')
+    const tCommon = useTranslations('Dashboard.Patients.Sessions')
     const [saving, setSaving] = useState(false)
     const { resolvedTheme } = useTheme() // Assuming useTheme is imported, if not I need to adding it. 
     // Wait, useTheme wasn't in original imports. I should check if I need it or just use Tailwind dark classes.
@@ -32,7 +35,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
     const handleSave = async (isComplete: boolean = false) => {
         if (!notes.trim()) {
-            toast.error("Por favor escribe algunas notas de la sesión")
+            toast.error(t('messages.write_notes'))
             return
         }
 
@@ -42,7 +45,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
             const sessionData = {
                 date,
                 duration,
-                type: 'Evaluación Inicial',
+                type: t('initial_evaluation'),
                 notes: notes,
                 status: (isComplete ? 'completed' : 'scheduled') as 'completed' | 'scheduled' | 'cancelled'
             }
@@ -53,26 +56,26 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
             await updateClinicalRecord(patientId, {
                 anamnesis: {
                     presentIllness: notes, // Map notes to history
-                    personalHistory: 'Ver notas de sesión inicial', // Placeholder
+                    personalHistory: t('see_notes'), // Placeholder
                 }
             })
 
-            toast.success(isComplete ? "Sesión completada exitosamente" : "Borrador guardado")
+            toast.success(isComplete ? t('messages.success_complete') : t('messages.success_draft'))
             onComplete()
         } catch (error: any) {
             console.error("Error saving session:", error)
-            toast.error(`Error al guardar: ${error.message || 'Desconocido'}`)
+            toast.error(t('messages.error', { message: error.message || 'Desconocido' }))
         } finally {
             setSaving(false)
         }
     }
 
     const interviewGuide = [
-        { title: 'Motivo de Consulta', questions: ['¿Qué lo/la trae por aquí hoy?', '¿Desde cuándo se siente así?', '¿Ha ocurrido algo específico recientemente?'] },
-        { title: 'Antecedentes', questions: ['¿Ha ido al psicólogo antes?', '¿Toma alguna medicación?', '¿Hay enfermedades importantes en la familia?'] },
-        { title: 'Dinámica Familiar', questions: ['¿Con quién vive?', '¿Cómo es la relación con sus padres/pareja?', '¿Hay conflictos frecuentes?'] },
-        { title: 'Vida Social y Laboral', questions: ['¿A qué se dedica?', '¿Cómo se lleva con sus compañeros?', '¿Tiene amigos cercanos?'] },
-        { title: 'Habitos y Rutina', questions: ['¿Cómo duerme?', '¿Hace ejercicio?', '¿Consume alcohol o tabaco?'] },
+        { title: t('interview_guide.sections.reason.title'), questions: t.raw('interview_guide.sections.reason.questions') },
+        { title: t('interview_guide.sections.history.title'), questions: t.raw('interview_guide.sections.history.questions') },
+        { title: t('interview_guide.sections.family.title'), questions: t.raw('interview_guide.sections.family.questions') },
+        { title: t('interview_guide.sections.social.title'), questions: t.raw('interview_guide.sections.social.questions') },
+        { title: t('interview_guide.sections.habits.title'), questions: t.raw('interview_guide.sections.habits.questions') },
     ]
 
     return (
@@ -80,9 +83,9 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
             <Alert className="border-teal-200 dark:border-teal-900/50 bg-teal-50 dark:bg-teal-950/20">
                 <Sparkles className="h-4 w-4 text-teal-600 dark:text-teal-400" />
                 <AlertDescription className="text-teal-900 dark:text-teal-200">
-                    <strong>Primera Sesión de {patientName}</strong>
+                    <strong>{t('title', { name: patientName })}</strong>
                     <br />
-                    Para comenzar el tratamiento, necesitamos completar la historia clínica del paciente.
+                    {t('description')}
                 </AlertDescription>
             </Alert>
 
@@ -94,7 +97,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                     <Card className="h-full border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
                         <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 pb-4 border-b border-slate-100 dark:border-slate-800">
                             <CardTitle className="text-slate-800 dark:text-slate-200 flex justify-between items-center text-base">
-                                <span>Notas de Sesión</span>
+                                <span>{t('notes_title')}</span>
                                 <div className="flex gap-2">
                                     <Input
                                         type="date"
@@ -109,19 +112,19 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                             onChange={(e) => setDuration(parseInt(e.target.value))}
                                             className="w-12 h-6 text-xs border-0 p-0 focus-visible:ring-0 text-right bg-transparent text-slate-700 dark:text-slate-300"
                                         />
-                                        <span className="text-xs text-slate-500">min</span>
+                                        <span className="text-xs text-slate-500">{tCommon('minutes_suffix')}</span>
                                     </div>
                                 </div>
                             </CardTitle>
                             <CardDescription className="text-slate-500 dark:text-slate-400">
-                                Espacio libre para registrar la narrativa del paciente durante la evaluación inicial.
+                                {t('notes_description')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="p-0">
                             <Textarea
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
-                                placeholder="Comienza escribiendo aquí... Puedes usar la guía de la derecha para orientar la entrevista."
+                                placeholder={t('notes_placeholder')}
                                 className="min-h-[500px] border-0 rounded-none resize-none p-6 text-base leading-relaxed focus-visible:ring-0 bg-transparent text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
                             />
                         </CardContent>
@@ -134,7 +137,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium flex items-center gap-2 text-slate-700 dark:text-slate-300">
                                 <ClipboardList className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-                                Guía de Entrevista
+                                {t('interview_guide.title')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -146,7 +149,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                                         </AccordionTrigger>
                                         <AccordionContent>
                                             <ul className="space-y-2 pl-2">
-                                                {section.questions.map((q, qIdx) => (
+                                                {section.questions.map((q: string, qIdx: number) => (
                                                     <li key={qIdx} className="text-xs text-slate-500 dark:text-slate-500 italic flex gap-2">
                                                         <span className="text-indigo-400">•</span>
                                                         {q}
@@ -160,7 +163,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
                             <div className="bg-slate-100 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
                                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                                    <strong>Tip:</strong> No es necesario hacer todas las preguntas. Deja que el paciente hable libremente y guía la conversación suavemente hacia las áreas no cubiertas.
+                                    <strong>{t('interview_guide.tip_title')}:</strong> {t('interview_guide.tip_text')}
                                 </p>
                             </div>
                         </CardContent>
@@ -175,7 +178,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                     disabled={saving}
                     className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
                 >
-                    Guardar Borrador
+                    {t('save_draft')}
                 </Button>
                 <Button
                     onClick={() => handleSave(true)}
@@ -184,7 +187,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                 >
                     {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Finalizar Primera Sesión
+                    {t('finish_session')}
                 </Button>
             </div>
         </div>

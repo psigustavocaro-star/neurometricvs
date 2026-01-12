@@ -13,8 +13,8 @@ import { FirstSessionForm } from './first-session-form'
 import { SessionTimeline } from './session-timeline'
 import { SessionTimer } from './session-timer'
 import { toast } from "sonner"
-import { Loader2, Plus, Calendar, Save, ArrowLeft, Brain, Pill, ClipboardList } from "lucide-react"
 import { InSessionTestRunner } from './in-session-test-runner'
+import { useTranslations } from 'next-intl'
 
 interface SessionManagerProps {
     patientId: string
@@ -26,6 +26,7 @@ interface SessionManagerProps {
 }
 
 export function SessionManager({ patientId, sessions, patientName, embedded, preSelectedSessionId, userSpecialty = 'psychologist' }: SessionManagerProps) {
+    const t = useTranslations('Dashboard.Patients.Sessions')
     const [showFirstSessionForm, setShowFirstSessionForm] = useState(sessions.length === 0)
     // Default to 'new' if we have sessions but want to encourage input, OR select latest.
     // User wants to see sessions, so let's default to no selection (overview) or latest.
@@ -53,11 +54,10 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
 
     const [loading, setLoading] = useState(false)
 
-    // Form State
     const [formData, setFormData] = useState<Partial<ClinicalSession>>({
         date: new Date().toISOString().split('T')[0],
         duration: 45,
-        type: 'Sesión Regular',
+        type: 'regular',
         notes: ''
     })
 
@@ -67,9 +67,9 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
         if (fillFormTrigger > 0 && selectedSessionId === 'new') {
             setFormData({
                 ...formData,
-                notes: `[SESIÓN GENERADA AUTOMÁTICAMENTE]\n\nPaciente refiere sentirse más tranquilo desde la última sesión. Menciona haber realizado los ejercicios de respiración recomendados.\n\nObservaciones:\n- Discurso coherente y fluido.\n- Afecto congruente.\n- Sin ideación suicida activa.\n\nPlan:\n- Continuar con Terapia Cognitivo Conductual.\n- Revisar tareas para el hogar en la próxima sesión.`,
+                notes: t('mock_notes'),
                 duration: 50,
-                type: 'Sesión Regular'
+                type: t('types.regular')
             })
         }
     }, [fillFormTrigger])
@@ -90,7 +90,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
         setFormData({
             date: new Date().toISOString().split('T')[0],
             duration: 45,
-            type: 'Sesión Regular',
+            type: t('types.regular'),
             notes: ''
         })
     }
@@ -100,16 +100,16 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
         try {
             if (selectedSessionId === 'new') {
                 await createSession(patientId, formData)
-                toast.success("Sesión creada correctamente")
+                toast.success(t('messages.created'))
                 // In a real app we'd get the ID back to select it, but revalidation handles UI update
                 // We'll keep 'new' mode or reset
                 setFormData({ ...formData, notes: '' })
             } else if (selectedSessionId) {
                 await updateSession(selectedSessionId, formData)
-                toast.success("Sesión actualizada")
+                toast.success(t('messages.updated'))
             }
         } catch (error) {
-            toast.error("Error al guardar sesión")
+            toast.error(t('messages.error'))
         } finally {
             setLoading(false)
         }
@@ -121,7 +121,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
 
     const handleFirstSessionComplete = () => {
         setShowFirstSessionForm(false)
-        toast.success("¡Primera sesión completada!")
+        toast.success(t('messages.first_completed'))
         window.location.reload()
     }
 
@@ -144,7 +144,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
             {/* 1. Timeline (Left) */}
             <div className="hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full overflow-hidden transition-colors duration-300">
                 <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 sticky top-0 z-10 shrink-0">
-                    <span className="font-bold text-slate-800 dark:text-slate-200 text-sm tracking-tight">Línea de Tiempo</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200 text-sm tracking-tight">{t('timeline')}</span>
                     <Button size="sm" variant="ghost" onClick={handleNewSession} className="h-8 w-8 p-0 hover:bg-teal-50 dark:hover:bg-slate-800 hover:text-teal-600 dark:hover:text-cyan-400 rounded-full transition-colors">
                         <Plus className="w-5 h-5" />
                     </Button>
@@ -165,9 +165,9 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                 <div className="flex-none px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
                     <div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                            {selectedSessionId === 'new' ? `Nueva Sesión` : `Sesión del ${new Date(formData.date!).toLocaleDateString()}`}
+                            {selectedSessionId === 'new' ? t('new_session') : t('session_date', { date: new Date(formData.date!).toLocaleDateString() })}
                         </h2>
-                        {selectedSessionId === 'new' && <p className="text-xs text-slate-500 dark:text-slate-400">Registrando evolución clínica</p>}
+                        {selectedSessionId === 'new' && <p className="text-xs text-slate-500 dark:text-slate-400">{t('registering_evolution')}</p>}
                     </div>
 
                     {/* Session Timer (Only for new sessions) */}
@@ -183,7 +183,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                     <Button onClick={handleSave} disabled={loading} className="bg-teal-600 hover:bg-teal-700 dark:bg-cyan-600 dark:hover:bg-cyan-700 text-white shadow-sm transition-all hover:scale-105">
                         {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
                         <Save className="w-4 h-4 mr-2" />
-                        {selectedSessionId === 'new' ? 'Registrar' : 'Guardar Cambios'}
+                        {selectedSessionId === 'new' ? t('register') : t('save_changes')}
                     </Button>
 
                 </div>
@@ -192,7 +192,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                 {userSpecialty !== 'psychologist' && (
                     <div className="px-6 py-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs transition-colors">
                         <span className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            {userSpecialty === 'psychiatrist' ? <><Pill className="w-3 h-3" /> Modo Psiquiatría</> : <><Brain className="w-3 h-3" /> Modo Neurología</>}
+                            {userSpecialty === 'psychiatrist' ? <><Pill className="w-3 h-3" /> {t('psychiatry_mode')}</> : <><Brain className="w-3 h-3" /> {t('neurology_mode')}</>}
                         </span>
                         <InSessionTestRunner
                             patientId={patientId}
@@ -207,7 +207,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                         {/* Editor Config */}
                         <div className="grid grid-cols-3 gap-6">
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Fecha</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{t('date')}</label>
                                 <Input
                                     type="date"
                                     value={formData.date || ''}
@@ -216,7 +216,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Duración</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{t('duration')}</label>
                                 <Input
                                     type="number"
                                     value={formData.duration}
@@ -225,16 +225,16 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Tipo</label>
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{t('type')}</label>
                                 <select
                                     className="flex h-10 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-cyan-500 focus:bg-white dark:focus:bg-slate-800 transition-colors"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                 >
-                                    <option value="Sesión Regular">Sesión Regular</option>
-                                    <option value="Evaluación">Evaluación</option>
-                                    <option value="Crisis">Crisis</option>
-                                    <option value="Cierre">Cierre</option>
+                                    <option value="regular">{t('types.regular')}</option>
+                                    <option value="evaluation">{t('types.evaluation')}</option>
+                                    <option value="crisis">{t('types.crisis')}</option>
+                                    <option value="closure">{t('types.closure')}</option>
                                 </select>
                             </div>
                         </div>
@@ -242,7 +242,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                         {/* Note Editor */}
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Notas de Evolución</label>
+                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300">{t('evolution_notes')}</label>
                             </div>
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-teal-50/50 dark:bg-cyan-900/10 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
@@ -250,7 +250,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                                     value={formData.notes}
                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                     className="min-h-[400px] p-6 text-base leading-relaxed border-slate-200 dark:border-slate-800 focus:border-teal-400 dark:focus:border-cyan-500 focus:ring-0 shadow-sm rounded-xl resize-none bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
-                                    placeholder="Comienza a escribir o usa el micrófono para transcribir la sesión..."
+                                    placeholder={t('notes_placeholder')}
                                 />
                             </div>
                         </div>
@@ -260,10 +260,10 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                             <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                                 <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                                     <Pill className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-                                    Notas Farmacológicas
+                                    {t('pharmacological_notes')}
                                 </label>
                                 <Textarea
-                                    placeholder="Registrar cambios en medicación, efectos adversos, etc..."
+                                    placeholder={t('pharmacological_placeholder')}
                                     className="min-h-[100px] bg-indigo-50/30 dark:bg-indigo-950/20 border-indigo-100 dark:border-indigo-900/50 focus:border-indigo-400 focus:ring-indigo-100 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
                                 />
                             </div>
@@ -273,10 +273,10 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                             <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                                 <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                                     <Brain className="w-4 h-4 text-blue-500 dark:text-blue-400" />
-                                    Exploración Neurológica / Física
+                                    {t('neurological_notes')}
                                 </label>
                                 <Textarea
-                                    placeholder="Registrar hallazgos del examen físico, pares craneales, motricidad..."
+                                    placeholder={t('neurological_placeholder')}
                                     className="min-h-[100px] bg-blue-50/30 dark:bg-blue-950/20 border-blue-100 dark:border-blue-900/50 focus:border-blue-400 focus:ring-blue-100 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600"
                                 />
                             </div>
