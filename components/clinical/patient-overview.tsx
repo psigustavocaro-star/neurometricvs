@@ -19,26 +19,67 @@ import {
     MessageSquare,
     Pill,
     Brain,
-    Activity
+    Activity,
+    School,
+    GraduationCap,
+    Heart,
+    Search,
+    Stethoscope,
+    Users,
+    IdCard,
+    Briefcase,
+    MapPin,
+    Calendar,
+    Phone,
+    Mail
 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
 import { useTranslations, useFormatter } from 'next-intl'
+import { ClinicalRecord, VitalsLog, PatientMedication } from '@/types/clinical'
+import { VitalsModule } from './vitals-module'
+import { MedicationManager } from './medication-manager'
 
 interface PatientOverviewProps {
     patient: any
+    clinicalRecord?: ClinicalRecord | null
     lastSession: any
     diagnosis: string
     onStartSession: () => void
     sessions?: any[]
     userSpecialty?: string
+    vitalsLogs?: VitalsLog[]
+    medications?: PatientMedication[]
 }
 
-export function PatientOverview({ patient, lastSession, diagnosis, onStartSession, sessions = [], userSpecialty = 'psychologist' }: PatientOverviewProps) {
+export function PatientOverview({
+    patient,
+    clinicalRecord,
+    lastSession,
+    diagnosis,
+    onStartSession,
+    sessions = [],
+    userSpecialty = 'psychologist',
+    vitalsLogs = [],
+    medications = []
+}: PatientOverviewProps) {
     const t = useTranslations('Dashboard.Patients.Overview')
     const format = useFormatter()
+
+    const activeMedications = medications.filter(m => m.status === 'active')
     const router = useRouter()
     const [showGenogram, setShowGenogram] = useState(false)
+
+    // Role detection matching NewPatientForm
+    const activeRole = userSpecialty?.toLowerCase() || 'psychologist'
+    const isPsychiatrist = activeRole.includes('psychiatrist') || activeRole.includes('psiquiatra')
+    const isNeurologist = activeRole.includes('neurologist') || activeRole.includes('neurólog')
+    const isMedical = isPsychiatrist || isNeurologist || activeRole.includes('physician') || activeRole.includes('médic') || activeRole.includes('nutritionist') || activeRole.includes('nutricionista')
+    const isAcademic = activeRole.includes('psychopedagogue') || activeRole.includes('psicopedagog') || activeRole.includes('speech_therapist') || activeRole.includes('fonoaudiólog')
+    const isPhysical = activeRole.includes('occupational_therapist') || activeRole.includes('terapeuta')
+    const isSocial = false // Explicitly disabled
+
+    const anamnesis = clinicalRecord?.anamnesis as any || {}
 
     // Get the most recent sessions with insights
     const recentSessions = sessions.slice(0, 5)
@@ -129,9 +170,16 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
 
                 {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
                     {/* Sessions Timeline - Takes 2 columns */}
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="lg:col-span-2 space-y-6">
+
+                        {/* Clinical Modules Section */}
+                        {(isMedical || isPhysical) && (
+                            <div className="space-y-6">
+                                <VitalsModule patientId={patient.id} vitalsLogs={vitalsLogs} />
+                                <MedicationManager patientId={patient.id} medications={medications} />
+                            </div>
+                        )}
 
                         {/* EXPERT CARDS: Psychiatry */}
                         {(userSpecialty?.includes('psychiatrist') || userSpecialty?.includes('psiquiatra')) && (
@@ -144,11 +192,15 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                 </CardHeader>
                                 <CardContent className="px-4 py-3">
                                     <div className="flex gap-2 flex-wrap">
-                                        {['Sertralina 50mg', 'Quetiapina 25mg (SOS)'].map((med, i) => (
-                                            <Badge key={i} variant="secondary" className="bg-card border border-primary/20 text-foreground hover:bg-card cursor-default">
-                                                {med}
-                                            </Badge>
-                                        ))}
+                                        {activeMedications.length > 0 ? (
+                                            activeMedications.map((med, i) => (
+                                                <Badge key={i} variant="secondary" className="bg-emerald-50/50 border border-emerald-100 text-emerald-700 hover:bg-emerald-50 cursor-default text-[10px] font-bold">
+                                                    {med.name} {med.dosage}
+                                                </Badge>
+                                            ))
+                                        ) : (
+                                            <span className="text-xs text-muted-foreground italic">{t('no_medications')}</span>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -178,6 +230,65 @@ export function PatientOverview({ patient, lastSession, diagnosis, onStartSessio
                                         ))}
                                     </div>
                                     <p className="text-[10px] font-medium text-muted-foreground mt-2 uppercase tracking-wide">{t('mmse_trend')}</p>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* SPECIALTY CARD: Academic/Educational Context */}
+                        {isAcademic && (
+                            <Card className="border border-indigo-100 dark:border-indigo-900 shadow-sm bg-indigo-50/30 dark:bg-indigo-900/10 hover:bg-indigo-50/50 transition-colors">
+                                <CardHeader className="pb-2 pt-4 px-4 border-b border-indigo-100 dark:border-indigo-900/50">
+                                    <div className="flex items-center gap-2">
+                                        <School className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                                        <CardTitle className="text-sm font-bold text-foreground">{t('educational_context')}</CardTitle>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="px-4 py-3 space-y-2">
+                                    {anamnesis.school && (
+                                        <div className="flex items-center gap-2 text-sm">
+                                            <School className="w-3.5 h-3.5 text-slate-400" />
+                                            <span className="font-medium text-foreground">{anamnesis.school}</span>
+                                        </div>
+                                    )}
+                                    {anamnesis.grade && (
+                                        <div className="flex items-center gap-2 text-sm">
+                                            <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
+                                            <span className="text-muted-foreground">{anamnesis.grade}</span>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* SPECIALTY CARD: Physical Therapy Context */}
+                        {isPhysical && (
+                            <Card className="border border-teal-100 dark:border-teal-900 shadow-sm bg-teal-50/30 dark:bg-teal-900/10 hover:bg-teal-50/50 transition-colors">
+                                <CardHeader className="pb-2 pt-4 px-4 border-b border-teal-100 dark:border-teal-900/50">
+                                    <div className="flex items-center gap-2">
+                                        <Activity className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                                        <CardTitle className="text-sm font-bold text-foreground">{t('physical_context')}</CardTitle>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="px-4 py-3">
+                                    <p className="text-sm text-muted-foreground leading-tight italic">
+                                        {anamnesis.physical_status || t('in_evaluation')}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {anamnesis.reason_for_consultation && (
+                            <Card className="border border-slate-100 dark:border-slate-800 shadow-sm bg-slate-50/50 dark:bg-slate-900/50">
+                                <CardHeader className="pb-2 pt-4 px-4">
+                                    <div className="flex items-center gap-2">
+                                        <Search className="w-4 h-4 text-slate-400" />
+                                        <CardTitle className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Motivo de Consulta</CardTitle>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="px-4 pb-4">
+                                    <p className="text-xs text-slate-600 dark:text-slate-400 italic line-clamp-3">
+                                        {anamnesis.reason_for_consultation}
+                                    </p>
                                 </CardContent>
                             </Card>
                         )}

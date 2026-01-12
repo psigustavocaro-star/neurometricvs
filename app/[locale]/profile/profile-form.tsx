@@ -248,6 +248,11 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                                         <SelectItem value="Psicólogo">{t('specialties.psychologist')}</SelectItem>
                                                         <SelectItem value="Psiquiatra">{t('specialties.psychiatrist')}</SelectItem>
                                                         <SelectItem value="Neurólogo">{t('specialties.neurologist')}</SelectItem>
+                                                        <SelectItem value="Médico/a">{t('specialties.physician')}</SelectItem>
+                                                        <SelectItem value="Terapeuta Ocupacional">{t('specialties.occupational_therapist')}</SelectItem>
+                                                        <SelectItem value="Fonoaudiólogo/a">{t('specialties.speech_therapist')}</SelectItem>
+                                                        <SelectItem value="Psicopedagogo/a">{t('specialties.psychopedagogue')}</SelectItem>
+                                                        <SelectItem value="Nutricionista">{t('specialties.nutritionist')}</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                                 {/* Hidden input to ensure value is picked up by FormData in onSubmit if needed, although we could also use the state */}

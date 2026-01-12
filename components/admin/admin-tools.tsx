@@ -119,6 +119,11 @@ export function AdminTools({ patientId: propPatientId }: AdminToolsProps) {
                                     <SelectItem value="psychologist">Psicólogo (Default)</SelectItem>
                                     <SelectItem value="psychiatrist">Psiquiatra</SelectItem>
                                     <SelectItem value="neurologist">Neurólogo</SelectItem>
+                                    <SelectItem value="physician">Médico/a</SelectItem>
+                                    <SelectItem value="occupational_therapist">Terapeuta Ocupacional</SelectItem>
+                                    <SelectItem value="speech_therapist">Fonoaudiólogo/a</SelectItem>
+                                    <SelectItem value="psychopedagogue">Psicopedagogo/a</SelectItem>
+                                    <SelectItem value="nutritionist">Nutricionista</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>

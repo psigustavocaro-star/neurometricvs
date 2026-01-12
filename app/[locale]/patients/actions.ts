@@ -45,6 +45,11 @@ export async function createPatient(formData: FormData) {
     // Clinical Data
     const diagnoses = formData.get('diagnoses') as string
     const medications = formData.get('medications') as string
+    const school = formData.get('school') as string
+    const grade = formData.get('grade') as string
+    const physicalStatus = formData.get('physical_status') as string
+    const reasonForConsultation = formData.get('reason_for_consultation') as string
+    const familyHistory = formData.get('family_history') as string
 
     // Get profile id
     let { data: profile } = await supabase
@@ -110,6 +115,13 @@ export async function createPatient(formData: FormData) {
                 patient_id: patient.id,
                 diagnosis: diagnoses || null,
                 medications: medications || null,
+                anamnesis: {
+                    school: school || null,
+                    grade: grade || null,
+                    physical_status: physicalStatus || null,
+                    reason_for_consultation: reasonForConsultation || null,
+                    family_history: familyHistory || null
+                }
             })
 
         if (clinicalError) {

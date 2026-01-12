@@ -101,6 +101,35 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         console.warn('Test Assignments fetch failed (migration missing?)')
     }
 
+    // 5. Fetch Vitals Logs (Safely)
+    let vitalsLogs: any[] = []
+    try {
+        const { data: vitals } = await supabase
+            .from('vitals_logs')
+            .select('*')
+            .eq('patient_id', id)
+            .order('date', { ascending: false })
+
+        if (vitals) vitalsLogs = vitals
+    } catch (e) {
+        console.warn('Vitals fetch failed')
+    }
+
+    // 6. Fetch Medications (Safely)
+    let medications: any[] = []
+    try {
+        const { data: meds } = await supabase
+            .from('patient_medications')
+            .select('*')
+            .eq('patient_id', id)
+            .order('status', { ascending: true })
+            .order('created_at', { ascending: false })
+
+        if (meds) medications = meds
+    } catch (e) {
+        console.warn('Medications fetch failed')
+    }
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
             <div className="container py-4">
@@ -119,6 +148,8 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                     testResults={testResults || []}
                     testAssignments={testAssignments}
                     userProfile={profile}
+                    vitalsLogs={vitalsLogs}
+                    medications={medications}
                 />
             </div>
         </div>

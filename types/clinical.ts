@@ -58,3 +58,37 @@ export interface CulturalRecommendation {
     title: string
     reason: string
 }
+
+export interface VitalsLog {
+    id: string
+    patient_id: string
+    created_at: string
+    updated_at: string
+    date: string
+    weight?: number
+    height?: number
+    bmi?: number
+    systolic?: number
+    diastolic?: number
+    heart_rate?: number
+    temperature?: number
+    oxygen_saturation?: number
+    respiratory_rate?: number
+    notes?: string
+}
+
+export interface PatientMedication {
+    id: string
+    patient_id: string
+    created_at: string
+    updated_at: string
+    name: string
+    dosage?: string
+    frequency?: string
+    route?: string
+    start_date?: string
+    end_date?: string
+    status: 'active' | 'historic' | 'paused'
+    prescribed_by?: string
+    notes?: string
+}

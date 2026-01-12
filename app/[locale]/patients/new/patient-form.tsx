@@ -33,11 +33,30 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export function NewPatientForm() {
+export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string }) {
     const t = useTranslations('Patients.new')
     const [error, setError] = useState<string | null>(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { fillFormTrigger } = useAdminStore()
+    const { fillFormTrigger, currentRole, isSimulating } = useAdminStore()
+
+    // Determine active role (simulated or real)
+    const activeRole = isSimulating ? currentRole : (
+        initialSpecialty?.toLowerCase().includes('psiquiatra') ? 'psychiatrist' :
+            initialSpecialty?.toLowerCase().includes('neurólog') ? 'neurologist' :
+                initialSpecialty?.toLowerCase().includes('médic') ? 'physician' :
+                    initialSpecialty?.toLowerCase().includes('fonoaudiólog') ? 'speech_therapist' :
+                        initialSpecialty?.toLowerCase().includes('psicopedagog') ? 'psychopedagogue' :
+                            initialSpecialty?.toLowerCase().includes('terapeuta') ? 'occupational_therapist' :
+                                initialSpecialty?.toLowerCase().includes('nutricion') ? 'nutritionist' :
+                                    'psychologist'
+    )
+
+    const isMedical = ['psychiatrist', 'neurologist', 'physician', 'nutritionist'].includes(activeRole)
+    const isAcademic = ['psychopedagogue', 'speech_therapist'].includes(activeRole)
+    const isPhysical = ['occupational_therapist'].includes(activeRole)
+    const isSocial = false // Explicitly disabled
+    const isPsych = ['psychologist', 'psychiatrist'].includes(activeRole)
+
 
     // Form State for Mock Injection
     const [formData, setFormData] = useState({
@@ -56,7 +75,12 @@ export function NewPatientForm() {
         emergencyContact: '',
         genogram: '',
         diagnoses: '',
-        medications: ''
+        medications: '',
+        school: '',
+        grade: '',
+        physical_status: '',
+        reason_for_consultation: '',
+        family_history: ''
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -83,7 +107,12 @@ export function NewPatientForm() {
                 emergencyContact: t('mock_data.emergency_contact'),
                 genogram: t('mock_data.genogram'),
                 diagnoses: t('mock_data.diagnoses'),
-                medications: t('mock_data.medications')
+                medications: t('mock_data.medications'),
+                school: t('mock_data.school'),
+                grade: t('mock_data.grade'),
+                physical_status: t('mock_data.physical_status'),
+                reason_for_consultation: t('mock_data.reason_for_consultation'),
+                family_history: t('mock_data.family_history')
             }))
             toast.info(t('mock_injected'))
         }
@@ -293,33 +322,87 @@ export function NewPatientForm() {
                                     </h3>
                                 </div>
                                 <motion.div variants={item} className="space-y-2">
-                                    <Label htmlFor="diagnoses" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                        <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
-                                        {t('fields.diagnoses')}
+                                    <Label htmlFor="reason_for_consultation" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+                                        <Search className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        {t('fields.reason_for_consultation')}
                                     </Label>
                                     <Textarea
-                                        id="diagnoses"
-                                        name="diagnoses"
-                                        placeholder={t('placeholders.diagnoses')}
-                                        value={formData.diagnoses}
+                                        id="reason_for_consultation"
+                                        name="reason_for_consultation"
+                                        placeholder={t('placeholders.reason_for_consultation')}
+                                        value={formData.reason_for_consultation}
                                         onChange={handleChange}
                                         className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
                                     />
                                 </motion.div>
-                                <motion.div variants={item} className="space-y-2">
-                                    <Label htmlFor="medications" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                        <Pill className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
-                                        {t('fields.medications')}
-                                    </Label>
-                                    <Textarea
-                                        id="medications"
-                                        name="medications"
-                                        placeholder={t('placeholders.medications')}
-                                        value={formData.medications}
-                                        onChange={handleChange}
-                                        className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
-                                    />
-                                </motion.div>
+
+                                {(isMedical || isPsych) && (
+                                    <motion.div variants={item} className="space-y-2">
+                                        <Label htmlFor="diagnoses" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+                                            <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                            {t('fields.diagnoses')}
+                                        </Label>
+                                        <Textarea
+                                            id="diagnoses"
+                                            name="diagnoses"
+                                            placeholder={t('placeholders.diagnoses')}
+                                            value={formData.diagnoses}
+                                            onChange={handleChange}
+                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                        />
+                                    </motion.div>
+                                )}
+
+                                {isMedical && (
+                                    <motion.div variants={item} className="space-y-2">
+                                        <Label htmlFor="medications" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+                                            <Pill className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                            {t('fields.medications')}
+                                        </Label>
+                                        <Textarea
+                                            id="medications"
+                                            name="medications"
+                                            placeholder={t('placeholders.medications')}
+                                            value={formData.medications}
+                                            onChange={handleChange}
+                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                        />
+                                    </motion.div>
+                                )}
+
+                                {isAcademic && (
+                                    <>
+                                        <FormField
+                                            id="school"
+                                            label={t('fields.school')}
+                                            icon={Hospital}
+                                            placeholder={t('placeholders.school')}
+                                        />
+                                        <FormField
+                                            id="grade"
+                                            label={t('fields.grade')}
+                                            icon={GraduationCap}
+                                            placeholder={t('placeholders.grade')}
+                                        />
+                                    </>
+                                )}
+
+                                {isPhysical && (
+                                    <motion.div variants={item} className="space-y-2">
+                                        <Label htmlFor="physical_status" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+                                            <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                            {t('fields.physical_status')}
+                                        </Label>
+                                        <Textarea
+                                            id="physical_status"
+                                            name="physical_status"
+                                            placeholder={t('placeholders.physical_status')}
+                                            value={formData.physical_status}
+                                            onChange={handleChange}
+                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                        />
+                                    </motion.div>
+                                )}
                             </div>
 
                             {/* Support Info Column */}
@@ -353,6 +436,20 @@ export function NewPatientForm() {
                                             name="genogram"
                                             placeholder={t('placeholders.genogram')}
                                             value={formData.genogram}
+                                            onChange={handleChange}
+                                            className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                        />
+                                    </motion.div>
+                                    <motion.div variants={item} className="space-y-2">
+                                        <Label htmlFor="family_history" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+                                            <Users className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                            {t('fields.family_history')}
+                                        </Label>
+                                        <Textarea
+                                            id="family_history"
+                                            name="family_history"
+                                            placeholder={t('placeholders.family_history')}
+                                            value={formData.family_history}
                                             onChange={handleChange}
                                             className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
                                         />

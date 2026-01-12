@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { ClinicalRecord, ClinicalSession, AIInsight } from '@/types/clinical'
+import { ClinicalRecord, ClinicalSession, AIInsight, VitalsLog, PatientMedication } from '@/types/clinical'
 
 // --- Clinical Records ---
 
@@ -39,6 +39,72 @@ export async function updateClinicalRecord(patientId: string, data: Partial<Clin
 
     if (error) throw new Error(error.message)
     revalidatePath(`/patients/${patientId}`)
+}
+
+// --- Vitals Logs ---
+
+export async function getVitals(patientId: string) {
+    const supabase = await createClient()
+    const { data } = await supabase
+        .from('vitals_logs')
+        .select('*')
+        .eq('patient_id', patientId)
+        .order('date', { ascending: false })
+    return data as VitalsLog[]
+}
+
+export async function addVitals(patientId: string, data: Partial<VitalsLog>) {
+    const supabase = await createClient()
+    const { error } = await supabase
+        .from('vitals_logs')
+        .insert({
+            patient_id: patientId,
+            ...data,
+            date: data.date || new Date().toISOString()
+        })
+
+    if (error) throw new Error(error.message)
+    revalidatePath(`/patients/${patientId}`)
+}
+
+// --- Medication Management ---
+
+export async function getMedications(patientId: string) {
+    const supabase = await createClient()
+    const { data } = await supabase
+        .from('patient_medications')
+        .select('*')
+        .eq('patient_id', patientId)
+        .order('status', { ascending: true }) // Active first
+        .order('created_at', { ascending: false })
+    return data as PatientMedication[]
+}
+
+export async function addMedication(patientId: string, data: Partial<PatientMedication>) {
+    const supabase = await createClient()
+    const { error } = await supabase
+        .from('patient_medications')
+        .insert({
+            patient_id: patientId,
+            ...data,
+            status: data.status || 'active'
+        })
+
+    if (error) throw new Error(error.message)
+    revalidatePath(`/patients/${patientId}`)
+}
+
+export async function updateMedication(medicationId: string, data: Partial<PatientMedication>) {
+    const supabase = await createClient()
+    const { data: med } = await supabase.from('patient_medications').select('patient_id').eq('id', medicationId).single()
+
+    const { error } = await supabase
+        .from('patient_medications')
+        .update(data)
+        .eq('id', medicationId)
+
+    if (error) throw new Error(error.message)
+    if (med) revalidatePath(`/patients/${med.patient_id}`)
 }
 
 // --- Clinical Sessions ---

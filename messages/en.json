@@ -34,7 +34,7 @@
     },
     "Hero": {
         "title": "Advanced digital <span>ecosystem</span> for health <span2>specialists</span2>.",
-        "subtitle": "The definitive workstation for physicians, psychologists, psychiatrists, neurologists, occupational therapists, and speech therapists. Centralize your clinical practice with precision tools and scientific automation.",
+        "subtitle": "The definitive workstation for physicians, psychologists, psychiatrists, neurologists, occupational therapists, speech therapists, psychopedagogues, and nutritionists. Centralize your clinical practice with precision tools and scientific automation.",
         "cta_primary": "Start Free Trial",
         "cta_secondary": "Watch Demo",
         "trusted_by": "Trusted by +500 health professionals"
@@ -1077,6 +1077,183 @@
                     "cancel": "Cancel",
                     "confirm": "Delete"
                 }
+            },
+            "Detail": {
+                "not_found": "Patient not found",
+                "back_to_list": "Back to Patients",
+                "back_to_dashboard": "Back to Dashboard"
+            },
+            "Dashboard": {
+                "clinical_record": "Clinical Record",
+                "age": "Age",
+                "age_suffix": "years",
+                "diagnosis": "Diagnosis",
+                "under_evaluation": "Under Evaluation",
+                "sessions_count": "{count} Sessions",
+                "active": "Active",
+                "nav": {
+                    "overview": "Overview",
+                    "clinical": "Clinical",
+                    "tests": "Tests",
+                    "family": "Family"
+                },
+                "session_history": "Session History",
+                "new_session": "New Session",
+                "search_placeholder": "Search in notes...",
+                "no_notes": "No notes...",
+                "no_history": "No clinical history.",
+                "remote_evaluations": "Pending Evaluations (Remote Tests)",
+                "results_history": "Results History",
+                "date_format": "MMM d, yyyy"
+            },
+            "Vitals": {
+                "title": "Vital Signs",
+                "history": "History",
+                "add": "Record",
+                "weight": "Weight",
+                "blood_pressure": "Blood Pressure",
+                "heart_rate": "Heart Rate",
+                "temperature": "Temperature",
+                "latest_notes": "Latest Notes"
+            },
+            "Medications": {
+                "title": "Structured Medication",
+                "active": "Active Treatment",
+                "historic": "History",
+                "none": "No active medications recorded",
+                "add": "Add Medication",
+                "dosage": "Dosage",
+                "frequency": "Frequency",
+                "route": "Route",
+                "start_date": "Start Date",
+                "status": "Status"
+            },
+            "Overview": {
+                "current_status": "Current Status",
+                "main_diagnosis": "Main Diagnosis",
+                "in_evaluation": "Under evaluation",
+                "stable": "Stable",
+                "last_session": "Last Session",
+                "regular_session": "Regular Session",
+                "no_sessions_yet": "No sessions registered",
+                "new_session": "New Session",
+                "register_visit": "Register clinical visit",
+                "pharmacological_treatment": "Pharmacological Treatment",
+                "cognitive_evolution": "Cognitive Evolution",
+                "mmse_trend": "MMSE Trend: Upward",
+                "educational_context": "Educational Context",
+                "physical_context": "Physical / Functional Status",
+                "social_context": "Social / Family Context",
+                "session_history": "Session History",
+                "total_count": "Total: {count}",
+                "session_fallback": "Session",
+                "ai_analysis": "AI Cerebral Analysis",
+                "analysis_available": "Analysis available",
+                "view_details": "View details",
+                "no_history": "No sessions registered",
+                "start_first_session": "Start First Session",
+                "progress": "Progress",
+                "continuity": "Continuity",
+                "total_sessions": "Total Sessions",
+                "with_analysis": "With Analysis"
+            },
+            "Sessions": {
+                "timeline": "Timeline",
+                "new_session": "New Session",
+                "session_date": "Session from {date}",
+                "registering_evolution": "Registering clinical evolution",
+                "register": "Register",
+                "save_changes": "Save Changes",
+                "psychiatry_mode": "Psychiatry Mode",
+                "neurology_mode": "Neurology Mode",
+                "date": "Date",
+                "duration": "Duration",
+                "type": "Type",
+                "types": {
+                    "regular": "Regular Session",
+                    "evaluation": "Evaluation",
+                    "crisis": "Crisis",
+                    "closure": "Closure"
+                },
+                "evolution_notes": "Evolution Notes",
+                "notes_placeholder": "Start typing or use the microphone to transcribe the session...",
+                "pharmacological_notes": "Pharmacological Notes",
+                "pharmacological_placeholder": "Record medication changes, adverse effects, etc...",
+                "neurological_notes": "Neurological / Physical Examination",
+                "neurological_placeholder": "Record findings from physical examination, cranial nerves, motor skills...",
+                "messages": {
+                    "created": "Session created successfully",
+                    "updated": "Session updated",
+                    "error": "Error saving session",
+                    "first_completed": "First session completed!"
+                },
+                "no_sessions_yet": "No sessions registered yet.",
+                "minutes_suffix": "min",
+                "ai_analysis_available": "AI analysis available",
+                "FirstForm": {
+                    "title": "First Session of {name}",
+                    "description": "To start treatment, we need to complete the patient's clinical history.",
+                    "notes_title": "Session Notes",
+                    "notes_description": "Free space to record the patient's narrative during the initial evaluation.",
+                    "notes_placeholder": "Start writing here... You can use the guide on the right to guide the interview.",
+                    "interview_guide": {
+                        "title": "Interview Guide",
+                        "tip_title": "Tip",
+                        "tip_text": "It is not necessary to ask all the questions. Let the patient speak freely and guide the conversation gently towards the uncovered areas.",
+                        "sections": {
+                            "reason": {
+                                "title": "Reason for Consultation",
+                                "questions": [
+                                    "What brings you here today?",
+                                    "Since when do you feel this way?",
+                                    "Has anything specific happened recently?"
+                                ]
+                            },
+                            "history": {
+                                "title": "Background",
+                                "questions": [
+                                    "Have you been to a psychologist before?",
+                                    "Do you take any medication?",
+                                    "Are there any important illnesses in the family?"
+                                ]
+                            },
+                            "family": {
+                                "title": "Family Dynamics",
+                                "questions": [
+                                    "Who do you live with?",
+                                    "How is the relationship with your parents/partner?",
+                                    "Are there frequent conflicts?"
+                                ]
+                            },
+                            "social": {
+                                "title": "Social and Work Life",
+                                "questions": [
+                                    "What do you do?",
+                                    "How do you get along with your colleagues?",
+                                    "Do you have close friends?"
+                                ]
+                            },
+                            "habits": {
+                                "title": "Habits and Routine",
+                                "questions": [
+                                    "How do you sleep?",
+                                    "Do you exercise?",
+                                    "Do you consume alcohol or tobacco?"
+                                ]
+                            }
+                        }
+                    },
+                    "save_draft": "Save Draft",
+                    "finish_session": "Finish First Session",
+                    "initial_evaluation": "Initial Evaluation",
+                    "see_notes": "See initial session notes",
+                    "messages": {
+                        "write_notes": "Please write some session notes",
+                        "success_complete": "Session completed successfully",
+                        "success_draft": "Draft saved",
+                        "error": "Error saving: {message}"
+                    }
+                }
             }
         }
     },
@@ -1543,12 +1720,14 @@
         "specialty": "Profession",
         "specialty_placeholder": "Select your profession",
         "specialties": {
-            "physician": "Physician / MD",
             "psychologist": "Psychologist",
             "psychiatrist": "Psychiatrist",
             "neurologist": "Neurologist",
+            "physician": "General Physician",
             "occupational_therapist": "Occupational Therapist",
-            "speech_therapist": "Speech Therapist"
+            "speech_therapist": "Speech Therapist",
+            "psychopedagogue": "Psychopedagogue",
+            "nutritionist": "Nutritionist"
         },
         "registry_number": "Registry / License No.",
         "signature_preview": "Signature Preview",
@@ -1709,7 +1888,12 @@
                 "emergency_contact": "Emergency Contact",
                 "genogram": "Genogram (Family Notes)",
                 "diagnoses": "Diagnoses",
-                "medications": "Medications"
+                "medications": "Medications",
+                "school": "Educational Institution",
+                "grade": "Grade / Level",
+                "physical_status": "Physical Status / Mobility",
+                "reason_for_consultation": "Reason for Consultation",
+                "family_history": "Hereditary Family History"
             },
             "placeholders": {
                 "name": "John Doe",
@@ -1725,7 +1909,12 @@
                 "emergency_contact": "Brother - Peter Doe (+1 555 ...)",
                 "genogram": "No relevant family history reported...",
                 "diagnoses": "F41.1 Generalized Anxiety Disorder",
-                "medications": "Sertraline 50mg/day"
+                "medications": "Sertraline 50mg/day",
+                "school": "High School North",
+                "grade": "8th Grade",
+                "physical_status": "Post-surgery, reduced mobility in right lower limb",
+                "reason_for_consultation": "Referred by doctor for depressive symptoms",
+                "family_history": "Maternal grandfather with Alzheimer's"
             }
         }
     }

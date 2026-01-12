@@ -33,6 +33,8 @@ interface PatientDashboardProps {
     testResults: any[]
     testAssignments?: any[]
     userProfile?: any
+    vitalsLogs?: any[]
+    medications?: any[]
 }
 
 const LoaderIcon = ({ type }: { type?: string }) => {
@@ -303,11 +305,14 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             <div className="h-full overflow-y-auto w-full">
                                 <PatientOverview
                                     patient={patient}
+                                    clinicalRecord={clinicalRecord}
                                     lastSession={sessions[0]}
                                     diagnosis={clinicalRecord?.diagnosis || t('under_evaluation')}
                                     onStartSession={() => handleViewChange('session_manager')}
                                     sessions={sessions}
                                     userSpecialty={effectiveSpecialty} // Pass effective specialty
+                                    vitalsLogs={vitalsLogs}
+                                    medications={medications}
                                 />
                             </div>
                         )

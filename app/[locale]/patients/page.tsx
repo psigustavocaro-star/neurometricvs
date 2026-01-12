@@ -52,7 +52,7 @@ export default async function PatientsPage() {
         .order('created_at', { ascending: false })
 
     return (
-        <div className="container pt-24 pb-10 md:pt-32">
+        <div className="container pt-6 pb-10 md:pt-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('List.title')}</h1>

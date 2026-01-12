@@ -34,7 +34,7 @@
     },
     "Hero": {
         "title": "Ecosistema digital <span>avanzado</span> para <span2>especialistas</span2> de la salud.",
-        "subtitle": "La workstation definitiva para médicos, psicólogos, psiquiatras, neurólogos, terapeutas ocupacionales y fonoaudiólogos. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.",
+        "subtitle": "La workstation definitiva para médicos, psicólogos, psiquiatras, neurólogos, terapeutas ocupacionales, fonoaudiólogos, psicopedagogos y nutricionistas. Centraliza tu práctica clínica con herramientas de precisión y automatización científica.",
         "cta_primary": "Empieza Gratis",
         "cta_secondary": "Ver Demo",
         "trusted_by": "Confiado por +500 profesionales de la salud"
@@ -1077,6 +1077,183 @@
                     "cancel": "Cancelar",
                     "confirm": "Eliminar"
                 }
+            },
+            "Detail": {
+                "not_found": "Paciente no encontrado",
+                "back_to_list": "Volver a Pacientes",
+                "back_to_dashboard": "Volver al Dashboard"
+            },
+            "Dashboard": {
+                "clinical_record": "Expediente Clínico",
+                "age": "Edad",
+                "age_suffix": "años",
+                "diagnosis": "Diagnóstico",
+                "under_evaluation": "En Evaluación",
+                "sessions_count": "{count} Sesiones",
+                "active": "Activo",
+                "nav": {
+                    "overview": "Resumen",
+                    "clinical": "Clínica",
+                    "tests": "Tests",
+                    "family": "Familia"
+                },
+                "session_history": "Historial de Sesiones",
+                "new_session": "Nueva Sesión",
+                "search_placeholder": "Buscar en notas...",
+                "no_notes": "Sin notas...",
+                "no_history": "No hay historial clínico.",
+                "remote_evaluations": "Evaluaciones Pendientes (Test Remotos)",
+                "results_history": "Historial de Resultados",
+                "date_format": "d MMM yyyy"
+            },
+            "Vitals": {
+                "title": "Signos Vitales",
+                "history": "Historial",
+                "add": "Registrar",
+                "weight": "Peso",
+                "blood_pressure": "Presión Art.",
+                "heart_rate": "Frec. Cardíaca",
+                "temperature": "Temperatura",
+                "latest_notes": "Notas Recientes"
+            },
+            "Medications": {
+                "title": "Medicación Estructurada",
+                "active": "Tratamiento Activo",
+                "historic": "Historial",
+                "none": "Sin medicación activa registrada",
+                "add": "Agregar Fármaco",
+                "dosage": "Dosis",
+                "frequency": "Frecuencia",
+                "route": "Vía",
+                "start_date": "Inicio",
+                "status": "Estado"
+            },
+            "Overview": {
+                "current_status": "Estado Actual",
+                "main_diagnosis": "Diagnóstico Principal",
+                "in_evaluation": "En proceso de evaluación",
+                "stable": "Estable",
+                "last_session": "Última Sesión",
+                "regular_session": "Sesión Regular",
+                "no_sessions_yet": "Sin sesiones registradas",
+                "new_session": "Nueva Sesión",
+                "register_visit": "Registrar visita clínica",
+                "pharmacological_treatment": "Tratamiento Farmacológico",
+                "cognitive_evolution": "Evolución Cognitiva",
+                "mmse_trend": "Tendencia MMSE: Ascendente",
+                "educational_context": "Contexto Educativo",
+                "physical_context": "Estado Físico / Funcional",
+                "social_context": "Contexto Social / Familia",
+                "session_history": "Historial de Sesiones",
+                "total_count": "Total: {count}",
+                "session_fallback": "Sesión",
+                "ai_analysis": "Análisis Cerebral AI",
+                "analysis_available": "Análisis disponible",
+                "view_details": "Ver detalles",
+                "no_history": "No hay sesiones registradas",
+                "start_first_session": "Iniciar Primera Sesión",
+                "progress": "Progreso",
+                "continuity": "Continuidad",
+                "total_sessions": "Total Sesiones",
+                "with_analysis": "Con Análisis"
+            },
+            "Sessions": {
+                "timeline": "Línea de Tiempo",
+                "new_session": "Nueva Sesión",
+                "session_date": "Sesión del {date}",
+                "registering_evolution": "Registrando evolución clínica",
+                "register": "Registrar",
+                "save_changes": "Guardar Cambios",
+                "psychiatry_mode": "Modo Psiquiatría",
+                "neurology_mode": "Modo Neurología",
+                "date": "Fecha",
+                "duration": "Duración",
+                "type": "Tipo",
+                "types": {
+                    "regular": "Sesión Regular",
+                    "evaluation": "Evaluación",
+                    "crisis": "Crisis",
+                    "closure": "Cierre"
+                },
+                "evolution_notes": "Notas de Evolución",
+                "notes_placeholder": "Comienza a escribir o usa el micrófono para transcribir la sesión...",
+                "pharmacological_notes": "Notas Farmacológicas",
+                "pharmacological_placeholder": "Registrar cambios en medicación, efectos adversos, etc...",
+                "neurological_notes": "Exploración Neurológica / Física",
+                "neurological_placeholder": "Registrar hallazgos del examen físico, pares craneales, motricidad...",
+                "messages": {
+                    "created": "Sesión creada correctamente",
+                    "updated": "Sesión actualizada",
+                    "error": "Error al guardar sesión",
+                    "first_completed": "¡Primera sesión completada!"
+                },
+                "no_sessions_yet": "Aún no hay sesiones registradas.",
+                "minutes_suffix": "min",
+                "ai_analysis_available": "Análisis IA disponible",
+                "FirstForm": {
+                    "title": "Primera Sesión de {name}",
+                    "description": "Para comenzar el tratamiento, necesitamos completar la historia clínica del paciente.",
+                    "notes_title": "Notas de Sesión",
+                    "notes_description": "Espacio libre para registrar la narrativa del paciente durante la evaluación inicial.",
+                    "notes_placeholder": "Comienza escribiendo aquí... Puedes usar la guía de la derecha para orientar la entrevista.",
+                    "interview_guide": {
+                        "title": "Guía de Entrevista",
+                        "tip_title": "Tip",
+                        "tip_text": "No es necesario hacer todas las preguntas. Deja que el paciente hable libremente y guía la conversación suavemente hacia las áreas no cubiertas.",
+                        "sections": {
+                            "reason": {
+                                "title": "Motivo de Consulta",
+                                "questions": [
+                                    "¿Qué lo/la trae por aquí hoy?",
+                                    "¿Desde cuándo se siente así?",
+                                    "¿Ha ocurrido algo específico recientemente?"
+                                ]
+                            },
+                            "history": {
+                                "title": "Antecedentes",
+                                "questions": [
+                                    "¿Ha ido al psicólogo antes?",
+                                    "¿Toma alguna medicación?",
+                                    "¿Hay enfermedades importantes en la familia?"
+                                ]
+                            },
+                            "family": {
+                                "title": "Dinámica Familiar",
+                                "questions": [
+                                    "¿Con quién vive?",
+                                    "¿Cómo es la relación con sus padres/pareja?",
+                                    "¿Hay conflictos frecuentes?"
+                                ]
+                            },
+                            "social": {
+                                "title": "Vida Social y Laboral",
+                                "questions": [
+                                    "¿A qué se dedica?",
+                                    "¿Cómo se lleva con sus compañeros?",
+                                    "¿Tiene amigos cercanos?"
+                                ]
+                            },
+                            "habits": {
+                                "title": "Habitos y Rutina",
+                                "questions": [
+                                    "¿Cómo duerme?",
+                                    "¿Hace ejercicio?",
+                                    "¿Consume alcohol o tabaco?"
+                                ]
+                            }
+                        }
+                    },
+                    "save_draft": "Guardar Borrador",
+                    "finish_session": "Finalizar Primera Sesión",
+                    "initial_evaluation": "Evaluación Inicial",
+                    "see_notes": "Ver notas de sesión inicial",
+                    "messages": {
+                        "write_notes": "Por favor escribe algunas notas de la sesión",
+                        "success_complete": "Sesión completada exitosamente",
+                        "success_draft": "Borrador guardado",
+                        "error": "Error al guardar: {message}"
+                    }
+                }
             }
         }
     },
@@ -1542,12 +1719,14 @@
         "specialty": "Profesión",
         "specialty_placeholder": "Selecciona tu profesión",
         "specialties": {
-            "physician": "Médico/a",
             "psychologist": "Psicólogo/a",
             "psychiatrist": "Psiquiatra",
             "neurologist": "Neurólogo/a",
+            "physician": "Médico General",
             "occupational_therapist": "Terapeuta Ocupacional",
-            "speech_therapist": "Fonoaudiólogo/a"
+            "speech_therapist": "Fonoaudiólogo/a",
+            "psychopedagogue": "Psicopedagogo/a",
+            "nutritionist": "Nutricionista"
         },
         "registry_number": "Nº Registro / Licencia",
         "signature_preview": "Vista Previa de Firma",
@@ -1708,7 +1887,12 @@
                 "emergency_contact": "Contacto de Emergencia",
                 "genogram": "Genograma (Notas Familiares)",
                 "diagnoses": "Diagnósticos",
-                "medications": "Medicamentos"
+                "medications": "Medicamentos",
+                "school": "Establecimiento Educacional",
+                "grade": "Curso / Año",
+                "physical_status": "Estado Físico / Movilidad",
+                "reason_for_consultation": "Motivo de Consulta",
+                "family_history": "Antecedentes Familiares Hereditarios"
             },
             "placeholders": {
                 "name": "Juan Pérez",
@@ -1724,7 +1908,12 @@
                 "emergency_contact": "Hermano - Pedro Pérez (+56 9 ...)",
                 "genogram": "Sin antecedentes familiares de relevancia...",
                 "diagnoses": "F41.1 Trastorno de ansiedad generalizada",
-                "medications": "Sertralina 50mg/día"
+                "medications": "Sertralina 50mg/día",
+                "school": "Liceo Bicentenario",
+                "grade": "8º Básico",
+                "physical_status": "Postoperatorio, movilidad reducida en extremidad inferior derecha",
+                "reason_for_consultation": "Derivado por médico tratante por sintomatología depresiva",
+                "family_history": "Abuelo materno con Alzheimer"
             }
         }
     }

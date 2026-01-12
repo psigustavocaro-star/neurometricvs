@@ -42,9 +42,15 @@ export default async function NewPatientPage() {
         )
     }
 
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('specialty')
+        .eq('id', user?.id)
+        .single()
+
     return (
         <div className="container pt-24 pb-10 flex justify-center">
-            <NewPatientForm />
+            <NewPatientForm initialSpecialty={profile?.specialty} />
         </div>
     )
 }
