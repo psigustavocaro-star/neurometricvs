@@ -31,23 +31,23 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
 
     return (
         <div className="w-full lg:w-64 flex-shrink-0 lg:sticky lg:top-24 space-y-6">
-            <div className="bg-card rounded-xl border border-border/60 shadow-sm p-4">
-                <h3 className="font-semibold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground">Categorías</h3>
-                <div className="space-y-1">
+            <div className="bg-card rounded-xl border-2 border-border shadow-md p-4">
+                <h3 className="font-black text-foreground mb-4 px-2 text-base uppercase tracking-widest underline decoration-primary/30 decoration-2">Categorías</h3>
+                <div className="space-y-1.5">
                     <Button
                         variant="ghost"
                         className={cn(
-                            "w-full justify-start gap-3 relative overflow-hidden transition-all",
+                            "w-full justify-start gap-3 relative overflow-hidden transition-all text-base",
                             selectedCategory === null
-                                ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-semibold"
-                                : "text-muted-foreground hover:bg-muted"
+                                ? "bg-primary/20 text-primary hover:bg-primary/25 hover:text-primary font-black scale-[1.02]"
+                                : "text-foreground font-bold hover:bg-muted"
                         )}
                         onClick={() => onSelectCategory(null)}
                     >
                         {selectedCategory === null && (
-                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
+                            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-r-full" />
                         )}
-                        <LayoutGrid className="w-4 h-4" />
+                        <LayoutGrid className="w-5 h-5" />
                         Todas
                     </Button>
 
@@ -58,17 +58,17 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
                                 key={category}
                                 variant="ghost"
                                 className={cn(
-                                    "w-full justify-start gap-3 relative overflow-hidden transition-all",
+                                    "w-full justify-start gap-3 relative overflow-hidden transition-all text-base",
                                     selectedCategory === category
-                                        ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-semibold"
-                                        : "text-muted-foreground hover:bg-muted"
+                                        ? "bg-primary/20 text-primary hover:bg-primary/25 hover:text-primary font-black scale-[1.02]"
+                                        : "text-foreground font-bold hover:bg-muted"
                                 )}
                                 onClick={() => onSelectCategory(category)}
                             >
                                 {selectedCategory === category && (
-                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
+                                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-r-full" />
                                 )}
-                                <Icon className="w-4 h-4" />
+                                <Icon className="w-5 h-5" />
                                 {category}
                             </Button>
                         )
@@ -76,8 +76,8 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
                 </div>
             </div>
 
-            <div className="bg-card rounded-xl border border-border/60 shadow-sm p-4">
-                <h3 className="font-semibold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground">Tipos</h3>
+            <div className="bg-card rounded-xl border-2 border-border shadow-md p-4">
+                <h3 className="font-black text-foreground mb-4 px-2 text-base uppercase tracking-widest underline decoration-primary/30 decoration-2">Tipos</h3>
                 <div className="grid grid-cols-2 gap-2">
                     <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-border/50">
                         <Smartphone className="w-5 h-5 text-teal-500 mb-2" />
