@@ -177,11 +177,13 @@
   }
 
   body {
-    @apply bg-background text-foreground selection:bg-teal-500/30;
+    @apply bg-background text-foreground antialiased selection:bg-teal-500/30;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
-    /* Absolute visibility base weight - robust SemiBold */
-    font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Professional visibility base weight - balanced Medium */
+    font-weight: 500;
     position: relative;
     background-color: transparent;
     overflow-x: hidden;

@@ -131,21 +131,21 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Activity className="w-12 h-12 text-blue-500" />
                             </div>
-                            <p className="text-[12px] font-black text-foreground uppercase tracking-widest border-b-2 border-blue-500/20 pb-1 mb-2">{t('stats.active')}</p>
+                            <p className="text-[10px] font-bold text-foreground/70 uppercase tracking-widest">{t('stats.active')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
-                                <h3 className="text-4xl font-black text-foreground">{stats.activePatients}</h3>
-                                <span className="text-xs text-foreground font-black bg-blue-500/10 px-2 py-0.5 rounded-md italic">{t('stats.in_treatment')}</span>
+                                <h3 className="text-3xl font-bold text-foreground">{stats.activePatients}</h3>
+                                <span className="text-[10px] text-foreground/60 font-bold">{t('stats.in_treatment')}</span>
                             </div>
                         </div>
 
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
+                        <div className="relative group bg-card p-5 rounded-2xl border border-border/60 shadow-sm hover:shadow-md transition-all duration-300">
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Brain className="w-12 h-12 text-teal-500" />
                             </div>
-                            <p className="text-[12px] font-black text-foreground uppercase tracking-widest border-b-2 border-teal-500/20 pb-1 mb-2">{t('stats.tests')}</p>
+                            <p className="text-[10px] font-bold text-foreground/70 uppercase tracking-widest">{t('stats.tests')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
-                                <h3 className="text-4xl font-black text-foreground">{stats.totalTests || 0}</h3>
-                                <Badge variant="secondary" className="bg-teal-500/20 text-teal-700 dark:text-teal-400 border-2 border-teal-500/30 text-xs font-black px-2">
+                                <h3 className="text-3xl font-bold text-foreground">{stats.totalTests || 0}</h3>
+                                <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-0 text-[10px] font-bold">
                                     {t('stats.updated')}
                                 </Badge>
                             </div>
@@ -157,23 +157,24 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         variants={itemVariants}
                         className="lg:col-span-2 group/main"
                     >
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-500 hover:shadow-xl hover:border-primary/20 relative h-full">
-                            {/* Header */}
-                            <div className="p-5 border-b border-border/40 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center border border-border/50">
-                                        <Users className="w-5 h-5 text-muted-foreground" />
+                        <div className="relative overflow-hidden bg-card rounded-2xl border border-border/60 shadow-sm">
+                            <div className="p-6">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-muted rounded-xl">
+                                            <Users className="w-5 h-5 text-muted-foreground" />
+                                        </div>
+                                        <div>
+                                            <h2 className="font-bold text-foreground text-sm md:text-base">{t('recent_patients.title')}</h2>
+                                            <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-foreground/60 font-bold">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h2 className="font-black text-foreground text-lg md:text-xl underline decoration-primary/30 decoration-4 underline-offset-4">{t('recent_patients.title')}</h2>
-                                        <p className="text-[12px] uppercase tracking-widest text-foreground font-black mt-1">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
-                                    </div>
+                                    <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground dark:text-foreground/60 hover:text-primary hover:bg-primary/5 transition-colors">
+                                        <Link href="/patients">
+                                            {t('recent_patients.view_all')} <ChevronRight className="w-3 h-3 ml-1" />
+                                        </Link>
+                                    </Button>
                                 </div>
-                                <Button asChild variant="default" size="sm" className="font-black text-xs px-4 shadow-md">
-                                    <Link href="/patients">
-                                        {t('recent_patients.view_all')} <ChevronRight className="w-3 h-3 ml-1" />
-                                    </Link>
-                                </Button>
                             </div>
 
                             {/* Search Bar */}

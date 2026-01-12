@@ -145,7 +145,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100 pl-2"
                         )}>
                             <Link href="/dashboard" className="flex flex-col">
-                                <span className="text-[17px] font-black text-foreground tracking-tight leading-none group-hover:text-primary transition-colors duration-500 ease-in-out underline decoration-primary/40 decoration-4">
+                                <span className="text-[17px] font-bold text-foreground tracking-tight leading-none group-hover:text-primary transition-colors duration-500 ease-in-out">
                                     Neurometrics
                                 </span>
                                 <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5 group-hover:text-primary/70 transition-colors">
@@ -183,9 +183,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative font-black text-base italic",
+                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-sm font-semibold",
                                 isActive(link.href)
-                                    ? "bg-primary/20 text-primary shadow-[0_0_20px_rgba(var(--primary),0.2)]"
+                                    ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(var(--primary),0.1)]"
                                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                                 isCollapsed && "justify-center px-2"
                             )}
@@ -240,7 +240,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
                     )}>
                         <span className={cn(
-                            "text-sm text-foreground font-black group-hover:text-primary transition-all duration-500 ease-in-out",
+                            "text-sm text-foreground font-semibold group-hover:text-primary transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
                         )}>{t('theme')}</span>
                         <div className={cn(isCollapsed && "scale-75 origin-center")}>
@@ -254,7 +254,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
                     )}>
                         <span className={cn(
-                            "text-sm text-foreground font-black group-hover:text-primary transition-all duration-500 ease-in-out",
+                            "text-sm text-foreground font-semibold group-hover:text-primary transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
                         )}>{locale === 'es' ? 'Idioma' : 'Language'}</span>
                         <div className={cn(isCollapsed && "scale-75 origin-center")}>
@@ -274,7 +274,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     >
                         <LogOut className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
                         <span className={cn(
-                            "ml-3 text-sm font-black overflow-hidden transition-all duration-500 ease-in-out",
+                            "ml-3 text-sm font-semibold overflow-hidden transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0 translate-x-4 ml-0" : "w-auto opacity-100 translate-x-0"
                         )}>{isLoggingOut ? t('logging_out') : t('sign_out')}</span>
                     </Button>
@@ -292,7 +292,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             className="object-contain"
                         />
                     </div>
-                    <span className="font-black text-foreground tracking-tight underline decoration-primary/30 decoration-2 underline-offset-4">Workstation</span>
+                    <span className="font-bold text-foreground tracking-tight">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
                     <WeatherDisplay className="mr-2" />

@@ -46,14 +46,14 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             </CardHeader>
 
             <CardContent className="p-5 pt-0 flex-1">
-                <div className="space-y-3">
-                    <span className="text-[11px] font-black tracking-widest text-foreground uppercase border-b-2 border-primary/20 pb-0.5">
+                <div className="space-y-2">
+                    <span className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
                         {resource.category}
                     </span>
-                    <h3 className="font-black text-foreground leading-tight group-hover:text-primary transition-colors text-2xl italic underline decoration-primary/40 decoration-4 underline-offset-4">
+                    <h3 className="font-bold text-foreground leading-snug group-hover:text-primary transition-colors text-xl italic">
                         {resource.title}
                     </h3>
-                    <p className="text-[15px] text-foreground line-clamp-4 leading-relaxed font-black tracking-tight">
+                    <p className="text-sm text-foreground/80 line-clamp-3 leading-relaxed font-medium">
                         {resource.description}
                     </p>
                 </div>
