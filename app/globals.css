@@ -83,20 +83,22 @@
   --radius: 0.85rem;
   /* Slightly more rounded for modern feel */
   --background: oklch(0.98 0.005 200);
-  --foreground: oklch(0.25 0.02 200);
+  --foreground: oklch(0.12 0.01 200);
+  /* Near-black for maximum contrast */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.02 200);
+  --card-foreground: oklch(0.12 0.01 200);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.02 200);
+  --popover-foreground: oklch(0.12 0.01 200);
   --primary: oklch(0.65 0.14 195);
   /* Sophisticated Soft Cyan */
   --primary-foreground: oklch(0.98 0.01 195);
   --secondary: oklch(0.95 0.01 200);
-  --secondary-foreground: oklch(0.3 0.02 200);
+  --secondary-foreground: oklch(0.15 0.02 200);
   --muted: oklch(0.95 0.01 200);
-  --muted-foreground: oklch(0.5 0.02 200);
+  --muted-foreground: oklch(0.22 0.01 200);
+  /* Dark slate for muted text */
   --accent: oklch(0.9 0.03 195);
-  --accent-foreground: oklch(0.3 0.02 200);
+  --accent-foreground: oklch(0.15 0.02 200);
   --destructive: oklch(0.6 0.18 25);
   --destructive-foreground: oklch(0.98 0.01 200);
   --border: oklch(0.92 0.01 200);
@@ -175,7 +177,13 @@
   }
 
   body {
-    @apply text-foreground font-light antialiased selection:bg-teal-500/30;
+    @apply bg-background text-foreground antialiased selection:bg-teal-500/30;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Aggressive visibility base weight */
+    font-weight: 500;
     position: relative;
     background-color: transparent;
     overflow-x: hidden;
