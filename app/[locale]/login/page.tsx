@@ -16,16 +16,15 @@ export default async function LoginPage(props: {
     const translatedMessage = searchParams.message ? t(searchParams.message as any) : null
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4 pt-24 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden relative">
+        <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-8 pt-28 md:pt-24 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-x-hidden">
 
             {/* Enhanced Background Effects */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute -top-[30%] -left-[15%] w-[60%] h-[60%] rounded-full bg-teal-500/15 blur-[120px] animate-pulse" />
-                <div className="absolute -bottom-[30%] -right-[15%] w-[60%] h-[60%] rounded-full bg-indigo-500/15 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute top-[30%] left-[40%] w-[40%] h-[40%] rounded-full bg-emerald-500/10 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-[10%] sm:-top-[30%] -left-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-teal-500/15 blur-[80px] sm:blur-[120px] animate-pulse" />
+                <div className="absolute -bottom-[10%] sm:-bottom-[30%] -right-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-indigo-500/15 blur-[80px] sm:blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
-            <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 rounded-3xl">
+            <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 rounded-3xl mx-auto">
                 <CardHeader className="text-center pb-4 pt-8">
                     {/* Official Neurometrics Logo */}
                     <div className="flex justify-center mb-6">

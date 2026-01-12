@@ -131,10 +131,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Activity className="w-12 h-12 text-blue-500" />
                             </div>
-                            <p className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">{t('stats.active')}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground dark:text-foreground/70 uppercase tracking-widest">{t('stats.active')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
                                 <h3 className="text-3xl font-bold text-foreground">{stats.activePatients}</h3>
-                                <span className="text-[10px] text-muted-foreground dark:text-slate-500 font-medium">{t('stats.in_treatment')}</span>
+                                <span className="text-[10px] text-muted-foreground dark:text-foreground/60 font-medium">{t('stats.in_treatment')}</span>
                             </div>
                         </div>
 
@@ -142,7 +142,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Brain className="w-12 h-12 text-teal-500" />
                             </div>
-                            <p className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">{t('stats.tests')}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground dark:text-foreground/70 uppercase tracking-widest">{t('stats.tests')}</p>
                             <div className="flex items-baseline gap-2 mt-1">
                                 <h3 className="text-3xl font-bold text-foreground">{stats.totalTests || 0}</h3>
                                 <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-0 text-[10px] font-bold">
@@ -158,8 +158,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         className="lg:col-span-2 group/main"
                     >
                         <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-500 hover:shadow-xl hover:border-primary/20 relative h-full">
-                            {/* Reflection Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover/main:translate-x-full transition-transform duration-1000" />
                             {/* Header */}
                             <div className="p-5 border-b border-border/40 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -168,10 +166,10 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     </div>
                                     <div>
                                         <h2 className="font-bold text-foreground text-sm md:text-base">{t('recent_patients.title')}</h2>
-                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground dark:text-slate-400 font-medium">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
+                                        <p className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground dark:text-foreground/60 font-medium">{t('recent_patients.records_count', { count: filteredPatients.length })}</p>
                                     </div>
                                 </div>
-                                <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground dark:text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors">
+                                <Button asChild variant="ghost" size="sm" className="text-xs font-medium text-muted-foreground dark:text-foreground/60 hover:text-primary hover:bg-primary/5 transition-colors">
                                     <Link href="/patients">
                                         {t('recent_patients.view_all')} <ChevronRight className="w-3 h-3 ml-1" />
                                     </Link>

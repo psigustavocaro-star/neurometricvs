@@ -124,8 +124,8 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <div className="flex items-center gap-3 group">
                         <Link href="/dashboard">
                             <div className="relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 cursor-pointer">
-                                {/* Calipso Glow Effect */}
-                                <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                                {/* Calipso Flow Effect - Softened */}
+                                <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-40 group-hover:opacity-70 transition-opacity duration-500" />
 
                                 {/* Main Container - Professional Brand Icon */}
                                 <div className="relative w-full h-full flex items-center justify-center transition-all duration-500 group-hover:scale-105">
@@ -272,7 +272,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                 </div>
             </aside>
 
-            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-md border-b border-border/50 z-50 flex items-center justify-between px-6 shadow-sm">
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/50 z-50 flex items-center justify-between px-6 shadow-sm">
                 <Link href="/" className="flex items-center gap-2.5">
                     <div className="w-8 h-8 flex items-center justify-center">
                         <Image
@@ -283,7 +283,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             className="object-contain"
                         />
                     </div>
-                    <span className="font-bold text-slate-900 dark:text-white tracking-tight">Workstation</span>
+                    <span className="font-bold text-foreground tracking-tight">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
                     <LanguageToggle />
@@ -299,7 +299,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="md:hidden fixed inset-0 z-50 bg-slate-950/20 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="md:hidden fixed inset-0 z-50 bg-slate-950/40" onClick={() => setIsMobileMenuOpen(false)}>
                     <div
                         className="absolute top-16 left-0 right-0 bg-background border-b border-border p-6 space-y-3 shadow-2xl animate-in slide-in-from-top-4 duration-300 rounded-b-[2rem]"
                         onClick={(e) => e.stopPropagation()}

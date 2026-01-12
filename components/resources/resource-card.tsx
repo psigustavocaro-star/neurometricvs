@@ -35,25 +35,25 @@ export function ResourceCard({ resource }: ResourceCardProps) {
     }
 
     return (
-        <Card className="flex flex-col h-full hover:shadow-lg transition-all duration-300 border-border/60 bg-card group overflow-hidden">
+        <Card className="flex flex-col h-full hover:shadow-lg hover:neon-glow transition-all duration-300 border-border/60 bg-card group overflow-hidden">
             <CardHeader className="p-5 flex-row justify-between items-start space-y-0">
                 <div className="p-3 bg-muted/30 rounded-xl group-hover:bg-muted/60 transition-colors">
                     {getIcon()}
                 </div>
-                <Badge variant="outline" className={`font-medium ${getCategoryStyles()}`}>
+                <Badge variant="outline" className={`font-medium neon-text ${getCategoryStyles()}`}>
                     {resource.type === 'interactive' ? 'App' : resource.type.toUpperCase()}
                 </Badge>
             </CardHeader>
 
             <CardContent className="p-5 pt-0 flex-1">
                 <div className="space-y-2">
-                    <span className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                    <span className="text-[10px] font-bold tracking-wider text-muted-foreground dark:text-foreground/70 uppercase tracking-wider">
                         {resource.category}
                     </span>
                     <h3 className="font-bold text-foreground leading-snug group-hover:text-primary transition-colors text-lg">
                         {resource.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                    <p className="text-sm text-muted-foreground dark:text-foreground/80 line-clamp-3 leading-relaxed">
                         {resource.description}
                     </p>
                 </div>
@@ -74,7 +74,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
             <CardFooter className="p-4 border-t border-border/40 bg-muted/5">
                 {resource.type === 'interactive' ? (
-                    <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm group/btn" size="sm">
+                    <Button asChild className="w-full bg-primary hover:bg-primary/95 text-primary-foreground shadow-sm group/btn neon-glow" size="sm">
                         <Link href={resource.url}>
                             <PlayCircle className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
                             Usar Herramienta
@@ -82,7 +82,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
                     </Button>
                 ) : (
                     <div className="flex w-full gap-2">
-                        <Button asChild variant="outline" className="flex-1 border-border/60 hover:bg-muted" size="sm">
+                        <Button asChild variant="outline" className="flex-1 border-border/60 hover:bg-muted hover:neon-glow transition-all" size="sm">
                             <Link href={`/dashboard/resources/${resource.id}`}>
                                 <BookOpen className="w-4 h-4 mr-2" />
                                 Ver

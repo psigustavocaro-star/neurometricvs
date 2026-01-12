@@ -115,10 +115,10 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     scrolled ? "h-14" : "h-20"
                 )}>
                     {/* Logo */}
-                    <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
+                    <Link href="/" className="flex-shrink flex items-center gap-2 group min-w-0">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-12 w-auto relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
+                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-8 w-auto sm:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
                         </div>
                     </Link>
 
@@ -216,15 +216,17 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     </div>
 
                     {/* Mobile Menu Button - Enhanced for better touch */}
-                    <div className="md:hidden flex items-center gap-3">
-                        <ThemeToggle />
-                        <LanguageToggle />
+                    <div className="md:hidden flex items-center gap-1 sm:gap-3">
+                        <div className="flex items-center">
+                            <ThemeToggle />
+                            <LanguageToggle />
+                        </div>
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-slate-700 dark:text-slate-200 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95"
+                            className="text-slate-700 dark:text-slate-200 p-2 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95"
                             aria-label="Menú"
                         >
-                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                 {isMobileMenuOpen ? (
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 ) : (

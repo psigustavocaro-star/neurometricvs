@@ -1,5 +1,11 @@
 import { PatientSelectorDialog } from "@/components/tests/patient-selector-dialog"
 import { getTranslations } from "next-intl/server"
+import { testsCatalog as mockTests } from "@/lib/data/tests-catalog"
+import { notFound } from "next/navigation"
+import { Link } from "@/i18n/navigation"
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { ArrowLeft, Clock, Activity, FileText } from "lucide-react"
 
 export default async function TestDetailsPage({ params }: { params: Promise<{ testId: string }> }) {
     const t = await getTranslations('Pricing.Dashboard.Tests')
