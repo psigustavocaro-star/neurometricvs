@@ -182,8 +182,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Professional visibility base weight - balanced Medium */
-    font-weight: 500;
+    /* Professional visibility base weight - standard and clean */
+    font-weight: 400;
     position: relative;
     background-color: transparent;
     overflow-x: hidden;

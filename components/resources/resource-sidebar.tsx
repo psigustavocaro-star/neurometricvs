@@ -32,15 +32,15 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
     return (
         <div className="w-full lg:w-64 flex-shrink-0 lg:sticky lg:top-24 space-y-6">
             <div className="bg-card rounded-xl border border-border/60 shadow-sm p-4">
-                <h3 className="font-bold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground/80">Categorías</h3>
+                <h3 className="font-semibold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground/80">Categorías</h3>
                 <div className="space-y-1">
                     <Button
                         variant="ghost"
                         className={cn(
                             "w-full justify-start gap-3 relative overflow-hidden transition-all text-sm",
                             selectedCategory === null
-                                ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-bold"
-                                : "text-muted-foreground hover:bg-muted font-medium"
+                                ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-semibold"
+                                : "text-muted-foreground hover:bg-muted font-normal"
                         )}
                         onClick={() => onSelectCategory(null)}
                     >
@@ -60,8 +60,8 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
                                 className={cn(
                                     "w-full justify-start gap-3 relative overflow-hidden transition-all text-sm",
                                     selectedCategory === category
-                                        ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-bold"
-                                        : "text-muted-foreground hover:bg-muted font-medium"
+                                        ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary font-semibold"
+                                        : "text-muted-foreground hover:bg-muted font-normal"
                                 )}
                                 onClick={() => onSelectCategory(category)}
                             >
@@ -77,23 +77,23 @@ export function ResourceSidebar({ selectedCategory, onSelectCategory, categories
             </div>
 
             <div className="bg-card rounded-xl border border-border/60 shadow-sm p-4">
-                <h3 className="font-bold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground/80">Tipos</h3>
+                <h3 className="font-semibold text-foreground mb-4 px-2 text-sm uppercase tracking-wider text-muted-foreground/80">Tipos</h3>
                 <div className="grid grid-cols-2 gap-2">
                     <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-border/50">
                         <Smartphone className="w-5 h-5 text-teal-500 mb-2" />
-                        <span className="text-xs font-medium text-center">Interactivo</span>
+                        <span className="text-xs font-normal text-center">Interactivo</span>
                     </div>
                     <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-border/50">
                         <FileText className="w-5 h-5 text-blue-500 mb-2" />
-                        <span className="text-xs font-medium text-center">PDF</span>
+                        <span className="text-xs font-normal text-center">PDF</span>
                     </div>
                     <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-border/50">
                         <Video className="w-5 h-5 text-pink-500 mb-2" />
-                        <span className="text-xs font-medium text-center">Video</span>
+                        <span className="text-xs font-normal text-center">Video</span>
                     </div>
                     <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-border/50">
                         <BookOpen className="w-5 h-5 text-orange-500 mb-2" />
-                        <span className="text-xs font-medium text-center">Lectura</span>
+                        <span className="text-xs font-normal text-center">Lectura</span>
                     </div>
                 </div>
             </div>

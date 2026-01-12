@@ -47,13 +47,13 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
             <CardContent className="p-5 pt-0 flex-1">
                 <div className="space-y-2">
-                    <span className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                    <span className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase">
                         {resource.category}
                     </span>
                     <h3 className="font-bold text-foreground leading-snug group-hover:text-primary transition-colors text-xl italic">
                         {resource.title}
                     </h3>
-                    <p className="text-sm text-foreground/80 line-clamp-3 leading-relaxed font-medium">
+                    <p className="text-sm text-foreground/80 line-clamp-3 leading-relaxed font-normal">
                         {resource.description}
                     </p>
                 </div>

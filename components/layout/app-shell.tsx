@@ -183,9 +183,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-sm font-semibold",
+                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-sm font-medium",
                                 isActive(link.href)
-                                    ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(var(--primary),0.1)]"
+                                    ? "bg-primary/10 text-primary font-semibold shadow-[0_0_15px_rgba(var(--primary),0.1)]"
                                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                                 isCollapsed && "justify-center px-2"
                             )}
@@ -229,7 +229,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     >
                         <ExternalLink className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
                         <span className={cn(
-                            "font-bold overflow-hidden transition-all duration-500 ease-in-out",
+                            "font-semibold overflow-hidden transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
                         )}>{t('home')}</span>
                     </Link>
@@ -240,7 +240,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
                     )}>
                         <span className={cn(
-                            "text-sm text-foreground font-semibold group-hover:text-primary transition-all duration-500 ease-in-out",
+                            "text-sm text-foreground font-medium group-hover:text-primary transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
                         )}>{t('theme')}</span>
                         <div className={cn(isCollapsed && "scale-75 origin-center")}>
@@ -254,7 +254,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
                     )}>
                         <span className={cn(
-                            "text-sm text-foreground font-semibold group-hover:text-primary transition-all duration-500 ease-in-out",
+                            "text-sm text-foreground font-medium group-hover:text-primary transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
                         )}>{locale === 'es' ? 'Idioma' : 'Language'}</span>
                         <div className={cn(isCollapsed && "scale-75 origin-center")}>
@@ -274,7 +274,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     >
                         <LogOut className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
                         <span className={cn(
-                            "ml-3 text-sm font-semibold overflow-hidden transition-all duration-500 ease-in-out",
+                            "ml-3 text-sm font-medium overflow-hidden transition-all duration-500 ease-in-out",
                             isCollapsed ? "w-0 opacity-0 translate-x-4 ml-0" : "w-auto opacity-100 translate-x-0"
                         )}>{isLoggingOut ? t('logging_out') : t('sign_out')}</span>
                     </Button>
