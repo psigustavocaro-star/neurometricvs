@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Check, Info, X, ShieldCheck, Activity } from "lucide-react"
+import { Check, Info, X, ShieldCheck, Activity, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
+import { InstitutionsMarquee } from "./institutions-marquee"
 import {
     Dialog,
     DialogContent,
@@ -19,6 +20,7 @@ import { cn } from "@/lib/utils"
 
 export function PricingSection() {
     const t = useTranslations('Pricing')
+    const tTrust = useTranslations('Trust')
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [activeDetailsPlan, setActiveDetailsPlan] = useState<string | null>(null)
@@ -42,8 +44,8 @@ export function PricingSection() {
             <div className="container px-4 md:px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <ScrollAnimation animation="fade-up">
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight mb-4">{t('title')}</h2>
-                        <p className="text-lg text-slate-500 font-light italic">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">{t('title')}</h2>
+                        <p className="text-lg text-slate-500 dark:text-slate-400 font-light italic">
                             {t('subtitle')}
                         </p>
                     </ScrollAnimation>
@@ -60,9 +62,9 @@ export function PricingSection() {
                                 <div
                                     onClick={() => handleCardClick(plan.key)}
                                     className={cn(
-                                        "group relative flex flex-col p-8 rounded-[2rem] border transition-all duration-500 h-full cursor-pointer bg-white",
-                                        isSelected ? "border-teal-500 shadow-2xl shadow-teal-900/10 ring-2 ring-teal-500/20 scale-[1.02]" : "border-slate-200 hover:border-teal-200 hover:shadow-lg",
-                                        plan.key === 'pro' && !isSelected && "bg-gradient-to-br from-white to-teal-50/50"
+                                        "group relative flex flex-col p-8 rounded-[2rem] border transition-all duration-500 h-full cursor-pointer bg-white dark:bg-slate-900",
+                                        isSelected ? "border-teal-500 shadow-2xl shadow-teal-900/10 ring-2 ring-teal-500/20 scale-[1.02]" : "border-slate-200 dark:border-slate-700 hover:border-teal-200 dark:hover:border-teal-600 hover:shadow-lg",
+                                        plan.key === 'pro' && !isSelected && "bg-gradient-to-br from-white to-teal-50/50 dark:from-slate-900 dark:to-teal-950/30"
                                     )}
                                 >
                                     {badgeText && (
@@ -75,14 +77,14 @@ export function PricingSection() {
                                     )}
 
                                     <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-1">{t(`${plan.key}.name`)}</h3>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{t(`${plan.key}.name`)}</h3>
                                         <p className="text-xs text-slate-400 font-medium uppercase tracking-tighter mb-4">{t(`${plan.key}.description`)}</p>
 
                                         <div className="flex items-baseline gap-1 mt-2">
                                             {plan.amount === 0 ? (
-                                                <span className="text-3xl font-bold text-slate-900">$0</span>
+                                                <span className="text-3xl font-bold text-slate-900 dark:text-white">$0</span>
                                             ) : (
-                                                <PriceDisplay amount={plan.amount} period={plan.period || t('month')} priceId={plan.priceId} className="text-3xl font-bold text-slate-900" />
+                                                <PriceDisplay amount={plan.amount} period={plan.period || t('month')} priceId={plan.priceId} className="text-3xl font-bold text-slate-900 dark:text-white" />
                                             )}
                                         </div>
                                         {t.has(`${plan.key}.trial`) && <div className="text-[10px] font-bold text-teal-600 mt-1">{t(`${plan.key}.trial`)}</div>}
@@ -93,7 +95,7 @@ export function PricingSection() {
 
                                     <ul className="space-y-4 flex-1 mb-8">
                                         {Array.isArray(t.raw(`${plan.key}.features`)) && t.raw(`${plan.key}.features`).map((feature: any, i: number) => (
-                                            <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                                            <li key={i} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
                                                 <div className={cn(
                                                     "mt-1 p-0.5 rounded-full",
                                                     isSelected ? "bg-teal-100 text-teal-700" : "bg-slate-50 text-slate-400"
@@ -120,7 +122,7 @@ export function PricingSection() {
                                             onClick={(e) => e.stopPropagation()}
                                             className={cn(
                                                 "w-full rounded-xl h-12 font-bold shadow-sm transition-all",
-                                                isSelected ? "bg-teal-600 hover:bg-teal-500 text-white shadow-teal-900/10" : "bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200"
+                                                isSelected ? "bg-teal-600 hover:bg-teal-500 text-white shadow-teal-900/10" : "bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700"
                                             )}
                                         >
                                             <Link href={`/onboarding?plan=${plan.key}`}>
@@ -179,7 +181,7 @@ export function PricingSection() {
                         <div className="mt-8 pt-8 border-t border-slate-100 flex items-center justify-between">
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('monthly_investment')}</span>
-                                <span className="text-2xl font-black text-slate-900">
+                                <span className="text-2xl font-black text-slate-900 dark:text-white">
                                     {activeDetailsPlan && plans.find(p => p.key === activeDetailsPlan)?.amount === 0 ? "$0" : (activeDetailsPlan && `$${plans.find(p => p.key === activeDetailsPlan)?.amount}${activeDetailsPlan === 'pro' ? t('year') : t('month')}`)}
                                 </span>
                             </div>

@@ -22,6 +22,10 @@
     },
     "VerticalNavbar": {
         "hero": "Inicio",
+        "clinicalRecords": "Fichas",
+        "testAutomation": "Tests",
+        "calculators": "Cálculos",
+        "aiCopilot": "IA",
         "mobile": "Móvil",
         "testimonials": "Historias",
         "trust": "Confianza",
@@ -100,6 +104,49 @@
         "subtitle": "Descubre cómo Neurometrics automatiza tu flujo de trabajo.",
         "preview": "Vista Previa en Vivo",
         "cta": "Pruébalo Gratis"
+    },
+    "Calculators": {
+        "title": "Calculadoras Médicas",
+        "subtitle": "Herramientas de cálculo clínico validadas científicamente para tu especialidad.",
+        "insert_success": "Resultado insertado en la ficha clínica",
+        "categories": {
+            "general": "General",
+            "pharmacology": "Farmacología",
+            "neurological": "Neurológico",
+            "functional": "Funcional",
+            "risk": "Riesgo"
+        },
+        "bmi": {
+            "title": "Índice de Masa Corporal",
+            "categories": {
+                "underweight": "Bajo peso",
+                "normal": "Normal",
+                "overweight": "Sobrepeso",
+                "obesity_1": "Obesidad Grado I",
+                "obesity_2": "Obesidad Grado II",
+                "obesity_3": "Obesidad Grado III"
+            }
+        },
+        "glasgow": {
+            "title": "Escala de Coma de Glasgow",
+            "eye": "Respuesta Ocular",
+            "verbal": "Respuesta Verbal",
+            "motor": "Respuesta Motora"
+        },
+        "barthel": {
+            "title": "Índice de Barthel",
+            "levels": {
+                "independent": "Independiente",
+                "mild": "Dependencia leve",
+                "moderate": "Dependencia moderada",
+                "severe": "Dependencia severa",
+                "total": "Dependencia total"
+            }
+        },
+        "dosage": {
+            "title": "Calculadora de Dosis",
+            "warning": "Verificar siempre con la ficha técnica del medicamento."
+        }
     },
     "DemoPlayer": {
         "patients": "Pacientes",
@@ -893,7 +940,8 @@
         },
         "cta": {
             "tests": "Tests",
-            "new": "Nuevo"
+            "new": "Nuevo",
+            "calculators": "Calculadoras"
         },
         "recent_patients": {
             "title": "Pacientes Recientes",
@@ -988,6 +1036,47 @@
                 "failure_desc": "No se pudo procesar tu suscripción. Intenta nuevamente.",
                 "pending_title": "Pago pendiente",
                 "pending_desc": "Estamos procesando tu pago. Te avisaremos cuando se complete."
+            }
+        },
+        "Patients": {
+            "Access": {
+                "restricted_title": "Acceso Restringido",
+                "restricted_desc": "La gestión de pacientes está disponible exclusivamente para los planes Clínico y Pro.",
+                "upgrade_plan": "Mejorar Plan",
+                "back_to_dashboard": "Volver al Dashboard"
+            },
+            "List": {
+                "title": "Pacientes",
+                "subtitle": "Gestiona las fichas de tus pacientes.",
+                "new_patient": "Nuevo Paciente",
+                "search_placeholder": "Buscar por nombre, email...",
+                "count_suffix": "pacientes registrados",
+                "table_header": {
+                    "patient": "Paciente",
+                    "age": "Edad",
+                    "gender": "Género",
+                    "email": "Email",
+                    "registered": "Registrado",
+                    "actions": "Acciones"
+                },
+                "gender": {
+                    "male": "Masculino",
+                    "female": "Femenino",
+                    "other": "Otro"
+                },
+                "age_suffix": "años",
+                "no_email": "Sin email",
+                "actions": {
+                    "view": "Ver Ficha",
+                    "delete": "Eliminar Paciente"
+                },
+                "no_patients": "No se encontraron pacientes.",
+                "delete_dialog": {
+                    "title": "Confirmar eliminación",
+                    "description": "¿Estás seguro de que deseas eliminar este paciente? Esta acción no se puede deshacer y todos los registros clínicos asociados se perderán.",
+                    "cancel": "Cancelar",
+                    "confirm": "Eliminar"
+                }
             }
         }
     },
@@ -1088,6 +1177,61 @@
             "title": "Acceso Multi-dispositivo",
             "desc": "Gestiona tu estación de trabajo desde cualquier lugar con nuestra aplicación móvil optimizada.",
             "benefit": "Fluidez total entre el consultorio y el terreno."
+        }
+    },
+    "FeatureModal": {
+        "benefits_title": "Beneficios Clave",
+        "cta_hint": "Únete a +500 profesionales de la salud",
+        "cta_button": "Comenzar Gratis",
+        "ClinicalRecords": {
+            "detailed_description": "Sistema completo de fichas clínicas digitales con línea de tiempo automática, gestión de antecedentes familiares y personales, y centralización de toda la información del paciente en un solo lugar. Cumple con todos los estándares de seguridad y privacidad de datos clínicos.",
+            "benefits": [
+                "Historial clínico completo y cronológico",
+                "Antecedentes familiares y personales organizados",
+                "Notas de evolución con plantillas personalizables",
+                "Exportación a PDF con formato profesional",
+                "Cumplimiento normativo HIPAA y GDPR"
+            ]
+        },
+        "TestAutomation": {
+            "detailed_description": "Corrección automática de más de 50 baterías neuropsicológicas y psicométricas. El sistema analiza las respuestas, calcula puntajes, percentiles y genera interpretaciones clínicas basadas en baremos actualizados.",
+            "benefits": [
+                "Corrección instantánea de tests",
+                "Cálculo automático de percentiles y puntajes T",
+                "Interpretación clínica sugerida por IA",
+                "Baremos localizados por país y edad",
+                "Ahorra hasta 70% de tiempo en tabulación"
+            ]
+        },
+        "MedicalCalculators": {
+            "detailed_description": "Acceso a calculadoras médicas precisas para IMC, dosis de medicamentos, escalas de riesgo y más. Todos los cálculos se pueden insertar directamente en la ficha clínica del paciente con un solo clic.",
+            "benefits": [
+                "Calculadoras validadas científicamente",
+                "Integración directa con ficha clínica",
+                "Dosis pediátricas y geriátricas",
+                "Escalas de riesgo cardiovascular y más",
+                "Eliminación de errores de cálculo manual"
+            ]
+        },
+        "AICopilot": {
+            "detailed_description": "Asistente inteligente que analiza las notas clínicas y sugiere diagnósticos diferenciales, códigos CIE-10, y recomendaciones basadas en evidencia. Diseñado para apoyar, nunca reemplazar, el juicio clínico del profesional.",
+            "benefits": [
+                "Sugerencias de diagnóstico diferencial",
+                "Códigos CIE-10 y DSM-5 automáticos",
+                "Detección de patrones en evolución clínica",
+                "Recomendaciones terapéuticas basadas en evidencia",
+                "Síntesis automática de casos complejos"
+            ]
+        },
+        "MobileAccess": {
+            "detailed_description": "Accede a tu estación de trabajo desde cualquier dispositivo. La plataforma está optimizada para funcionar perfectamente en tablets y smartphones, permitiendo consultar fichas, revisar resultados y gestionar tu agenda desde cualquier lugar.",
+            "benefits": [
+                "Interfaz adaptable a cualquier pantalla",
+                "Sincronización en tiempo real",
+                "Modo offline para áreas sin conexión",
+                "Tests optimizados para dispositivos táctiles",
+                "Notificaciones de resultados al instante"
+            ]
         }
     },
     "Login": {

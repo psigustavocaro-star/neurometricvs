@@ -25,7 +25,7 @@ export default async function PatientsPage() {
                 <div className="bg-slate-100 p-6 rounded-full mb-6">
                     <User className="h-12 w-12 text-slate-400" />
                 </div>
-                <h1 className="text-3xl font-bold text-slate-900 mb-4">{t('Access.restricted_title')}</h1>
+                <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{t('Access.restricted_title')}</h1>
                 <p className="text-slate-500 max-w-md mb-8 text-lg">
                     {t('Access.restricted_desc')}
                 </p>
@@ -55,8 +55,8 @@ export default async function PatientsPage() {
         <div className="container pt-24 pb-10 md:pt-32">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900">{t('List.title')}</h1>
-                    <p className="text-slate-500 mt-1">{t('List.subtitle')}</p>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('List.title')}</h1>
+                    <p className="text-slate-500 dark:text-slate-400 mt-1">{t('List.subtitle')}</p>
                 </div>
                 <Button asChild className="bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
                     <Link href="/patients/new">

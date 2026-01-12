@@ -1,5 +1,9 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { createClient } from '@/lib/supabase/server'
+import { Button } from "@/components/ui/button"
+import { Lock } from "lucide-react"
+import { NewPatientForm } from "./patient-form"
 
 export default async function NewPatientPage() {
     const t = await getTranslations('Pricing.Patients.Access')
@@ -18,7 +22,7 @@ export default async function NewPatientPage() {
                 <div className="bg-slate-100 p-6 rounded-full mb-6">
                     <Lock className="h-12 w-12 text-slate-400" />
                 </div>
-                <h1 className="text-3xl font-bold text-slate-900 mb-4">{t('restricted_title')}</h1>
+                <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{t('restricted_title')}</h1>
                 <p className="text-slate-500 max-w-md mb-8 text-lg">
                     {t('restricted_desc')}
                 </p>

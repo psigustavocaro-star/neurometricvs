@@ -27,8 +27,8 @@ export function MockAICopilot() {
 
             {/* Chat Area */}
             <div className="flex-1 p-8 space-y-8 overflow-hidden relative bg-slate-50/50 dark:bg-slate-900/10">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+                {/* Background Pattern - Hidden in dark mode */}
+                <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 dark:opacity-0" />
 
                 {/* User Message */}
                 <div className="flex gap-4 justify-end relative z-10">

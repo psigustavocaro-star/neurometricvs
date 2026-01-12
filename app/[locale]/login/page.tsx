@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getTranslations } from 'next-intl/server'
+import Image from 'next/image'
 
 export default async function LoginPage(props: {
     searchParams: Promise<{ message: string, error: string }>
@@ -15,30 +16,37 @@ export default async function LoginPage(props: {
     const translatedMessage = searchParams.message ? t(searchParams.message as any) : null
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden relative">
+        <div className="flex min-h-screen items-center justify-center p-4 pt-24 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden relative">
 
-            {/* Background Effects */}
+            {/* Enhanced Background Effects */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-teal-500/10 blur-[100px]" />
-                <div className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[100px]" />
-                <div className="absolute top-[40%] left-[20%] w-[30%] h-[30%] rounded-full bg-emerald-500/5 blur-[80px]" />
+                <div className="absolute -top-[30%] -left-[15%] w-[60%] h-[60%] rounded-full bg-teal-500/15 blur-[120px] animate-pulse" />
+                <div className="absolute -bottom-[30%] -right-[15%] w-[60%] h-[60%] rounded-full bg-indigo-500/15 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-[30%] left-[40%] w-[40%] h-[40%] rounded-full bg-emerald-500/10 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
             </div>
 
-            <Card className="w-full max-w-md relative z-10 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border-slate-200/50 dark:border-slate-800/50 shadow-2xl shadow-slate-200/50 dark:shadow-black/50">
-                <CardHeader className="text-center pb-2">
-                    <div className="flex justify-center mb-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/30 ring-4 ring-white/50 dark:ring-white/10">
-                            <img
-                                src="/neurometrics-logo-small.png"
-                                alt="Logo"
-                                className="w-10 h-10 object-contain brightness-0 invert"
-                            />
-                        </div>
+            <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 rounded-3xl">
+                <CardHeader className="text-center pb-4 pt-8">
+                    {/* Official Neurometrics Logo */}
+                    <div className="flex justify-center mb-6">
+                        <Link href="/" className="group">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-teal-400 blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full scale-150" />
+                                <Image
+                                    src="/logo.png"
+                                    alt="Neurometrics"
+                                    width={180}
+                                    height={50}
+                                    className="h-12 w-auto relative z-10 dark:brightness-0 dark:invert transition-transform group-hover:scale-105"
+                                    priority
+                                />
+                            </div>
+                        </Link>
                     </div>
-                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
                         {t('title')}
                     </CardTitle>
-                    <CardDescription className="text-base text-slate-600 dark:text-slate-400">
+                    <CardDescription className="text-base text-slate-600 dark:text-slate-400 mt-2">
                         {t('description')}
                     </CardDescription>
                 </CardHeader>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
     Users, Activity, CalendarDays, Search, Clock, FileText, Plus, TrendingUp,
-    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen
+    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen, Calculator
 } from "lucide-react"
 import Link from 'next/link'
 import { es, enUS } from 'date-fns/locale'
@@ -89,6 +89,12 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             <Link href="/dashboard/tests">
                                 <Brain className="w-3.5 h-3.5 mr-2" />
                                 {t('cta.tests')}
+                            </Link>
+                        </Button>
+                        <Button asChild variant="outline" className="h-8 md:h-9 px-4 border-border/60 hover:bg-muted/50 hover:text-foreground transition-all rounded-full text-xs font-medium">
+                            <Link href="/dashboard/calculators">
+                                <Calculator className="w-3.5 h-3.5 mr-2" />
+                                {t('cta.calculators')}
                             </Link>
                         </Button>
                         <Button asChild className="h-8 md:h-9 px-4 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 border-0 rounded-full text-xs font-medium transition-all hover:scale-105 active:scale-95">

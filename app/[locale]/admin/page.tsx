@@ -64,8 +64,8 @@ export default function AdminGodModePage() {
     return (
         <div className="container mx-auto py-24 px-4 max-w-4xl">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-slate-900 mb-2">God Mode</h1>
-                <p className="text-slate-600">Panel de administración para gestión de datos de prueba</p>
+                <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">God Mode</h1>
+                <p className="text-slate-600 dark:text-slate-400">Panel de administración para gestión de datos de prueba</p>
             </div>
 
             <div className="grid gap-6">

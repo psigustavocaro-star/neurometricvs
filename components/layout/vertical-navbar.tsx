@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Home, Smartphone, MessageSquare, Shield, CreditCard, HelpCircle } from 'lucide-react'
+import { Home, Smartphone, MessageSquare, Shield, CreditCard, HelpCircle, Activity, Sparkles, Calculator, Bot } from 'lucide-react'
 
 import { useTranslations } from "next-intl"
 
@@ -11,6 +11,10 @@ export function VerticalNavbar() {
 
     const navItems = [
         { id: 'hero', label: t('hero'), icon: Home },
+        { id: 'ClinicalRecords', label: t('clinicalRecords'), icon: Activity },
+        { id: 'TestAutomation', label: t('testAutomation'), icon: Sparkles },
+        { id: 'MedicalCalculators', label: t('calculators'), icon: Calculator },
+        { id: 'AICopilot', label: t('aiCopilot'), icon: Bot },
         { id: 'MobileAccess', label: t('mobile'), icon: Smartphone },
         { id: 'testimonials', label: t('testimonials'), icon: MessageSquare },
         { id: 'trust', label: t('trust'), icon: Shield },

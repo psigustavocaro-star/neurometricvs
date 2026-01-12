@@ -104,7 +104,25 @@ export function Footer() {
                     </div>
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                {/* Trusted By Section */}
+                <div className="mt-12 pt-8 border-t border-slate-800">
+                    <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-4 text-center">
+                        Confiado por profesionales de
+                    </p>
+                    <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-xs text-slate-400">
+                        <span>Universidad de Chile</span>
+                        <span className="hidden md:inline text-slate-700">•</span>
+                        <span>Pontificia Universidad Católica</span>
+                        <span className="hidden md:inline text-slate-700">•</span>
+                        <span>Universidad de Buenos Aires</span>
+                        <span className="hidden md:inline text-slate-700">•</span>
+                        <span>Clínica Las Condes</span>
+                        <span className="hidden md:inline text-slate-700">•</span>
+                        <span>Mayo Clinic</span>
+                    </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                     <p className="text-xs text-slate-500 text-center md:text-left">
                         © {new Date().getFullYear()} Neurometrics Inc. Todos los derechos reservados.
                     </p>

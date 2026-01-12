@@ -22,6 +22,10 @@
     },
     "VerticalNavbar": {
         "hero": "Home",
+        "clinicalRecords": "Records",
+        "testAutomation": "Tests",
+        "calculators": "Calc",
+        "aiCopilot": "AI",
         "mobile": "Mobile",
         "testimonials": "Stories",
         "trust": "Trust",
@@ -100,6 +104,49 @@
         "subtitle": "Discover how Neurometrics automates your workflow.",
         "preview": "Live Preview",
         "cta": "Try for Free"
+    },
+    "Calculators": {
+        "title": "Medical Calculators",
+        "subtitle": "Scientifically validated clinical calculation tools for your specialty.",
+        "insert_success": "Result inserted into clinical record",
+        "categories": {
+            "general": "General",
+            "pharmacology": "Pharmacology",
+            "neurological": "Neurological",
+            "functional": "Functional",
+            "risk": "Risk"
+        },
+        "bmi": {
+            "title": "Body Mass Index",
+            "categories": {
+                "underweight": "Underweight",
+                "normal": "Normal",
+                "overweight": "Overweight",
+                "obesity_1": "Obesity Class I",
+                "obesity_2": "Obesity Class II",
+                "obesity_3": "Obesity Class III"
+            }
+        },
+        "glasgow": {
+            "title": "Glasgow Coma Scale",
+            "eye": "Eye Response",
+            "verbal": "Verbal Response",
+            "motor": "Motor Response"
+        },
+        "barthel": {
+            "title": "Barthel Index",
+            "levels": {
+                "independent": "Independent",
+                "mild": "Mild dependency",
+                "moderate": "Moderate dependency",
+                "severe": "Severe dependency",
+                "total": "Total dependency"
+            }
+        },
+        "dosage": {
+            "title": "Dosage Calculator",
+            "warning": "Always verify with the medication data sheet."
+        }
     },
     "DemoPlayer": {
         "patients": "Patients",
@@ -893,7 +940,8 @@
         },
         "cta": {
             "tests": "Tests",
-            "new": "New"
+            "new": "New",
+            "calculators": "Calculators"
         },
         "recent_patients": {
             "title": "Recent Patients",
@@ -988,6 +1036,47 @@
                 "failure_desc": "We couldn't process your subscription. Please try again.",
                 "pending_title": "Payment pending",
                 "pending_desc": "We are processing your payment. We will notify you when it's complete."
+            }
+        },
+        "Patients": {
+            "Access": {
+                "restricted_title": "Restricted Access",
+                "restricted_desc": "Patient management is exclusively available for Clinical and Pro plans.",
+                "upgrade_plan": "Upgrade Plan",
+                "back_to_dashboard": "Back to Dashboard"
+            },
+            "List": {
+                "title": "Patients",
+                "subtitle": "Manage your patients' files.",
+                "new_patient": "New Patient",
+                "search_placeholder": "Search by name, email...",
+                "count_suffix": "registered patients",
+                "table_header": {
+                    "patient": "Patient",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "email": "Email",
+                    "registered": "Registered",
+                    "actions": "Actions"
+                },
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "age_suffix": "years",
+                "no_email": "No email",
+                "actions": {
+                    "view": "View File",
+                    "delete": "Delete Patient"
+                },
+                "no_patients": "No patients found.",
+                "delete_dialog": {
+                    "title": "Confirm deletion",
+                    "description": "Are you sure you want to delete this patient? This action cannot be undone and all associated clinical records will be lost.",
+                    "cancel": "Cancel",
+                    "confirm": "Delete"
+                }
             }
         }
     },
@@ -1088,6 +1177,61 @@
             "title": "Multi-device Access",
             "desc": "Manage your workstation from anywhere with our optimized mobile application.",
             "benefit": "Total fluidity between office and field."
+        }
+    },
+    "FeatureModal": {
+        "benefits_title": "Key Benefits",
+        "cta_hint": "Join +500 health professionals",
+        "cta_button": "Start Free",
+        "ClinicalRecords": {
+            "detailed_description": "Complete digital clinical records system with automatic timeline, family and personal history management, and centralization of all patient information in one place. Compliant with all clinical data security and privacy standards.",
+            "benefits": [
+                "Complete and chronological clinical history",
+                "Organized family and personal background",
+                "Evolution notes with customizable templates",
+                "Export to PDF with professional formatting",
+                "HIPAA and GDPR regulatory compliance"
+            ]
+        },
+        "TestAutomation": {
+            "detailed_description": "Automatic scoring of over 50 neuropsychological and psychometric batteries. The system analyzes responses, calculates scores, percentiles, and generates clinical interpretations based on updated norms.",
+            "benefits": [
+                "Instant test scoring",
+                "Automatic calculation of percentiles and T-scores",
+                "AI-suggested clinical interpretation",
+                "Norms localized by country and age",
+                "Save up to 70% of scoring time"
+            ]
+        },
+        "MedicalCalculators": {
+            "detailed_description": "Access to precise medical calculators for BMI, medication dosages, risk scales, and more. All calculations can be inserted directly into the patient's clinical record with a single click.",
+            "benefits": [
+                "Scientifically validated calculators",
+                "Direct integration with clinical record",
+                "Pediatric and geriatric dosages",
+                "Cardiovascular risk scales and more",
+                "Elimination of manual calculation errors"
+            ]
+        },
+        "AICopilot": {
+            "detailed_description": "Intelligent assistant that analyzes clinical notes and suggests differential diagnoses, ICD-10 codes, and evidence-based recommendations. Designed to support, never replace, the clinician's professional judgment.",
+            "benefits": [
+                "Differential diagnosis suggestions",
+                "Automatic ICD-10 and DSM-5 codes",
+                "Pattern detection in clinical evolution",
+                "Evidence-based therapeutic recommendations",
+                "Automatic synthesis of complex cases"
+            ]
+        },
+        "MobileAccess": {
+            "detailed_description": "Access your workstation from any device. The platform is optimized to work perfectly on tablets and smartphones, allowing you to consult records, review results, and manage your schedule from anywhere.",
+            "benefits": [
+                "Interface adaptable to any screen",
+                "Real-time synchronization",
+                "Offline mode for areas without connection",
+                "Tests optimized for touch devices",
+                "Instant result notifications"
+            ]
         }
     },
     "Login": {

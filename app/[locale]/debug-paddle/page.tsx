@@ -64,8 +64,8 @@ export default function DebugPaddlePage() {
     };
 
     return (
-        <div className="container mx-auto p-8 max-w-4xl space-y-6 bg-slate-50 min-h-screen">
-            <h1 className="text-3xl font-bold text-slate-900 mb-8">Paddle Diagnostics Tool</h1>
+        <div className="container mx-auto p-8 max-w-4xl space-y-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">Paddle Diagnostics Tool</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card>
