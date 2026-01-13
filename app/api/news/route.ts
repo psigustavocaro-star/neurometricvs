@@ -24,9 +24,13 @@ export async function GET(request: Request) {
 
     try {
         const allArticles = await Promise.all(feeds.map(async (feed) => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
             try {
                 const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`, {
-                    next: { revalidate: 3600 }
+                    next: { revalidate: 3600 },
+                    signal: controller.signal
                 });
                 const data = await response.json();
 
@@ -53,6 +57,8 @@ export async function GET(request: Request) {
             } catch (err) {
                 console.error(`Failed to fetch ${feed.name}:`, err);
                 return [];
+            } finally {
+                clearTimeout(timeoutId);
             }
         }));
 

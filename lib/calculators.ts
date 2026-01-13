@@ -27,6 +27,7 @@ export interface Calculator {
 }
 
 export const calculators: Calculator[] = [
+    // General - Available for all
     {
         id: 'bmi',
         name: 'Índice de Masa Corporal (IMC)',
@@ -36,6 +37,8 @@ export const calculators: Calculator[] = [
         professions: 'all',
         component: 'BMICalculator'
     },
+
+    // Neurological
     {
         id: 'glasgow',
         name: 'Escala de Coma de Glasgow',
@@ -46,6 +49,26 @@ export const calculators: Calculator[] = [
         component: 'GlasgowCalculator'
     },
     {
+        id: 'nihss',
+        name: 'NIHSS - Escala de ACV',
+        description: 'Evalúa la gravedad del accidente cerebrovascular.',
+        category: 'neurological',
+        icon: 'Brain',
+        professions: ['physician', 'neurologist'],
+        component: 'NIHSSCalculator'
+    },
+    {
+        id: 'mmse_calc',
+        name: 'MMSE - Mini Mental',
+        description: 'Screening de deterioro cognitivo y demencia.',
+        category: 'neurological',
+        icon: 'Brain',
+        professions: ['physician', 'neurologist', 'psychiatrist', 'psychologist'],
+        component: 'MMSECalculator'
+    },
+
+    // Functional
+    {
         id: 'barthel',
         name: 'Índice de Barthel',
         description: 'Mide la independencia funcional en actividades de la vida diaria.',
@@ -54,6 +77,35 @@ export const calculators: Calculator[] = [
         professions: ['occupational_therapist', 'physician', 'neurologist'],
         component: 'BarthelCalculator'
     },
+    {
+        id: 'tinetti',
+        name: 'Test de Tinetti',
+        description: 'Evalúa marcha y equilibrio para determinar riesgo de caídas.',
+        category: 'functional',
+        icon: 'Footprints',
+        professions: ['occupational_therapist', 'physician', 'neurologist'],
+        component: 'TinettiCalculator'
+    },
+    {
+        id: 'lawton',
+        name: 'Escala de Lawton-Brody',
+        description: 'Evalúa las actividades instrumentales de la vida diaria.',
+        category: 'functional',
+        icon: 'Accessibility',
+        professions: ['occupational_therapist', 'physician'],
+        component: 'LawtonCalculator'
+    },
+    {
+        id: 'katz',
+        name: 'Índice de Katz',
+        description: 'Evalúa la independencia en actividades básicas de la vida diaria.',
+        category: 'functional',
+        icon: 'Accessibility',
+        professions: ['occupational_therapist', 'physician'],
+        component: 'KatzCalculator'
+    },
+
+    // Pharmacology
     {
         id: 'dosage',
         name: 'Calculadora de Dosis',
@@ -64,6 +116,17 @@ export const calculators: Calculator[] = [
         component: 'DosageCalculator'
     },
     {
+        id: 'creatinine_clearance',
+        name: 'Clearance de Creatinina',
+        description: 'Calcula la función renal para ajuste de dosis.',
+        category: 'pharmacology',
+        icon: 'Pill',
+        professions: ['physician', 'psychiatrist', 'neurologist'],
+        component: 'CreatinineCalculator'
+    },
+
+    // Risk
+    {
         id: 'cardiovascular',
         name: 'Riesgo Cardiovascular (SCORE)',
         description: 'Estima el riesgo de evento cardiovascular a 10 años.',
@@ -73,13 +136,62 @@ export const calculators: Calculator[] = [
         component: 'CardiovascularCalculator'
     },
     {
-        id: 'tinetti',
-        name: 'Test de Tinetti',
-        description: 'Evalúa marcha y equilibrio para determinar riesgo de caídas.',
+        id: 'suicide_risk',
+        name: 'Escala de Riesgo Suicida',
+        description: 'Evalúa factores de riesgo suicida (Columbia C-SSRS).',
+        category: 'risk',
+        icon: 'Heart',
+        professions: ['psychiatrist', 'psychologist'],
+        component: 'SuicideRiskCalculator'
+    },
+
+    // Psychology-specific
+    {
+        id: 'phq9_calc',
+        name: 'PHQ-9 Scoring',
+        description: 'Calcula e interpreta puntuación del PHQ-9 para depresión.',
+        category: 'general',
+        icon: 'Brain',
+        professions: ['psychologist', 'psychiatrist', 'physician'],
+        component: 'PHQ9Calculator'
+    },
+    {
+        id: 'gad7_calc',
+        name: 'GAD-7 Scoring',
+        description: 'Calcula e interpreta puntuación del GAD-7 para ansiedad.',
+        category: 'general',
+        icon: 'Brain',
+        professions: ['psychologist', 'psychiatrist', 'physician'],
+        component: 'GAD7Calculator'
+    },
+    {
+        id: 'age_calculator',
+        name: 'Calculadora de Edad',
+        description: 'Calcula edad exacta en años, meses y días.',
+        category: 'general',
+        icon: 'Scale',
+        professions: 'all',
+        component: 'AgeCalculator'
+    },
+
+    // Speech Therapy
+    {
+        id: 'speech_fluency',
+        name: 'Índice de Fluidez Verbal',
+        description: 'Evalúa palabras por minuto y pausas anormales.',
         category: 'functional',
-        icon: 'Footprints',
-        professions: ['occupational_therapist', 'physician', 'neurologist'],
-        component: 'TinettiCalculator'
+        icon: 'Brain',
+        professions: ['speech_therapist'],
+        component: 'SpeechFluencyCalculator'
+    },
+    {
+        id: 'voice_handicap',
+        name: 'VHI - Voice Handicap Index',
+        description: 'Evalúa el impacto de los problemas de voz en la calidad de vida.',
+        category: 'functional',
+        icon: 'Brain',
+        professions: ['speech_therapist'],
+        component: 'VoiceHandicapCalculator'
     }
 ]
 

@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
     Users, Activity, CalendarDays, Search, Clock, FileText, Plus, TrendingUp,
-    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen, Calculator
+    ClipboardList, ArrowUpRight, Brain, Zap, ChevronRight, BookOpen, Calculator,
+    Play, GitGraph, ClipboardCheck, Check
 } from "lucide-react"
 import Link from 'next/link'
 import { es, enUS } from 'date-fns/locale'
@@ -16,8 +17,23 @@ import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
 import { WeatherDisplay } from './weather-display'
 
+import { Patient } from '@/types/patient'
+
 interface UnifiedDashboardProps {
-    stats: any
+    stats: {
+        totalPatients: number
+        recentPatients: Patient[]
+        allPatients: Patient[]
+        recentTests: any[]
+        subscriptionPlan: string
+        user_name: string
+        avatar_url?: string
+        recentActivity?: any[]
+        totalTests?: number
+        activePatients?: number
+        sessionsToday?: number
+        testsToReview?: number
+    }
 }
 
 // Animation variants for staggered entrance
@@ -80,7 +96,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 <CalendarDays className="w-3.5 h-3.5 md:w-3 md:h-3 opacity-70" />
                                 {format(new Date(), t('header.date_format'), { locale: dateLocale })}
                             </div>
-                            <div className="hidden sm:block w-1 h-1 rounded-full bg-border" />
                             <WeatherDisplay />
                         </div>
                     </motion.div>
@@ -112,42 +127,35 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4">
 
                     {/* Top Stats Bar - Spans all columns */}
-                    <motion.div variants={itemVariants} className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <Users className="w-12 h-12 text-primary" />
+                    <motion.div variants={itemVariants} className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-2">
+                        <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 group/stat hover:border-primary/20 transition-all relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-3 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <Activity className="w-10 h-10 text-blue-500" />
                             </div>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('stats.patients')}</p>
+                            <p className="text-[10px] font-bold text-foreground/60 uppercase tracking-widest">{t('stats.today_sessions') || 'Sesiones de Hoy'}</p>
                             <div className="flex items-baseline gap-2 mt-1">
-                                <h3 className="text-3xl font-bold text-foreground">{stats.totalPatients}</h3>
-                                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-0 text-[10px] font-bold">
-                                    <TrendingUp className="w-3 h-3 mr-1" />
-                                    +12%
-                                </Badge>
+                                <h3 className="text-2xl font-bold text-foreground">{stats.sessionsToday || 0}</h3>
+                                <div className="flex items-center gap-1">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    <span className="text-[10px] text-foreground/50 font-medium">{t('stats.on_schedule') || 'En agenda'}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="bg-card rounded-2xl border border-border/60 shadow-sm p-5 group/stat hover:border-primary/20 transition-all hover:shadow-lg relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <Activity className="w-12 h-12 text-blue-500" />
+                        <div className="relative group bg-card p-4 rounded-xl border border-border/50 shadow-sm hover:border-teal-500/20 transition-all">
+                            <div className="absolute top-0 right-0 p-3 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <ClipboardList className="w-10 h-10 text-teal-500" />
                             </div>
-                            <p className="text-[10px] font-medium text-foreground/70 uppercase tracking-widest">{t('stats.active')}</p>
+                            <p className="text-[10px] font-bold text-foreground/60 uppercase tracking-widest">{t('stats.tests_to_review') || 'Tests por Revisar'}</p>
                             <div className="flex items-baseline gap-2 mt-1">
-                                <h3 className="text-3xl font-bold text-foreground">{stats.activePatients}</h3>
-                                <span className="text-[10px] text-foreground/60 font-medium">{t('stats.in_treatment')}</span>
-                            </div>
-                        </div>
-
-                        <div className="relative group bg-card p-5 rounded-2xl border border-border/60 shadow-sm hover:shadow-md transition-all duration-300">
-                            <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <Brain className="w-12 h-12 text-teal-500" />
-                            </div>
-                            <p className="text-[10px] font-medium text-foreground/70 uppercase tracking-widest">{t('stats.tests')}</p>
-                            <div className="flex items-baseline gap-2 mt-1">
-                                <h3 className="text-3xl font-bold text-foreground">{stats.totalTests || 0}</h3>
-                                <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-0 text-[10px] font-medium">
-                                    {t('stats.updated')}
-                                </Badge>
+                                <h3 className="text-2xl font-bold text-foreground">{stats.testsToReview || 0}</h3>
+                                {stats.testsToReview && stats.testsToReview > 0 ? (
+                                    <Badge variant="secondary" className="bg-orange-500/10 text-orange-600 dark:text-orange-400 border-0 text-[10px] font-bold">
+                                        {t('stats.urgent') || 'Pendiente'}
+                                    </Badge>
+                                ) : (
+                                    <span className="text-[10px] text-foreground/40 font-medium">{t('stats.all_clear') || 'Al día'}</span>
+                                )}
                             </div>
                         </div>
                     </motion.div>
@@ -191,44 +199,63 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             </div>
 
                             {/* Table Header */}
-                            <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 bg-muted/20 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
-                                <div className="col-span-5">{t('recent_patients.table.patient')}</div>
-                                <div className="col-span-2">{t('recent_patients.table.status')}</div>
-                                <div className="col-span-3">{t('recent_patients.table.activity')}</div>
-                                <div className="col-span-2 text-right">{t('recent_patients.table.action')}</div>
+                            <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-2.5 bg-muted/20 text-[9px] font-bold text-muted-foreground/70 uppercase tracking-[0.15em] border-b border-border/30">
+                                <div className="col-span-4">{t('recent_patients.table.patient')}</div>
+                                <div className="col-span-3">{t('recent_patients.table.focus') || 'Foco Clínico'}</div>
+                                <div className="col-span-2 text-center">{t('recent_patients.table.status') || 'Estado'}</div>
+                                <div className="col-span-3 text-right">{t('recent_patients.table.action') || 'Acciones'}</div>
                             </div>
 
                             {/* Patient List */}
-                            <div className="divide-y divide-border/40">
-                                {filteredPatients.map((patient: any) => (
-                                    <div key={patient.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-4 hover:bg-muted/30 transition-all duration-200 items-center group cursor-pointer">
-                                        <div className="col-span-12 md:col-span-5 flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs border border-primary/20 group-hover:scale-105 transition-transform">
+                            <div className="divide-y divide-border/30">
+                                {filteredPatients.map((patient: Patient) => (
+                                    <div key={patient.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-3 hover:bg-muted/30 transition-all duration-200 items-center group cursor-pointer border-l-2 border-transparent hover:border-primary/30">
+                                        <div className="col-span-12 md:col-span-4 flex items-center gap-3">
+                                            <div className="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center font-bold text-primary text-[11px] border border-primary/10 group-hover:bg-primary/10 transition-colors">
                                                 {patient.full_name.substring(0, 2).toUpperCase()}
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">{patient.full_name}</p>
-                                                <p className="text-xs text-muted-foreground">{patient.email || t('recent_patients.no_email')}</p>
+                                                <p className="font-bold text-foreground text-sm group-hover:text-primary transition-colors leading-tight">{patient.full_name}</p>
+                                                <p className="text-[10px] text-muted-foreground/70 font-medium tracking-tight mt-0.5">{patient.id_clinico || `ID-${patient.id.substring(0, 4).toUpperCase()}`}</p>
                                             </div>
                                         </div>
-                                        <div className="col-span-12 md:col-span-2">
-                                            <Badge variant="outline" className="bg-transparent text-foreground/80 border-border font-medium px-2 py-0.5 text-[10px]">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5" />
-                                                {t('recent_patients.status_active')}
-                                            </Badge>
+                                        <div className="col-span-12 md:col-span-3">
+                                            <p className="text-xs text-foreground/80 font-medium truncate italic">
+                                                {patient.diagnostico_principal || t('recent_patients.no_diagnosis') || 'Sin diagnóstico'}
+                                            </p>
                                         </div>
-                                        <div className="col-span-12 md:col-span-3 text-muted-foreground">
-                                            <div className="flex items-center gap-2 text-xs">
-                                                <CalendarDays className="w-3.5 h-3.5 opacity-50" />
-                                                {formatIntl.dateTime(new Date(patient.created_at), { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        <div className="col-span-12 md:col-span-2 flex items-center justify-center gap-3">
+                                            {/* Status Indicators */}
+                                            {patient.stats_intervencion?.tests_pendientes ? (
+                                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-500/5 border border-orange-500/10" title="Tests pendientes">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                                    <span className="text-[10px] font-bold text-orange-600">{patient.stats_intervencion.tests_pendientes}</span>
+                                                </div>
+                                            ) : null}
+                                            {patient.stats_intervencion?.genograma_al_dia ? (
+                                                <div className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10" title="Genograma al día">
+                                                    <Check className="w-3 h-3 text-emerald-600" strokeWidth={3} />
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                        <div className="col-span-12 md:col-span-3 text-right">
+                                            <div className="flex items-center justify-end gap-1">
+                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-teal-500 hover:text-teal-600 hover:bg-teal-500/5 transition-all" title="Iniciar Sesión Activa">
+                                                    <Play className="w-[18px] h-[18px]" strokeWidth={1.5} fill="currentColor" fillOpacity={0.1} />
+                                                </Button>
+                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-500/5 transition-all" title="Ver Genograma">
+                                                    <GitGraph className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                                                </Button>
+                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-500/5 transition-all" title="Tests y Resultados">
+                                                    <ClipboardCheck className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                                                </Button>
+                                                <div className="w-px h-4 bg-border/40 mx-1 hidden md:block" />
+                                                <Button size="icon" variant="ghost" asChild className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all">
+                                                    <Link href={`/patients/${patient.id}`}>
+                                                        <ChevronRight className="w-4 h-4" />
+                                                    </Link>
+                                                </Button>
                                             </div>
-                                        </div>
-                                        <div className="col-span-12 md:col-span-2 text-right">
-                                            <Button size="icon" variant="ghost" asChild className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg">
-                                                <Link href={`/patients/${patient.id}`}>
-                                                    <ChevronRight className="w-4 h-4" />
-                                                </Link>
-                                            </Button>
                                         </div>
                                     </div>
                                 ))}
@@ -271,7 +298,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                     <div key={i} className="flex gap-4 p-2 rounded-xl transition-colors hover:bg-muted/30">
                                         <div className="relative mt-1">
                                             <div className="w-2 h-2 rounded-full bg-primary/40 ring-4 ring-primary/10" />
-                                            {i !== (stats.recentActivity.length - 1) && (
+                                            {stats.recentActivity && i !== (stats.recentActivity.length - 1) && (
                                                 <div className="absolute top-3 left-1 w-[1px] h-full bg-border/60" />
                                             )}
                                         </div>
@@ -279,7 +306,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                             <p className="text-xs font-medium text-foreground leading-snug">{activity.description}</p>
                                             <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-1.5 font-medium">
                                                 <Clock className="w-2.5 h-2.5 opacity-50" />
-                                                {format(new Date(activity.date), "d MMM, HH:mm", { locale: dateLocale })}
+                                                {activity.date ? format(new Date(activity.date), "d MMM, HH:mm", { locale: dateLocale }) : '---'}
                                             </p>
                                         </div>
                                     </div>
@@ -298,6 +325,6 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                     </motion.div>
                 </div>
             </div>
-        </motion.div>
+        </motion.div >
     )
 }

@@ -181,27 +181,29 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                 </div>
             </div>
 
-            <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="w-full justify-start border-none bg-slate-100/50 dark:bg-slate-900/40 p-1 h-auto rounded-xl space-x-1 inline-flex max-w-fit mb-4 mt-6">
-                    <TabsTrigger
-                        value="profile"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
-                    >
-                        {t('tabs.profile')}
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="security"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
-                    >
-                        {t('tabs.security')}
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="billing"
-                        className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-xs uppercase tracking-wider transition-all"
-                    >
-                        {t('tabs.billing')}
-                    </TabsTrigger>
-                </TabsList>
+            <Tabs defaultValue="profile" className="w-full overflow-x-hidden">
+                <div className="overflow-x-auto -mx-4 px-4 scrollbar-none">
+                    <TabsList className="w-max min-w-full sm:w-auto justify-start border-none bg-slate-100/50 dark:bg-slate-900/40 p-1 h-auto rounded-xl gap-1 inline-flex mb-4 mt-6">
+                        <TabsTrigger
+                            value="profile"
+                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                        >
+                            {t('tabs.profile')}
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="security"
+                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                        >
+                            {t('tabs.security')}
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="billing"
+                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                        >
+                            {t('tabs.billing')}
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     {/* PROFILE TAB */}
@@ -413,7 +415,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
 
                     {/* BILLING TAB */}
                     <TabsContent value="billing" className="mt-6">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                             {/* Basic */}
                             <motion.div
                                 onClick={() => setSelectedPlan('basic')}
@@ -427,35 +429,12 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 className="group relative"
                             >
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-lg opacity-80 hover:opacity-100 shadow-sm'}`}>
-                                    {/* Clinician Cutout */}
-                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <motion.div
-                                            animate={{
-                                                y: [0, -8, 0],
-                                                rotate: [0, 1, 0]
-                                            }}
-                                            transition={{
-                                                duration: 4,
-                                                repeat: Infinity,
-                                                ease: "easeInOut"
-                                            }}
-                                        >
-                                            <Image
-                                                src="/assets/clinicians/psychologist_basic.png"
-                                                alt="Psychologist"
-                                                width={240}
-                                                height={320}
-                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 dark:mix-blend-lighten"
-                                            />
-                                        </motion.div>
-                                    </div>
-
                                     {/* Selection Glow */}
                                     {selectedPlan === 'basic' && (
                                         <div className="absolute inset-0 bg-teal-500/5 blur-2xl rounded-2xl -z-10 animate-pulse" />
                                     )}
 
-                                    <CardHeader className="relative pr-24">
+                                    <CardHeader className="relative">
                                         <div className="flex justify-between items-start">
                                             <div>
                                                 <div className="flex items-center gap-1.5 mb-1">
@@ -467,7 +446,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                             </div>
                                         </div>
                                     </CardHeader>
-                                    <CardContent className="flex-1 relative pr-20">
+                                    <CardContent className="flex-1 relative">
                                         <div className="mb-4 flex items-baseline gap-1">
                                             <span className="text-4xl font-black text-slate-900 dark:text-white">$10</span>
                                             <span className="text-slate-500 font-bold text-xs">/ {t('billing.monthly')}</span>
@@ -507,30 +486,8 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 className="group relative"
                             >
                                 <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-teal-500/20 shadow-teal-500/5 ${selectedPlan === 'clinical' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-xl opacity-80 hover:opacity-100 border-slate-200/60 dark:border-slate-800/60 shadow-sm'}`}>
-                                    {/* Clinician Cutout */}
-                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <motion.div
-                                            animate={{
-                                                y: [0, -10, 0],
-                                                rotate: [0, -1, 0]
-                                            }}
-                                            transition={{
-                                                duration: 5,
-                                                repeat: Infinity,
-                                                ease: "easeInOut"
-                                            }}
-                                        >
-                                            <Image
-                                                src="/assets/clinicians/doctor_clinical.png"
-                                                alt="Clinical Doctor"
-                                                width={240}
-                                                height={320}
-                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 dark:mix-blend-lighten"
-                                            />
-                                        </motion.div>
-                                    </div>
 
-                                    <CardHeader className="relative pr-24">
+                                    <CardHeader className="relative">
                                         <div className="flex justify-between items-start">
                                             <div>
                                                 <div className="flex items-center gap-1.5 mb-1">
@@ -542,7 +499,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                             </div>
                                         </div>
                                     </CardHeader>
-                                    <CardContent className="flex-1 relative pr-20">
+                                    <CardContent className="flex-1 relative">
                                         <div className="mb-4 flex items-baseline gap-1">
                                             <span className="text-4xl font-black text-slate-900 dark:text-white">$15</span>
                                             <span className="text-slate-500 font-bold text-xs">/ {t('billing.monthly')}</span>
@@ -582,33 +539,10 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 className="group relative"
                             >
                                 <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-visible shadow-2xl ${selectedPlan === 'pro' ? 'ring-2 ring-teal-400' : 'opacity-80 hover:opacity-100'}`}>
-                                    {/* Clinician Cutout */}
-                                    <div className="absolute -right-8 -bottom-4 w-60 h-80 z-20 pointer-events-none select-none overflow-hidden rounded-b-2xl">
-                                        <motion.div
-                                            animate={{
-                                                y: [0, -6, 0],
-                                                scale: [1, 1.02, 1]
-                                            }}
-                                            transition={{
-                                                duration: 6,
-                                                repeat: Infinity,
-                                                ease: "easeInOut"
-                                            }}
-                                        >
-                                            <Image
-                                                src="/assets/clinicians/neurologist_pro.png"
-                                                alt="Senior Neurologist"
-                                                width={240}
-                                                height={320}
-                                                className="object-cover object-top transition-all duration-700 group-hover:scale-110 mix-blend-lighten"
-                                            />
-                                        </motion.div>
-                                    </div>
-
                                     {/* Premium Cosmic Decoration */}
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 blur-[120px] rounded-full -mr-32 -mt-32 pointer-events-none" />
 
-                                    <CardHeader className="relative pr-28">
+                                    <CardHeader className="relative">
                                         <div className="flex justify-between items-start">
                                             <div>
                                                 <div className="flex items-center gap-1.5 mb-1">
@@ -620,7 +554,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                             </div>
                                         </div>
                                     </CardHeader>
-                                    <CardContent className="flex-1 relative pr-20">
+                                    <CardContent className="flex-1 relative">
                                         <div className="mb-4 flex flex-col">
                                             <div className="flex items-baseline gap-1">
                                                 <span className="text-4xl font-black text-white">$65</span>

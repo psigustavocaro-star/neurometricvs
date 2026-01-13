@@ -225,6 +225,14 @@ export async function generateCompleteMockData() {
                 occupation: 'Profesora',
                 education: 'Universitaria',
                 marital_status: 'Casada',
+                diagnostico_principal: 'Trastorno Depresivo Mayor',
+                id_clinico: 'HC-2024-001',
+                proxima_sesion: '2024-05-20T10:00:00',
+                stats_intervencion: {
+                    tests_pendientes: 2,
+                    genograma_al_dia: true,
+                    apps_activas: 1
+                }
             },
             {
                 full_name: 'Carlos Rodríguez Silva',
@@ -240,6 +248,14 @@ export async function generateCompleteMockData() {
                 occupation: 'Jubilado',
                 education: 'Universitaria',
                 marital_status: 'Casado',
+                diagnostico_principal: 'Deterioro Cognitivo Leve',
+                id_clinico: 'HC-2024-002',
+                proxima_sesion: '2024-05-22T11:30:00',
+                stats_intervencion: {
+                    tests_pendientes: 1,
+                    genograma_al_dia: false,
+                    apps_activas: 0
+                }
             },
             {
                 full_name: 'Ana Martínez López',
@@ -255,6 +271,14 @@ export async function generateCompleteMockData() {
                 occupation: 'Diseñadora',
                 education: 'Universitaria',
                 marital_status: 'Soltera',
+                diagnostico_principal: 'Trastorno de Ansiedad Generalizada',
+                id_clinico: 'HC-2024-003',
+                proxima_sesion: '2024-05-25T16:00:00',
+                stats_intervencion: {
+                    tests_pendientes: 3,
+                    genograma_al_dia: true,
+                    apps_activas: 2
+                }
             },
             {
                 full_name: 'Roberto Silva Morales',
@@ -270,6 +294,14 @@ export async function generateCompleteMockData() {
                 occupation: 'Gerente',
                 education: 'Universitaria',
                 marital_status: 'Divorciado',
+                diagnostico_principal: 'TDAH con predominio de inatención',
+                id_clinico: 'HC-2024-004',
+                proxima_sesion: '2024-05-21T09:00:00',
+                stats_intervencion: {
+                    tests_pendientes: 0,
+                    genograma_al_dia: true,
+                    apps_activas: 1
+                }
             },
             {
                 full_name: 'Laura Fernández Castro',
@@ -285,6 +317,14 @@ export async function generateCompleteMockData() {
                 occupation: 'Estudiante',
                 education: 'Secundaria',
                 marital_status: 'Soltera',
+                diagnostico_principal: 'Fobia Social',
+                id_clinico: 'HC-2024-005',
+                proxima_sesion: '2024-05-19T10:00:00',
+                stats_intervencion: {
+                    tests_pendientes: 2,
+                    genograma_al_dia: false,
+                    apps_activas: 1
+                }
             },
         ]
 

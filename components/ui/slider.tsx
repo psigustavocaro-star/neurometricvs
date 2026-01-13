@@ -4,7 +4,9 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 export interface SliderProps
-    extends React.InputHTMLAttributes<HTMLInputElement> {
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue'> {
+    value?: number[]
+    defaultValue?: number[]
     onValueChange?: (value: number[]) => void
 }
 

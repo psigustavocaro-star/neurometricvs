@@ -1,6 +1,18 @@
-"use client"
-
+import { use } from "react"
 import { useTranslations } from "next-intl"
+import { notFound } from "next/navigation"
+import Link from "next/link"
+import {
+    UserCheck, Sparkles, Zap, Heart, Shield,
+    ArrowLeft, ArrowRight, Check
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ScrollAnimation } from "@/components/ui/scroll-animation"
+import { MockClinicalRecords } from "@/components/landing/mocks/mock-clinical-records"
+import { MockTestScoring } from "@/components/landing/mocks/mock-test-scoring"
+import { MockMedicalCalculators } from "@/components/landing/mocks/mock-medical-calculators"
+import { MockAICopilot } from "@/components/landing/mocks/mock-ai-copilot"
+import { MockMobileApp } from "@/components/landing/mocks/mock-mobile-app"
 
 const FEATURE_DATA: Record<string, any> = {
     'clinical-records': {

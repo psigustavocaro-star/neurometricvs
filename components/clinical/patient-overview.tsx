@@ -85,8 +85,8 @@ export function PatientOverview({
     const recentSessions = sessions.slice(0, 5)
 
     return (
-        <div className="h-full overflow-y-auto bg-background transition-colors duration-300">
-            <div className="p-6 md:p-8 space-y-6">
+        <div className="h-full overflow-y-auto overflow-x-hidden bg-background transition-colors duration-300 w-full max-w-full">
+            <div className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
 
                 {/* Top Row: Key Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -169,7 +169,7 @@ export function PatientOverview({
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
                     {/* Sessions Timeline - Takes 2 columns */}
                     <div className="lg:col-span-2 space-y-6">
 

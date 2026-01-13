@@ -8,13 +8,23 @@ export async function getDashboardStats() {
 
     if (!user) return null
 
+    // Today range for sessions
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const todayStart = today.toISOString()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    const todayEnd = tomorrow.toISOString()
+
     // Execute all queries in parallel for better performance
     const [
         { data: allPatients },
         { count: totalPatients },
         { data: recentTests },
         { data: subscription },
-        { data: userProfile }
+        { data: userProfile },
+        { count: sessionsToday },
+        { count: testsToReview }
     ] = await Promise.all([
         // 1. Fetch ALL recent patients
         supabase
@@ -50,7 +60,20 @@ export async function getDashboardStats() {
             .from('profiles')
             .select('full_name, avatar_url')
             .eq('id', user.id)
-            .single()
+            .single(),
+
+        // 6. Sessions Today
+        supabase
+            .from('clinical_sessions')
+            .select('*', { count: 'exact', head: true })
+            .gte('date', todayStart)
+            .lt('date', todayEnd),
+
+        // 7. Tests to Review (Completed assignments)
+        supabase
+            .from('test_assignments')
+            .select('*', { count: 'exact', head: true })
+            .eq('status', 'completed')
     ])
 
     const profile = userProfile as any
@@ -62,7 +85,9 @@ export async function getDashboardStats() {
         recentTests: recentTests || [],
         subscriptionPlan: subscription?.plan || 'basic',
         user_name: profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario',
-        avatar_url: profile?.avatar_url
+        avatar_url: profile?.avatar_url,
+        sessionsToday: sessionsToday || 0,
+        testsToReview: testsToReview || 0
     }
 }
 

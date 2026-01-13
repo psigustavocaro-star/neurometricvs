@@ -33,21 +33,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useTranslations, useFormatter } from "next-intl"
 
-interface Patient {
-    id: string
-    full_name: string
-    birth_date: string
-    gender: string
-    contact_email?: string
-    created_at: string
-}
+import { Patient } from "@/types/patient"
 
 interface PatientListProps {
     initialPatients: Patient[]
 }
 
 // Helper function to calculate age safely
-function calculateAge(birthDate: string): number | null {
+function calculateAge(birthDate: string | null): number | null {
     if (!birthDate) return null
     const date = new Date(birthDate)
     if (isNaN(date.getTime())) return null

@@ -4,9 +4,13 @@ import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Scale, Brain, Accessibility, Pill, Heart, Footprints } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Scale, Brain, Accessibility, Pill, Heart, Footprints, ArrowLeft } from "lucide-react"
 import { BMICalculator, GlasgowCalculator, BarthelCalculator, DosageCalculator } from "@/components/calculators"
 import { getCalculatorsForProfession, Profession, Calculator } from "@/lib/calculators"
+import Link from "next/link"
+
+import { useTranslations } from 'next-intl'
 
 interface CalculatorsClientProps {
     profession: string
@@ -30,6 +34,7 @@ const colorMap: Record<string, string> = {
 }
 
 export function CalculatorsClient({ profession }: CalculatorsClientProps) {
+    const t = useTranslations('Calculators')
     const availableCalculators = getCalculatorsForProfession(profession as Profession)
     const [activeCalculator, setActiveCalculator] = useState<string>(availableCalculators[0]?.id || 'bmi')
 
@@ -47,8 +52,8 @@ export function CalculatorsClient({ profession }: CalculatorsClientProps) {
                 return (
                     <Card>
                         <CardHeader>
-                            <CardTitle>Próximamente</CardTitle>
-                            <CardDescription>Esta calculadora estará disponible pronto.</CardDescription>
+                            <CardTitle>{t('coming_soon')}</CardTitle>
+                            <CardDescription>{t('coming_soon_desc')}</CardDescription>
                         </CardHeader>
                     </Card>
                 )
@@ -56,57 +61,69 @@ export function CalculatorsClient({ profession }: CalculatorsClientProps) {
     }
 
     return (
-        <div className="grid lg:grid-cols-[300px_1fr] gap-6">
-            {/* Sidebar with calculator list */}
-            <div className="space-y-4">
-                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border">
-                    <p className="text-xs text-muted-foreground mb-1">Tu especialidad</p>
-                    <Badge variant="secondary" className="capitalize">
-                        {profession.replace('_', ' ')}
-                    </Badge>
-                </div>
-
-                <div className="space-y-2">
-                    {availableCalculators.map((calc) => (
-                        <button
-                            key={calc.id}
-                            onClick={() => setActiveCalculator(calc.id)}
-                            className={`w-full p-4 rounded-lg border text-left transition-all ${activeCalculator === calc.id
-                                    ? 'bg-white dark:bg-slate-800 border-teal-500 shadow-md'
-                                    : 'bg-slate-50 dark:bg-slate-900/50 border-transparent hover:border-slate-200 dark:hover:border-slate-700'
-                                }`}
-                        >
-                            <div className="flex items-start gap-3">
-                                <div className={`p-2 rounded-lg ${colorMap[calc.category]}`}>
-                                    {iconMap[calc.icon]}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-slate-900 dark:text-white text-sm">
-                                        {calc.name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
-                                        {calc.description}
-                                    </p>
-                                </div>
-                            </div>
-                        </button>
-                    ))}
-                </div>
-
-                {availableCalculators.length === 0 && (
-                    <Card>
-                        <CardContent className="p-6 text-center">
-                            <p className="text-muted-foreground">
-                                No hay calculadoras disponibles para tu especialidad.
-                            </p>
-                        </CardContent>
-                    </Card>
-                )}
+        <div className="space-y-4">
+            {/* Back Button */}
+            <div className="flex items-center gap-4">
+                <Button variant="ghost" size="sm" asChild className="gap-2 text-slate-600 dark:text-slate-400 hover:text-teal-600">
+                    <Link href="/dashboard">
+                        <ArrowLeft className="w-4 h-4" />
+                        {t('back_to_dashboard')}
+                    </Link>
+                </Button>
             </div>
 
-            {/* Main calculator area */}
-            <div>
-                {renderCalculator(activeCalculator)}
+            <div className="grid lg:grid-cols-[300px_1fr] gap-6">
+                {/* Sidebar with calculator list */}
+                <div className="space-y-4">
+                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border">
+                        <p className="text-xs text-muted-foreground mb-1">{t('your_specialty')}</p>
+                        <Badge variant="secondary" className="capitalize">
+                            {t(`specialties.${profession}`)}
+                        </Badge>
+                    </div>
+
+                    <div className="space-y-2">
+                        {availableCalculators.map((calc) => (
+                            <button
+                                key={calc.id}
+                                onClick={() => setActiveCalculator(calc.id)}
+                                className={`w-full p-4 rounded-lg border text-left transition-all ${activeCalculator === calc.id
+                                    ? 'bg-white dark:bg-slate-800 border-teal-500 shadow-md'
+                                    : 'bg-slate-50 dark:bg-slate-900/50 border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                                    }`}
+                            >
+                                <div className="flex items-start gap-3">
+                                    <div className={`p-2 rounded-lg ${colorMap[calc.category]}`}>
+                                        {iconMap[calc.icon]}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-medium text-slate-900 dark:text-white text-sm">
+                                            {calc.name}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                                            {calc.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+
+                    {availableCalculators.length === 0 && (
+                        <Card>
+                            <CardContent className="p-6 text-center">
+                                <p className="text-muted-foreground">
+                                    {t('no_calculators')}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    )}
+                </div>
+
+                {/* Main calculator area */}
+                <div>
+                    {renderCalculator(activeCalculator)}
+                </div>
             </div>
         </div>
     )

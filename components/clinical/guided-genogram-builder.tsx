@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle, Download } from 'lucide-react'
+import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle, Download, Network, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
@@ -293,6 +293,20 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
 
     const addSibling = () => {
         setSiblings(prev => [...prev, { name: '', gender: 'male', deceased: false, emotional: 'normal' }])
+    }
+
+    const resetAll = () => {
+        setSpouseName('')
+        setSpouseGender(patientGender === 'male' ? 'female' : 'male')
+        setMaritalStatus('marriage')
+        setHasSpouse(false)
+        setSpouseDeceased(false)
+        setChildren([])
+        setSiblings([])
+        setParents([])
+        setGrandparents([])
+        setUncles([])
+        toast.success('Genograma restaurado')
     }
 
     const addParent = (type: 'father' | 'mother') => {
@@ -754,18 +768,18 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
                 {/* Grandparents */}
                 <div className="space-y-2">
                     <Label className="text-xs font-medium text-slate-500">Abuelos</Label>
-                    <div className="flex gap-2">
-                        <Button onClick={() => addGrandparent('paternal', 'male')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
-                            <Plus className="w-3 h-3 mr-1" /> Pat. Abuelo
+                    <div className="grid grid-cols-2 gap-2">
+                        <Button onClick={() => addGrandparent('paternal', 'male')} size="sm" variant="outline" className="h-8 text-[10px] w-full">
+                            <Plus className="w-3 h-3 mr-1 shrink-0" /> Pat. Abuelo
                         </Button>
-                        <Button onClick={() => addGrandparent('paternal', 'female')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
-                            <Plus className="w-3 h-3 mr-1" /> Pat. Abuela
+                        <Button onClick={() => addGrandparent('paternal', 'female')} size="sm" variant="outline" className="h-8 text-[10px] w-full">
+                            <Plus className="w-3 h-3 mr-1 shrink-0" /> Pat. Abuela
                         </Button>
-                        <Button onClick={() => addGrandparent('maternal', 'male')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
-                            <Plus className="w-3 h-3 mr-1" /> Mat. Abuelo
+                        <Button onClick={() => addGrandparent('maternal', 'male')} size="sm" variant="outline" className="h-8 text-[10px] w-full">
+                            <Plus className="w-3 h-3 mr-1 shrink-0" /> Mat. Abuelo
                         </Button>
-                        <Button onClick={() => addGrandparent('maternal', 'female')} size="sm" variant="outline" className="flex-1 h-6 text-[10px]">
-                            <Plus className="w-3 h-3 mr-1" /> Mat. Abuela
+                        <Button onClick={() => addGrandparent('maternal', 'female')} size="sm" variant="outline" className="h-8 text-[10px] w-full">
+                            <Plus className="w-3 h-3 mr-1 shrink-0" /> Mat. Abuela
                         </Button>
                     </div>
                     {grandparents.map((gp, index) => (
@@ -914,30 +928,92 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     }
 
     // Full page mode
+    const [activeTab, setActiveTab] = useState<'form' | 'preview'>('form')
+
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-            {/* Left: Form */}
-            <div className="overflow-y-auto pr-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">Construir Genograma Familiar</CardTitle>
-                        <CardDescription>Responde las preguntas para construir el árbol familiar automáticamente</CardDescription>
+        <div className="flex flex-col h-full overflow-hidden">
+            {/* Mobile Tab Switcher */}
+            <div className="lg:hidden flex border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 sticky top-0 z-10">
+                <button
+                    onClick={() => setActiveTab('form')}
+                    className={`flex-1 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-colors ${activeTab === 'form'
+                        ? 'text-teal-600 dark:text-teal-400 border-b-2 border-teal-500'
+                        : 'text-slate-500 dark:text-slate-400'
+                        }`}
+                >
+                    <Users className="w-4 h-4 inline mr-2" />
+                    Datos
+                </button>
+                <button
+                    onClick={() => setActiveTab('preview')}
+                    className={`flex-1 py-3 px-4 text-sm font-bold uppercase tracking-wider transition-colors ${activeTab === 'preview'
+                        ? 'text-teal-600 dark:text-teal-400 border-b-2 border-teal-500'
+                        : 'text-slate-500 dark:text-slate-400'
+                        }`}
+                >
+                    <Network className="w-4 h-4 inline mr-2" />
+                    Árbol
+                </button>
+            </div>
+
+            {/* Mobile Content */}
+            <div className="lg:hidden flex-1 overflow-hidden">
+                {activeTab === 'form' ? (
+                    <div className="h-full overflow-y-auto p-4">
+                        <div className="space-y-3">
+                            <div className="text-center pb-3 border-b border-slate-100 dark:border-slate-800">
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="w-8" />
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Genograma Familiar</h2>
+                                    <Button variant="ghost" size="sm" onClick={resetAll} className="w-8 h-8 p-0 text-slate-500 hover:text-red-500">
+                                        <RotateCcw className="w-4 h-4" />
+                                    </Button>
+                                </div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Agrega familiares para crear el árbol</p>
+                            </div>
+                            {formContent}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="h-full p-4">
+                        {previewContent}
+                    </div>
+                )}
+            </div>
+
+            {/* Desktop Layout */}
+            <div className="hidden lg:grid lg:grid-cols-2 gap-6 h-full p-6 overflow-x-hidden">
+                {/* Left: Form */}
+                <div className="overflow-y-auto pr-4">
+                    <Card>
+                        <CardHeader className="pb-3">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle className="text-lg">Construir Genograma Familiar</CardTitle>
+                                    <CardDescription className="text-sm">Responde las preguntas para construir el árbol familiar automáticamente</CardDescription>
+                                </div>
+                                <Button variant="outline" size="sm" onClick={resetAll} className="gap-2 text-slate-500 hover:text-red-500 hover:border-red-200">
+                                    <RotateCcw className="w-4 h-4" />
+                                    Restaurar
+                                </Button>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="pb-4">
+                            {formContent}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Right: Preview */}
+                <Card className="h-full">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-lg">Vista Previa del Genograma</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        {formContent}
+                    <CardContent className="h-[calc(100%-80px)]">
+                        {previewContent}
                     </CardContent>
                 </Card>
             </div>
-
-            {/* Right: Preview */}
-            <Card className="h-full">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg">Vista Previa del Genograma</CardTitle>
-                </CardHeader>
-                <CardContent className="h-[calc(100%-80px)]">
-                    {previewContent}
-                </CardContent>
-            </Card>
         </div>
     )
 }

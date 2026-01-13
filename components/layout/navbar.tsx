@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { cn, getUserDisplayData } from "@/lib/utils"
@@ -29,6 +29,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
     const pathname = usePathname()
     const router = useRouter()
     const supabase = createClient()
+    const [isPending, startTransition] = useTransition()
 
     const [isLoggingOut, setIsLoggingOut] = useState(false)
     const [mounted, setMounted] = useState(false)
@@ -39,19 +40,10 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
 
     useEffect(() => {
         setMounted(true)
-        setCurrentUser(user)
-
-        // Double-check session on mount
-        const checkSession = async () => {
-            const { data: { user: sessionUser } } = await supabase.auth.getUser()
-            if (sessionUser) {
-                setCurrentUser(sessionUser)
-                const { data: profileData } = await supabase.from('profiles').select('*').eq('id', sessionUser.id).single()
-                if (profileData) setCurrentProfile(profileData)
-            }
+        if (user !== currentUser) {
+            setCurrentUser(user)
         }
-        checkSession()
-    }, [user, profile, supabase])
+    }, [user])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -66,22 +58,29 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') {
-                setCurrentUser(session?.user)
-                setIsLoggingOut(false)
-                router.refresh()
+            const newUser = session?.user
+
+            if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+                if (newUser?.id !== currentUser?.id) {
+                    setCurrentUser(newUser)
+                    startTransition(() => {
+                        router.refresh()
+                    })
+                }
             } else if (event === 'SIGNED_OUT') {
                 setCurrentUser(null)
                 setIsLoggingOut(false)
                 router.push('/')
-                router.refresh()
+                startTransition(() => {
+                    router.refresh()
+                })
             }
         })
 
         return () => {
             subscription.unsubscribe()
         }
-    }, [supabase, router])
+    }, [supabase, router, currentUser?.id])
 
     const handleSignOut = async () => {
         setIsLoggingOut(true)

@@ -17,6 +17,7 @@ import { FeaturesSection } from "@/components/landing/features-section"
 import { PricingSection } from "@/components/landing/pricing-section"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { FluidBackground } from "@/components/ui/fluid-background"
+import { ProfessionTextLoop } from "@/components/landing/profession-text-loop"
 
 export default function LandingPage() {
   const tHero = useTranslations('Hero');
@@ -56,10 +57,7 @@ export default function LandingPage() {
 
                 <ScrollAnimation animation="fade-up" delay={100}>
                   <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
-                    {tHero.rich('title', {
-                      span: (chunks) => <span className="text-teal-600 italic font-serif">{chunks}</span>,
-                      span2: (chunks) => <span className="underline decoration-teal-600/30">{chunks}</span>
-                    })}
+                    {tHero('title')} <ProfessionTextLoop />
                   </h1>
                 </ScrollAnimation>
 

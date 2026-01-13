@@ -73,7 +73,7 @@ const HighlightText = ({ text, highlight }: { text: string, highlight: string })
 
 type ViewState = 'overview' | 'session_manager' | 'tests' | 'documents' | 'genogram' | 'treatment'
 
-export function PatientDashboard({ patient, clinicalRecord, sessions, testResults, testAssignments = [], userProfile }: PatientDashboardProps) {
+export function PatientDashboard({ patient, clinicalRecord, sessions, testResults, testAssignments = [], userProfile, vitalsLogs = [], medications = [] }: PatientDashboardProps) {
     const t = useTranslations('Dashboard.Patients.Dashboard')
     const format = useFormatter()
     const [currentView, setCurrentView] = useState<ViewState>('overview')
@@ -119,10 +119,87 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
     }
 
     return (
-        <div className="flex h-[calc(100vh-6rem)] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-6rem)] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-xl overflow-hidden w-full max-w-full">
 
-            {/* --- LEFT SIDEBAR: THE CHART (Expediente) --- */}
-            <aside className="w-80 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-col flex-none z-20 shadow-sm dark:shadow-xl transition-colors duration-300">
+            {/* --- MOBILE HEADER: Shows on mobile only --- */}
+            <div className="lg:hidden flex flex-col bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
+                {/* Subtle Top Brand Line */}
+                <div className="w-full h-1 bg-gradient-to-r from-teal-400 to-cyan-500 dark:from-cyan-600 dark:to-teal-600"></div>
+
+                {/* Patient Info Row */}
+                <div className="p-3 flex items-center gap-3">
+                    <div className="relative flex-shrink-0">
+                        <Avatar className="h-12 w-12 border-2 border-slate-50 dark:border-slate-800 shadow-sm">
+                            <AvatarFallback className="bg-slate-100 dark:bg-slate-800 text-teal-600 dark:text-cyan-400 font-bold text-base">
+                                {patient.full_name.substring(0, 2).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <h2 className="font-bold text-slate-900 dark:text-white text-sm truncate">{patient.full_name}</h2>
+                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            <span>{patient.birth_date ? `${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()} ${t('age_suffix')}` : '-'}</span>
+                            <span>•</span>
+                            <span className="text-teal-600 dark:text-cyan-400 truncate">{clinicalRecord?.diagnosis || t('under_evaluation')}</span>
+                        </div>
+                    </div>
+                    <Badge variant="outline" className="flex-shrink-0 bg-green-50 dark:bg-green-900/10 text-[10px] border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
+                        {t('active')}
+                    </Badge>
+                </div>
+
+                {/* Mobile Navigation Tabs */}
+                <nav className="px-2 pb-2 flex gap-1 overflow-x-auto">
+                    <Button
+                        variant={currentView === 'overview' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium flex-shrink-0 ${currentView === 'overview'
+                            ? 'bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-cyan-400 border border-teal-200 dark:border-slate-700'
+                            : 'text-slate-500 dark:text-slate-400'}`}
+                        onClick={() => handleViewChange('overview')}
+                    >
+                        <LayoutDashboard className="w-4 h-4" />
+                        {t('nav.overview')}
+                    </Button>
+                    <Button
+                        variant={currentView === 'session_manager' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium flex-shrink-0 ${currentView === 'session_manager'
+                            ? 'bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-cyan-400 border border-teal-200 dark:border-slate-700'
+                            : 'text-slate-500 dark:text-slate-400'}`}
+                        onClick={() => handleViewChange('session_manager')}
+                    >
+                        <MessageSquare className="w-4 h-4" />
+                        {t('nav.clinical')}
+                    </Button>
+                    <Button
+                        variant={currentView === 'tests' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium flex-shrink-0 ${currentView === 'tests'
+                            ? 'bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-cyan-400 border border-teal-200 dark:border-slate-700'
+                            : 'text-slate-500 dark:text-slate-400'}`}
+                        onClick={() => handleViewChange('tests')}
+                    >
+                        <Files className="w-4 h-4" />
+                        {t('nav.tests')}
+                    </Button>
+                    <Button
+                        variant={currentView === 'genogram' ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium flex-shrink-0 ${currentView === 'genogram'
+                            ? 'bg-teal-50 dark:bg-slate-800 text-teal-700 dark:text-cyan-400 border border-teal-200 dark:border-slate-700'
+                            : 'text-slate-500 dark:text-slate-400'}`}
+                        onClick={() => handleViewChange('genogram')}
+                    >
+                        <Network className="w-4 h-4" />
+                        {t('nav.family')}
+                    </Button>
+                </nav>
+            </div>
+
+            {/* --- LEFT SIDEBAR: THE CHART (Expediente) - Hidden on mobile --- */}
+            <aside className="hidden lg:flex w-80 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex-col flex-none z-20 shadow-sm dark:shadow-xl transition-colors duration-300">
 
                 {/* 1. Patient Identity Card */}
                 <div className="p-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 relative z-10 group transition-colors duration-300">
@@ -294,15 +371,15 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
             </aside>
 
             {/* --- RIGHT: MAIN WORKSPACE --- */}
-            <main className="flex-1 bg-slate-100/50 dark:bg-slate-950 relative overflow-hidden flex flex-col min-w-0">
+            <main className="flex-1 bg-slate-100/50 dark:bg-slate-950 relative overflow-hidden flex flex-col min-w-0 w-full max-w-full">
 
                 {/* View Content Switcher */}
-                <div className="flex-1 overflow-hidden relative">
+                <div className="flex-1 overflow-hidden overflow-x-hidden relative w-full">
 
                     {/* View: OVERVIEW */}
                     {
                         currentView === 'overview' && (
-                            <div className="h-full overflow-y-auto w-full">
+                            <div className="h-full overflow-y-auto overflow-x-hidden w-full max-w-full">
                                 <PatientOverview
                                     patient={patient}
                                     clinicalRecord={clinicalRecord}
@@ -321,7 +398,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                     {/* View: CLINICAL SESSION MANAGER */}
                     {
                         currentView === 'session_manager' && (
-                            <div className="h-full w-full bg-white dark:bg-slate-950">
+                            <div className="h-full w-full max-w-full overflow-x-hidden bg-white dark:bg-slate-950">
                                 {/* Note: SessionManager already has its own layout. 
                                  We might want to hide its specific sidebar if we use the global one, 
                                  but user requested "Ecosystem" inside.
@@ -344,7 +421,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                     {/* View: TESTS */}
                     {
                         currentView === 'tests' && (
-                            <div className="h-full overflow-y-auto p-8 w-full">
+                            <div className="h-full overflow-y-auto overflow-x-hidden p-4 lg:p-8 w-full max-w-full">
                                 <div className="max-w-5xl mx-auto space-y-8">
                                     <section>
                                         <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
@@ -369,7 +446,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                     {/* View: GENOGRAM */}
                     {
                         currentView === 'genogram' && (
-                            <div className="h-full overflow-y-auto bg-white dark:bg-slate-950">
+                            <div className="h-full overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-950 w-full max-w-full">
                                 <GuidedGenogramBuilder
                                     patientName={patient.full_name}
                                     patientGender={patient.gender || 'male'}

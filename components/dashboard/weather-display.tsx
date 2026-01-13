@@ -23,6 +23,7 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
             try {
                 // 1. Get location via IP (more reliable for "clinical" feel than browser prompt)
                 const locRes = await fetch('https://ipapi.co/json/')
+                if (!locRes.ok) throw new Error('Location service unavailable')
                 const locData = await locRes.json()
 
                 if (!locData.latitude || !locData.longitude) throw new Error('Location not found')
@@ -31,6 +32,7 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
 
                 // 2. Get weather for those coordinates
                 const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=auto`)
+                if (!weatherRes.ok) throw new Error('Weather service unavailable')
                 const weatherData = await weatherRes.json()
 
                 if (weatherData.current) {
@@ -40,7 +42,9 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
                     })
                 }
             } catch (error) {
-                console.error('Weather fetch error:', error)
+                // Silent catch: We don't want to break the dashboard if weather fails
+                console.warn('Weather fetch suppressed:', error)
+                setWeather(null)
             } finally {
                 setLoading(false)
             }

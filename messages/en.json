@@ -18,7 +18,8 @@
         "logging_out": "Logging out...",
         "sign_out": "Sign Out",
         "expand": "Expand",
-        "collapse": "Collapse"
+        "collapse": "Collapse",
+        "logout": "Log Out"
     },
     "VerticalNavbar": {
         "hero": "Home",
@@ -33,11 +34,21 @@
         "faq": "Help"
     },
     "Hero": {
-        "title": "Advanced digital <span>ecosystem</span> for health <span2>specialists</span2>.",
-        "subtitle": "The definitive workstation for physicians, psychologists, psychiatrists, neurologists, occupational therapists, speech therapists, psychopedagogues, and nutritionists. Centralize your clinical practice with precision tools and scientific automation.",
+        "title": "The definitive workstation for",
+        "subtitle": "Centralize your clinical practice with precision tools and scientific automation. Tests, clinical records, medical calculators and more.",
         "cta_primary": "Start Free Trial",
         "cta_secondary": "Watch Demo",
-        "trusted_by": "Trusted by +500 health professionals"
+        "trusted_by": "Trusted by +500 health professionals",
+        "professions": [
+            "Psychologists",
+            "Psychiatrists",
+            "Neurologists",
+            "Physicians",
+            "Occupational Therapists",
+            "Speech Therapists",
+            "Psychopedagogues",
+            "Nutritionists"
+        ]
     },
     "General": {
         "verificado": "Verified",
@@ -146,6 +157,29 @@
         "dosage": {
             "title": "Dosage Calculator",
             "warning": "Always verify with the medication data sheet."
+        },
+        "back_to_dashboard": "Back to Dashboard",
+        "your_specialty": "Your specialty",
+        "coming_soon": "Coming Soon",
+        "coming_soon_desc": "This calculator will be available soon.",
+        "no_calculators": "No calculators available for your specialty.",
+        "specialties": {
+            "psychologist": "Psychologist",
+            "psychiatrist": "Psychiatrist",
+            "neurologist": "Neurologist",
+            "physician": "Physician",
+            "occupational_therapist": "Occupational Therapist",
+            "speech_therapist": "Speech Therapist",
+            "psychopedagogue": "Psychopedagogue",
+            "nutritionist": "Nutritionist",
+            "Psicólogo": "Psychologist",
+            "Psiquiatra": "Psychiatrist",
+            "Neurólogo": "Neurologist",
+            "Médico/a": "Physician",
+            "Terapeuta Ocupacional": "Occupational Therapist",
+            "Fonoaudiólogo/a": "Speech Therapist",
+            "Psicopedagogo/a": "Psychopedagogue",
+            "Nutricionista": "Nutritionist"
         }
     },
     "DemoPlayer": {
@@ -950,10 +984,12 @@
             "search_placeholder": "Search by name...",
             "table": {
                 "patient": "Patient",
+                "focus": "Clinical Focus",
                 "status": "Status",
                 "activity": "Last Activity",
                 "action": "Action"
             },
+            "no_diagnosis": "No diagnosis",
             "status_active": "Active",
             "no_email": "No email",
             "not_found": "No patients found",
@@ -964,7 +1000,12 @@
             "active": "Active",
             "tests": "Tests",
             "updated": "Updated today",
-            "in_treatment": "in treatment"
+            "in_treatment": "in treatment",
+            "today_sessions": "Today's Sessions",
+            "on_schedule": "On schedule",
+            "tests_to_review": "Tests to Review",
+            "all_clear": "All clear",
+            "urgent": "Pending"
         },
         "activity": {
             "title": "Recent Activity",
@@ -977,6 +1018,40 @@
             "title": "Resources & News",
             "subtitle": "Selected professional content",
             "explore": "Explore library"
+        },
+        "Toolbox": {
+            "title": "Clinical Toolbox",
+            "genogram": "Generate Genogram",
+            "bank": "Test Bank",
+            "apps": "Clinical Apps",
+            "news_title": "Clinical News"
+        },
+        "Tests": {
+            "Catalog": {
+                "Tests": {
+                    "phq9": {
+                        "name": "PHQ-9"
+                    },
+                    "gad7": {
+                        "name": "GAD-7"
+                    },
+                    "bdiii": {
+                        "name": "BDI-III"
+                    },
+                    "scl90": {
+                        "name": "SCL-90"
+                    },
+                    "mmse": {
+                        "name": "MMSE"
+                    },
+                    "snapiv": {
+                        "name": "SNAP-IV"
+                    },
+                    "beck": {
+                        "name": "Beck Depression"
+                    }
+                }
+            }
         },
         "Subscription": {
             "title": "Subscription",
@@ -1082,6 +1157,45 @@
                 "not_found": "Patient not found",
                 "back_to_list": "Back to Patients",
                 "back_to_dashboard": "Back to Dashboard"
+            },
+            "Remote": {
+                "title": "Remote Tests / Sent",
+                "description": "Manage remote evaluation links.",
+                "new_assignment": "New Assignment",
+                "modal_title": "Send Test to Patient",
+                "modal_description": "Generate a secure link for the patient to respond from their device.",
+                "select_placeholder": "Select a test...",
+                "cancel": "Cancel",
+                "generate_link": "Generate Link",
+                "empty": "No pending remote tests.",
+                "table": {
+                    "test": "Test",
+                    "status": "Status",
+                    "created": "Created",
+                    "actions": "Actions"
+                },
+                "status": {
+                    "completed": "Completed",
+                    "pending": "Pending"
+                },
+                "copy_link": "Copy Link",
+                "messages": {
+                    "assigned": "Test Assigned",
+                    "assigned_desc": "The link has been generated successfully.",
+                    "error": "Error",
+                    "error_desc": "An unexpected error occurred",
+                    "copied": "Link Copied",
+                    "copied_desc": "The link is in your clipboard."
+                }
+            },
+            "History": {
+                "empty": "No tests completed yet.",
+                "new_test": "Start New Test",
+                "select_instructions": "Select multiple tests to generate a progress report.",
+                "unified_report": "Generate Unified Report ({count})",
+                "score": "Score: {score}",
+                "view_report": "View Report",
+                "date_format": "MMMM d, yyyy"
             },
             "Dashboard": {
                 "clinical_record": "Clinical Record",

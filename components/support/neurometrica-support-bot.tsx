@@ -143,7 +143,7 @@ export function NeurometricaSupportBot() {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="absolute bottom-20 right-0 w-[380px] max-w-[calc(100vw-32px)] h-[550px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
+                        className="absolute bottom-20 right-0 w-[calc(100vw-32px)] sm:w-[350px] md:w-[380px] max-w-[400px] h-[calc(100vh-140px)] sm:h-[450px] md:h-[550px] max-h-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
                     >
                         {/* Header */}
                         <div className="p-4 bg-slate-900 text-white flex justify-between items-center shrink-0">

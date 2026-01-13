@@ -15,6 +15,7 @@ import { SessionTimer } from './session-timer'
 import { toast } from "sonner"
 import { InSessionTestRunner } from './in-session-test-runner'
 import { useTranslations } from 'next-intl'
+import { Plus, Save, Loader2, Pill, Brain } from 'lucide-react'
 
 interface SessionManagerProps {
     patientId: string
@@ -139,7 +140,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-full overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-full overflow-hidden overflow-x-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300 w-full max-w-full">
 
             {/* 1. Timeline (Left) */}
             <div className="hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full overflow-hidden transition-colors duration-300">
@@ -159,10 +160,10 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
             </div>
 
             {/* 2. Main Workspace (Center) */}
-            <div className="flex flex-col h-full bg-white dark:bg-slate-950 overflow-hidden relative shadow-sm z-0 transition-colors duration-300">
+            <div className="flex flex-col h-full bg-white dark:bg-slate-950 overflow-hidden overflow-x-hidden relative shadow-sm z-0 transition-colors duration-300 w-full max-w-full">
                 {/* Mobile Header for Timeline Toggle could go here */}
 
-                <div className="flex-none px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
+                <div className="flex-none px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-2 lg:gap-0 justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
                     <div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                             {selectedSessionId === 'new' ? t('new_session') : t('session_date', { date: new Date(formData.date!).toLocaleDateString() })}
@@ -188,24 +189,54 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
 
                 </div>
 
-                {/* Expert Mode Banner */}
-                {userSpecialty !== 'psychologist' && (
-                    <div className="px-6 py-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs transition-colors">
-                        <span className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                            {userSpecialty === 'psychiatrist' ? <><Pill className="w-3 h-3" /> {t('psychiatry_mode')}</> : <><Brain className="w-3 h-3" /> {t('neurology_mode')}</>}
-                        </span>
-                        <InSessionTestRunner
-                            patientId={patientId}
-                            sessionId={selectedSessionId !== 'new' ? selectedSessionId : undefined}
-                        />
-                    </div>
-                )}
+                {/* Profession-Specific Mode Banner */}
+                {(() => {
+                    const specialty = userSpecialty?.toLowerCase() || '';
+
+                    // Check specific professions
+                    const isPsychologist = specialty.includes('psychologist') || specialty.includes('psicólog');
+                    const isPsychiatrist = specialty.includes('psychiatrist') || specialty.includes('psiquiatra');
+                    const isNeurologist = specialty.includes('neurologist') || specialty.includes('neurólog');
+                    const isPhysician = specialty.includes('physician') || specialty.includes('médic');
+                    const isOccupationalTherapist = specialty.includes('occupational') || specialty.includes('terapeuta ocupacional');
+                    const isSpeechTherapist = specialty.includes('speech') || specialty.includes('fonoaudiólog');
+                    const isPsychopedagogue = specialty.includes('psychopedagogue') || specialty.includes('psicopedagog');
+                    const isNutritionist = specialty.includes('nutritionist') || specialty.includes('nutricionista');
+
+                    // Psychologists don't need a special mode banner - it's the default
+                    if (isPsychologist || (!isPsychiatrist && !isNeurologist && !isPhysician && !isOccupationalTherapist && !isSpeechTherapist && !isPsychopedagogue && !isNutritionist)) {
+                        return null;
+                    }
+
+                    let modeLabel = '';
+                    if (isPsychiatrist) modeLabel = t('psychiatry_mode');
+                    else if (isNeurologist) modeLabel = t('neurology_mode');
+                    else if (isPhysician) modeLabel = 'Modo Médico';
+                    else if (isOccupationalTherapist) modeLabel = 'Modo Terapia Ocupacional';
+                    else if (isSpeechTherapist) modeLabel = 'Modo Fonoaudiología';
+                    else if (isPsychopedagogue) modeLabel = 'Modo Psicopedagogía';
+                    else if (isNutritionist) modeLabel = 'Modo Nutrición';
+
+                    const ModeIcon = isPsychiatrist ? Pill : Brain;
+
+                    return (
+                        <div className="px-4 lg:px-6 py-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs transition-colors">
+                            <span className="font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <ModeIcon className="w-3 h-3" /> {modeLabel}
+                            </span>
+                            <InSessionTestRunner
+                                patientId={patientId}
+                                sessionId={selectedSessionId !== 'new' && selectedSessionId !== null ? selectedSessionId : undefined}
+                            />
+                        </div>
+                    );
+                })()}
 
                 <ScrollArea className="flex-1">
-                    <div className="p-8 max-w-4xl mx-auto space-y-8 pb-32">
+                    <div className="p-4 lg:p-8 max-w-4xl mx-auto space-y-6 lg:space-y-8 pb-32 w-full">
 
                         {/* Editor Config */}
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
                             <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{t('date')}</label>
                                 <Input

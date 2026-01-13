@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Clock, CloudSun } from 'lucide-react'
+import { Clock, CloudSun, MapPin } from 'lucide-react'
 
 export function WeatherTimeWidget() {
     const [time, setTime] = useState<string>('')
@@ -69,11 +69,19 @@ export function WeatherTimeWidget() {
         <div className="flex items-center gap-4 text-sm">
             {/* Weather */}
             {weather && (
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-slate-900 dark:to-slate-950 rounded-full border border-teal-200 dark:border-slate-800 transition-colors">
-                    <CloudSun className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-teal-700 dark:text-teal-400">{weather.temp}°C</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 capitalize">{weather.condition}</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-slate-900 dark:to-slate-950 rounded-full border border-teal-200 dark:border-slate-800 transition-all hover:border-teal-400 group shadow-sm hover:shadow-md">
+                    <CloudSun className="w-4 h-4 text-teal-600 dark:text-teal-400 group-hover:scale-110 transition-transform" />
+                    <div className="flex items-center gap-2">
+                        {location && (
+                            <div className="flex items-center gap-1 border-r border-teal-200/50 dark:border-slate-800 pr-2">
+                                <MapPin className="w-3 h-3 text-slate-400" />
+                                <span className="text-[11px] font-medium text-slate-600 dark:text-slate-300 whitespace-nowrap">{location}</span>
+                            </div>
+                        )}
+                        <div className="flex items-center gap-1.5">
+                            <span className="font-semibold text-teal-700 dark:text-teal-400">{weather.temp}°C</span>
+                            <span className="text-[11px] text-slate-500 dark:text-slate-400 capitalize hidden sm:inline-block">{weather.condition}</span>
+                        </div>
                     </div>
                 </div>
             )}
