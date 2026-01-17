@@ -286,6 +286,16 @@
             "teleconsultation": "Teleconsulta",
             "alerts": "Alertas"
         },
+        "AuraSupport": {
+            "title": "Aura Support 24/7",
+            "subtitle": "Asistente Virtual Integrado",
+            "active_system": "Aura en Línea",
+            "welcome": "¡Hola! Soy Aura, tu asistente 24/7. ¿En qué puedo apoyarte hoy?",
+            "query_1": "Necesito ayuda con la interpretación del test GAD-7",
+            "response_1": "Basado en los puntajes obtenidos, el paciente presenta un nivel de ansiedad moderado. Se sugiere correlacionar con...",
+            "query_2": "¿Cómo exporto el reporte clínico a PDF?",
+            "response_2": "Puedes hacerlo desde el botón 'Generar Reporte' en la esquina superior derecha de la ficha del paciente."
+        },
         "MedicalCalculators": {
             "title": "Calculadoras Médicas",
             "precision_module": "Módulo de Precisión",
@@ -1536,6 +1546,16 @@
                 "Modo offline para áreas sin conexión",
                 "Tests optimizados para dispositivos táctiles",
                 "Notificaciones de resultados al instante"
+            ]
+        },
+        "AuraSupport": {
+            "detailed_description": "Experiencia de soporte premium con Aura AI, disponible 24/7 para resolver dudas sobre tests neuropsicológicos, manejo de la plataforma y orientación técnica inmediata. Integrada directamente en tu flujo de trabajo clínico.",
+            "benefits": [
+                "Asistencia inteligente las 24 horas del día",
+                "Resolución instantánea de dudas operativas",
+                "Guía en la interpretación de escalas y tests",
+                "Soporte técnico premium sin tiempos de espera",
+                "Actualización constante con nuevas guías operativas"
             ]
         }
     },

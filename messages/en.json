@@ -1547,6 +1547,16 @@
                 "Tests optimized for touch devices",
                 "Instant result notifications"
             ]
+        },
+        "AuraSupport": {
+            "detailed_description": "Premium support experience with Aura AI, available 24/7 to resolve questions about neuropsychological tests, platform management, and immediate technical guidance. Integrated directly into your clinical workflow.",
+            "benefits": [
+                "Intelligent assistance 24 hours a day",
+                "Instant resolution of operational doubts",
+                "Guidance in the interpretation of scales and tests",
+                "Premium technical support with no waiting times",
+                "Constant updates with new operational guidelines"
+            ]
         }
     },
     "Login": {
