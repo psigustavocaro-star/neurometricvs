@@ -33,24 +33,16 @@ export function NeurometricaSupportBot() {
     const [isOpen, setIsOpen] = useState(false)
     const scrollAreaRef = useRef<HTMLDivElement>(null)
 
-    const [input, setInput] = useState('')
-    // useChat Hook Implementation
-    const { messages, sendMessage, status } = useChat({
-        // @ts-ignore - 'api' might not be in the type but it's often supported or needed
-        api: '/api/chat',
-        onError: (error) => {
-            console.error('Chat Error:', error)
-            toast.error(t('error_chat') + error.message)
+    // AI SDK v5 useChat Hook (UIMessage protocol)
+    // Defaults to /api/chat
+    const { messages, sendMessage, status, error } = useChat({
+        onError: (err) => {
+            console.error('Chat Error:', err)
+            toast.error(t('error_chat') + ' ' + err.message)
         }
     })
 
-    useEffect(() => {
-        console.log('CHAT_DEBUG: Messages updated:', messages);
-    }, [messages]);
-
-    useEffect(() => {
-        console.log('CHAT_DEBUG: Status updated:', status);
-    }, [status]);
+    const [input, setInput] = useState('')
 
     const isLoading = status === 'submitted' || status === 'streaming'
 
@@ -67,7 +59,7 @@ export function NeurometricaSupportBot() {
             })
         } catch (err: any) {
             console.error('Send message error:', err)
-            toast.error(t('error_send') + err.message)
+            toast.error(t('error_send') + ' ' + err.message)
         }
     }
 

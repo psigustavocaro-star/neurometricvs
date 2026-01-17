@@ -43,29 +43,54 @@ export function ProfessionTextLoop() {
     const currentGradient = colorMap[currentIndex % Object.keys(colorMap).length]
 
     return (
-        <span className="inline-flex relative h-[1.3em] min-w-[280px] xs:min-w-[320px] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[650px] items-center overflow-visible align-middle px-2">
+        <span
+            className="inline-flex relative h-[1.4em] min-w-[300px] xs:min-w-[350px] sm:min-w-[450px] md:min-w-[650px] lg:min-w-[700px] items-center overflow-visible align-middle px-2 py-1"
+            style={{ perspective: '1000px' }}
+        >
             <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span
                     key={currentIndex}
-                    initial={{ y: 50, opacity: 0, filter: 'blur(10px)' }}
-                    animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                    exit={{ y: -50, opacity: 0, filter: 'blur(10px)' }}
+                    initial={{
+                        opacity: 0,
+                        rotateX: -90,
+                        y: 40,
+                        filter: 'blur(8px)'
+                    }}
+                    animate={{
+                        opacity: 1,
+                        rotateX: 0,
+                        y: 0,
+                        filter: 'blur(0px)'
+                    }}
+                    exit={{
+                        opacity: 0,
+                        rotateX: 90,
+                        y: -40,
+                        filter: 'blur(8px)'
+                    }}
                     transition={{
                         duration: 0.8,
-                        ease: [0.16, 1, 0.3, 1]
+                        ease: [0.16, 1, 0.3, 1],
+                        opacity: { duration: 0.4 }
                     }}
-                    className={`absolute inset-0 flex items-center font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} filter drop-shadow-[0_4px_12px_rgba(20,184,166,0.15)] whitespace-nowrap px-2`}
+                    className={`absolute inset-0 flex items-center font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)] whitespace-nowrap px-2 pb-1`}
                 >
                     {currentText}
                 </motion.span>
             </AnimatePresence>
 
-            {/* Premium Underline Indicator */}
+            {/* Premium Underline Indicator - More dynamic */}
             <motion.div
-                className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-gradient-to-r ${currentGradient} opacity-20`}
+                className={`absolute -bottom-1 left-0 h-[4px] rounded-full bg-gradient-to-r ${currentGradient} opacity-30 shadow-sm`}
                 initial={false}
-                animate={{ width: '100%' }}
-                transition={{ duration: 1.2, ease: "circOut" }}
+                animate={{
+                    width: '100%',
+                    opacity: [0.1, 0.4, 0.2]
+                }}
+                transition={{
+                    width: { duration: 1.2, ease: "circOut" },
+                    opacity: { duration: 2, repeat: Infinity, repeatType: "reverse" }
+                }}
                 key={`line-${currentIndex}`}
             />
         </span>
