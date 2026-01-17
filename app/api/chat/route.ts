@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         }));
 
         const result = streamText({
-            model: google('gemini-1.5-flash'),
+            model: google('gemini-flash-latest'),
             system: `Actúa como Aura (Neurometrics AI), la asistente avanzada de inteligencia artificial de Neurometrics.
 Tu propósito es apoyar a profesionales de la salud (médicos, psicólogos, psiquiatras, neurólogos, terapeutas ocupacionales y fonoaudiólogos) en su práctica clínica dentro de la plataforma Neurometrics Workstation.`,
             messages: coreMessages,
