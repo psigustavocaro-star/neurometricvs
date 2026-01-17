@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { DemoPlayer } from "@/components/landing/demo-player"
 import { Play } from "lucide-react"
+import { Link } from "@/i18n/navigation"
 
 interface DemoModalProps {
     children: React.ReactNode
@@ -46,8 +47,10 @@ export function DemoModal({ children }: DemoModalProps) {
                     <div className="flex gap-2">
                         <span className="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-widest">{t('preview')}</span>
                     </div>
-                    <Button className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-full">
-                        {t('cta')}
+                    <Button asChild className="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-full">
+                        <Link href="/onboarding">
+                            {t('cta')}
+                        </Link>
                     </Button>
                 </div>
             </DialogContent>

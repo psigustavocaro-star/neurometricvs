@@ -48,7 +48,10 @@ export function DemoPlayer() {
                         <div className="w-8 h-8 rounded-full bg-slate-200" />
                         <div className="flex flex-col">
                             <span className="text-xs font-bold text-slate-700">{t('dr_name')}</span>
-                            <span className="text-[10px] text-slate-500">{t('plan_name')}</span>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-[10px] text-teal-600 font-bold uppercase tracking-tighter bg-teal-50 px-1 rounded">{t('specialty', { defaultValue: 'Especialista' })}</span>
+                                <span className="text-[10px] text-slate-500">• {t('plan_name')}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

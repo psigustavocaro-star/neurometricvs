@@ -35,7 +35,7 @@
     },
     "Hero": {
         "title": "La workstation definitiva para",
-        "subtitle": "Centraliza tu práctica clínica con herramientas de precisión y automatización científica. Tests, fichas clínicas, calculadoras médicas y más.",
+        "subtitle": "La estación de trabajo inteligente diseñada para especialistas en salud. Ficha clínica personalizada por profesión, automatización de tests y herramientas de precisión médica.",
         "cta_primary": "Empieza Gratis",
         "cta_secondary": "Ver Demo",
         "trusted_by": "Confiado por +500 profesionales de la salud",
@@ -112,7 +112,7 @@
     },
     "DemoModal": {
         "title": "Demo Clínica Interactiva",
-        "subtitle": "Descubre cómo Neurometrics automatiza tu flujo de trabajo.",
+        "subtitle": "Descubre cómo Neurometrics se adapta a tu especialidad y automatiza tu flujo clínico.",
         "preview": "Vista Previa en Vivo",
         "cta": "Pruébalo Gratis"
     },
@@ -195,6 +195,7 @@
         "agenda": "Agenda",
         "reports": "Reportes",
         "dr_name": "Dr. Silva",
+        "specialty": "Psicología Clínica",
         "plan_name": "Plan Profesional",
         "analysis_in_progress": "Análisis en Pregreso",
         "results": "Resultados",
@@ -244,8 +245,8 @@
     },
     "Mocks": {
         "ClinicalRecords": {
-            "title": "Ficha Clínica Digital",
-            "subtitle": "Módulo de Evolución",
+            "title": "Ficha Clínica Adaptativa",
+            "subtitle": "Módulo Personalizado por Profesión",
             "active_system": "Sistema Activo",
             "patient_label": "Paciente: Juan Pérez",
             "last_session": "Última sesión: Hoy, 10:30 AM",
@@ -316,7 +317,7 @@
     "Pricing": {
         "no_cost": "Sin Costo",
         "title": "Planes Transparentes",
-        "subtitle": "Precios en USD. Conversión automática a tu moneda local.",
+        "subtitle": "Software con precios módicos para tu crecimiento profesional. 7 días de prueba (Trial) gratuita en todos nuestros planes profesionales.",
         "whats_included": "Qué incluye",
         "close": "Cerrar",
         "faq_title": "Preguntas Frecuentes",
@@ -361,42 +362,43 @@
             ]
         },
         "clinical": {
-            "badge": "MÁS POPULAR",
+            "badge": "Recomendado",
             "name": "Plan Clínico",
             "description": "Tu oficina digital completa",
             "trial": "7 días de prueba gratis",
             "cta": "Elegir Plan Clínico",
             "features": [
-                "Fichas Clínicas Completas",
+                "Fichas Clínicas Inteligentes",
                 "Gestión de Sesiones y Notas",
-                "Análisis de Datos Clínicos",
-                "Recomendaciones Culturales"
+                "IA Copiloto Avanzada",
+                "Línea de tiempo clínica"
             ],
             "details": [
                 "Todo lo de Básico",
-                "Ficha clínica digital",
+                "Ficha clínica adaptativa",
                 "Timeline de actividad",
-                "Copiloto IA avanzado",
-                "Gestión de sesiones"
+                "Aura Support 24/7",
+                "Gestión de sesiones ilimitada"
             ]
         },
         "pro": {
-            "name": "Pro Anual",
-            "description": "Ahorro Inteligente",
-            "savings_info": "Equivale a <span class='font-bold'>$5.41/mes</span>",
-            "savings_badge": "AHORRA 64%",
-            "cta": "Elegir Pro",
+            "name": "Plan Pro (Anual)",
+            "description": "Máximo ahorro y soporte",
+            "trial": "7 días de prueba gratis",
+            "savings_badge": "Ahorro Máximo",
+            "savings_info": "Equivale a <b>$5.41/mes</b> con pago anual.",
+            "cta": "Elegir Plan Pro",
             "features": [
-                "4 meses gratis",
+                "4 meses de regalo",
                 "Todo lo de Clínico",
-                "Soporte Prioritario"
+                "Soporte Prioritario VIP"
             ],
             "details": [
                 "Todo lo de Clínico",
-                "Ahorro del 64%",
+                "Ahorro garantizado del 64%",
                 "Soporte VIP 24/7",
                 "Acceso anticipado a features",
-                "Gestión multi-profesional"
+                "Consultoría de onboarding"
             ]
         },
         "secure_payment": "Pago Seguro 256-bit",
@@ -1453,7 +1455,7 @@
     },
     "FeaturesPage": {
         "title": "Potencia tu <span>excelencia</span> clínica.",
-        "subtitle": "Herramientas de nueva generación diseñadas para la precisión diagnóstica y eficiencia operativa en salud mental.",
+        "subtitle": "Herramientas de nueva generación diseñadas para la precisión diagnóstica y eficiencia operativa para todo el espectro de profesionales de salud.",
         "badge": "Ecosistema de Precisión",
         "cta_main": "Empieza ahora",
         "cta_secondary": "Explorar módulo",
@@ -1461,12 +1463,12 @@
         "join_today": "Transforma tu práctica <span>hoy</span>.",
         "hero_badge": "Propuesta de Valor Clínica",
         "hero_title": "Herramientas de <span className=\"text-teal-600\">precisión médica</span> para tu consultorio.",
-        "hero_description": "Diseñamos cada módulo pensando en el rigor que exige la práctica de la psicología, psiquiatría y neurología moderna.",
+        "hero_description": "Diseñamos cada módulo pensando en el rigor que exige la práctica de la psicología, psiquiatría, neurología y las distintas especialidades de salud moderna.",
         "explore_module": "Explorar módulo",
         "ClinicalRecords": {
-            "title": "Fichas Clínicas Inteligentes",
-            "desc": "Gestión documental optimizada con línea de tiempo automática y centralización de antecedentes.",
-            "benefit": "Cumplimiento normativo y seguridad total de datos."
+            "title": "Fichas Clínicas Personalizadas",
+            "desc": "Interfaz adaptable que se ajusta a tu especialidad (Psicología, Medicina, Terapia, etc.), con módulos únicos por profesión.",
+            "benefit": "Personalización total y cumplimiento normativo."
         },
         "TestAutomation": {
             "title": "Automatización de Tests",

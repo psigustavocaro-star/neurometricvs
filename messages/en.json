@@ -112,9 +112,9 @@
     },
     "DemoModal": {
         "title": "Interactive Clinical Demo",
-        "subtitle": "Discover how Neurometrics automates your workflow.",
+        "subtitle": "Discover how Neurometrics adapts to your specialty and automates your clinical workflow.",
         "preview": "Live Preview",
-        "cta": "Try for Free"
+        "cta": "Try it Free"
     },
     "Calculators": {
         "title": "Medical Calculators",
@@ -195,6 +195,7 @@
         "agenda": "Agenda",
         "reports": "Reports",
         "dr_name": "Dr. Silva",
+        "specialty": "Clinical Psychology",
         "plan_name": "Professional Plan",
         "analysis_in_progress": "Analysis in Progress",
         "results": "Results",
@@ -316,87 +317,88 @@
     "Pricing": {
         "no_cost": "No Cost",
         "title": "Transparent Plans",
-        "subtitle": "Prices in USD. Automatic conversion to your local currency.",
+        "subtitle": "Affordable software prices for your professional growth. 7 days of free Trial on all our professional plans.",
         "whats_included": "What's included",
         "close": "Close",
         "faq_title": "Frequently Asked Questions",
-        "view_details": "View configuration details",
+        "view_details": "View setup details",
         "locale_redirect": "en",
         "month": "/mo",
         "year": "/yr",
         "free": {
             "name": "Free",
             "description": "Read / Exploration Mode",
-            "cta": "Start for Free",
+            "cta": "Start Free",
             "features": [
-                "Browse test library",
-                "Filter by specialty"
+                "View test library",
+                "Filter by profession"
             ],
             "excluded": [
-                "Test usage and scoring"
+                "Test use and scoring"
             ],
             "details": [
                 "Access to public library",
                 "Search by specialty",
-                "Norms visualization",
+                "View norm scales",
                 "No monthly cost"
             ]
         },
         "basic": {
             "name": "Basic",
-            "description": "To start",
+            "description": "To get started",
             "trial": "7 days free",
             "cta": "Choose Basic",
             "features": [
                 "Access to all tests",
                 "Automatic scoring",
-                "PDF reports"
+                "PDF Reports"
             ],
             "details": [
                 "Everything in Free",
                 "Unlimited scoring",
                 "Digital professional signature",
                 "Send tests by email",
-                "PDF export"
+                "Export to PDF"
             ]
         },
         "clinical": {
-            "badge": "MOST POPULAR",
-            "name": "Plan Clinical",
+            "badge": "Recommended",
+            "name": "Clinical Plan",
             "description": "Your complete digital office",
             "trial": "7-day free trial",
             "cta": "Choose Clinical Plan",
             "features": [
-                "Complete Clinical Records",
-                "Session Management & Notes",
-                "Clinical Data Analysis",
-                "Cultural Recommendations"
+                "Smart Clinical Records",
+                "Session & Notes Management",
+                "Advanced AI Copilot",
+                "Clinical timeline"
             ],
             "details": [
                 "Everything in Basic",
-                "Digital clinical record",
+                "Adaptive clinical record",
                 "Activity timeline",
-                "Advanced AI copilot",
-                "Session management"
+                "24/7 Aura Support",
+                "Unlimited session management"
             ]
         },
         "pro": {
-            "name": "Pro Annual",
-            "description": "Smart Savings",
-            "savings_info": "Equivalent to <span class='font-bold'>$5.41/mo</span>",
-            "savings_badge": "SAVE 64%",
-            "cta": "Choose Pro",
+            "name": "Pro Plan (Annual)",
+            "description": "Maximum savings & support",
+            "trial": "7-day free trial",
+            "savings_badge": "Maximum Savings",
+            "savings_info": "Equivalent to <b>$5.41/mo</b> with annual payment.",
+            "cta": "Choose Pro Plan",
             "features": [
                 "4 months free",
                 "Everything in Clinical",
-                "Priority Support"
+                "VIP Priority Support"
             ],
             "details": [
                 "Everything in Clinical",
-                "64% savings",
-                "24/7 VIP support",
+                "Guaranteed 64% savings",
+                "24/7 VIP Support",
                 "Early access to features",
-                "Multi-professional management"
+                "Onboarding consultancy"
             ]
         },
         "secure_payment": "Secure Payment 256-bit",
