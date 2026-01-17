@@ -286,6 +286,16 @@
             "teleconsultation": "Teleconsultation",
             "alerts": "Alerts"
         },
+        "AuraSupport": {
+            "title": "Aura Support 24/7",
+            "subtitle": "Integrated Virtual Assistant",
+            "active_system": "Aura Online",
+            "welcome": "Hello! I'm Aura, your 24/7 assistant. How can I support you today?",
+            "query_1": "I need help interpreting the GAD-7 test",
+            "response_1": "Based on the scores obtained, the patient presents a moderate level of anxiety. It is suggested to correlate with...",
+            "query_2": "How do I export the clinical report to PDF?",
+            "response_2": "You can do it from the 'Generate Report' button in the upper right corner of the patient file."
+        },
         "MedicalCalculators": {
             "title": "Medical Calculators",
             "precision_module": "Precision Module",
@@ -393,12 +403,12 @@
         "clinical_protocol": "Clinical Protocol",
         "config_details": "Configuration Details",
         "Support": {
-            "helper_label": "AI Assistant",
-            "online": "Online",
-            "welcome_title": "Welcome to Neurometrics",
-            "welcome_desc": "I am Aura, your intelligent virtual assistant. I can help you with neuropsychological tests, patient management, or any questions about the Workstation platform.",
-            "input_placeholder": "Type your query...",
-            "error_chat": "Chat error: ",
+            "helper_label": "Questions? Ask Aura",
+            "online": "Aura AI active 24/7",
+            "welcome_title": "Hi, I'm Aura",
+            "welcome_desc": "I'm here to support you in real-time with any clinical or platform questions. My advanced AI system is available 24/7.",
+            "input_placeholder": "Ask Aura...",
+            "error_chat": "Communication error: ",
             "error_send": "Send error: "
         },
         "Dashboard": {
@@ -1462,6 +1472,11 @@
             "title": "Test Automation",
             "desc": "Automated scoring and pre-report generation for over 50 neuropsychological batteries.",
             "benefit": "Save up to 70% in scoring time."
+        },
+        "AuraSupport": {
+            "title": "Aura AI Support 24/7",
+            "desc": "Immediate intelligent assistance integrated into your workstation to resolve clinical and operational doubts at all times.",
+            "benefit": "Total availability 365 days a year."
         },
         "MedicalCalculators": {
             "title": "Medical Calculators",

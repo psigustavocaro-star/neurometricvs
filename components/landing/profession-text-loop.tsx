@@ -34,7 +34,7 @@ export function ProfessionTextLoop() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % professionsList.length)
-        }, 3000)
+        }, 3500)
 
         return () => clearInterval(timer)
     }, [professionsList.length])
@@ -44,53 +44,42 @@ export function ProfessionTextLoop() {
 
     return (
         <span
-            className="inline-flex relative h-[1.4em] min-w-[300px] xs:min-w-[350px] sm:min-w-[450px] md:min-w-[650px] lg:min-w-[700px] items-center overflow-visible align-middle px-2 py-1"
-            style={{ perspective: '1000px' }}
+            className="inline-flex relative h-[1.2em] min-w-[280px] xs:min-w-[320px] sm:min-w-[400px] md:min-w-[550px] lg:min-w-[650px] items-center overflow-hidden align-middle ml-2 group"
         >
-            <AnimatePresence mode="popLayout" initial={false}>
+            <AnimatePresence mode="wait">
                 <motion.span
                     key={currentIndex}
                     initial={{
                         opacity: 0,
-                        rotateX: -90,
-                        y: 40,
-                        filter: 'blur(8px)'
+                        y: 15,
+                        filter: 'blur(4px)'
                     }}
                     animate={{
                         opacity: 1,
-                        rotateX: 0,
                         y: 0,
                         filter: 'blur(0px)'
                     }}
                     exit={{
                         opacity: 0,
-                        rotateX: 90,
-                        y: -40,
-                        filter: 'blur(8px)'
+                        y: -15,
+                        filter: 'blur(4px)'
                     }}
                     transition={{
-                        duration: 0.8,
-                        ease: [0.16, 1, 0.3, 1],
-                        opacity: { duration: 0.4 }
+                        duration: 0.6,
+                        ease: [0.23, 1, 0.32, 1]
                     }}
-                    className={`absolute inset-0 flex items-center font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)] whitespace-nowrap px-2 pb-1`}
+                    className={`absolute inset-0 flex items-center font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} whitespace-nowrap px-1`}
                 >
                     {currentText}
                 </motion.span>
             </AnimatePresence>
 
-            {/* Premium Underline Indicator - More dynamic */}
+            {/* Subtle premium underline accent */}
             <motion.div
-                className={`absolute -bottom-1 left-0 h-[4px] rounded-full bg-gradient-to-r ${currentGradient} opacity-30 shadow-sm`}
-                initial={false}
-                animate={{
-                    width: '100%',
-                    opacity: [0.1, 0.4, 0.2]
-                }}
-                transition={{
-                    width: { duration: 1.2, ease: "circOut" },
-                    opacity: { duration: 2, repeat: Infinity, repeatType: "reverse" }
-                }}
+                className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r ${currentGradient} opacity-20`}
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 key={`line-${currentIndex}`}
             />
         </span>

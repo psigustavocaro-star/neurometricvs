@@ -393,12 +393,12 @@
         "clinical_protocol": "Protocolo Clínico",
         "config_details": "Detalles de Configuración",
         "Support": {
-            "helper_label": "Asistente AI",
-            "online": "En línea",
-            "welcome_title": "Bienvenido a Neurometrics",
-            "welcome_desc": "Soy Aura, tu asistente virtual inteligente. Puedo ayudarte con tests neuropsicológicos, gestión de pacientes o cualquier duda sobre la plataforma Workstation.",
-            "input_placeholder": "Escribe tu consulta...",
-            "error_chat": "Error de chat: ",
+            "helper_label": "¿Dudas? Pregúntale a Aura",
+            "online": "Aura AI activa 24/7",
+            "welcome_title": "Hola, soy Aura",
+            "welcome_desc": "Estoy aquí para apoyarte en tiempo real con cualquier duda clínica o sobre la plataforma. Mi sistema de inteligencia avanzada está disponible 24/7.",
+            "input_placeholder": "Pregúntale a Aura...",
+            "error_chat": "Error de comunicación: ",
             "error_send": "Error al enviar: "
         },
         "Dashboard": {
@@ -1462,6 +1462,11 @@
             "title": "Automatización de Tests",
             "desc": "Corrección automatizada y pre-generación de informes para más de 50 baterías neuropsicológicas.",
             "benefit": "Ahorra hasta un 70% en tiempo de tabulación."
+        },
+        "AuraSupport": {
+            "title": "Soporte Aura AI 24/7",
+            "desc": "Asistencia inteligente inmediata integrada en tu workstation para resolver dudas clínicas y operativas en todo momento.",
+            "benefit": "Disponibilidad total los 365 días."
         },
         "MedicalCalculators": {
             "title": "Calculadoras Médicas",
