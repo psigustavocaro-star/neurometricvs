@@ -33,32 +33,43 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string }) {
+const FormField = ({ id, label, icon: Icon, type = "text", placeholder, name, required = false, value, onChange, itemVariant }: any) => (
+    <motion.div variants={itemVariant} className="space-y-2">
+        <Label htmlFor={id} className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
+            <Icon className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+            {label}
+            {required && <span className="text-red-500">*</span>}
+        </Label>
+        <div className="relative group">
+            <Input
+                id={id}
+                name={name || id}
+                type={type}
+                required={required}
+                placeholder={placeholder}
+                value={value || ''}
+                onChange={onChange}
+                className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-all focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 dark:focus:border-cyan-500"
+            />
+        </div>
+    </motion.div>
+)
+
+export function NewPatientForm({
+    initialSpecialty,
+    onSuccess,
+    onCancel
+}: {
+    initialSpecialty?: string;
+    onSuccess?: () => void;
+    onCancel?: () => void;
+}) {
     const t = useTranslations('Patients.new')
     const [error, setError] = useState<string | null>(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { fillFormTrigger, currentRole, isSimulating } = useAdminStore()
 
-    // Determine active role (simulated or real)
-    const activeRole = isSimulating ? currentRole : (
-        initialSpecialty?.toLowerCase().includes('psiquiatra') ? 'psychiatrist' :
-            initialSpecialty?.toLowerCase().includes('neurólog') ? 'neurologist' :
-                initialSpecialty?.toLowerCase().includes('médic') ? 'physician' :
-                    initialSpecialty?.toLowerCase().includes('fonoaudiólog') ? 'speech_therapist' :
-                        initialSpecialty?.toLowerCase().includes('psicopedagog') ? 'psychopedagogue' :
-                            initialSpecialty?.toLowerCase().includes('terapeuta') ? 'occupational_therapist' :
-                                initialSpecialty?.toLowerCase().includes('nutricion') ? 'nutritionist' :
-                                    'psychologist'
-    )
-
-    const isMedical = ['psychiatrist', 'neurologist', 'physician', 'nutritionist'].includes(activeRole)
-    const isAcademic = ['psychopedagogue', 'speech_therapist'].includes(activeRole)
-    const isPhysical = ['occupational_therapist'].includes(activeRole)
-    const isSocial = false // Explicitly disabled
-    const isPsych = ['psychologist', 'psychiatrist'].includes(activeRole)
-
-
-    // Form State for Mock Injection
+    // Form State
     const [formData, setFormData] = useState({
         fullName: '',
         birthDate: '',
@@ -87,6 +98,23 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
+
+    // Determine active role (simulated or real)
+    const activeRole = isSimulating ? currentRole : (
+        initialSpecialty?.toLowerCase().includes('psiquiatra') ? 'psychiatrist' :
+            initialSpecialty?.toLowerCase().includes('neurólog') ? 'neurologist' :
+                initialSpecialty?.toLowerCase().includes('médic') ? 'physician' :
+                    initialSpecialty?.toLowerCase().includes('fonoaudiólog') ? 'speech_therapist' :
+                        initialSpecialty?.toLowerCase().includes('psicopedagog') ? 'psychopedagogue' :
+                            initialSpecialty?.toLowerCase().includes('terapeuta') ? 'occupational_therapist' :
+                                initialSpecialty?.toLowerCase().includes('nutricion') ? 'nutritionist' :
+                                    'psychologist'
+    )
+
+    const isMedical = ['psychiatrist', 'neurologist', 'physician', 'nutritionist'].includes(activeRole)
+    const isAcademic = ['psychopedagogue', 'speech_therapist'].includes(activeRole)
+    const isPhysical = ['occupational_therapist'].includes(activeRole)
+    const isPsych = ['psychologist', 'psychiatrist'].includes(activeRole)
 
     useEffect(() => {
         if (fillFormTrigger > 0) {
@@ -132,6 +160,9 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
             setIsSubmitting(false)
         } else {
             toast.success(t('success'))
+            if (onSuccess) {
+                onSuccess()
+            }
         }
     }
 
@@ -150,28 +181,6 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
         hidden: { opacity: 0, x: -10 },
         show: { opacity: 1, x: 0 }
     }
-
-    const FormField = ({ id, label, icon: Icon, type = "text", placeholder, name, required = false }: any) => (
-        <motion.div variants={item} className="space-y-2">
-            <Label htmlFor={id} className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                <Icon className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
-                {label}
-                {required && <span className="text-red-500">*</span>}
-            </Label>
-            <div className="relative group">
-                <Input
-                    id={id}
-                    name={name || id}
-                    type={type}
-                    required={required}
-                    placeholder={placeholder}
-                    value={(formData as any)[name || id]}
-                    onChange={handleChange}
-                    className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-all focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 dark:focus:border-cyan-500"
-                />
-            </div>
-        </motion.div>
-    )
 
     return (
         <motion.div
@@ -215,6 +224,9 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                         icon={User}
                                         required
                                         placeholder={t('placeholders.name')}
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                        itemVariant={item}
                                     />
                                 </div>
                                 <FormField
@@ -222,6 +234,9 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                     label={t('fields.rut')}
                                     icon={IdCard}
                                     placeholder={t('placeholders.rut')}
+                                    value={formData.rut}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <FormField
                                     id="age"
@@ -229,24 +244,36 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                     icon={Activity}
                                     type="number"
                                     placeholder={t('placeholders.age')}
+                                    value={formData.age}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <FormField
                                     id="birthDate"
                                     label={t('fields.birth_date')}
                                     icon={Calendar}
                                     type="date"
+                                    value={formData.birthDate}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <FormField
                                     id="education"
                                     label={t('fields.education')}
                                     icon={GraduationCap}
                                     placeholder={t('placeholders.education')}
+                                    value={formData.education}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <FormField
                                     id="occupation"
                                     label={t('fields.occupation')}
                                     icon={Briefcase}
                                     placeholder={t('placeholders.occupation')}
+                                    value={formData.occupation}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <motion.div variants={item} className="space-y-2 lg:col-span-1">
                                     <Label className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
@@ -287,12 +314,18 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                     icon={Mail}
                                     type="email"
                                     placeholder={t('placeholders.email')}
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <FormField
                                     id="phone"
                                     label={t('fields.phone')}
                                     icon={Phone}
                                     placeholder={t('placeholders.phone')}
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                                 <div className="md:col-span-1">
                                     <FormField
@@ -300,6 +333,9 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                         label={t('fields.address')}
                                         icon={MapPin}
                                         placeholder={t('placeholders.address')}
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        itemVariant={item}
                                     />
                                 </div>
                                 <FormField
@@ -307,6 +343,9 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                     label={t('fields.clinic')}
                                     icon={Hospital}
                                     placeholder={t('placeholders.clinic')}
+                                    value={formData.clinic}
+                                    onChange={handleChange}
+                                    itemVariant={item}
                                 />
                             </div>
                         </div>
@@ -377,12 +416,18 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                             label={t('fields.school')}
                                             icon={Hospital}
                                             placeholder={t('placeholders.school')}
+                                            value={formData.school}
+                                            onChange={handleChange}
+                                            itemVariant={item}
                                         />
                                         <FormField
                                             id="grade"
                                             label={t('fields.grade')}
                                             icon={GraduationCap}
                                             placeholder={t('placeholders.grade')}
+                                            value={formData.grade}
+                                            onChange={handleChange}
+                                            itemVariant={item}
                                         />
                                     </>
                                 )}
@@ -419,12 +464,18 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                                         label={t('fields.companion')}
                                         icon={Users}
                                         placeholder={t('placeholders.companion')}
+                                        value={formData.companion}
+                                        onChange={handleChange}
+                                        itemVariant={item}
                                     />
                                     <FormField
                                         id="emergencyContact"
                                         label={t('fields.emergency_contact')}
                                         icon={AlertCircle}
                                         placeholder={t('placeholders.emergency_contact')}
+                                        value={formData.emergencyContact}
+                                        onChange={handleChange}
+                                        itemVariant={item}
                                     />
                                     <motion.div variants={item} className="space-y-2">
                                         <Label htmlFor="genogram" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
@@ -469,7 +520,15 @@ export function NewPatientForm({ initialSpecialty }: { initialSpecialty?: string
                             </motion.div>
                         )}
                     </CardContent>
-                    <CardFooter className="px-8 py-8 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+                    <CardFooter className="px-8 py-8 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={onCancel}
+                            className="w-full md:w-auto h-12 px-8 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                        >
+                            {t('cancel') || 'Regresar'}
+                        </Button>
                         <Button
                             type="submit"
                             disabled={isSubmitting}

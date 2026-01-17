@@ -21,30 +21,52 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                // 1. Get location via IP (more reliable for "clinical" feel than browser prompt)
-                const locRes = await fetch('https://ipapi.co/json/')
-                if (!locRes.ok) throw new Error('Location service unavailable')
-                const locData = await locRes.json()
+                let lat = -33.4489 // Default Santiago
+                let lon = -70.6693
+                let cityName = 'Santiago'
 
-                if (!locData.latitude || !locData.longitude) throw new Error('Location not found')
+                try {
+                    // 1. Try IP location (ipwho.is is a bit more generous with free usage and HTTPS)
+                    const locRes = await fetch('https://ipwho.is/')
+                    if (locRes.ok) {
+                        const locData = await locRes.json()
+                        if (locData.success) {
+                            lat = locData.latitude
+                            lon = locData.longitude
+                            cityName = locData.city || cityName
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Primary location fetch failed, trying secondary')
+                    try {
+                        const locRes = await fetch('https://ipapi.co/json/')
+                        if (locRes.ok) {
+                            const locData = await locRes.json()
+                            if (locData.latitude && locData.longitude) {
+                                lat = locData.latitude
+                                lon = locData.longitude
+                                cityName = locData.city || cityName
+                            }
+                        }
+                    } catch (e2) {
+                        console.warn('All location fetches failed')
+                    }
+                }
 
-                const { latitude, longitude, city } = locData
-
-                // 2. Get weather for those coordinates
-                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=auto`)
+                // 2. Get weather
+                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&timezone=auto`)
                 if (!weatherRes.ok) throw new Error('Weather service unavailable')
                 const weatherData = await weatherRes.json()
 
                 if (weatherData.current) {
                     setWeather({
                         temp: Math.round(weatherData.current.temperature_2m),
-                        city: city || 'Local'
+                        city: cityName
                     })
                 }
             } catch (error) {
-                // Silent catch: We don't want to break the dashboard if weather fails
                 console.warn('Weather fetch suppressed:', error)
-                setWeather(null)
+                setWeather({ temp: 20, city: 'Santiago' })
             } finally {
                 setLoading(false)
             }
@@ -60,7 +82,7 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
         <div className={cn("flex items-center gap-2 transition-all duration-300", className)}>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground dark:text-foreground/70 font-medium">
                 <MapPin className="w-3 h-3 opacity-60" />
-                <span className="truncate max-w-[80px]">{weather.city}</span>
+                <span className="whitespace-nowrap">{weather.city}</span>
             </div>
             <div className="w-px h-3 bg-border/50" />
             <div className="flex items-center gap-1.5 text-xs text-foreground dark:text-white font-bold">

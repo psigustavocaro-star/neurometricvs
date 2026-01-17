@@ -122,40 +122,20 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
 
                     {/* REGISTER TAB */}
                     <TabsContent value="register">
-                        <form action={signupDispatch} className="space-y-5 py-4">
-                            {signupState?.error && (
-                                <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                                    {signupState.error}
-                                </div>
-                            )}
-                            {signupState?.message && (
-                                <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400 px-4 py-3 rounded-lg text-sm">
-                                    {signupState.message}
-                                </div>
-                            )}
-                            <div className="space-y-2">
-                                <Label htmlFor="register-email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
-                                <Input
-                                    id="register-email"
-                                    name="email"
-                                    type="email"
-                                    required
-                                    placeholder="correo@ejemplo.com"
-                                    className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
-                                />
+                        <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
+                            <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-full animate-in zoom-in-50 duration-500">
+                                <Loader2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="register-password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
-                                <Input
-                                    id="register-password"
-                                    name="password"
-                                    type="password"
-                                    required
-                                    className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
-                                />
+                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Acceso Beta Cerrado</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
+                                    Estamos en construcción. El registro está temporalmente deshabilitado mientras mejoramos la plataforma.
+                                </p>
                             </div>
-                            <SubmitButton>Crear Cuenta</SubmitButton>
-                        </form>
+                            <Button variant="outline" className="w-full mt-4" disabled>
+                                Próximamente
+                            </Button>
+                        </div>
                     </TabsContent>
                 </Tabs>
             </DialogContent>

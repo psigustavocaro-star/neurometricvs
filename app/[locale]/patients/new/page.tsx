@@ -50,7 +50,11 @@ export default async function NewPatientPage() {
 
     return (
         <div className="container pt-24 pb-10 flex justify-center">
-            <NewPatientForm initialSpecialty={profile?.specialty} />
+            <NewPatientForm
+                initialSpecialty={profile?.specialty}
+                onSuccess={() => window.location.href = '/dashboard'}
+                onCancel={() => window.location.href = '/dashboard'}
+            />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-export type QuestionType = 'single_choice' | 'multiple_choice' | 'scale' | 'text'
+export type QuestionType = 'single_choice' | 'multiple_choice' | 'scale' | 'text' | 'info'
 
 export interface Option {
     label: string
@@ -31,6 +31,8 @@ export interface Subscale {
     description?: string
 }
 
+export type UIType = 'list' | 'blocks' | 'story' | 'custom'
+
 export interface TestDefinition {
     id: string
     title: string
@@ -38,6 +40,7 @@ export interface TestDefinition {
     instructions?: string
     authors?: string
     reference?: string
+    uiType?: UIType
     questions: Question[]
     scoring?: {
         type?: 'sum' | 'average'
@@ -45,4 +48,10 @@ export interface TestDefinition {
         interpretation?: string
     }
     subscales?: Subscale[]
+    reportConfig?: {
+        chartType?: 'bar' | 'radar' | 'line'
+        showResponseTable?: boolean
+        customInterpretationTemplate?: string
+        apaCategory?: string
+    }
 }

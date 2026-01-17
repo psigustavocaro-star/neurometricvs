@@ -11,8 +11,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { createSession, updateClinicalRecord } from "@/app/[locale]/patients/clinical-actions"
 import { toast } from "sonner"
-import { Loader2, AlertCircle, CheckCircle2, ArrowLeft, Sparkles, ClipboardList } from "lucide-react"
+import { Loader2, AlertCircle, CheckCircle2, ArrowLeft, Sparkles, ClipboardList, FileCheck2 } from "lucide-react"
 import { useTranslations } from 'next-intl'
+import { InSessionTestRunner } from './in-session-test-runner'
 
 interface FirstSessionFormProps {
     patientId: string
@@ -32,6 +33,7 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
     const [notes, setNotes] = useState('')
     const [date, setDate] = useState(new Date().toISOString().split('T')[0])
     const [duration, setDuration] = useState(60)
+    const [showEvaluator, setShowEvaluator] = useState(false)
 
     const handleSave = async (isComplete: boolean = false) => {
         if (!notes.trim()) {
@@ -133,7 +135,32 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
 
                 {/* Interview Guide Sidebar (1 column) */}
                 <div className="space-y-4">
-                    <Card className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 h-full">
+                    {/* Test/Evaluation Button */}
+                    <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                        <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium flex items-center justify-between text-blue-700 dark:text-blue-300">
+                                <span className="flex items-center gap-2">
+                                    <FileCheck2 className="w-4 h-4" />
+                                    {tCommon('perform_evaluation')}
+                                </span>
+                                <Button
+                                    size="sm"
+                                    variant={showEvaluator ? "secondary" : "outline"}
+                                    className={`h-7 text-xs ${showEvaluator ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'border-blue-300 dark:border-blue-700'}`}
+                                    onClick={() => setShowEvaluator(!showEvaluator)}
+                                >
+                                    {showEvaluator ? tCommon('hide_evaluation') || 'Ocultar' : tCommon('perform_evaluation') || 'Realizar Test'}
+                                </Button>
+                            </CardTitle>
+                        </CardHeader>
+                        {showEvaluator && (
+                            <CardContent className="pt-0">
+                                <InSessionTestRunner patientId={patientId} />
+                            </CardContent>
+                        )}
+                    </Card>
+
+                    <Card className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium flex items-center gap-2 text-slate-700 dark:text-slate-300">
                                 <ClipboardList className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />

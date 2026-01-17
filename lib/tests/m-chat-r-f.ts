@@ -17,6 +17,21 @@ export const mChatRF: TestDefinition = {
     instructions: 'Conteste las siguientes preguntas teniendo en cuenta el comportamiento que su hijo/a presenta usualmente. Si ha notado cierto comportamiento algunas veces, pero no es algo que hace usualmente, por favor conteste "No".',
     authors: 'Robins, D.L., Fein, D., & Barton, M. (2009)',
     reference: 'Robins, D. L., Casagrande, K., Barton, M., Chen, C. M., Dumont-Mathieu, T., & Fein, D. (2014). Validation of the modified checklist for autism in toddlers, revised with follow-up (M-CHAT-R/F). Pediatrics, 133(1), 37-45.',
+    uiType: 'blocks',
+    reportConfig: {
+        chartType: 'bar',
+        apaCategory: 'Trastornos del Neurodesarrollo',
+        showResponseTable: true,
+        customInterpretationTemplate: `
+**Interpretación de Resultados:**
+Puntuación de Riesgo: **{score}**
+
+**Categoría de Riesgo:**
+- **0-2 (Bajo)**: Si el niño es <24 meses, repetir a los 24. No se requiere acción inmediata.
+- **3-7 (Medio)**: Administrar entrevista de seguimiento. Si persiste ≥2, derivar.
+- **8-20 (Alto)**: Derivar inmediatamente para evaluación diagnóstica.
+        `
+    },
     questions: [
         {
             id: '1',

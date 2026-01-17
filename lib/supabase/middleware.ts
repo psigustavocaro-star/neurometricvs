@@ -67,6 +67,7 @@ export async function updateSession(request: NextRequest, response?: NextRespons
         !path.startsWith('/features') &&
         !path.startsWith('/pricing') &&
         !path.startsWith('/testimonials') &&
+        !path.startsWith('/invite') &&
         path !== '/'
     ) {
         // no user, potentially respond by redirecting the user to the login page

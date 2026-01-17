@@ -783,6 +783,7 @@
                 "under_evaluation": "Under Evaluation",
                 "sessions_count": "{count} Sessions",
                 "active": "Active",
+                "last_session": "Last session",
                 "nav": {
                     "overview": "Overview",
                     "clinical": "Clinical",
@@ -1299,7 +1300,10 @@
                     "created": "Session created successfully",
                     "updated": "Session updated",
                     "error": "Error saving session",
-                    "first_completed": "First session completed!"
+                    "first_completed": "First session completed!",
+                    "confirm_delete": "Are you sure you want to delete this session? This action cannot be undone.",
+                    "deleted": "Session deleted successfully",
+                    "error_delete": "Error deleting session"
                 },
                 "no_sessions_yet": "No sessions registered yet.",
                 "minutes_suffix": "min",
@@ -1367,7 +1371,12 @@
                         "success_draft": "Draft saved",
                         "error": "Error saving: {message}"
                     }
-                }
+                },
+                "perform_evaluation": "Perform Evaluation",
+                "hide_evaluation": "Hide",
+                "record_session": "Record Session",
+                "hide_recording": "Hide Recording",
+                "evaluation_panel": "Evaluation Panel"
             }
         }
     },
@@ -1970,6 +1979,7 @@
             "loading": "Loading...",
             "success": "Patient created successfully",
             "mock_injected": "Mock data injected",
+            "cancel": "Go Back",
             "gender_labels": {
                 "male": "M",
                 "female": "F",

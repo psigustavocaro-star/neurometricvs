@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, Users, GitGraph, UserPlus } from "lucide-react"
 import Link from "next/link"
+import { NewPatientDialog } from '@/components/patients/NewPatientDialog'
 
 interface Patient {
     id: string
@@ -87,12 +88,14 @@ export function GenogramClientPage({ patients }: GenogramClientPageProps) {
                                 <p className="text-xs text-center text-muted-foreground mb-3">
                                     ¿No encuentras al paciente?
                                 </p>
-                                <Button variant="outline" className="w-full gap-2" asChild>
-                                    <Link href="/patients/new">
-                                        <UserPlus className="w-4 h-4" />
-                                        Crear Nuevo Paciente
-                                    </Link>
-                                </Button>
+                                <NewPatientDialog
+                                    trigger={
+                                        <Button variant="outline" className="w-full gap-2">
+                                            <UserPlus className="w-4 h-4" />
+                                            Crear Nuevo Paciente
+                                        </Button>
+                                    }
+                                />
                             </div>
                         </CardContent>
                     </Card>

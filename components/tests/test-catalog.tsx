@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/ui/search-bar"
+import { Badge } from "@/components/ui/badge"
 
 import { FileText, ArrowRight, Star, Clock, Activity } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -119,53 +120,47 @@ export function TestCatalog() {
                         transition={{ duration: 0.3 }}
                         layout
                     >
-                        <Card className="group hover:shadow-lg transition-all duration-300 border-slate-200 dark:border-slate-700 dark:bg-slate-900 hover:border-teal-200 dark:hover:border-teal-700 overflow-hidden relative h-full flex flex-col">
-                            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Card className="group hover:shadow-xl transition-all duration-300 border-border/60 dark:bg-slate-900/50 hover:border-teal-500/50 overflow-hidden relative h-full flex flex-col ring-1 ring-black/[0.02] dark:ring-white/[0.02]">
+                            {/* Accent line */}
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500/20 via-teal-500 to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                            <CardHeader className="pb-3">
-                                <div className="flex flex-wrap gap-2 mb-2 pr-8">
-                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 border-transparent">
+                            <CardHeader className="pb-3 pt-6">
+                                <div className="flex flex-wrap gap-1.5 mb-3 pr-8">
+                                    <Badge variant="secondary" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0">
                                         {test.category}
-                                    </div>
-                                    <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-transparent">
+                                    </Badge>
+                                    <Badge variant="outline" className="text-[9px] font-bold border-border/60 text-muted-foreground uppercase tracking-wider px-2 py-0">
                                         {test.ageRange}
-                                    </div>
-                                </div>
-                                <div className="absolute top-3 right-3">
-                                    <button
-                                        onClick={() => toggleFavorite(test.id)}
-                                        className="text-slate-300 hover:text-yellow-400 transition-colors"
-                                    >
-                                        <Star className={cn("h-5 w-5", test.isFavorite && "fill-yellow-400 text-yellow-400")} />
-                                    </button>
+                                    </Badge>
                                 </div>
 
-                                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors flex items-center gap-2">
-                                    <Link href={`/dashboard/tests/${test.id}`} className="hover:underline decoration-teal-500 underline-offset-4">
+                                <CardTitle className="text-base font-bold text-foreground group-hover:text-primary transition-colors leading-tight tracking-tight">
+                                    <Link href={`/dashboard/tests/${test.id}`} className="hover:underline decoration-primary/30 underline-offset-4">
                                         {test.name}
                                     </Link>
                                 </CardTitle>
-                                <CardDescription className="line-clamp-2 mt-1">
+                                <CardDescription className="text-xs line-clamp-2 mt-2 leading-relaxed text-muted-foreground/80 font-medium italic">
                                     {test.description}
                                 </CardDescription>
                             </CardHeader>
 
-                            <CardContent className="flex-1 flex flex-col justify-end">
-                                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4 bg-white/50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-100 dark:border-slate-700">
-                                    <div className="flex items-center gap-1">
-                                        <Clock className="h-3.5 w-3.5" /> {test.duration}
+                            <CardContent className="flex-1 flex flex-col justify-end pt-2 pb-5">
+                                <div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground mb-4 bg-muted/30 p-2.5 rounded-xl border border-border/40">
+                                    <div className="flex items-center gap-1.5">
+                                        <Clock className="h-3 w-3 opacity-60" /> {test.duration}
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <Activity className="h-3.5 w-3.5" /> {test.questions} pregs.
+                                    <div className="w-px h-3 bg-border/60" />
+                                    <div className="flex items-center gap-1.5">
+                                        <Activity className="h-3 w-3 opacity-60" /> {test.questions} items
                                     </div>
                                 </div>
 
                                 <Button
-                                    className="w-full bg-slate-900 text-white hover:bg-teal-600 transition-all shadow-md hover:shadow-lg group/btn"
+                                    className="w-full bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all shadow-md group/btn h-10 rounded-xl"
                                     onClick={() => setSelectedTestForStart(test)}
                                 >
-                                    Comenzar Test
-                                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                                    <span className="text-xs font-bold uppercase tracking-[0.1em]">Iniciar Protocolo</span>
+                                    <ArrowRight className="ml-2 h-3.5 w-3.5 group-hover/btn:translate-x-1 transition-transform" />
                                 </Button>
                             </CardContent>
                         </Card>

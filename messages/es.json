@@ -783,6 +783,7 @@
                 "under_evaluation": "En Evaluación",
                 "sessions_count": "{count} Sesiones",
                 "active": "Activo",
+                "last_session": "Última sesión",
                 "nav": {
                     "overview": "Resumen",
                     "clinical": "Clínica",
@@ -1299,7 +1300,10 @@
                     "created": "Sesión creada correctamente",
                     "updated": "Sesión actualizada",
                     "error": "Error al guardar sesión",
-                    "first_completed": "¡Primera sesión completada!"
+                    "first_completed": "¡Primera sesión completada!",
+                    "confirm_delete": "¿Estás seguro de que deseas eliminar esta sesión? Esta acción no se puede deshacer.",
+                    "deleted": "Sesión eliminada correctamente",
+                    "error_delete": "Error al eliminar la sesión"
                 },
                 "no_sessions_yet": "Aún no hay sesiones registradas.",
                 "minutes_suffix": "min",
@@ -1367,7 +1371,12 @@
                         "success_draft": "Borrador guardado",
                         "error": "Error al guardar: {message}"
                     }
-                }
+                },
+                "perform_evaluation": "Realizar Evaluación",
+                "hide_evaluation": "Ocultar",
+                "record_session": "Grabar Sesión",
+                "hide_recording": "Ocultar Grabación",
+                "evaluation_panel": "Panel de Evaluación"
             }
         }
     },
@@ -1969,6 +1978,7 @@
             "loading": "Cargando...",
             "success": "Paciente creado exitosamente",
             "mock_injected": "Datos de prueba inyectados",
+            "cancel": "Regresar",
             "gender_labels": {
                 "male": "H",
                 "female": "M",

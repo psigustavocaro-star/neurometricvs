@@ -151,6 +151,31 @@ export async function updateSession(sessionId: string, data: Partial<ClinicalSes
     revalidatePath(`/patients`) // Revalidate broadly if needed, or specific path
 }
 
+export async function deleteSession(sessionId: string) {
+    const supabase = await createClient()
+
+    // 1. Get patient_id first for correct revalidation
+    const { data: session } = await supabase
+        .from('clinical_sessions')
+        .select('patient_id')
+        .eq('id', sessionId)
+        .single()
+
+    if (!session) return // Already deleted?
+
+    // 2. Delete related AI Insights manually (to avoid FK errors if no CASCADE)
+    await supabase.from('ai_insights').delete().eq('session_id', sessionId)
+
+    // 3. Delete Session
+    const { error } = await supabase
+        .from('clinical_sessions')
+        .delete()
+        .eq('id', sessionId)
+
+    if (error) throw new Error(error.message)
+    revalidatePath(`/patients/${session.patient_id}`)
+}
+
 // --- AI Insights ---
 
 export async function generateAIInsights(sessionId: string, approach: string = 'Integrativo') {

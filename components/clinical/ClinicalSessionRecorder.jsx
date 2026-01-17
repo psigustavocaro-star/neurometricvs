@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Mic, Square, Save, Loader2, FileText, Activity, Clock } from 'lucide-react';
+import { Mic, Square, Save, Loader2, FileText, Activity, Clock, Download, AlertCircle } from 'lucide-react';
 import ClinicalMarkdown from './ClinicalMarkdown';
 
 // Utility to safely get API key
@@ -10,7 +10,7 @@ const getGeminiKey = () => {
     return process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY;
 };
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 const ClinicalSessionRecorder = ({ patientName, onSaveSession }) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -27,7 +27,7 @@ const ClinicalSessionRecorder = ({ patientName, onSaveSession }) => {
     const streamRef = useRef(null);
 
     // Constants
-    const AUTO_SPLIT_MS = 6 * 60 * 1000; // 6 minutes
+    const AUTO_SPLIT_MS = 3 * 60 * 1000; // 3 minutes
 
     useEffect(() => {
         // Cleanup on unmount
@@ -158,8 +158,12 @@ const ClinicalSessionRecorder = ({ patientName, onSaveSession }) => {
     const transcribeWithGemini = async (base64Audio) => {
         const apiKey = getGeminiKey();
         if (!apiKey) {
-            throw new Error("API Key not found");
+            console.error("API Key missing. Check .env.local");
+            throw new Error("API Key configuration error (Missing Key).");
         }
+
+        // Detailed logging for debugging
+        console.log("Transcribing with Gemini... Key available:", apiKey.substring(0, 4) + "****");
 
         const body = {
             contents: [{
@@ -170,19 +174,33 @@ const ClinicalSessionRecorder = ({ patientName, onSaveSession }) => {
             }]
         };
 
-        const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-        });
+        try {
+            const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
 
-        const data = await response.json();
+            if (!response.ok) {
+                const errText = await response.text();
+                console.error("Gemini API Error Response:", errText);
+                throw new Error(`Gemini API Failed: ${response.status} - ${response.statusText}`);
+            }
 
-        if (data.error) {
-            throw new Error(data.error.message);
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        } catch (error) {
+            console.error("Transcription execution error:", error);
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                throw new Error("Error de conexión con IA. Verifique su internet o clave API. (Failed to fetch)");
+            }
+            throw error;
         }
-
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
     };
 
     const generateClinicalAnalysis = async () => {

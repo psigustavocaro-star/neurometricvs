@@ -29,7 +29,7 @@ export function ResourcesSection() {
             const res = await fetch(`/api/news?lang=${locale}`)
             const data = await res.json()
             if (data.articles) {
-                setDisplayArticles(data.articles.slice(0, 2)) // Only show top 2 news
+                setDisplayArticles(data.articles.slice(0, 5)) // Increased from 2 to 5
             }
         } catch (error) {
             console.error("Failed to fetch news", error)
@@ -90,17 +90,17 @@ export function ResourcesSection() {
             </div>
 
             {/* Minimalist Clinical News */}
-            <div className="mt-2 border-t border-border/30 bg-muted/5 flex-1">
-                <div className="px-5 py-3 flex items-center justify-between">
+            <div className="mt-2 border-t border-border/30 bg-muted/5 flex-1 min-h-[300px]">
+                <div className="px-5 py-3 flex items-center justify-between sticky top-0 bg-muted/5 backdrop-blur-sm z-10">
                     <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">{t('news_title') || 'Actualidad Clínica'}</span>
                     <BookOpen className="w-3 h-3 text-muted-foreground/40" />
                 </div>
 
                 <div className="divide-y divide-border/20">
                     {loading ? (
-                        [1, 2].map(i => (
+                        [1, 2, 3].map(i => (
                             <div key={i} className="p-4 space-y-2">
-                                <div className="h-2.5 w-full bg-muted animate-pulse rounded" />
+                                <div className="h-3 w-full bg-muted animate-pulse rounded" />
                                 <div className="h-2 w-2/3 bg-muted animate-pulse rounded" />
                             </div>
                         ))
@@ -110,9 +110,9 @@ export function ResourcesSection() {
                                 key={i}
                                 href={article.url}
                                 target="_blank"
-                                className="flex flex-col gap-1 p-4 hover:bg-muted/30 transition-all group lg:last:pb-8"
+                                className="flex flex-col gap-1.5 p-4 hover:bg-muted/30 transition-all group lg:last:pb-8"
                             >
-                                <h4 className="text-[11px] font-bold text-foreground/90 leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                                <h4 className="text-xs font-bold text-foreground/90 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                                     {article.title}
                                 </h4>
                                 <p className="text-[10px] text-muted-foreground/70 line-clamp-1">

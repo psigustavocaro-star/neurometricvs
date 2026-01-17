@@ -2,298 +2,301 @@ import { Document, Page, Text, View, StyleSheet, Image, Font } from '@react-pdf/
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-// Register a nice font (optional, using standard Helvetica for now for speed/reliability)
-// Font.register({ family: 'Open Sans', src: '...' });
-
 const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
-        padding: 40,
+        padding: 50,
         fontFamily: 'Helvetica',
     },
     header: {
-        marginBottom: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#E2E8F0',
-        paddingBottom: 10,
+        marginBottom: 30,
+        borderBottomWidth: 1.5,
+        borderBottomColor: '#1E293B',
+        paddingBottom: 15,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
     },
-    headerLeft: {
-        flexDirection: 'column',
-    },
-    headerRight: {
-        flexDirection: 'column',
-        alignItems: 'flex-end',
+    headerLogo: {
+        width: 40,
+        height: 40,
+        backgroundColor: '#1E293B',
+        borderRadius: 8,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
     },
     title: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#1E293B',
+        color: '#0F172A',
         textTransform: 'uppercase',
+        letterSpacing: 1.5,
     },
     subtitle: {
-        fontSize: 10,
+        fontSize: 9,
         color: '#64748B',
-        marginTop: 4,
+        textTransform: 'uppercase',
+        marginTop: 2,
+    },
+    professionalInfo: {
+        textAlign: 'right',
     },
     professionalName: {
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: 'bold',
         color: '#0F172A',
     },
     professionalDetail: {
-        fontSize: 9,
+        fontSize: 8,
         color: '#64748B',
+        marginTop: 1,
     },
-    section: {
-        marginBottom: 20,
+    reportingSection: {
+        marginBottom: 25,
     },
     sectionTitle: {
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 'bold',
-        color: '#94A3B8', // Slate-400
+        color: '#1E293B',
         textTransform: 'uppercase',
         borderBottomWidth: 1,
-        borderBottomColor: '#F1F5F9',
-        paddingBottom: 4,
-        marginBottom: 8,
-        letterSpacing: 1,
+        borderBottomColor: '#E2E8F0',
+        paddingBottom: 5,
+        marginBottom: 12,
+        backgroundColor: '#F8FAFC',
+        paddingLeft: 8,
     },
-    row: {
+    infoGrid: {
         flexDirection: 'row',
-        marginBottom: 4,
+        flexWrap: 'wrap',
+        marginBottom: 10,
+    },
+    infoItem: {
+        width: '50%',
+        marginBottom: 6,
     },
     label: {
-        width: '30%',
-        fontSize: 10,
-        color: '#475569',
+        fontSize: 9,
+        color: '#64748B',
         fontWeight: 'bold',
+        marginBottom: 2,
     },
     value: {
-        width: '70%',
         fontSize: 10,
         color: '#1E293B',
+    },
+    apaCitation: {
+        fontSize: 8,
+        color: '#64748B',
+        fontStyle: 'italic',
+        marginTop: 5,
+        borderLeftWidth: 2,
+        borderLeftColor: '#CBD5E1',
+        paddingLeft: 8,
     },
     table: {
         display: 'flex',
         width: 'auto',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        borderRadius: 4,
         marginTop: 10,
+        borderWidth: 0.5,
+        borderColor: '#E2E8F0',
     },
     tableRow: {
-        margin: 'auto',
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         borderBottomColor: '#E2E8F0',
-        minHeight: 24,
+        minHeight: 25,
         alignItems: 'center',
     },
     tableHeader: {
-        backgroundColor: '#F8FAFC',
+        backgroundColor: '#F1F5F9',
     },
     tableCol: {
-        width: '25%',
-        padding: 5,
+        padding: 6,
     },
     tableCellHeader: {
-        fontSize: 9,
+        fontSize: 8,
         fontWeight: 'bold',
         color: '#475569',
+        textTransform: 'uppercase',
     },
     tableCell: {
         fontSize: 9,
-        color: '#334155',
+        color: '#1E293B',
     },
-    badge: {
+    severityBadge: {
         paddingVertical: 2,
-        paddingHorizontal: 6,
-        borderRadius: 4,
-        fontSize: 8,
+        paddingHorizontal: 8,
+        borderRadius: 2,
+        fontSize: 7,
+        fontWeight: 'bold',
         textAlign: 'center',
+        width: 100,
     },
-    badgeGreen: {
-        backgroundColor: '#DCFCE7',
-        color: '#166534',
-    },
-    badgeRed: {
-        backgroundColor: '#FEE2E2',
-        color: '#991B1B',
-    },
-    textBlock: {
-        fontSize: 10,
-        lineHeight: 1.6,
-        color: '#334155',
-        textAlign: 'justify',
-    },
-    signatureBlock: {
-        marginTop: 50,
+    resultsSummaryBox: {
+        backgroundColor: '#F8FAFC',
+        padding: 15,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#E2E8F0',
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        gap: 30,
     },
-    signatureContainer: {
-        alignItems: 'center',
-        borderTopWidth: 1,
-        borderTopColor: '#0F172A',
-        paddingTop: 10,
-        width: 250, // Fixed width for the line
-    },
-    signatureName: {
-        fontSize: 11, // Smaller than header
+    bigScore: {
+        fontSize: 32,
         fontWeight: 'bold',
         color: '#0F172A',
         textAlign: 'center',
     },
-    signatureDetail: {
-        fontSize: 9,
-        color: '#334155',
-        textAlign: 'center',
-        marginTop: 2,
-    },
-    signatureCustom: {
+    scoreLabel: {
         fontSize: 8,
-        color: '#334155',
+        color: '#64748B',
         textAlign: 'center',
-        marginTop: 4,
-        maxWidth: 300,
+        textTransform: 'uppercase',
     },
-    footer: {
+    interpretationText: {
+        fontSize: 10,
+        lineHeight: 1.7,
+        color: '#334155',
+        textAlign: 'justify',
+    },
+    footerContainer: {
         position: 'absolute',
         bottom: 30,
-        left: 40,
-        right: 40,
-        fontSize: 8,
-        color: '#94A3B8',
-        textAlign: 'center',
+        left: 50,
+        right: 50,
         borderTopWidth: 1,
         borderTopColor: '#E2E8F0',
         paddingTop: 10,
     },
-    // Chart Styles
-    chartContainer: {
-        marginTop: 10,
-        marginBottom: 20,
-        height: 150,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'space-around',
-        borderBottomWidth: 1,
-        borderBottomColor: '#E2E8F0',
-        paddingBottom: 5,
-    },
-    barContainer: {
-        alignItems: 'center',
-        width: 60,
-    },
-    bar: {
-        width: 30,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-    },
-    barLabel: {
-        fontSize: 8,
-        color: '#64748B',
-        marginTop: 4,
+    footerText: {
+        fontSize: 7,
+        color: '#94A3B8',
         textAlign: 'center',
     },
-    barValue: {
-        fontSize: 8,
+    signatureContainer: {
+        marginTop: 60,
+        alignItems: 'center',
+    },
+    signatureLine: {
+        width: 180,
+        borderTopWidth: 1,
+        borderTopColor: '#1E293B',
+        marginTop: 40,
+        marginBottom: 5,
+    },
+    signatureName: {
+        fontSize: 10,
         fontWeight: 'bold',
-        color: '#334155',
-        marginBottom: 2,
     }
 });
 
-interface ReportPDFProps {
-    patient: any;
-    profile: any;
-    result: any;
-    interpretation: string;
-    chartData?: any[];
-}
-
-export const ReportPDF = ({ patient, profile, result, interpretation, chartData }: ReportPDFProps) => {
+// To be imported correctly in the original file
+export const ReportPDF = ({ patient, profile, result, interpretation }: any) => {
     const testDate = new Date(result.created_at)
     const formattedDate = format(testDate, "d 'de' MMMM 'de' yyyy", { locale: es })
-    const scores = result.results_json?.scores || {}
 
-    // Helper for badges
-    const getBadgeStyle = (label: string) => {
-        if (label === 'Sin Indicadores Clínicos' || label === 'Normal') return styles.badgeGreen
-        return styles.badgeRed
+    const getSeverityColor = (label: string = '') => {
+        const l = label.toLowerCase();
+        if (l.includes('normal') || l.includes('bajo') || l.includes('sin indicadores')) return '#16a34a'; // Green
+        if (l.includes('moderado') || l.includes('yellow') || l.includes('media')) return '#ca8a04'; // Yellow
+        return '#dc2626'; // Red
     }
 
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-                {/* Header */}
                 <View style={styles.header}>
-                    <View style={styles.headerLeft}>
-                        <Text style={styles.title}>Informe Clínico</Text>
-                        <Text style={styles.subtitle}>Confidencial</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={styles.headerLogo}>
+                            <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>NM</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.title}>NeuroMetrics LATAM</Text>
+                            <Text style={styles.subtitle}>Unidad de Evaluación Neuropsicológica</Text>
+                        </View>
                     </View>
-                    <View style={styles.headerRight}>
-                        <Text style={styles.professionalName}>{profile.full_name || 'Profesional Tratante'}</Text>
-                        <Text style={styles.professionalDetail}>{profile.specialty || 'Psicología Clínica / Neuropsicología'}</Text>
-                        {profile.registry_number && <Text style={styles.professionalDetail}>Reg: {profile.registry_number}</Text>}
-                    </View>
-                </View>
-
-                {/* Patient Info */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Identificación del Paciente</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <Text style={styles.value}>{patient.full_name}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>Fecha de Nacimiento:</Text>
-                        <Text style={styles.value}>{patient.birth_date}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>Fecha de Evaluación:</Text>
-                        <Text style={styles.value}>{formattedDate}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>Instrumento:</Text>
-                        <Text style={styles.value}>{result?.test_id?.toUpperCase() || 'N/A'}</Text>
+                    <View style={styles.professionalInfo}>
+                        <Text style={styles.professionalName}>{profile.full_name || 'Especialista a Cargo'}</Text>
+                        <Text style={styles.professionalDetail}>{profile.specialty || 'Psicología / Neuropsicología'}</Text>
+                        {profile.registry_number && <Text style={styles.professionalDetail}>Registro Profesional: {profile.registry_number}</Text>}
                     </View>
                 </View>
 
-                {/* Quantitative Results */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Resultados Cuantitativos</Text>
+                <View style={styles.reportingSection}>
+                    <Text style={styles.sectionTitle}>I. Identificación del Evaluado</Text>
+                    <View style={styles.infoGrid}>
+                        <View style={styles.infoItem}>
+                            <Text style={styles.label}>Nombre Completo:</Text>
+                            <Text style={styles.value}>{patient.full_name}</Text>
+                        </View>
+                        <View style={styles.infoItem}>
+                            <Text style={styles.label}>ID Clínico:</Text>
+                            <Text style={styles.value}>{patient.id_clinico || 'N/A'}</Text>
+                        </View>
+                        <View style={styles.infoItem}>
+                            <Text style={styles.label}>Fecha de Evaluación:</Text>
+                            <Text style={styles.value}>{formattedDate}</Text>
+                        </View>
+                        <View style={styles.infoItem}>
+                            <Text style={styles.label}>Instrumento Clínico:</Text>
+                            <Text style={[styles.value, { fontWeight: 'bold' }]}>{result?.test_id?.toUpperCase()}</Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.reportingSection}>
+                    <Text style={styles.sectionTitle}>II. Referencia Técnica</Text>
+                    <Text style={[styles.interpretationText, { fontStyle: 'italic', marginBottom: 5 }]}>
+                        Evaluación realizada bajo protocolos estandarizados de NeuroMetrics. Los resultados presentados a continuación se basan en baremos poblacionales validados.
+                    </Text>
+                </View>
+
+                <View style={styles.reportingSection}>
+                    <Text style={styles.sectionTitle}>III. Resumen de Puntuaciones</Text>
+                    <View style={styles.resultsSummaryBox}>
+                        <View>
+                            <Text style={styles.scoreLabel}>Puntuación Directa</Text>
+                            <Text style={styles.bigScore}>{result.results_json?.score}</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.scoreLabel}>Clasificación Clínica</Text>
+                            <Text style={[styles.value, { fontSize: 14, fontWeight: 'bold', color: getSeverityColor(result.results_json?.label) }]}>
+                                {result.results_json?.label}
+                            </Text>
+                        </View>
+                    </View>
+
                     <View style={styles.table}>
                         <View style={[styles.tableRow, styles.tableHeader]}>
-                            <View style={[styles.tableCol, { width: '50%' }]}><Text style={styles.tableCellHeader}>Escala / Subescala</Text></View>
-                            <View style={[styles.tableCol, { width: '20%' }]}><Text style={styles.tableCellHeader}>Puntaje</Text></View>
-                            <View style={[styles.tableCol, { width: '30%' }]}><Text style={styles.tableCellHeader}>Interpretación</Text></View>
+                            <View style={[styles.tableCol, { width: '45%' }]}><Text style={styles.tableCellHeader}>Escala / Dimensión Evaluada</Text></View>
+                            <View style={[styles.tableCol, { width: '25%' }]}><Text style={styles.tableCellHeader}>Puntaje</Text></View>
+                            <View style={[styles.tableCol, { width: '30%' }]}><Text style={styles.tableCellHeader}>Indicador Clínico</Text></View>
                         </View>
 
                         {Array.isArray(result.results_json?.details) ? (
                             result.results_json.details.map((detail: any, index: number) => (
                                 <View key={index} style={styles.tableRow}>
-                                    <View style={[styles.tableCol, { width: '50%' }]}><Text style={styles.tableCell}>{detail.title}</Text></View>
-                                    <View style={[styles.tableCol, { width: '20%' }]}><Text style={styles.tableCell}>{typeof detail.score === 'number' ? detail.score.toFixed(2) : detail.score}</Text></View>
+                                    <View style={[styles.tableCol, { width: '45%' }]}><Text style={styles.tableCell}>{detail.title}</Text></View>
+                                    <View style={[styles.tableCol, { width: '25%' }]}><Text style={styles.tableCell}>{detail.score}</Text></View>
                                     <View style={[styles.tableCol, { width: '30%' }]}>
-                                        <Text style={[styles.badge, getBadgeStyle(detail.label)]}>
-                                            {detail.label === 'Normal' ? 'Sin Indicadores Clínicos' : detail.label}
+                                        <Text style={[styles.severityBadge, { color: getSeverityColor(detail.label), backgroundColor: getSeverityColor(detail.label) + '15' }]}>
+                                            {detail.label}
                                         </Text>
                                     </View>
                                 </View>
                             ))
                         ) : (
-                            <View style={[styles.tableRow, { borderBottomWidth: 0 }]}>
-                                <View style={[styles.tableCol, { width: '50%' }]}><Text style={[styles.tableCell, { fontWeight: 'bold' }]}>Puntuación Total</Text></View>
-                                <View style={[styles.tableCol, { width: '20%' }]}><Text style={[styles.tableCell, { fontWeight: 'bold' }]}>{result.results_json?.score}</Text></View>
+                            <View style={styles.tableRow}>
+                                <View style={[styles.tableCol, { width: '45%' }]}><Text style={[styles.tableCell, { fontWeight: 'bold' }]}>Puntuación Total</Text></View>
+                                <View style={[styles.tableCol, { width: '25%' }]}><Text style={styles.tableCell}>{result.results_json?.score}</Text></View>
                                 <View style={[styles.tableCol, { width: '30%' }]}>
-                                    <Text style={[styles.badge, getBadgeStyle(result.results_json?.label)]}>
-                                        {result.results_json?.label === 'Normal' ? 'Sin Indicadores Clínicos' : result.results_json?.label}
+                                    <Text style={[styles.severityBadge, { color: getSeverityColor(result.results_json?.label), backgroundColor: getSeverityColor(result.results_json?.label) + '15' }]}>
+                                        {result.results_json?.label}
                                     </Text>
                                 </View>
                             </View>
@@ -301,55 +304,28 @@ export const ReportPDF = ({ patient, profile, result, interpretation, chartData 
                     </View>
                 </View>
 
-                {/* Chart Section */}
-                {chartData && (
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Gráfico de Resultados</Text>
-                        <View style={styles.chartContainer}>
-                            {chartData.map((data, index) => {
-                                // Simple scaling: Max score usually 3 for SNAP-IV. 
-                                // Height = (score / 3) * 100% of container height (120px approx)
-                                const height = Math.min((data.score / 3) * 120, 120);
-                                return (
-                                    <View key={index} style={styles.barContainer}>
-                                        <Text style={styles.barValue}>{data.score.toFixed(2)}</Text>
-                                        <View style={[styles.bar, { height: height, backgroundColor: data.color }]} />
-                                        <Text style={styles.barLabel}>{data.name}</Text>
-                                    </View>
-                                )
-                            })}
-                        </View>
-                    </View>
-                )}
-
-                {/* Interpretation */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Interpretación Clínica</Text>
-                    <Text style={styles.textBlock}>
+                <View style={styles.reportingSection}>
+                    <Text style={styles.sectionTitle}>IV. Interpretación y Conclusión Clínica</Text>
+                    <Text style={styles.interpretationText}>
                         {interpretation}
                     </Text>
                 </View>
 
-                {/* Signature */}
-                <View style={styles.signatureBlock}>
-                    <View style={styles.signatureContainer}>
-                        <Text style={styles.signatureName}>{profile.full_name}</Text>
-                        <Text style={styles.signatureDetail}>{profile.specialty || 'Psicólogo Clínico'}</Text>
-                        {profile.registry_number && <Text style={styles.signatureDetail}>Nº Registro {profile.registry_number}</Text>}
-                        {profile.email && <Text style={styles.signatureDetail}>Correo: {profile.email}</Text>}
-                        {profile.signature_url && (
-                            <Text style={styles.signatureCustom}>
-                                {profile.signature_url}
-                            </Text>
-                        )}
-                    </View>
+                <View style={styles.signatureContainer}>
+                    <View style={styles.signatureLine} />
+                    <Text style={styles.signatureName}>{profile.full_name || 'Firma del Profesional'}</Text>
+                    <Text style={styles.professionalDetail}>{profile.specialty || 'Especialista en Salud Mental'}</Text>
+                    {profile.registry_number && <Text style={styles.professionalDetail}>Cód. Reg. {profile.registry_number}</Text>}
                 </View>
 
-                {/* Footer */}
-                <Text style={styles.footer}>
-                    Este documento es un informe clínico confidencial generado por Neurometrics.
-                    La interpretación de estos resultados debe ser realizada por un profesional calificado.
-                </Text>
+                <View style={styles.footerContainer}>
+                    <Text style={styles.footerText}>
+                        Informe generado por el sistema NeuroMetrics. Este documento es propiedad del sistema de salud y de carácter confidencial bajo normas de protección de datos clínicos.
+                    </Text>
+                    <Text style={[styles.footerText, { marginTop: 4 }]}>
+                        Código de Verificación Electrónica: {result.id?.substring(0, 8).toUpperCase()}
+                    </Text>
+                </View>
             </Page>
         </Document>
     )

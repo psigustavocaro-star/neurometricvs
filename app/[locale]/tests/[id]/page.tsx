@@ -1,26 +1,7 @@
-import { depressionScale } from '@/lib/tests/phq9'
-import { snapIV } from '@/lib/tests/snap-iv'
-import { gad7 } from '@/lib/tests/gad7'
-import { rosenbergSelfEsteem } from '@/lib/tests/rosenberg'
-import { bis11 } from '@/lib/tests/bis11'
-import { scared } from '@/lib/tests/scared'
-import { mChatRF } from '@/lib/tests/m-chat-r-f'
-import { vanderbiltPadres } from '@/lib/tests/vanderbilt-padres'
+import { standardTests } from '@/lib/tests-registry'
 import { TestRunner } from '@/components/test-runner'
 import { CarasRTestRunner } from '@/components/tests/caras-r-runner'
 import { notFound } from 'next/navigation'
-
-// Tests estándar que usan el TestRunner genérico
-const standardTests = {
-    'phq-9': depressionScale,
-    'snap-iv': snapIV,
-    'gad-7': gad7,
-    'rosenberg': rosenbergSelfEsteem,
-    'bis-11': bis11,
-    'scared': scared,
-    'm-chat-r-f': mChatRF,
-    'vanderbilt-padres': vanderbiltPadres
-}
 
 // Tests especiales con componentes propios
 const specialTests = ['caras-r']

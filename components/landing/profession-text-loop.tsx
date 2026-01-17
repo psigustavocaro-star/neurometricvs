@@ -43,7 +43,7 @@ export function ProfessionTextLoop() {
     const currentGradient = colorMap[currentIndex % Object.keys(colorMap).length]
 
     return (
-        <span className="inline-flex relative h-[1.3em] min-w-[240px] xs:min-w-[280px] sm:min-w-[380px] md:min-w-[550px] items-center overflow-hidden align-middle px-2">
+        <span className="inline-flex relative h-[1.3em] min-w-[280px] xs:min-w-[320px] sm:min-w-[420px] md:min-w-[600px] lg:min-w-[650px] items-center overflow-visible align-middle px-2">
             <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span
                     key={currentIndex}

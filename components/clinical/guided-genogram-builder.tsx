@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle, Download, Network, RotateCcw } from 'lucide-react'
+import { Plus, Trash2, Save, Users, Heart, Baby, User, HelpCircle, Download, Network, RotateCcw, Move } from 'lucide-react'
 import { toast } from 'sonner'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
@@ -61,6 +61,10 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     const { resolvedTheme } = useTheme()
     const [showLegend, setShowLegend] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
+    const [zoom, setZoom] = useState(1)
+    const [pan, setPan] = useState({ x: 0, y: 0 })
+    const [isDragging, setIsDragging] = useState(false)
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
 
     useEffect(() => {
         setIsMounted(true)
@@ -354,6 +358,41 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
             toast.dismiss()
             toast.error("Error al generar el PDF")
         }
+    }
+
+
+    // Pan Handlers
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true)
+        setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y })
+    }
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return
+
+        const newX = e.clientX - dragStart.x
+        const newY = e.clientY - dragStart.y
+
+        // Simple constraints to keep content somewhat in view (assuming 700x500 viewBox)
+        // Limits: +/- 2000px
+        const clampedX = Math.max(-2000, Math.min(2000, newX))
+        const clampedY = Math.max(-2000, Math.min(2000, newY))
+
+        setPan({
+            x: clampedX,
+            y: clampedY
+        })
+    }
+
+    const handleMouseUp = () => {
+        setIsDragging(false)
+    }
+
+    const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.1, 2))
+    const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.1, 0.5))
+    const handleResetView = () => {
+        setZoom(1)
+        setPan({ x: 0, y: 0 })
     }
 
     // Render relationship line based on type
@@ -872,38 +911,59 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
     )
 
     const previewContent = (
-        <div className="relative h-full">
-            {/* Legend Toggle */}
-            <div className="absolute top-2 right-2 z-10 flex gap-2">
-                <Button variant="outline" size="sm" className="h-7 text-xs" onClick={handleDownloadPDF}>
-                    <Download className="w-3 h-3 mr-1" /> PDF
-                </Button>
-                <Popover open={showLegend} onOpenChange={setShowLegend}>
-                    <PopoverTrigger asChild>
-                        <Button variant="outline" size="sm" className="h-7 text-xs">
-                            <HelpCircle className="w-3 h-3 mr-1" /> Leyenda
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80 p-0" align="end">
-                        <GenogramLegend compact />
-                    </PopoverContent>
-                </Popover>
+        <div className="relative h-full select-none">
+            {/* Controls Toolbar */}
+            <div className="absolute top-2 right-2 z-10 flex flex-col gap-2 items-end">
+                <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="h-7 text-xs bg-white/80 dark:bg-slate-800/80 backdrop-blur" onClick={handleDownloadPDF}>
+                        <Download className="w-3 h-3 mr-1" /> PDF
+                    </Button>
+                    <Popover open={showLegend} onOpenChange={setShowLegend}>
+                        <PopoverTrigger asChild>
+                            <Button variant="outline" size="sm" className="h-7 text-xs bg-white/80 dark:bg-slate-800/80 backdrop-blur">
+                                <HelpCircle className="w-3 h-3 mr-1" /> Leyenda
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80 p-0" align="end">
+                            <GenogramLegend compact />
+                        </PopoverContent>
+                    </Popover>
+                </div>
+
+                {/* Zoom Controls */}
+                <div className="flex flex-col gap-1 bg-white/80 dark:bg-slate-800/80 backdrop-blur p-1 rounded-lg border shadow-sm">
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 dark:hover:bg-slate-700" onClick={handleZoomIn} title="Acercar">
+                        <Plus className="w-3 h-3" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 dark:hover:bg-slate-700" onClick={handleZoomOut} title="Alejar">
+                        <Move className="w-3 h-3 rotate-45" /> {/* Using Move icon rotated as pseudo-minus or keep standard */}
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 dark:hover:bg-slate-700" onClick={handleResetView} title="Resetear Vista">
+                        <RotateCcw className="w-3 h-3" />
+                    </Button>
+                </div>
             </div>
 
             <div
                 id="genogram-container"
-                className="h-full w-full rounded-lg overflow-hidden"
+                className={`h-full w-full rounded-lg overflow-hidden cursor-${isDragging ? 'grabbing' : 'grab'}`}
                 style={{ backgroundColor: isMounted && resolvedTheme === 'dark' ? '#0f172a' : '#f8fafc' }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
             >
                 <svg
-                    className="w-full h-full border border-slate-200 dark:border-slate-700 rounded-lg"
+                    className="w-full h-full border border-slate-200 dark:border-slate-700 rounded-lg touch-none"
                     viewBox="0 0 700 500"
                     preserveAspectRatio="xMidYMid meet"
                 >
-                    {/* Render relationship lines first (behind nodes) */}
-                    {relationships.map(renderRelationshipLine)}
-                    {/* Render nodes on top */}
-                    {members.map(renderNode)}
+                    <g transform={`translate(${pan.x},${pan.y}) scale(${zoom})`} style={{ transition: isDragging ? 'none' : 'transform 0.2s ease-out' }}>
+                        {/* Render relationship lines first (behind nodes) */}
+                        {relationships.map(renderRelationshipLine)}
+                        {/* Render nodes on top */}
+                        {members.map(renderNode)}
+                    </g>
                 </svg>
             </div>
         </div>

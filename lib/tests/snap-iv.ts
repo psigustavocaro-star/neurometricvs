@@ -13,7 +13,13 @@ export const snapIV: TestDefinition = {
     description: 'Escala de valoración para el diagnóstico clínico de TDAH y Trastorno Negativista Desafiante (TND). Incluye criterios del DSM-IV. 18 ítems evaluados por padres y/o maestros.',
     instructions: 'Para cada apartado evalúe de 0 a 3 de acuerdo con la intensidad que mejor caracterice al niño. Puntúe todos los apartados. Solamente de un valor (0, 1, 2 o 3).',
     authors: 'Swanson, J.M., Nolan, W., & Pelham, W.E. (1983)',
-    reference: 'Swanson, J. M. (1992). School-based assessments and interventions for ADD students. KC Publishing. Adaptación y validación: Bussing, R., Fernández, M., Harwood, M., Hou, W., Garvan, C.W., & Swanson, J.M. (2008)',
+    reference: 'Swanson, J. M. (1992). School-based assessments and interventions for ADD students. KC Publishing. Bussing, R., et al. (2008)',
+    uiType: 'blocks',
+    reportConfig: {
+        chartType: 'radar',
+        apaCategory: 'Trastornos del Neurodesarrollo',
+        showResponseTable: true
+    },
     questions: [
         {
             id: '1',

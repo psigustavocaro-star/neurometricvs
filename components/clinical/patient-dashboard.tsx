@@ -21,7 +21,12 @@ import {
     Network,
     Files,
     Plus,
-    Search
+    Search,
+    Phone,
+    Mail,
+    IdCard,
+    Calendar,
+    Clock
 } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { useTranslations, useFormatter } from 'next-intl'
@@ -201,48 +206,95 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
             {/* --- LEFT SIDEBAR: THE CHART (Expediente) - Hidden on mobile --- */}
             <aside className="hidden lg:flex w-80 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex-col flex-none z-20 shadow-sm dark:shadow-xl transition-colors duration-300">
 
-                {/* 1. Patient Identity Card */}
-                <div className="p-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 relative z-10 group transition-colors duration-300">
+                {/* 1. Patient Identity Card - ENHANCED */}
+                <div className="p-5 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 relative z-10 transition-colors duration-300">
                     {/* Subtle Top Brand Line */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-cyan-500 dark:from-cyan-600 dark:to-teal-600"></div>
 
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="relative">
-                            <Avatar className="h-16 w-16 border-4 border-slate-50 dark:border-slate-800 shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
-                                <AvatarFallback className="bg-slate-100 dark:bg-slate-800 text-teal-600 dark:text-cyan-400 font-bold text-xl">
+                    {/* Header: Avatar + Name */}
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="relative flex-shrink-0">
+                            <Avatar className="h-14 w-14 border-3 border-slate-50 dark:border-slate-800 shadow-md ring-1 ring-slate-200 dark:ring-slate-700">
+                                <AvatarFallback className="bg-gradient-to-br from-teal-500 to-cyan-600 text-white font-bold text-lg">
                                     {patient.full_name.substring(0, 2).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
-                            {/* Online Status Indicator */}
-                            <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
+                            <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
                         </div>
-                        <div className="min-w-0">
-                            <h2 className="font-bold text-slate-900 dark:text-white leading-tight text-lg truncate tracking-tight">{patient.full_name}</h2>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">{t('clinical_record')}</span>
+                        <div className="min-w-0 flex-1">
+                            <h2 className="font-bold text-slate-900 dark:text-white leading-tight text-base truncate tracking-tight">{patient.full_name}</h2>
+                            {patient.rut && (
+                                <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    <IdCard className="w-3 h-3" />
+                                    <span>{patient.rut}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
-                        <div>
-                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">{t('age')}</span>
-                            <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">
-                                {patient.birth_date ? `${new Date().getFullYear() - new Date(patient.birth_date).getFullYear()} ${t('age_suffix')}` : '-'}
+                    {/* Key Stats Grid */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        {/* Age */}
+                        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2.5 border border-slate-100 dark:border-slate-800">
+                            <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 mb-1">
+                                <Calendar className="w-3 h-3" />
+                                <span className="text-[10px] uppercase font-bold tracking-wide">{t('age')}</span>
+                            </div>
+                            <span className="font-bold text-slate-800 dark:text-white text-sm">
+                                {patient.birth_date ? (() => {
+                                    const birth = new Date(patient.birth_date);
+                                    const now = new Date();
+                                    let years = now.getFullYear() - birth.getFullYear();
+                                    let months = now.getMonth() - birth.getMonth();
+                                    if (months < 0 || (months === 0 && now.getDate() < birth.getDate())) {
+                                        years--;
+                                        months = 12 + months;
+                                    }
+                                    if (now.getDate() < birth.getDate()) months--;
+                                    if (months < 0) months = 0;
+                                    return years < 18 ? `${years}a ${months}m` : `${years} ${t('age_suffix')}`;
+                                })() : '-'}
                             </span>
                         </div>
-                        <div>
-                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide">{t('diagnosis')}</span>
-                            <span className="font-semibold text-teal-600 dark:text-cyan-400 truncate block text-sm" title={clinicalRecord?.diagnosis || t('under_evaluation')}>
+                        {/* Diagnosis */}
+                        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2.5 border border-slate-100 dark:border-slate-800">
+                            <span className="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold tracking-wide mb-1">{t('diagnosis')}</span>
+                            <span className="font-bold text-teal-600 dark:text-cyan-400 truncate block text-sm" title={clinicalRecord?.diagnosis || t('under_evaluation')}>
                                 {clinicalRecord?.diagnosis || t('under_evaluation')}
                             </span>
                         </div>
                     </div>
 
-                    {/* Alerts/Status Tags */}
-                    <div className="flex gap-2 mt-4 flex-wrap">
-                        <Badge variant="outline" className="bg-slate-50 dark:bg-slate-800/50 text-xs font-medium border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
+                    {/* Contact Info */}
+                    <div className="space-y-2 mb-4">
+                        {patient.phone && (
+                            <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                                <Phone className="w-3.5 h-3.5 text-slate-400" />
+                                <span className="truncate">{patient.phone}</span>
+                            </div>
+                        )}
+                        {patient.contact_email && (
+                            <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                                <Mail className="w-3.5 h-3.5 text-slate-400" />
+                                <span className="truncate">{patient.contact_email}</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Last Session Indicator */}
+                    {sessions.length > 0 && (
+                        <div className="flex items-center gap-2 text-xs bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 px-2.5 py-1.5 rounded-lg border border-teal-100 dark:border-teal-800/50 mb-3">
+                            <Clock className="w-3.5 h-3.5" />
+                            <span>{t('last_session')}: {format.dateTime(new Date(sessions[0].date), { day: 'numeric', month: 'short' })}</span>
+                        </div>
+                    )}
+
+                    {/* Status Tags */}
+                    <div className="flex gap-2 flex-wrap">
+                        <Badge variant="outline" className="bg-slate-50 dark:bg-slate-800/50 text-[10px] font-medium border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
                             {t('sessions_count', { count: sessions.length })}
                         </Badge>
-                        <Badge variant="outline" className="bg-green-50 dark:bg-green-900/10 text-xs font-medium border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
+                        <Badge variant="outline" className="bg-green-50 dark:bg-green-900/10 text-[10px] font-medium border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
                             {t('active')}
                         </Badge>
                     </div>
@@ -385,7 +437,10 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     clinicalRecord={clinicalRecord}
                                     lastSession={sessions[0]}
                                     diagnosis={clinicalRecord?.diagnosis || t('under_evaluation')}
-                                    onStartSession={() => handleViewChange('session_manager')}
+                                    onStartSession={() => {
+                                        setCurrentView('session_manager')
+                                        setSelectedSessionId('new')
+                                    }}
                                     sessions={sessions}
                                     userSpecialty={effectiveSpecialty} // Pass effective specialty
                                     vitalsLogs={vitalsLogs}

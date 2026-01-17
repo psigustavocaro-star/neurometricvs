@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Plus, User } from "lucide-react"
 import { PatientList } from "@/components/patients/patient-list"
 import { getTranslations } from 'next-intl/server'
+import { NewPatientDialog } from '@/components/patients/NewPatientDialog'
 
 export const revalidate = 0 // Always fetch fresh data
 
@@ -45,6 +46,12 @@ export default async function PatientsPage() {
         )
     }
 
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('specialty')
+        .eq('id', user?.id)
+        .single()
+
     const { data: patients } = await supabase
         .from('patients')
         .select('*')
@@ -58,11 +65,14 @@ export default async function PatientsPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('List.title')}</h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-1">{t('List.subtitle')}</p>
                 </div>
-                <Button asChild className="bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
-                    <Link href="/patients/new">
-                        <Plus className="mr-2 h-4 w-4" /> {t('List.new_patient')}
-                    </Link>
-                </Button>
+                <NewPatientDialog
+                    initialSpecialty={profile?.specialty}
+                    trigger={
+                        <Button className="bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
+                            <Plus className="mr-2 h-4 w-4" /> {t('List.new_patient')}
+                        </Button>
+                    }
+                />
             </div>
 
             <PatientList initialPatients={patients || []} />
