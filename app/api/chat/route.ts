@@ -1,6 +1,5 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText, convertToCoreMessages } from 'ai';
-import fs from 'fs';
 
 // Custom Google Provider with fallback API Key
 const google = createGoogleGenerativeAI({
@@ -11,12 +10,10 @@ export const maxDuration = 30;
 
 export async function POST(req: Request) {
     console.log("CHAT_DEBUG: POST Request received");
-    const logPath = '/Users/gustavocaro/Documentos HDD/neurometrics/chat_debug.log';
-    fs.appendFileSync(logPath, `[${new Date().toISOString()}] POST Request received\n`);
 
     try {
         const { messages } = await req.json();
-        fs.appendFileSync(logPath, `[${new Date().toISOString()}] Messages: ${JSON.stringify(messages)}\n`);
+        console.log("CHAT_DEBUG: Messages received", messages.length);
 
         const coreMessages = messages.map((m: any) => ({
             role: m.role,
@@ -33,7 +30,6 @@ Tu propósito es apoyar a profesionales de la salud (médicos, psicólogos, psiq
         return result.toUIMessageStreamResponse();
     } catch (error: any) {
         console.error("AI Chat Error:", error);
-        fs.appendFileSync(logPath, `[${new Date().toISOString()}]ERROR: ${error.message}\n`);
         return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 }
