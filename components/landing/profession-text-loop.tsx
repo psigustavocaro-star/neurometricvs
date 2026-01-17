@@ -43,41 +43,45 @@ export function ProfessionTextLoop() {
     const currentGradient = colorMap[currentIndex % Object.keys(colorMap).length]
 
     return (
-        <div className="relative inline-block w-full text-left">
-            <AnimatePresence mode="wait">
+        <span className="inline-flex items-center align-middle mx-1 sm:mx-2 min-h-[1.5em]">
+            <span className="relative flex items-center bg-slate-100/50 dark:bg-slate-800/40 px-3 py-1 sm:px-4 sm:py-1.5 rounded-xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm backdrop-blur-sm overflow-hidden min-w-[180px] xs:min-w-[220px] sm:min-w-[280px] md:min-w-[340px] lg:min-w-[420px] justify-center transition-all duration-500">
+                <AnimatePresence mode="wait">
+                    <motion.span
+                        key={currentIndex}
+                        initial={{
+                            opacity: 0,
+                            y: 10,
+                            scale: 0.95
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                            scale: 1
+                        }}
+                        exit={{
+                            opacity: 0,
+                            y: -10,
+                            scale: 0.95
+                        }}
+                        transition={{
+                            duration: 0.5,
+                            ease: [0.16, 1, 0.3, 1]
+                        }}
+                        className={`text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} whitespace-nowrap text-center`}
+                    >
+                        {currentText}
+                    </motion.span>
+                </AnimatePresence>
+
+                {/* Dynamic accent dot */}
                 <motion.div
-                    key={currentIndex}
-                    initial={{
-                        opacity: 0,
-                        x: -20,
-                        filter: 'blur(10px)'
-                    }}
-                    animate={{
-                        opacity: 1,
-                        x: 0,
-                        filter: 'blur(0px)'
-                    }}
-                    exit={{
-                        opacity: 0,
-                        x: 20,
-                        filter: 'blur(10px)'
-                    }}
-                    transition={{
-                        duration: 0.7,
-                        ease: [0.16, 1, 0.3, 1]
-                    }}
-                    className={`inline-block font-black tracking-tightest bg-clip-text text-transparent bg-gradient-to-r ${currentGradient} py-2`}
-                >
-                    {currentText}
-                    <motion.div
-                        layoutId="active-underline"
-                        className={`absolute -bottom-1 left-0 h-1.5 w-1/3 rounded-full bg-gradient-to-r ${currentGradient} opacity-40 shadow-[0_0_20px_rgba(20,184,166,0.3)]`}
-                        initial={{ width: 0 }}
-                        animate={{ width: '40%' }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
-                </motion.div>
-            </AnimatePresence>
-        </div>
+                    className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r ${currentGradient}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 3.5, ease: "linear" }}
+                    key={`line-${currentIndex}`}
+                />
+            </span>
+        </span>
     )
 }

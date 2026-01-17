@@ -56,11 +56,8 @@ export default function LandingPage() {
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl text-slate-900 dark:text-white drop-shadow-sm max-w-4xl leading-[1.1]">
-                    {tHero('title')}
-                    <div className="block mt-2 lg:mt-4">
-                      <ProfessionTextLoop />
-                    </div>
+                  <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
+                    {tHero('title')} <ProfessionTextLoop />
                   </h1>
                 </ScrollAnimation>
 
