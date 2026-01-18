@@ -97,30 +97,42 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                 {/* Main Editor Area (2 columns) */}
                 <div className="lg:col-span-2 space-y-4">
                     <Card className="h-full border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
-                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 pb-4 border-b border-slate-100 dark:border-slate-800">
-                            <CardTitle className="text-slate-800 dark:text-slate-200 flex justify-between items-center text-base">
-                                <span>{t('notes_title')}</span>
-                                <div className="flex gap-2">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 pb-6 border-b border-slate-100 dark:border-slate-800 space-y-4">
+                            <CardTitle className="text-slate-800 dark:text-slate-200 text-lg font-semibold">
+                                {t('notes_title')}
+                            </CardTitle>
+                            <CardDescription className="text-slate-500 dark:text-slate-400 -mt-1">
+                                {t('notes_description')}
+                            </CardDescription>
+
+                            {/* Date and Duration Row - Better Spacing */}
+                            <div className="flex flex-wrap items-end gap-6 pt-2">
+                                <div className="space-y-2">
+                                    <Label className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                                        Fecha
+                                    </Label>
                                     <Input
                                         type="date"
                                         value={date}
                                         onChange={(e) => setDate(e.target.value)}
-                                        className="w-32 h-8 text-xs bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"
+                                        className="w-40 h-10 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg"
                                     />
-                                    <div className="flex items-center gap-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded px-2 h-8">
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                                        Duración
+                                    </Label>
+                                    <div className="flex items-center gap-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg px-4 h-10">
                                         <Input
                                             type="number"
                                             value={duration}
                                             onChange={(e) => setDuration(parseInt(e.target.value))}
-                                            className="w-12 h-6 text-xs border-0 p-0 focus-visible:ring-0 text-right bg-transparent text-slate-700 dark:text-slate-300"
+                                            className="w-16 h-8 text-sm border-0 p-0 focus-visible:ring-0 text-center bg-transparent text-slate-700 dark:text-slate-300"
                                         />
-                                        <span className="text-xs text-slate-500">{tCommon('minutes_suffix')}</span>
+                                        <span className="text-sm text-slate-500 dark:text-slate-400">{tCommon('minutes_suffix')}</span>
                                     </div>
                                 </div>
-                            </CardTitle>
-                            <CardDescription className="text-slate-500 dark:text-slate-400">
-                                {t('notes_description')}
-                            </CardDescription>
+                            </div>
                         </CardHeader>
                         <CardContent className="p-0">
                             <Textarea
