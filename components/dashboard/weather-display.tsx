@@ -24,37 +24,62 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
                 let lat = -33.4489 // Default Santiago
                 let lon = -70.6693
                 let cityName = 'Santiago'
+                let locationFetched = false
 
-                try {
-                    // 1. Try IP location (ipwho.is is a bit more generous with free usage and HTTPS)
-                    const locRes = await fetch('https://ipwho.is/')
-                    if (locRes.ok) {
-                        const locData = await locRes.json()
-                        if (locData.success) {
-                            lat = locData.latitude
-                            lon = locData.longitude
-                            cityName = locData.city || cityName
+                // Try multiple IP geolocation services in order of reliability
+                const locationServices = [
+                    {
+                        url: 'http://ip-api.com/json/?fields=status,city,lat,lon',
+                        parse: (data: { status: string; city: string; lat: number; lon: number }) => {
+                            if (data.status === 'success') {
+                                return { lat: data.lat, lon: data.lon, city: data.city }
+                            }
+                            return null
+                        }
+                    },
+                    {
+                        url: 'https://ipwho.is/',
+                        parse: (data: { success: boolean; latitude: number; longitude: number; city: string }) => {
+                            if (data.success) {
+                                return { lat: data.latitude, lon: data.longitude, city: data.city }
+                            }
+                            return null
+                        }
+                    },
+                    {
+                        url: 'https://ipapi.co/json/',
+                        parse: (data: { latitude: number; longitude: number; city: string }) => {
+                            if (data.latitude && data.longitude) {
+                                return { lat: data.latitude, lon: data.longitude, city: data.city }
+                            }
+                            return null
                         }
                     }
-                } catch (e) {
-                    console.warn('Primary location fetch failed, trying secondary')
+                ]
+
+                for (const service of locationServices) {
+                    if (locationFetched) break
                     try {
-                        const locRes = await fetch('https://ipapi.co/json/')
+                        const locRes = await fetch(service.url)
                         if (locRes.ok) {
                             const locData = await locRes.json()
-                            if (locData.latitude && locData.longitude) {
-                                lat = locData.latitude
-                                lon = locData.longitude
-                                cityName = locData.city || cityName
+                            const result = service.parse(locData)
+                            if (result) {
+                                lat = result.lat
+                                lon = result.lon
+                                cityName = result.city || cityName
+                                locationFetched = true
                             }
                         }
-                    } catch (e2) {
-                        console.warn('All location fetches failed')
+                    } catch (e) {
+                        console.warn(`Location service ${service.url} failed`)
                     }
                 }
 
-                // 2. Get weather
-                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&timezone=auto`)
+                // Get weather from Open-Meteo (free, no API key required)
+                const weatherRes = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+                )
                 if (!weatherRes.ok) throw new Error('Weather service unavailable')
                 const weatherData = await weatherRes.json()
 
@@ -65,8 +90,9 @@ export function WeatherDisplay({ className, showCity = true }: WeatherDisplayPro
                     })
                 }
             } catch (error) {
-                console.warn('Weather fetch suppressed:', error)
-                setWeather({ temp: 20, city: 'Santiago' })
+                console.warn('Weather fetch error:', error)
+                // Fallback with default values
+                setWeather({ temp: 22, city: 'Santiago' })
             } finally {
                 setLoading(false)
             }
