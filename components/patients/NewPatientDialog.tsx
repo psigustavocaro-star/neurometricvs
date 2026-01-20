@@ -33,7 +33,10 @@ export function NewPatientDialog({ trigger, initialSpecialty }: NewPatientDialog
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="max-w-[95vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none">
+            <DialogContent
+                overlayClassName="backdrop-blur-md bg-black/40"
+                className="max-w-[95vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none"
+            >
                 <VisuallyHidden>
                     <DialogTitle>Nuevo Paciente</DialogTitle>
                 </VisuallyHidden>

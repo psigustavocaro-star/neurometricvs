@@ -145,7 +145,7 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
                             {resultId && (
                                 <Button
                                     className="flex-1"
-                                    onClick={() => router.push(`/reports/${resultId}`)}
+                                    onClick={() => router.push(`/reports/test/${resultId}`)}
                                 >
                                     Ver Informe APA
                                 </Button>

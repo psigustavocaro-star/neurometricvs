@@ -123,6 +123,40 @@ export async function getClinicalSessions(patientId: string) {
     return data as (ClinicalSession & { ai_insights?: AIInsight | null })[]
 }
 
+export async function getSession(sessionId: string) {
+    try {
+        const supabase = await createClient()
+        const { data, error } = await supabase
+            .from('clinical_sessions')
+            .select(`
+                *,
+                ai_insights (*)
+            `)
+            .eq('id', sessionId)
+            .single()
+
+        if (error) return null
+        return data as (ClinicalSession & { ai_insights?: AIInsight | null })
+    } catch (e) {
+        return null
+    }
+}
+
+export async function getSessionTests(sessionId: string) {
+    try {
+        const supabase = await createClient()
+        const { data, error } = await supabase
+            .from('test_results')
+            .select('*')
+            .eq('session_id', sessionId)
+
+        if (error) return []
+        return data
+    } catch (e) {
+        return []
+    }
+}
+
 export async function createSession(patientId: string, data: Partial<ClinicalSession>) {
     const supabase = await createClient()
     const { data: newSession, error } = await supabase

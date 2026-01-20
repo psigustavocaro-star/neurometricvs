@@ -35,8 +35,8 @@ import { cn } from '@/lib/utils'
 
 const FormField = ({ id, label, icon: Icon, type = "text", placeholder, name, required = false, value, onChange, itemVariant }: any) => (
     <motion.div variants={itemVariant} className="space-y-2">
-        <Label htmlFor={id} className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-            <Icon className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+        <Label htmlFor={id} className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+            <Icon className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
             {label}
             {required && <span className="text-red-500">*</span>}
         </Label>
@@ -49,7 +49,7 @@ const FormField = ({ id, label, icon: Icon, type = "text", placeholder, name, re
                 placeholder={placeholder}
                 value={value || ''}
                 onChange={onChange}
-                className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-all focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 dark:focus:border-cyan-500"
+                className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-all focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
             />
         </div>
     </motion.div>
@@ -189,34 +189,34 @@ export function NewPatientForm({
             variants={container}
             className="w-full max-w-5xl"
         >
-            <Card className="border-none shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500"></div>
-                <CardHeader className="pb-8 pt-10 px-8 text-center md:text-left">
+            <Card className="border-none shadow-2xl bg-white dark:bg-slate-950 overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500"></div>
+                <CardHeader className="pb-6 pt-8 px-8 text-center md:text-left border-b border-slate-100 dark:border-slate-800/50">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
                             <CardTitle className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
                                 {t('title')}
                             </CardTitle>
-                            <CardDescription className="text-lg text-slate-500 dark:text-slate-400">
+                            <CardDescription className="text-base text-slate-500 dark:text-slate-400">
                                 {t('subtitle')}
                             </CardDescription>
                         </div>
                         <div className="bg-teal-50 dark:bg-teal-900/20 p-3 rounded-2xl border border-teal-100 dark:border-teal-800 hidden md:block">
-                            <User className="w-8 h-8 text-teal-600 dark:text-cyan-500" />
+                            <User className="w-6 h-6 text-teal-600 dark:text-cyan-400" />
                         </div>
                     </div>
                 </CardHeader>
                 <form onSubmit={handleSubmit}>
-                    <CardContent className="px-8 pb-8 space-y-10">
+                    <CardContent className="p-8 space-y-8">
                         {/* Section 1: Personal Info */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                <Users className="w-5 h-5 text-slate-400" />
-                                <h3 className="font-bold text-slate-800 dark:text-slate-200 tracking-tight uppercase text-xs">
+                                <Users className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                <h3 className="font-bold text-slate-700 dark:text-slate-200 tracking-wider uppercase text-xs">
                                     {t('personal_info')}
                                 </h3>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                 <div className="md:col-span-2 lg:col-span-1">
                                     <FormField
                                         id="fullName"
@@ -276,20 +276,20 @@ export function NewPatientForm({
                                     itemVariant={item}
                                 />
                                 <motion.div variants={item} className="space-y-2 lg:col-span-1">
-                                    <Label className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                        <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                    <Label className="flex items-center gap-2 text-muted-foreground font-medium text-xs uppercase tracking-wide">
+                                        <Activity className="w-3.5 h-3.5 text-primary" />
                                         {t('fields.gender')}
                                     </Label>
                                     <RadioGroup
                                         value={formData.gender}
                                         onValueChange={(v) => setFormData(p => ({ ...p, gender: v }))}
                                         name="gender"
-                                        className="flex gap-4 pt-2"
+                                        className="flex gap-4 pt-1"
                                     >
                                         {['male', 'female', 'other'].map((g) => (
-                                            <div key={g} className="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800/50 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                                                <RadioGroupItem value={g} id={g} className="text-teal-600 border-slate-300" />
-                                                <Label htmlFor={g} className="capitalize cursor-pointer text-sm font-medium">
+                                            <div key={g} className="flex items-center space-x-2 bg-muted/40 px-3 py-2 rounded-md border border-border/50 cursor-pointer hover:bg-muted/60 transition-colors">
+                                                <RadioGroupItem value={g} id={g} className="text-primary border-muted-foreground/40" />
+                                                <Label htmlFor={g} className="capitalize cursor-pointer text-sm font-medium text-foreground">
                                                     {t(`gender_labels.${g}`)}
                                                 </Label>
                                             </div>
@@ -302,12 +302,12 @@ export function NewPatientForm({
                         {/* Section 2: Contact & Location */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                <MapPin className="w-5 h-5 text-slate-400" />
-                                <h3 className="font-bold text-slate-800 dark:text-slate-200 tracking-tight uppercase text-xs">
+                                <MapPin className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                <h3 className="font-bold text-slate-700 dark:text-slate-200 tracking-wider uppercase text-xs">
                                     {t('contact_info')}
                                 </h3>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <FormField
                                     id="email"
                                     label={t('fields.email')}
@@ -351,18 +351,18 @@ export function NewPatientForm({
                         </div>
 
                         {/* Section 3: Clinical & Support */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* Clinical Info Column */}
                             <div className="space-y-6">
                                 <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                    <Activity className="w-5 h-5 text-slate-400" />
-                                    <h3 className="font-bold text-slate-800 dark:text-slate-200 tracking-tight uppercase text-xs">
+                                    <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                    <h3 className="font-bold text-slate-700 dark:text-slate-200 tracking-wider uppercase text-xs">
                                         {t('clinical_info')}
                                     </h3>
                                 </div>
                                 <motion.div variants={item} className="space-y-2">
-                                    <Label htmlFor="reason_for_consultation" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                        <Search className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                    <Label htmlFor="reason_for_consultation" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                        <Search className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                         {t('fields.reason_for_consultation')}
                                     </Label>
                                     <Textarea
@@ -371,14 +371,14 @@ export function NewPatientForm({
                                         placeholder={t('placeholders.reason_for_consultation')}
                                         value={formData.reason_for_consultation}
                                         onChange={handleChange}
-                                        className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                        className="min-h-[80px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                     />
                                 </motion.div>
 
                                 {(isMedical || isPsych) && (
                                     <motion.div variants={item} className="space-y-2">
-                                        <Label htmlFor="diagnoses" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                            <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        <Label htmlFor="diagnoses" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                            <Activity className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                             {t('fields.diagnoses')}
                                         </Label>
                                         <Textarea
@@ -387,15 +387,15 @@ export function NewPatientForm({
                                             placeholder={t('placeholders.diagnoses')}
                                             value={formData.diagnoses}
                                             onChange={handleChange}
-                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                            className="min-h-[80px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                         />
                                     </motion.div>
                                 )}
 
                                 {isMedical && (
                                     <motion.div variants={item} className="space-y-2">
-                                        <Label htmlFor="medications" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                            <Pill className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        <Label htmlFor="medications" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                            <Pill className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                             {t('fields.medications')}
                                         </Label>
                                         <Textarea
@@ -404,7 +404,7 @@ export function NewPatientForm({
                                             placeholder={t('placeholders.medications')}
                                             value={formData.medications}
                                             onChange={handleChange}
-                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                            className="min-h-[80px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                         />
                                     </motion.div>
                                 )}
@@ -434,8 +434,8 @@ export function NewPatientForm({
 
                                 {isPhysical && (
                                     <motion.div variants={item} className="space-y-2">
-                                        <Label htmlFor="physical_status" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                            <Activity className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        <Label htmlFor="physical_status" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                            <Activity className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                             {t('fields.physical_status')}
                                         </Label>
                                         <Textarea
@@ -444,7 +444,7 @@ export function NewPatientForm({
                                             placeholder={t('placeholders.physical_status')}
                                             value={formData.physical_status}
                                             onChange={handleChange}
-                                            className="h-20 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                            className="min-h-[80px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                         />
                                     </motion.div>
                                 )}
@@ -453,8 +453,8 @@ export function NewPatientForm({
                             {/* Support Info Column */}
                             <div className="space-y-6">
                                 <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                                    <Heart className="w-5 h-5 text-slate-400" />
-                                    <h3 className="font-bold text-slate-800 dark:text-slate-200 tracking-tight uppercase text-xs">
+                                    <Heart className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                    <h3 className="font-bold text-slate-700 dark:text-slate-200 tracking-wider uppercase text-xs">
                                         {t('support_info')}
                                     </h3>
                                 </div>
@@ -478,8 +478,8 @@ export function NewPatientForm({
                                         itemVariant={item}
                                     />
                                     <motion.div variants={item} className="space-y-2">
-                                        <Label htmlFor="genogram" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                            <Network className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        <Label htmlFor="genogram" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                            <Network className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                             {t('fields.genogram')}
                                         </Label>
                                         <Textarea
@@ -488,12 +488,12 @@ export function NewPatientForm({
                                             placeholder={t('placeholders.genogram')}
                                             value={formData.genogram}
                                             onChange={handleChange}
-                                            className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                            className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                         />
                                     </motion.div>
                                     <motion.div variants={item} className="space-y-2">
-                                        <Label htmlFor="family_history" className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
-                                            <Users className="w-4 h-4 text-teal-600 dark:text-cyan-500" />
+                                        <Label htmlFor="family_history" className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
+                                            <Users className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
                                             {t('fields.family_history')}
                                         </Label>
                                         <Textarea
@@ -502,7 +502,7 @@ export function NewPatientForm({
                                             placeholder={t('placeholders.family_history')}
                                             value={formData.family_history}
                                             onChange={handleChange}
-                                            className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                                            className="h-24 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 dark:focus:border-cyan-500"
                                         />
                                     </motion.div>
                                 </div>
@@ -520,30 +520,30 @@ export function NewPatientForm({
                             </motion.div>
                         )}
                     </CardContent>
-                    <CardFooter className="px-8 py-8 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4">
+                    <CardFooter className="px-6 py-6 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-3 bg-slate-50/50 dark:bg-slate-900/50">
                         <Button
                             type="button"
                             variant="outline"
                             onClick={onCancel}
-                            className="w-full md:w-auto h-12 px-8 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                            className="w-full md:w-auto"
                         >
                             {t('cancel') || 'Regresar'}
                         </Button>
                         <Button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full md:w-auto md:ml-auto h-12 px-8 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold text-lg rounded-xl shadow-[0_10px_20px_rgba(13,148,136,0.2)] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                            className="w-full md:w-auto md:ml-auto gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white border-0"
                         >
                             {isSubmitting ? (
-                                <span className="flex items-center gap-2">
-                                    <Search className="w-5 h-5 animate-spin" />
+                                <>
+                                    <Search className="w-4 h-4 animate-spin" />
                                     {t('loading')}
-                                </span>
+                                </>
                             ) : (
-                                <span className="flex items-center gap-2">
+                                <>
                                     {t('submit')}
-                                    <ChevronRight className="w-5 h-5" />
-                                </span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </>
                             )}
                         </Button>
                     </CardFooter>

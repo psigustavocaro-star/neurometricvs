@@ -9,7 +9,7 @@ import { cn, getUserDisplayData } from "@/lib/utils"
 // ... imports
 import { Button } from "@/components/ui/button"
 import { LoginModal } from "@/components/auth/login-modal"
-import { WeatherTimeWidget } from "@/components/layout/weather-time-widget"
+
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LanguageToggle } from "@/components/layout/language-toggle"
 import { LayoutDashboard, Users, CreditCard, UserCircle, LogOut, Search, FileText, Home, Globe, ChevronDown } from "lucide-react"
@@ -162,9 +162,6 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
 
                         <LanguageToggle />
-
-                        {/* Weather Widget */}
-                        {currentUser && <WeatherTimeWidget />}
 
                         {/* Auth Buttons */}
                         {currentUser ? (

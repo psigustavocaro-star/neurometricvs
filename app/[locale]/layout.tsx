@@ -52,7 +52,7 @@ export default async function RootLayout({
     notFound();
   }
 
-  // Provide all messages to the client
+  // Provide all messages to the client - forced reload
   const messages = await getMessages();
 
   // Supabase logic

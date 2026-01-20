@@ -25,15 +25,35 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
     const t = useTranslations('Dashboard.Patients.Sessions.FirstForm')
     const tCommon = useTranslations('Dashboard.Patients.Sessions')
     const [saving, setSaving] = useState(false)
-    const { resolvedTheme } = useTheme() // Assuming useTheme is imported, if not I need to adding it. 
-    // Wait, useTheme wasn't in original imports. I should check if I need it or just use Tailwind dark classes.
-    // Original code used dark: classes. I'll stick to that.
+    const { resolvedTheme } = useTheme()
+
+    const getColorClasses = (color: string) => {
+        switch (color) {
+            case 'green': return 'bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300'
+            case 'yellow': return 'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-300'
+            case 'amber': return 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-300'
+            case 'orange': return 'bg-orange-50 border-orange-200 text-orange-800 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-300'
+            case 'red': return 'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300'
+            case 'blue': return 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300'
+            case 'indigo': return 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900/20 dark:border-indigo-800 dark:text-indigo-300'
+            default: return 'bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-900/20 dark:border-slate-800 dark:text-slate-300'
+        }
+    }
 
     // Unified Session Data
     const [notes, setNotes] = useState('')
     const [date, setDate] = useState(new Date().toISOString().split('T')[0])
     const [duration, setDuration] = useState(60)
     const [showEvaluator, setShowEvaluator] = useState(false)
+    const [testResults, setTestResults] = useState<any[]>([])
+
+    const handleTestComplete = (result: any) => {
+        setTestResults(prev => [...prev, result])
+        setShowEvaluator(false)
+        toast.success(t('messages.test_added_to_session') || "Test agregado a la sesión")
+        // Optionally append to notes
+        setNotes(prev => prev + `\n\n[RESULTADO TEST: ${result.testTitle}]\nPuntaje: ${result.score} - ${result.label}\n`)
+    }
 
     const handleSave = async (isComplete: boolean = false) => {
         if (!notes.trim()) {
@@ -167,7 +187,25 @@ export function FirstSessionForm({ patientId, patientName, onComplete }: FirstSe
                         </CardHeader>
                         {showEvaluator && (
                             <CardContent className="pt-0">
-                                <InSessionTestRunner patientId={patientId} />
+                                <InSessionTestRunner patientId={patientId} onTestComplete={handleTestComplete} />
+                            </CardContent>
+                        )}
+
+                        {/* Results Display */}
+                        {testResults.length > 0 && (
+                            <CardContent className="pt-0 pb-4 space-y-2">
+                                {testResults.map((res, idx) => {
+                                    const styles = getColorClasses(res.color)
+                                    return (
+                                        <div key={idx} className={`p-3 rounded-lg border text-sm flex justify-between items-center ${styles}`}>
+                                            <div>
+                                                <p className="font-semibold">{res.testTitle}</p>
+                                                <p className="text-xs opacity-80">{res.label}</p>
+                                            </div>
+                                            <div className="text-xl font-bold">{res.score}</div>
+                                        </div>
+                                    )
+                                })}
                             </CardContent>
                         )}
                     </Card>

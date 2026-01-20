@@ -15,10 +15,13 @@ import { format } from 'date-fns'
 import { useLocale, useTranslations, useFormatter } from 'next-intl'
 import { motion, Variants } from "framer-motion"
 import { ResourcesSection } from './resources-section'
-import { WeatherDisplay } from './weather-display'
+
 
 import { Patient } from '@/types/patient'
 import { NewPatientDialog } from '../patients/NewPatientDialog'
+import { StartSessionDialog } from './start-session-dialog'
+import { ThemeToggle } from '@/components/layout/theme-toggle'
+import { LanguageToggle } from '@/components/layout/language-toggle'
 
 interface UnifiedDashboardProps {
     stats: {
@@ -34,6 +37,7 @@ interface UnifiedDashboardProps {
         activePatients?: number
         sessionsToday?: number
         testsToReview?: number
+        pendingItems?: any[]
     }
 }
 
@@ -97,7 +101,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 <CalendarDays className="w-3.5 h-3.5 md:w-3 md:h-3 opacity-70" />
                                 {format(new Date(), t('header.date_format'), { locale: dateLocale })}
                             </div>
-                            <WeatherDisplay />
+
                         </div>
                     </motion.div>
                     <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 md:gap-3">
@@ -113,9 +117,15 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 {t('cta.calculators')}
                             </Link>
                         </Button>
-                        <NewPatientDialog
-                            initialSpecialty={stats.subscriptionPlan}
-                        />
+                        <div className="flex items-center gap-2 border-l border-border/50 pl-3 ml-1">
+                            <div className="w-[88px]">
+                                <ThemeToggle />
+                            </div>
+                            <div className="w-[88px]">
+                                <LanguageToggle />
+                            </div>
+                        </div>
+                        <StartSessionDialog />
                     </motion.div>
                 </div>
             </div>
@@ -269,20 +279,14 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                             )}
                                         </div>
                                         <div className="col-span-12 md:col-span-3 text-right">
-                                            <div className="flex items-center justify-end gap-1.5">
-                                                <Button size="sm" variant="ghost" className="h-8 px-2 text-teal-600 hover:text-teal-700 hover:bg-teal-500/10 transition-all rounded-lg group/action" title="Iniciar Sesión Activa">
-                                                    <Play className="w-3.5 h-3.5 mr-1.5 fill-current opacity-70 group-hover:opacity-100" />
-                                                    <span className="text-[10px] font-bold uppercase tracking-wider">Sesión</span>
-                                                </Button>
-                                                <div className="w-px h-4 bg-border/40 mx-0.5 hidden md:block" />
-                                                <Button size="icon" variant="ghost" asChild className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all rounded-lg">
-                                                    <Link href={`/patients/${patient.id}`}>
-                                                        <ChevronRight className="w-4 h-4" />
-                                                    </Link>
-                                                </Button>
-                                            </div>
+                                            <Button size="icon" variant="ghost" asChild className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all rounded-lg">
+                                                <Link href={`/patients/${patient.id}`}>
+                                                    <ChevronRight className="w-4 h-4" />
+                                                </Link>
+                                            </Button>
                                         </div>
                                     </div>
+
                                 ))}
                                 {filteredPatients.length === 0 && (
                                     <div className="px-5 py-16 text-center">
@@ -307,6 +311,34 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         <div className="min-h-[450px]">
                             <ResourcesSection />
                         </div>
+
+                        {/* Pending Items Widget */}
+                        {stats.pendingItems && stats.pendingItems.length > 0 && (
+                            <div className="bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden">
+                                <div className="p-4 border-b border-border/40 bg-orange-50/50 dark:bg-orange-900/10">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded bg-orange-100 dark:bg-orange-800/30 flex items-center justify-center">
+                                            <ClipboardList className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                                        </div>
+                                        <h3 className="font-bold text-foreground text-sm">Pendientes</h3>
+                                    </div>
+                                </div>
+                                <div className="p-2">
+                                    {stats.pendingItems.map((item, i) => (
+                                        <div key={i} className="flex items-center justify-between p-3 hover:bg-muted/50 rounded-lg group transition-colors cursor-pointer">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                                                <div>
+                                                    <p className="text-xs font-bold text-foreground">{item.title}</p>
+                                                    <p className="text-[10px] text-muted-foreground">{item.subtitle}</p>
+                                                </div>
+                                            </div>
+                                            <ChevronRight className="w-3 h-3 text-muted-foreground opacity-50 group-hover:opacity-100" />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Recent Activity Feed */}
                         <div className="group relative bg-card rounded-2xl border border-border/60 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg">
@@ -348,8 +380,8 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         </div>
 
                     </motion.div>
-                </div>
-            </div>
+                </div >
+            </div >
         </motion.div >
     )
 }

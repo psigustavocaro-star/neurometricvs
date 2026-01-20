@@ -13,11 +13,20 @@ import { toast } from 'sonner'
 import { saveTestResult } from '@/app/[locale]/tests/actions'
 import { useRouter } from 'next/navigation'
 
+export interface TestResultData {
+    score: number
+    label: string
+    color: string
+    answers: Record<string, number>
+    testId: string
+    testTitle: string
+}
+
 interface StepByStepTestRunnerProps {
     test: TestDefinition
     patientId?: string
     sessionId?: string
-    onComplete?: () => void
+    onComplete?: (result: TestResultData) => void
 }
 
 export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }: StepByStepTestRunnerProps) {
@@ -67,17 +76,39 @@ export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }:
 
     const calculateAndSave = async () => {
         // Calculation logic
-        let totalScore = 0
-        Object.values(answers).forEach(v => totalScore += v)
+        let calculatedResult: any = 0
+        let displayScore = 0
 
-        // Simple range check
+        if (test.scoring?.calculate) {
+            calculatedResult = test.scoring.calculate(answers)
+            if (typeof calculatedResult === 'object' && calculatedResult !== null && 'total' in calculatedResult) {
+                displayScore = calculatedResult.total
+            } else if (typeof calculatedResult === 'number') {
+                displayScore = calculatedResult
+            }
+        } else {
+            Object.values(answers).forEach(v => displayScore += v)
+        }
+
+        // Determine label/color from ranges if possible
         const ranges = test.scoring?.ranges || []
-        const range = ranges.find(r => totalScore >= r.min && totalScore <= r.max)
+        const range = ranges.find(r => displayScore >= r.min && displayScore <= r.max)
+
+        let label = range?.label || 'Completado'
+        let color = range?.color || 'slate'
+
+        // Interpretation
+        let interpretation = ''
+        if (test.scoring?.interpret) {
+            interpretation = test.scoring.interpret(calculatedResult ? calculatedResult : displayScore)
+        }
 
         const resultData = {
-            score: totalScore,
-            label: range?.label || 'Completado',
-            color: range?.color || 'gray'
+            score: displayScore,
+            label: label,
+            color: color,
+            details: calculatedResult,
+            interpretation: interpretation
         }
 
         setFinalScore(resultData)
@@ -88,11 +119,22 @@ export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }:
                 const response = await saveTestResult(patientId, test.id, resultData.score, {
                     label: resultData.label,
                     color: resultData.color,
-                    answers: answers
+                    answers: answers,
+                    details: resultData.details,
+                    interpretation: resultData.interpretation
                 }, sessionId)
                 toast.success("Resultados guardados correctamente")
                 setIsCompleted(true)
-                if (onComplete) onComplete()
+                if (onComplete) {
+                    onComplete({
+                        score: displayScore,
+                        label: resultData.label,
+                        color: resultData.color,
+                        answers: answers,
+                        testId: test.id,
+                        testTitle: test.title
+                    })
+                }
             } catch (e) {
                 toast.error("Error al guardar resultados")
             } finally {
@@ -116,9 +158,17 @@ export function StepByStepTestRunner({ test, patientId, sessionId, onComplete }:
                         <p className="text-slate-500">Los resultados han sido registrados.</p>
                     </div>
                     {finalScore && (
-                        <div className={`inline-block px-6 py-3 rounded-xl bg-${finalScore.color || 'slate'}-50 border border-${finalScore.color || 'slate'}-100`}>
-                            <p className="text-3xl font-bold text-slate-800">{finalScore.score}</p>
-                            <p className={`text-sm font-semibold text-${finalScore.color || 'slate'}-600 uppercase`}>{finalScore.label}</p>
+                        <div className="space-y-4">
+                            <div className={`inline-block px-6 py-3 rounded-xl bg-${finalScore.color || 'slate'}-50 border border-${finalScore.color || 'slate'}-100`}>
+                                <p className="text-3xl font-bold text-slate-800">{finalScore.score}</p>
+                                <p className={`text-sm font-semibold text-${finalScore.color || 'slate'}-600 uppercase`}>{finalScore.label}</p>
+                            </div>
+                            {finalScore.interpretation && (
+                                <div className="max-w-md mx-auto bg-slate-50 p-4 rounded-lg text-sm text-slate-700 text-left whitespace-pre-wrap">
+                                    <p className="font-semibold mb-1">Interpretación:</p>
+                                    {finalScore.interpretation}
+                                </div>
+                            )}
                         </div>
                     )}
                     <div className="flex justify-center gap-4 pt-4">

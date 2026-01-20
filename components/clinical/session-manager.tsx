@@ -17,7 +17,8 @@ import { InSessionTestRunner } from './in-session-test-runner'
 // @ts-ignore
 import ClinicalSessionRecorder from './ClinicalSessionRecorder'
 import { useTranslations } from 'next-intl'
-import { Plus, Save, Loader2, Pill, Brain, Mic, ClipboardList, ChevronDown, Trash2 } from 'lucide-react'
+import { Plus, Save, Loader2, Pill, Brain, Mic, ClipboardList, ChevronDown, Trash2, Printer } from 'lucide-react'
+import { useLocale } from 'next-intl'
 
 interface SessionManagerProps {
     patientId: string
@@ -30,6 +31,21 @@ interface SessionManagerProps {
 
 export function SessionManager({ patientId, sessions, patientName, embedded, preSelectedSessionId, userSpecialty = 'psychologist' }: SessionManagerProps) {
     const t = useTranslations('Dashboard.Patients.Sessions')
+    const locale = useLocale()
+
+    const getColorClasses = (color: string) => {
+        switch (color) {
+            case 'green': return 'bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300'
+            case 'yellow': return 'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-300'
+            case 'amber': return 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-300'
+            case 'orange': return 'bg-orange-50 border-orange-200 text-orange-800 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-300'
+            case 'red': return 'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300'
+            case 'blue': return 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300'
+            case 'indigo': return 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900/20 dark:border-indigo-800 dark:text-indigo-300'
+            default: return 'bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-900/20 dark:border-slate-800 dark:text-slate-300'
+        }
+    }
+
     const [showFirstSessionForm, setShowFirstSessionForm] = useState(sessions.length === 0)
     // Default to 'new' if we have sessions but want to encourage input, OR select latest.
     // User wants to see sessions, so let's default to no selection (overview) or latest.
@@ -83,6 +99,19 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
     const [showTimeline, setShowTimeline] = useState(true)
 
     const [showEvaluator, setShowEvaluator] = useState(false)
+    const [testResults, setTestResults] = useState<any[]>([]) // Store session tests
+
+    const handleTestComplete = (result: any) => {
+        setTestResults(prev => [...prev, result])
+        setShowEvaluator(false)
+        toast.success(t('messages.test_added_to_session') || "Test agregado a la sesión")
+
+        // Append result summary to notes automatically
+        setFormData(prev => ({
+            ...prev,
+            notes: (prev.notes || '') + `\n\n[RESULTADO TEST: ${result.testTitle}]\nPuntaje: ${result.score} - ${result.label}\n`
+        }))
+    }
 
     const handleSessionAnalysis = (data: { transcription: string, analysis: string, duration: number }) => {
         setAiReport(data.analysis) // Keep AI report separate for view
@@ -273,9 +302,21 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                     </Button>
 
                     {selectedSessionId !== 'new' && (
-                        <Button onClick={handleDelete} disabled={loading} variant="destructive" className="ml-2 shadow-sm transition-all hover:scale-105">
-                            <Trash2 className="w-4 h-4" />
-                        </Button>
+                        <>
+                            <Button
+                                onClick={() => window.open(`/${locale}/reports/session/${selectedSessionId}`, '_blank')}
+                                variant="outline"
+                                className="ml-2 shadow-sm transition-all hover:scale-105 gap-2 hidden sm:flex"
+                                title="Imprimir Informe"
+                            >
+                                <Printer className="w-4 h-4" />
+                                <span className="hidden lg:inline">Informe</span>
+                            </Button>
+
+                            <Button onClick={handleDelete} disabled={loading} variant="destructive" className="ml-2 shadow-sm transition-all hover:scale-105">
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </>
                     )}
 
                 </div>
@@ -344,9 +385,37 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                                         <InSessionTestRunner
                                             patientId={patientId}
                                             sessionId={selectedSessionId !== 'new' && selectedSessionId !== null ? selectedSessionId : undefined}
+                                            onTestComplete={handleTestComplete}
                                         />
                                     </div>
                                 )}
+                            </div>
+                        )}
+
+                        {/* Results Display (Instant Feedback) */}
+                        {testResults.length > 0 && (
+                            <div className="mb-6 grid gap-2">
+                                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Evaluaciones Realizadas</label>
+                                {testResults.map((res, idx) => {
+                                    const styles = getColorClasses(res.color)
+                                    return (
+                                        <div key={idx} className={`p-4 rounded-xl border flex flex-col gap-2 ${styles}`}>
+                                            <div className="flex justify-between items-center w-full">
+                                                <div>
+                                                    <p className="font-bold">{res.testTitle}</p>
+                                                    <p className="text-sm opacity-80">{res.label}</p>
+                                                </div>
+                                                <div className="text-2xl font-bold">{res.score}</div>
+                                            </div>
+                                            {res.interpretation && (
+                                                <div className="mt-2 text-xs opacity-90 border-t border-current/20 pt-2 w-full">
+                                                    <p className="font-semibold mb-0.5 opacity-70 uppercase tracking-wider text-[10px]">Interpretación</p>
+                                                    <p className="whitespace-pre-wrap">{res.interpretation}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )}
 

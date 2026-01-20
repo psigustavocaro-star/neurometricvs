@@ -53,8 +53,8 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                         *,
                         patients (
                             id,
-                            name,
-                            age,
+                            full_name,
+                            birth_date,
                             gender
                         )
                     `)
@@ -162,13 +162,26 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
         completedAt: new Date(testResult.created_at)
     }
 
+    // Calculate age from birth_date
+    const calculateAge = (birthDate: string | null) => {
+        if (!birthDate) return undefined
+        const today = new Date()
+        const birth = new Date(birthDate)
+        let age = today.getFullYear() - birth.getFullYear()
+        const monthDiff = today.getMonth() - birth.getMonth()
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--
+        }
+        return age
+    }
+
     return (
         <div className="container py-6">
             <ProfessionalTestReport
                 test={testDef}
                 results={results}
-                patientName={patient?.name || t('client.default_patient')}
-                patientAge={patient?.age}
+                patientName={patient?.full_name || t('client.default_patient')}
+                patientAge={calculateAge(patient?.birth_date)}
                 patientGender={patient?.gender}
                 evaluationDate={new Date(testResult.created_at)}
             />

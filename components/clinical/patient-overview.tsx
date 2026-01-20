@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { GuidedGenogramBuilder } from './guided-genogram-builder'
 import {
     ArrowRight,
@@ -31,7 +32,10 @@ import {
     MapPin,
     Calendar,
     Phone,
-    Mail
+    Mail,
+    Pencil,
+    Check,
+    X
 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
@@ -39,6 +43,8 @@ import { useTranslations, useFormatter } from 'next-intl'
 import { ClinicalRecord, VitalsLog, PatientMedication } from '@/types/clinical'
 import { VitalsModule } from './vitals-module'
 import { MedicationManager } from './medication-manager'
+import { updateClinicalRecord } from '@/app/[locale]/patients/clinical-actions'
+import { toast } from 'sonner'
 
 interface PatientOverviewProps {
     patient: any
@@ -70,6 +76,11 @@ export function PatientOverview({
     const router = useRouter()
     const [showGenogram, setShowGenogram] = useState(false)
 
+    // Diagnosis editing state
+    const [isEditingDiagnosis, setIsEditingDiagnosis] = useState(false)
+    const [editedDiagnosis, setEditedDiagnosis] = useState(diagnosis || '')
+    const [isSavingDiagnosis, setIsSavingDiagnosis] = useState(false)
+
     // Role detection matching NewPatientForm
     const activeRole = userSpecialty?.toLowerCase() || 'psychologist'
     const isPsychiatrist = activeRole.includes('psychiatrist') || activeRole.includes('psiquiatra')
@@ -83,6 +94,21 @@ export function PatientOverview({
 
     // Get the most recent sessions with insights
     const recentSessions = sessions.slice(0, 5)
+
+    // Handle diagnosis save
+    const handleSaveDiagnosis = async () => {
+        setIsSavingDiagnosis(true)
+        try {
+            await updateClinicalRecord(patient.id, { diagnosis: editedDiagnosis })
+            toast.success('Diagnóstico actualizado')
+            setIsEditingDiagnosis(false)
+            router.refresh()
+        } catch (error) {
+            toast.error('Error al actualizar diagnóstico')
+        } finally {
+            setIsSavingDiagnosis(false)
+        }
+    }
 
     return (
         <div className="h-full overflow-y-auto overflow-x-hidden bg-background transition-colors duration-300 w-full max-w-full">
@@ -104,8 +130,56 @@ export function PatientOverview({
                         </CardHeader>
                         <CardContent className="px-4 pb-4 space-y-3">
                             <div>
-                                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">{t('main_diagnosis')}</p>
-                                <p className="font-bold text-foreground text-base leading-tight">{diagnosis || t('in_evaluation')}</p>
+                                <div className="flex items-center justify-between mb-1">
+                                    <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">{t('main_diagnosis')}</p>
+                                    {!isEditingDiagnosis && (
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-6 w-6 p-0 hover:bg-primary/10 hover:text-primary"
+                                            onClick={() => {
+                                                setEditedDiagnosis(diagnosis || '')
+                                                setIsEditingDiagnosis(true)
+                                            }}
+                                            title="Editar diagnóstico"
+                                        >
+                                            <Pencil className="w-3 h-3" />
+                                        </Button>
+                                    )}
+                                </div>
+                                {isEditingDiagnosis ? (
+                                    <div className="space-y-2">
+                                        <Input
+                                            value={editedDiagnosis}
+                                            onChange={(e) => setEditedDiagnosis(e.target.value)}
+                                            placeholder="Ej: F32.1 Episodio depresivo moderado"
+                                            className="text-sm h-9"
+                                            autoFocus
+                                        />
+                                        <div className="flex gap-2">
+                                            <Button
+                                                size="sm"
+                                                className="h-7 text-xs bg-primary hover:bg-primary/90"
+                                                onClick={handleSaveDiagnosis}
+                                                disabled={isSavingDiagnosis}
+                                            >
+                                                <Check className="w-3 h-3 mr-1" />
+                                                Guardar
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                className="h-7 text-xs"
+                                                onClick={() => setIsEditingDiagnosis(false)}
+                                            >
+                                                <X className="w-3 h-3 mr-1" />
+                                                Cancelar
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="font-bold text-foreground text-base leading-tight">{diagnosis || t('in_evaluation')}</p>
+                                )}
                             </div>
                             <div className="flex items-center gap-2">
                                 <Badge variant="outline" className="text-primary bg-primary/10 border-primary/20 text-xs px-2 py-0.5 font-medium">

@@ -89,19 +89,24 @@ export function ResourcesSection() {
                 </Button>
             </div>
 
-            {/* Minimalist Clinical News */}
-            <div className="mt-2 border-t border-border/30 bg-muted/5 flex-1 min-h-[300px]">
-                <div className="px-5 py-3 flex items-center justify-between sticky top-0 bg-muted/5 backdrop-blur-sm z-10">
-                    <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">{t('news_title') || 'Actualidad Clínica'}</span>
-                    <BookOpen className="w-3 h-3 text-muted-foreground/40" />
+            {/* Enhanced Clinical News */}
+            <div className="mt-4 border-t border-border/30 bg-gradient-to-b from-muted/20 to-transparent flex-1 flex flex-col min-h-[300px]">
+                <div className="px-6 py-5 flex items-center gap-3 sticky top-0 backdrop-blur-sm z-10 border-b border-border/10">
+                    <div className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400">
+                        <BookOpen className="w-5 h-5" strokeWidth={2.5} />
+                    </div>
+                    <div>
+                        <h4 className="text-sm font-extrabold text-foreground tracking-tight uppercase">{t('news_title') || 'Actualidad Clínica'}</h4>
+                        <p className="text-[10px] text-muted-foreground font-medium">Últimas actualizaciones científicas</p>
+                    </div>
                 </div>
 
-                <div className="divide-y divide-border/20">
+                <div className="flex-1 overflow-y-auto px-2 py-2 space-y-2">
                     {loading ? (
                         [1, 2, 3].map(i => (
-                            <div key={i} className="p-4 space-y-2">
-                                <div className="h-3 w-full bg-muted animate-pulse rounded" />
-                                <div className="h-2 w-2/3 bg-muted animate-pulse rounded" />
+                            <div key={i} className="p-5 mx-2 rounded-xl bg-muted/20 border border-border/20 space-y-3">
+                                <div className="h-4 w-3/4 bg-muted/40 animate-pulse rounded-md" />
+                                <div className="h-3 w-1/2 bg-muted/40 animate-pulse rounded-md" />
                             </div>
                         ))
                     ) : (
@@ -110,14 +115,31 @@ export function ResourcesSection() {
                                 key={i}
                                 href={article.url}
                                 target="_blank"
-                                className="flex flex-col gap-1.5 p-4 hover:bg-muted/30 transition-all group lg:last:pb-8"
+                                className="flex gap-4 p-4 mx-2 rounded-xl hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-sm transition-all group relative overflow-hidden"
                             >
-                                <h4 className="text-xs font-bold text-foreground/90 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-                                    {article.title}
-                                </h4>
-                                <p className="text-[10px] text-muted-foreground/70 line-clamp-1">
-                                    {article.source.name} • {formatIntl.dateTime(new Date(article.publishedAt), { day: 'numeric', month: 'short' })}
-                                </p>
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-muted/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                <div className="shrink-0 mt-1">
+                                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/20 transition-colors">
+                                        <Activity className="w-5 h-5 text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-1.5 relative z-10">
+                                    <h4 className="text-sm font-bold text-slate-700 dark:text-slate-200 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                                        {article.title}
+                                    </h4>
+                                    <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                                        <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider text-slate-600 dark:text-slate-400 font-bold border border-slate-200 dark:border-slate-700">
+                                            {article.source.name}
+                                        </span>
+                                        <span>•</span>
+                                        <span>{formatIntl.dateTime(new Date(article.publishedAt), { day: 'numeric', month: 'short' })}</span>
+                                    </div>
+                                </div>
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                                    <ExternalLink className="w-4 h-4 text-indigo-400" />
+                                </div>
                             </Link>
                         ))
                     )}

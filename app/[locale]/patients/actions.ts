@@ -156,7 +156,9 @@ export async function updatePatient(id: string, formData: FormData) {
     const birthDate = formData.get('birthDate') as string
     const gender = formData.get('gender') as string
     const email = formData.get('email') as string
+    const diagnosis = formData.get('diagnosis') as string
 
+    // Update patient basic info
     const { error } = await supabase
         .from('patients')
         .update({
@@ -171,7 +173,34 @@ export async function updatePatient(id: string, formData: FormData) {
         return { error: 'Could not update patient' }
     }
 
+    // Update or create clinical record with diagnosis
+    if (diagnosis !== undefined) {
+        // Check if clinical record exists
+        const { data: existingRecord } = await supabase
+            .from('clinical_records')
+            .select('id')
+            .eq('patient_id', id)
+            .single()
+
+        if (existingRecord) {
+            // Update existing record
+            await supabase
+                .from('clinical_records')
+                .update({ diagnosis: diagnosis || null })
+                .eq('patient_id', id)
+        } else {
+            // Create new clinical record
+            await supabase
+                .from('clinical_records')
+                .insert({
+                    patient_id: id,
+                    diagnosis: diagnosis || null
+                })
+        }
+    }
+
     revalidatePath(`/patients/${id}`)
     revalidatePath('/patients')
+    revalidatePath('/dashboard')
     return { success: true }
 }

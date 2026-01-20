@@ -26,6 +26,7 @@ interface EditPatientSheetProps {
         birth_date: string
         gender: string
         contact_email?: string
+        diagnosis?: string
     }
 }
 
@@ -93,7 +94,7 @@ export function EditPatientSheet({ patient }: EditPatientSheetProps) {
                                 id="gender"
                                 name="gender"
                                 defaultValue={patient.gender}
-                                className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                             >
                                 <option value="male">{t('gender.male')}</option>
                                 <option value="female">{t('gender.female')}</option>
@@ -110,6 +111,20 @@ export function EditPatientSheet({ patient }: EditPatientSheetProps) {
                             type="email"
                             defaultValue={patient.contact_email || ''}
                             placeholder={t('placeholders.email')}
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="diagnosis" className="flex items-center gap-2">
+                            <span>Diagnóstico Principal</span>
+                            <span className="text-xs text-muted-foreground">(DSM-5 / CIE-11)</span>
+                        </Label>
+                        <textarea
+                            id="diagnosis"
+                            name="diagnosis"
+                            defaultValue={patient.diagnosis || ''}
+                            placeholder="Ej: Trastorno Depresivo Mayor, episodio único, moderado (F32.1)"
+                            className="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                         />
                     </div>
 

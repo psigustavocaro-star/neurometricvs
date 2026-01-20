@@ -40,12 +40,16 @@ export interface TestDefinition {
     instructions?: string
     authors?: string
     reference?: string
+    category?: 'neurology' | 'psychiatry' | 'psychology' | 'geriatrics' | 'pediatrics' | 'other'
+    duration?: string
     uiType?: UIType
     questions: Question[]
     scoring?: {
         type?: 'sum' | 'average'
-        ranges: ScoringRange[]
+        ranges?: ScoringRange[]
         interpretation?: string
+        calculate?: (answers: Record<string, number>) => number | any
+        interpret?: (result: number | any) => string
     }
     subscales?: Subscale[]
     reportConfig?: {

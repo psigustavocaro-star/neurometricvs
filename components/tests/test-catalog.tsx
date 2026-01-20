@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,21 +9,96 @@ import { Badge } from "@/components/ui/badge"
 
 import { FileText, ArrowRight, Star, Clock, Activity } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { testsCatalog as mockTests, Test } from "@/lib/data/tests-catalog"
+import { standardTests } from "@/lib/tests-registry"
 import { cn } from "@/lib/utils"
 
 import { PatientSelectorDialog } from "@/components/tests/patient-selector-dialog"
+
+// Transform TestDefinition to catalog Test format
+interface Test {
+    id: string
+    name: string
+    description: string
+    category: string
+    type?: string
+    duration: string
+    questions: number
+    ageRange: string
+    isFavorite?: boolean
+    isPremium?: boolean
+}
+
+// Category mapping from internal to display names
+const categoryMap: Record<string, string> = {
+    'psychology': 'Psicología',
+    'psychiatry': 'Psiquiatría',
+    'neurology': 'Neurología',
+    'pediatrics': 'Pediatría',
+    'geriatrics': 'Geriatría',
+    'speech': 'Fonoaudiología',
+    'occupational': 'Terapia Ocupacional',
+    'addiction': 'Adicciones',
+    'other': 'General'
+}
+
+// Infer age range from test title/category
+const inferAgeRange = (title: string, category: string): string => {
+    const lowerTitle = title.toLowerCase()
+    const lowerCat = category.toLowerCase()
+
+    // Geriatric/Dementia tests
+    if (lowerTitle.includes('gds') || lowerTitle.includes('pfeiffer') || lowerTitle.includes('mini-cog') ||
+        lowerTitle.includes('ad8') || lowerTitle.includes('iqcode') || lowerTitle.includes('zarit') ||
+        lowerTitle.includes('cornell') || lowerCat === 'geriatrics' || lowerTitle.includes('demencia')) {
+        return 'Adulto Mayor (65+)'
+    }
+    // Pediatric tests
+    if (lowerCat === 'pediatrics' || lowerTitle.includes('m-chat') || lowerTitle.includes('q-chat') ||
+        lowerTitle.includes('vanderbilt') || lowerTitle.includes('psc-17') || lowerTitle.includes('scared') ||
+        lowerTitle.includes('conners') || lowerTitle.includes('brief') || lowerTitle.includes('snap') ||
+        lowerTitle.includes('prolec') || lowerTitle.includes('vineland') || lowerTitle.includes('peds')) {
+        return 'Infantil/Adolescentes (6-18)'
+    }
+    // Adult-specific
+    if (lowerTitle.includes('epds') || lowerTitle.includes('iief') || lowerTitle.includes('fsfi') ||
+        lowerTitle.includes('asrs') || lowerTitle.includes('wurs')) {
+        return 'Adultos (18+)'
+    }
+    return 'Todas las edades'
+}
+
+// Generate catalog from standardTests registry
+const generateCatalogFromRegistry = (): Test[] => {
+    return Object.entries(standardTests).map(([id, def]) => {
+        const rawCategory = def.category || 'other'
+        const displayCategory = categoryMap[rawCategory] || rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1)
+
+        return {
+            id,
+            name: def.title,
+            description: def.description,
+            category: displayCategory,
+            duration: def.duration || '5-10 min',
+            questions: def.questions?.filter(q => q.type !== 'info').length || 0,
+            ageRange: inferAgeRange(def.title, rawCategory),
+            isFavorite: false
+        }
+    })
+}
 
 export function TestCatalog() {
     const [searchTerm, setSearchTerm] = useState("")
     const [activeCategory, setActiveCategory] = useState("all")
     const [activeAge, setActiveAge] = useState("all")
-    const [tests, setTests] = useState(mockTests)
+
+    // Use real tests from registry
+    const initialTests = useMemo(() => generateCatalogFromRegistry(), [])
+    const [tests, setTests] = useState(initialTests)
     const [selectedTestForStart, setSelectedTestForStart] = useState<Test | null>(null)
 
-    // Extract unique categories and age ranges (simplified for now)
-    const categories = ["all", ...Array.from(new Set(mockTests.map(t => t.category)))]
-    const ageRanges = ["all", "Infantil (0-12)", "Adolescentes (12-18)", "Adultos (18+)", "Adulto Mayor (65+)"]
+    // Extract unique categories from real tests
+    const categories = useMemo(() => ["all", ...Array.from(new Set(tests.map(t => t.category))).sort()], [tests])
+    const ageRanges = ["all", "Infantil/Adolescentes (6-18)", "Adultos (18+)", "Adulto Mayor (65+)", "Todas las edades"]
 
     const filteredTests = tests.filter(test => {
         const matchesSearch = (
@@ -35,10 +110,7 @@ export function TestCatalog() {
 
         let matchesAge = true
         if (activeAge !== "all") {
-            if (activeAge === "Infantil (0-12)") matchesAge = test.ageRange.includes("meses") || test.ageRange.includes("4-11") || test.ageRange.includes("6-12") || test.ageRange.includes("6-18")
-            if (activeAge === "Adolescentes (12-18)") matchesAge = test.ageRange.includes("12-18") || test.ageRange.includes("12-21") || test.ageRange.includes("8-18") || test.ageRange.includes("6-18")
-            if (activeAge === "Adultos (18+)") matchesAge = test.ageRange.includes("18+") || test.ageRange.includes("Adultos")
-            if (activeAge === "Adulto Mayor (65+)") matchesAge = test.ageRange.includes("65+") || test.ageRange.includes("Adulto Mayor") || test.ageRange.includes("Demencia")
+            matchesAge = test.ageRange === activeAge || test.ageRange === "Todas las edades"
         }
 
         return matchesSearch && matchesCategory && matchesAge

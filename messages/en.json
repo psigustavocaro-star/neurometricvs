@@ -413,254 +413,6 @@
             "error_chat": "Communication error: ",
             "error_send": "Send error: "
         },
-        "Dashboard": {
-            "Resources": {
-                "title": "Resource Library",
-                "description": "Access our curated collection of psychoeducational material, stimulation exercises, and clinical guides. Download and share these resources with your patients to enrich the therapeutic process."
-            },
-            "Tests": {
-                "back_to_catalog": "Back to Catalog",
-                "about_test": "About this test",
-                "estimated_duration": "Estimated Duration",
-                "items_label": "Items",
-                "questions_count": "{count} questions",
-                "variable_questions": "Variable",
-                "actions_title": "Actions",
-                "actions_desc": "Options available for this test",
-                "view_report_sample": "View Report Sample",
-                "disclaimer": "This instrument is designed to be applied in clinical and educational contexts. Ensure you have the patient's informed consent before proceeding.",
-                "search_placeholder": "Search by name, category or tag...",
-                "stats_count": "{filtered} of {total} tests",
-                "not_found_title": "No tests found",
-                "not_found_desc": "Try with other search terms",
-                "catalog_modal_title": "Complete Evaluation Catalog",
-                "catalog_modal_desc": "Explore our complete library of psychological and neuropsychological tests",
-                "selection_modal_title": "How do you want to perform this evaluation?",
-                "selection_modal_desc": "Select if you want to perform an ephemeral test or associate it with a patient for follow-up",
-                "ephemeral_title": "Ephemeral Test",
-                "ephemeral_desc": "Perform a quick evaluation without associating it with a specific patient",
-                "ephemeral_l1": "Not saved in patient history",
-                "ephemeral_l2": "Ideal for demonstrations or testing",
-                "ephemeral_l3": "Results available temporarily",
-                "patient_assoc_title": "Associate with Patient",
-                "patient_assoc_desc": "Link the evaluation to a patient's file for follow-up",
-                "patient_assoc_l1": "Saved in patient history",
-                "patient_assoc_l2": "Allows generating automatic progress reports",
-                "patient_assoc_l3": "Comparison with previous evaluations",
-                "patient_assoc_l4": "Complete longitudinal follow-up",
-                "patient_assoc_recommended": "RECOMMENDED",
-                "ai_disclaimer": "AI will generate automatic reports based on tests associated with patients",
-                "start_evaluation": "Start Evaluation",
-                "Catalog": {
-                    "Categories": {
-                        "depression": "Depression",
-                        "anxiety": "Anxiety",
-                        "cognitive": "Cognitive",
-                        "intelligence": "Intelligence",
-                        "attention": "Attention",
-                        "executive": "Executive Functions",
-                        "child_dev": "Child Development",
-                        "mobility": "Mobility & Function",
-                        "language": "Language & Communication",
-                        "general_health": "General Health & Risk",
-                        "geriatrics": "Geriatrics & Frailty"
-                    },
-                    "Tests": {
-                        "phq9": {
-                            "name": "PHQ-9",
-                            "description": "Patient Health Questionnaire for assessing depression severity",
-                            "age": "12+ years",
-                            "duration": "5 min",
-                            "tags": [
-                                "depression",
-                                "screening",
-                                "adults"
-                            ]
-                        },
-                        "snapiv": {
-                            "name": "SNAP-IV",
-                            "description": "Scale for evaluating ADHD symptoms in children and adolescents",
-                            "age": "6-18 years",
-                            "duration": "10 min",
-                            "tags": [
-                                "ADHD",
-                                "attention",
-                                "children"
-                            ]
-                        },
-                        "beck": {
-                            "name": "Beck Depression Inventory",
-                            "description": "Beck Depression Inventory for measuring the intensity of depressive symptoms",
-                            "age": "13+ years",
-                            "duration": "10 min",
-                            "tags": [
-                                "depression",
-                                "evaluation",
-                                "adolescents",
-                                "adults"
-                            ]
-                        },
-                        "gad7": {
-                            "name": "GAD-7",
-                            "description": "Generalized Anxiety Disorder scale for detecting anxiety disorders",
-                            "age": "12+ years",
-                            "duration": "5 min",
-                            "tags": [
-                                "anxiety",
-                                "screening",
-                                "adults"
-                            ]
-                        },
-                        "mmse": {
-                            "name": "MMSE",
-                            "description": "Mini-Mental State Examination for general cognitive assessment",
-                            "age": "18+ years",
-                            "duration": "10 min",
-                            "tags": [
-                                "cognitive",
-                                "dementia",
-                                "older adults"
-                            ]
-                        },
-                        "wais": {
-                            "name": "WAIS-IV",
-                            "description": "Wechsler Adult Intelligence Scale, comprehensive assessment of IQ",
-                            "age": "16-90 years",
-                            "duration": "60-90 min",
-                            "tags": [
-                                "intelligence",
-                                "IQ",
-                                "wechsler",
-                                "adults"
-                            ]
-                        },
-                        "wisc": {
-                            "name": "WISC-V",
-                            "description": "Wechsler Intelligence Scale for Children, child cognitive assessment",
-                            "age": "6-16 years",
-                            "duration": "60-90 min",
-                            "tags": [
-                                "intelligence",
-                                "IQ",
-                                "wechsler",
-                                "children"
-                            ]
-                        },
-                        "stroop": {
-                            "name": "Stroop Test",
-                            "description": "Stroop Test for assessing selective attention and cognitive inhibition",
-                            "age": "7+ years",
-                            "duration": "15 min",
-                            "tags": [
-                                "attention",
-                                "inhibition",
-                                "children",
-                                "adults"
-                            ]
-                        },
-                        "trail": {
-                            "name": "Trail Making Test",
-                            "description": "Trail Making Test for assessing executive functions and cognitive flexibility",
-                            "age": "8+ years",
-                            "duration": "10 min",
-                            "tags": [
-                                "executive",
-                                "flexibility",
-                                "adults"
-                            ]
-                        },
-                        "mchat": {
-                            "name": "M-CHAT-R/F",
-                            "description": "Screening for Autism Spectrum Disorder risk in young children",
-                            "age": "16-30 months",
-                            "duration": "5-10 min",
-                            "tags": [
-                                "autism",
-                                "development",
-                                "pediatrics"
-                            ]
-                        },
-                        "asq3": {
-                            "name": "ASQ-3",
-                            "description": "Ages and Stages Questionnaire for monitoring child development",
-                            "age": "1-66 months",
-                            "duration": "15 min",
-                            "tags": [
-                                "development",
-                                "milestones",
-                                "pediatrics"
-                            ]
-                        },
-                        "tinetti": {
-                            "name": "Tinetti Test",
-                            "description": "Assessment of gait and balance to determine fall risk",
-                            "age": "65+ years",
-                            "duration": "10 min",
-                            "tags": [
-                                "kinesiology",
-                                "geriatrics",
-                                "balance"
-                            ]
-                        },
-                        "barthel": {
-                            "name": "Barthel Index",
-                            "description": "Measure of independence in activities of daily living (ADL)",
-                            "age": "All",
-                            "duration": "5 min",
-                            "tags": [
-                                "occupational therapy",
-                                "autonomy",
-                                "rehabilitation"
-                            ]
-                        },
-                        "boston": {
-                            "name": "Boston Diagnostic Aphasia Examination",
-                            "description": "Assessment of aphasia and related language disorders",
-                            "age": "Adults",
-                            "duration": "20-30 min",
-                            "tags": [
-                                "speech therapy",
-                                "language",
-                                "aphasia"
-                            ]
-                        },
-                        "imc": {
-                            "name": "BMI Calculator",
-                            "description": "Calculation of Body Mass Index and nutritional classification",
-                            "age": "All",
-                            "duration": "1 min",
-                            "tags": [
-                                "nutrition",
-                                "medicine",
-                                "calculator"
-                            ]
-                        },
-                        "norton": {
-                            "name": "Norton Scale",
-                            "description": "Assessment of risk for pressure ulcers in bedridden patients",
-                            "age": "Adults",
-                            "duration": "3 min",
-                            "tags": [
-                                "nursing",
-                                "medicine",
-                                "risk"
-                            ]
-                        },
-                        "gds": {
-                            "name": "Yesavage Scale",
-                            "description": "Geriatric Depression Scale for screening in older adults",
-                            "age": "65+ years",
-                            "duration": "10 min",
-                            "tags": [
-                                "geriatrics",
-                                "psychotherapy",
-                                "older adults"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "Patients": {
             "Access": {
                 "restricted_title": "Restricted Access",
@@ -1030,6 +782,7 @@
         "Resources": {
             "title": "Resources & News",
             "subtitle": "Selected professional content",
+            "description": "Access our curated collection of psychoeducational material, stimulation exercises, and clinical guides. Download and share these resources with your patients to enrich the therapeutic process.",
             "explore": "Explore library"
         },
         "Toolbox": {
@@ -1040,28 +793,264 @@
             "news_title": "Clinical News"
         },
         "Tests": {
+            "back_to_catalog": "Back to Catalog",
+            "about_test": "About this test",
+            "estimated_duration": "Estimated Duration",
+            "items_label": "Items",
+            "questions_count": "{count} questions",
+            "variable_questions": "Variable",
+            "actions_title": "Actions",
+            "actions_desc": "Options available for this test",
+            "view_report_sample": "View Report Sample",
+            "disclaimer": "This instrument is designed to be applied in clinical and educational contexts. Ensure you have the patient's informed consent before proceeding.",
+            "search_placeholder": "Search by name, category or tag...",
+            "stats_count": "{filtered} of {total} tests",
+            "not_found_title": "No tests found",
+            "not_found_desc": "Try with other search terms",
+            "catalog_modal_title": "Complete Evaluation Catalog",
+            "catalog_modal_desc": "Explore our complete library of psychological and neuropsychological tests",
+            "selection_modal_title": "How do you want to perform this evaluation?",
+            "selection_modal_desc": "Select if you want to perform an ephemeral test or associate it with a patient for follow-up",
+            "ephemeral_title": "Ephemeral Test",
+            "ephemeral_desc": "Perform a quick evaluation without associating it with a specific patient",
+            "ephemeral_l1": "Not saved in patient history",
+            "ephemeral_l2": "Ideal for demonstrations or testing",
+            "ephemeral_l3": "Results available temporarily",
+            "patient_assoc_title": "Associate with Patient",
+            "patient_assoc_desc": "Link the evaluation to a patient's file for follow-up",
+            "patient_assoc_l1": "Saved in patient history",
+            "patient_assoc_l2": "Allows generating automatic progress reports",
+            "patient_assoc_l3": "Comparison with previous evaluations",
+            "patient_assoc_l4": "Complete longitudinal follow-up",
+            "patient_assoc_recommended": "RECOMMENDED",
+            "ai_disclaimer": "AI will generate automatic reports based on tests associated with patients",
+            "start_evaluation": "Start Evaluation",
             "Catalog": {
+                "Categories": {
+                    "depression": "Depression",
+                    "anxiety": "Anxiety",
+                    "cognitive": "Cognitive",
+                    "intelligence": "Intelligence",
+                    "attention": "Attention",
+                    "executive": "Executive Functions",
+                    "child_dev": "Child Development",
+                    "mobility": "Mobility & Function",
+                    "language": "Language & Communication",
+                    "general_health": "General Health & Risk",
+                    "geriatrics": "Geriatrics & Frailty",
+                    "adhd_behavior": "ADHD / Behavior",
+                    "autism_neuro": "Autism / Neurodev",
+                    "bipolar": "Bipolarity",
+                    "addictions": "Addictions",
+                    "trauma": "Trauma / Stress",
+                    "sleep": "Sleep",
+                    "sexual_health": "Sexual Health",
+                    "quality_life": "Quality of Life",
+                    "family": "Family / Couples",
+                    "others": "Others",
+                    "all": "All"
+                },
+                "catalog_title": "Evaluation Catalog",
+                "catalog_subtitle": "Select an instrument to apply in this clinical session.",
+                "instruments_count": "{count} Instruments",
+                "back_to_list": "Back to catalog",
+                "search_placeholder": "Search by name, acronym or keywords...",
+                "start_evaluation": "Start",
+                "start_protocol": "Start Protocol",
+                "items": "items",
+                "no_results": "No results found",
+                "try_search": "Try searching with other terms or in another category.",
                 "Tests": {
                     "phq9": {
-                        "name": "PHQ-9"
-                    },
-                    "gad7": {
-                        "name": "GAD-7"
-                    },
-                    "bdiii": {
-                        "name": "BDI-III"
-                    },
-                    "scl90": {
-                        "name": "SCL-90"
-                    },
-                    "mmse": {
-                        "name": "MMSE"
+                        "name": "PHQ-9",
+                        "description": "Patient Health Questionnaire for assessing depression severity",
+                        "age": "12+ years",
+                        "duration": "5 min",
+                        "tags": [
+                            "depression",
+                            "screening",
+                            "adults"
+                        ]
                     },
                     "snapiv": {
-                        "name": "SNAP-IV"
+                        "name": "SNAP-IV",
+                        "description": "Scale for evaluating ADHD symptoms in children and adolescents",
+                        "age": "6-18 years",
+                        "duration": "10 min",
+                        "tags": [
+                            "ADHD",
+                            "attention",
+                            "children"
+                        ]
                     },
                     "beck": {
-                        "name": "Beck Depression"
+                        "name": "Beck Depression Inventory",
+                        "description": "Beck Depression Inventory for measuring the intensity of depressive symptoms",
+                        "age": "13+ years",
+                        "duration": "10 min",
+                        "tags": [
+                            "depression",
+                            "evaluation",
+                            "adolescents",
+                            "adults"
+                        ]
+                    },
+                    "gad7": {
+                        "name": "GAD-7",
+                        "description": "Generalized Anxiety Disorder scale for detecting anxiety disorders",
+                        "age": "12+ years",
+                        "duration": "5 min",
+                        "tags": [
+                            "anxiety",
+                            "screening",
+                            "adults"
+                        ]
+                    },
+                    "mmse": {
+                        "name": "MMSE",
+                        "description": "Mini-Mental State Examination for general cognitive assessment",
+                        "age": "18+ years",
+                        "duration": "10 min",
+                        "tags": [
+                            "cognitive",
+                            "dementia",
+                            "older adults"
+                        ]
+                    },
+                    "wais": {
+                        "name": "WAIS-IV",
+                        "description": "Wechsler Adult Intelligence Scale, comprehensive assessment of IQ",
+                        "age": "16-90 years",
+                        "duration": "60-90 min",
+                        "tags": [
+                            "intelligence",
+                            "IQ",
+                            "wechsler",
+                            "adults"
+                        ]
+                    },
+                    "wisc": {
+                        "name": "WISC-V",
+                        "description": "Wechsler Intelligence Scale for Children, child cognitive assessment",
+                        "age": "6-16 years",
+                        "duration": "60-90 min",
+                        "tags": [
+                            "intelligence",
+                            "IQ",
+                            "wechsler",
+                            "children"
+                        ]
+                    },
+                    "stroop": {
+                        "name": "Stroop Test",
+                        "description": "Stroop Test for assessing selective attention and cognitive inhibition",
+                        "age": "7+ years",
+                        "duration": "15 min",
+                        "tags": [
+                            "attention",
+                            "inhibition",
+                            "children",
+                            "adults"
+                        ]
+                    },
+                    "trail": {
+                        "name": "Trail Making Test",
+                        "description": "Trail Making Test for assessing executive functions and cognitive flexibility",
+                        "age": "8+ years",
+                        "duration": "10 min",
+                        "tags": [
+                            "executive",
+                            "flexibility",
+                            "adults"
+                        ]
+                    },
+                    "mchat": {
+                        "name": "M-CHAT-R/F",
+                        "description": "Screening for Autism Spectrum Disorder risk in young children",
+                        "age": "16-30 months",
+                        "duration": "5-10 min",
+                        "tags": [
+                            "autism",
+                            "development",
+                            "pediatrics"
+                        ]
+                    },
+                    "asq3": {
+                        "name": "ASQ-3",
+                        "description": "Ages and Stages Questionnaire for monitoring child development",
+                        "age": "1-66 months",
+                        "duration": "15 min",
+                        "tags": [
+                            "development",
+                            "milestones",
+                            "pediatrics"
+                        ]
+                    },
+                    "tinetti": {
+                        "name": "Tinetti Test",
+                        "description": "Assessment of gait and balance to determine fall risk",
+                        "age": "65+ years",
+                        "duration": "10 min",
+                        "tags": [
+                            "kinesiology",
+                            "geriatrics",
+                            "balance"
+                        ]
+                    },
+                    "barthel": {
+                        "name": "Barthel Index",
+                        "description": "Measure of independence in activities of daily living (ADL)",
+                        "age": "All",
+                        "duration": "5 min",
+                        "tags": [
+                            "occupational therapy",
+                            "autonomy",
+                            "rehabilitation"
+                        ]
+                    },
+                    "boston": {
+                        "name": "Boston Diagnostic Aphasia Examination",
+                        "description": "Assessment of aphasia and related language disorders",
+                        "age": "Adults",
+                        "duration": "20-30 min",
+                        "tags": [
+                            "speech therapy",
+                            "language",
+                            "aphasia"
+                        ]
+                    },
+                    "imc": {
+                        "name": "BMI Calculator",
+                        "description": "Calculation of Body Mass Index and nutritional classification",
+                        "age": "All",
+                        "duration": "1 min",
+                        "tags": [
+                            "nutrition",
+                            "medicine",
+                            "calculator"
+                        ]
+                    },
+                    "norton": {
+                        "name": "Norton Scale",
+                        "description": "Assessment of risk for pressure ulcers in bedridden patients",
+                        "age": "Adults",
+                        "duration": "3 min",
+                        "tags": [
+                            "nursing",
+                            "medicine",
+                            "risk"
+                        ]
+                    },
+                    "gds": {
+                        "name": "Yesavage Scale",
+                        "description": "Geriatric Depression Scale for screening in older adults",
+                        "age": "65+ years",
+                        "duration": "10 min",
+                        "tags": [
+                            "geriatrics",
+                            "psychotherapy",
+                            "older adults"
+                        ]
                     }
                 }
             }

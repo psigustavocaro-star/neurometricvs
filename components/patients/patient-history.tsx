@@ -130,7 +130,7 @@ export function PatientHistory({ results, patientId }: PatientHistoryProps) {
                                     className="text-slate-400 hover:text-teal-600"
                                     onClick={(e) => {
                                         e.stopPropagation()
-                                        router.push(`/reports/${result.id}`)
+                                        router.push(`/reports/test/${result.id}`)
                                     }}
                                 >
                                     <FileText className="h-4 w-4 mr-2" />

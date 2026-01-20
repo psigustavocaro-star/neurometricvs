@@ -14,7 +14,7 @@ import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { AdminTools } from '@/components/admin/admin-tools'
 import { useAdminStore } from '@/lib/stores/admin-store'
-import { WeatherDisplay } from "@/components/dashboard/weather-display"
+
 import {
     LayoutDashboard,
     Users,
@@ -210,13 +210,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     "p-4 border-t border-border flex flex-col gap-1",
                     isCollapsed && "items-center"
                 )}>
-                    {/* Weather Display */}
-                    <div className={cn(
-                        "transition-all duration-500",
-                        isCollapsed ? "opacity-0 h-0 hidden" : "opacity-100 px-3 py-2 mb-1"
-                    )}>
-                        <WeatherDisplay />
-                    </div>
+
 
                     {/* Back to Landing */}
                     <Link
@@ -234,33 +228,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                         )}>{t('home')}</span>
                     </Link>
 
-                    {/* Theme Toggle */}
-                    <div className={cn(
-                        "flex items-center group overflow-hidden whitespace-nowrap",
-                        isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
-                    )}>
-                        <span className={cn(
-                            "text-sm text-foreground font-medium group-hover:text-primary transition-all duration-500 ease-in-out",
-                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-                        )}>{t('theme')}</span>
-                        <div className={cn(isCollapsed && "scale-75 origin-center")}>
-                            <ThemeToggle />
-                        </div>
-                    </div>
 
-                    {/* Language Toggle */}
-                    <div className={cn(
-                        "flex items-center group overflow-hidden whitespace-nowrap",
-                        isCollapsed ? "justify-center mb-2 px-2" : "justify-between px-3 py-2 rounded-lg hover:bg-muted transition-colors"
-                    )}>
-                        <span className={cn(
-                            "text-sm text-foreground font-medium group-hover:text-primary transition-all duration-500 ease-in-out",
-                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
-                        )}>{locale === 'es' ? 'Idioma' : 'Language'}</span>
-                        <div className={cn(isCollapsed && "scale-75 origin-center")}>
-                            <LanguageToggle />
-                        </div>
-                    </div>
 
                     {/* Sign Out */}
                     <Button
@@ -295,7 +263,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                     <span className="font-bold text-foreground tracking-tight">Workstation</span>
                 </Link>
                 <div className="flex items-center gap-2">
-                    <WeatherDisplay className="mr-2" />
+
                     <LanguageToggle />
                     <ThemeToggle />
                     <button
