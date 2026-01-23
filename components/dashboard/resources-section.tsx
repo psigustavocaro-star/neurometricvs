@@ -95,10 +95,20 @@ export function ResourcesSection() {
                     <div className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400">
                         <BookOpen className="w-5 h-5" strokeWidth={2.5} />
                     </div>
-                    <div>
+                    <div className="flex-1">
                         <h4 className="text-sm font-extrabold text-foreground tracking-tight uppercase">{t('news_title') || 'Actualidad Clínica'}</h4>
                         <p className="text-[10px] text-muted-foreground font-medium">Últimas actualizaciones científicas</p>
                     </div>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={fetchNews}
+                        disabled={loading}
+                        className="h-8 w-8 p-0 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 rounded-lg transition-colors"
+                        title="Actualizar noticias"
+                    >
+                        <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                    </Button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-2 py-2 space-y-2">

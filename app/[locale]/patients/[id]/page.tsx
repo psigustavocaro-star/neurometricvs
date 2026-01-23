@@ -1,13 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-import { ArrowLeft, Home } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { PatientDashboard } from '@/components/clinical/patient-dashboard'
+import { NotionStyleDashboard } from '@/components/clinical/notion-style-dashboard'
 import { getTranslations } from 'next-intl/server'
-
-
-
-
+import { PatientPageClient } from './patient-page-client'
 
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const t = await getTranslations('Dashboard.Patients.Detail')
@@ -29,7 +27,6 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         .eq('id', id)
         .single()
 
-    // Use mock data if patient doesn't exist
     const patientData = patient
 
     if (!patientData) {
@@ -54,7 +51,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         .eq('patient_id', id)
         .order('created_at', { ascending: false })
 
-    // 3. Fetch Clinical Data (Safely, in case migration isn't run yet)
+    // 3. Fetch Clinical Data
     let clinicalRecord = null
     let sessions: any[] = []
 
@@ -66,28 +63,22 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             .single()
         clinicalRecord = record
     } catch (e) {
-        console.warn('Clinical Record fetch failed (likely migration missing)')
+        console.warn('Clinical Record fetch failed')
     }
 
     try {
         const { data: sess } = await supabase
             .from('clinical_sessions')
-            .select(`
-                *,
-                ai_insights (*)
-            `)
+            .select(`*, ai_insights (*)`)
             .eq('patient_id', id)
             .order('date', { ascending: false })
 
-        if (sess) {
-            sessions = sess
-        }
+        if (sess) sessions = sess
     } catch (e) {
         console.warn('Clinical Sessions fetch failed')
     }
 
-
-    // 4. Fetch Remote Test Assignments (Safely)
+    // 4. Fetch Remote Test Assignments
     let testAssignments: any[] = []
     try {
         const { data: assignments } = await supabase
@@ -98,10 +89,10 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
 
         if (assignments) testAssignments = assignments
     } catch (e) {
-        console.warn('Test Assignments fetch failed (migration missing?)')
+        console.warn('Test Assignments fetch failed')
     }
 
-    // 5. Fetch Vitals Logs (Safely)
+    // 5. Fetch Vitals Logs
     let vitalsLogs: any[] = []
     try {
         const { data: vitals } = await supabase
@@ -115,7 +106,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
         console.warn('Vitals fetch failed')
     }
 
-    // 6. Fetch Medications (Safely)
+    // 6. Fetch Medications
     let medications: any[] = []
     try {
         const { data: meds } = await supabase
@@ -131,27 +122,15 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-            <div className="container py-4">
-                <Button variant="ghost" asChild className="mb-4 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 -ml-2">
-                    <Link href="/dashboard">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> {t('back_to_dashboard')}
-                    </Link>
-                </Button>
-            </div>
-
-            <div className="container py-6">
-                <PatientDashboard
-                    patient={patientData}
-                    clinicalRecord={clinicalRecord}
-                    sessions={sessions}
-                    testResults={testResults || []}
-                    testAssignments={testAssignments}
-                    userProfile={profile}
-                    vitalsLogs={vitalsLogs}
-                    medications={medications}
-                />
-            </div>
-        </div>
+        <PatientPageClient
+            patient={patientData}
+            clinicalRecord={clinicalRecord}
+            sessions={sessions}
+            testResults={testResults || []}
+            testAssignments={testAssignments}
+            userProfile={profile}
+            vitalsLogs={vitalsLogs}
+            medications={medications}
+        />
     )
 }
