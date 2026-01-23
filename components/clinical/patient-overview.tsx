@@ -80,6 +80,30 @@ export function PatientOverview({
     const [isEditingDiagnosis, setIsEditingDiagnosis] = useState(false)
     const [editedDiagnosis, setEditedDiagnosis] = useState(diagnosis || '')
     const [isSavingDiagnosis, setIsSavingDiagnosis] = useState(false)
+    const [showPatientData, setShowPatientData] = useState(true)
+
+    // Calculate age from birth date
+    const calculateAge = (birthDate: string) => {
+        const birth = new Date(birthDate)
+        const now = new Date()
+
+        let years = now.getFullYear() - birth.getFullYear()
+        let months = now.getMonth() - birth.getMonth()
+        let days = now.getDate() - birth.getDate()
+
+        if (days < 0) {
+            months--
+            const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0)
+            days += prevMonth.getDate()
+        }
+
+        if (months < 0) {
+            years--
+            months += 12
+        }
+
+        return `${years} Años ${months} Meses ${days} Días`
+    }
 
     // Role detection matching NewPatientForm
     const activeRole = userSpecialty?.toLowerCase() || 'psychologist'
@@ -241,6 +265,202 @@ export function PatientOverview({
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Patient Data Card - Notion Style */}
+                <Card className="border shadow-sm border-border bg-card overflow-hidden">
+                    <CardHeader
+                        className="pb-2 pt-4 px-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => setShowPatientData(!showPatientData)}
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded bg-primary/10 text-primary">
+                                    <IdCard className="w-4 h-4" />
+                                </div>
+                                <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wide">Ficha del Paciente</CardTitle>
+                            </div>
+                            {showPatientData ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+                        </div>
+                    </CardHeader>
+                    {showPatientData && (
+                        <CardContent className="px-0 pb-0">
+                            <div className="divide-y divide-border/50">
+                                {/* Género */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Users className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Género</p>
+                                        <Badge className="bg-teal-600 hover:bg-teal-600 text-white text-xs">
+                                            {patient.gender === 'male' ? 'Masculino' : patient.gender === 'female' ? 'Femenino' : patient.gender || 'No especificado'}
+                                        </Badge>
+                                    </div>
+                                </div>
+
+                                {/* Fecha nacimiento */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Calendar className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Fecha de nacimiento</p>
+                                        <p className="text-sm font-medium text-foreground">
+                                            {patient.birth_date ? format.dateTime(new Date(patient.birth_date), { day: 'numeric', month: 'long', year: 'numeric' }) : 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* RUT */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <IdCard className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">RUT</p>
+                                        <p className={cn("text-sm font-medium", patient.rut ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.rut || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Edad */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Clock className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Edad</p>
+                                        <p className="text-sm font-bold text-foreground">
+                                            {patient.birth_date ? calculateAge(patient.birth_date) : 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Dirección */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Dirección</p>
+                                        <p className={cn("text-sm font-medium", patient.address ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.address || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Teléfono */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Phone className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Teléfono</p>
+                                        <p className={cn("text-sm font-medium", patient.phone ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.phone || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Correo */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Mail className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Correo</p>
+                                        <p className={cn("text-sm font-medium", patient.contact_email ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.contact_email || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Lugar de atención */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Stethoscope className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Lugar de atención</p>
+                                        {patient.clinic ? (
+                                            <Badge variant="outline" className="text-xs">{patient.clinic}</Badge>
+                                        ) : (
+                                            <p className="text-sm text-muted-foreground italic">Vacío</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Nivel educacional */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <GraduationCap className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Nivel educacional</p>
+                                        <p className={cn("text-sm font-medium", patient.education ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.education || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Ocupación */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Briefcase className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Ocupación</p>
+                                        <p className={cn("text-sm font-medium", patient.occupation ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.occupation || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Acompañante */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Users className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Acompañante</p>
+                                        <p className={cn("text-sm font-medium", patient.companion ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.companion || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Contacto emergencia */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Heart className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Contacto de emergencia</p>
+                                        <p className={cn("text-sm font-medium", patient.emergency_contact ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {patient.emergency_contact || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Genograma */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Network className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Genograma</p>
+                                        <p className={cn("text-sm font-medium", "text-muted-foreground italic")}>
+                                            Vacío
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Diagnósticos */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Stethoscope className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Diagnósticos</p>
+                                        <p className={cn("text-sm font-medium", diagnosis ? "text-foreground" : "text-muted-foreground italic")}>
+                                            {diagnosis || 'Vacío'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Medicamentos */}
+                                <div className="flex items-start gap-3 py-3 px-4">
+                                    <Pill className="w-4 h-4 text-muted-foreground mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-xs text-muted-foreground mb-0.5">Medicamentos</p>
+                                        {activeMedications.length > 0 ? (
+                                            <div className="flex gap-1 flex-wrap">
+                                                {activeMedications.map((med, i) => (
+                                                    <Badge key={i} variant="secondary" className="text-xs">{med.name}</Badge>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p className="text-sm text-muted-foreground italic">Vacío</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    )}
+                </Card>
 
                 {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">

@@ -17,7 +17,7 @@ import { InSessionTestRunner } from './in-session-test-runner'
 // @ts-ignore
 import ClinicalSessionRecorder from './ClinicalSessionRecorder'
 import { useTranslations } from 'next-intl'
-import { Plus, Save, Loader2, Pill, Brain, Mic, ClipboardList, ChevronDown, Trash2, Printer } from 'lucide-react'
+import { Plus, Save, Loader2, Pill, Brain, Mic, ClipboardList, ChevronDown, Trash2, Printer, Maximize2, Minimize2, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 
 interface SessionManagerProps {
@@ -97,6 +97,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
 
     const [showRecorder, setShowRecorder] = useState(false)
     const [showTimeline, setShowTimeline] = useState(true)
+    const [showExpandedNotes, setShowExpandedNotes] = useState(false)
 
     const [showEvaluator, setShowEvaluator] = useState(false)
     const [testResults, setTestResults] = useState<any[]>([]) // Store session tests
@@ -459,13 +460,25 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                         <div className={`grid grid-cols-1 ${aiReport ? 'lg:grid-cols-2' : 'lg:grid-cols-1'} gap-6 transition-all duration-500`}>
                             {/* Left: Manual Notes */}
                             <div className="space-y-3">
-                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex justify-between">
-                                    {t('evolution_notes')}
-                                    {aiReport && (
-                                        <span className="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                                            Edición Manual
-                                        </span>
-                                    )}
+                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center">
+                                    <span>{t('evolution_notes')}</span>
+                                    <div className="flex items-center gap-2">
+                                        {aiReport && (
+                                            <span className="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                                Edición Manual
+                                            </span>
+                                        )}
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => setShowExpandedNotes(true)}
+                                            className="h-7 px-2 text-xs text-slate-500 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/20"
+                                            title="Expandir a pantalla completa"
+                                        >
+                                            <Maximize2 className="w-4 h-4 mr-1" />
+                                            Expandir
+                                        </Button>
+                                    </div>
                                 </label>
                                 <div className="relative group h-full">
                                     <div className="absolute inset-0 bg-teal-50/50 dark:bg-cyan-900/10 rounded-xl -z-10 group-hover:scale-[1.01] transition-transform duration-500" />
@@ -477,6 +490,52 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                                     />
                                 </div>
                             </div>
+
+                            {/* Fullscreen Notes Modal */}
+                            {showExpandedNotes && (
+                                <div className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-sm flex flex-col">
+                                    <div className="flex items-center justify-between p-4 border-b border-slate-800">
+                                        <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                            <ClipboardList className="w-5 h-5 text-teal-500" />
+                                            {t('evolution_notes')} - {patientName}
+                                        </h2>
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                onClick={() => {
+                                                    handleSave()
+                                                    setShowExpandedNotes(false)
+                                                }}
+                                                className="bg-teal-600 hover:bg-teal-700 text-white"
+                                            >
+                                                <Save className="w-4 h-4 mr-2" />
+                                                Guardar y cerrar
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => setShowExpandedNotes(false)}
+                                                className="text-slate-400 hover:text-white hover:bg-slate-800"
+                                            >
+                                                <X className="w-5 h-5" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 p-6 overflow-hidden">
+                                        <Textarea
+                                            value={formData.notes}
+                                            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                                            className="h-full w-full resize-none bg-slate-900 border-slate-700 text-slate-200 text-lg leading-relaxed p-6 rounded-xl focus:border-teal-500"
+                                            placeholder="Escribe las notas de la sesión aquí...
+
+• Observaciones clínicas
+• Intervenciones realizadas
+• Plan de seguimiento
+• Tests aplicados"
+                                            autoFocus
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Right: AI Report (Read-only / Reference) */}
                             {aiReport && (
