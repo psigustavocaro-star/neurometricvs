@@ -288,20 +288,20 @@ export function PatientNotionView({ patient, clinicalRecord, sessions }: Patient
 
             {/* Fullscreen Notes Modal */}
             {isExpanded && selectedSession && (
-                <div className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-sm flex flex-col">
-                    <div className="flex items-center justify-between p-4 border-b border-slate-800">
-                        <h2 className="text-xl font-bold text-white">
+                <div className="fixed inset-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm flex flex-col">
+                    <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                             Notas - {format.dateTime(new Date(selectedSession.date), { day: 'numeric', month: 'long', year: 'numeric' })}
                         </h2>
                         <div className="flex items-center gap-2">
                             <Button
                                 onClick={() => { handleSave(); setIsExpanded(false) }}
-                                className="bg-teal-600 hover:bg-teal-700"
+                                className="bg-teal-600 hover:bg-teal-700 text-white"
                             >
                                 <Save className="w-4 h-4 mr-2" />
                                 Guardar y cerrar
                             </Button>
-                            <Button variant="ghost" size="icon" onClick={() => setIsExpanded(false)} className="text-slate-400 hover:text-white">
+                            <Button variant="ghost" size="icon" onClick={() => setIsExpanded(false)} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </Button>
                         </div>
@@ -310,7 +310,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions }: Patient
                         <Textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="h-full w-full resize-none bg-slate-900 border-slate-700 text-slate-200 text-lg p-6 rounded-xl"
+                            className="h-full w-full resize-none bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-lg p-6 rounded-xl"
                             placeholder="Escribe las notas de la sesión aquí..."
                             autoFocus
                         />
