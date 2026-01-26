@@ -89,6 +89,8 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
 
     // Supabase Realtime subscription for live sync
     useEffect(() => {
+        console.log('Setting up realtime subscription for patient:', patient.id)
+
         const channel = supabase
             .channel(`sessions-${patient.id}`)
             .on(
@@ -99,43 +101,60 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                     table: 'clinical_sessions',
                     filter: `patient_id=eq.${patient.id}`
                 },
-                (payload) => {
-                    console.log('Realtime update:', payload)
+                (payload: any) => {
+                    console.log('Realtime payload received:', payload)
 
                     if (payload.eventType === 'INSERT') {
                         const newSession = payload.new as ClinicalSession
-                        setSessions(prev => [newSession, ...prev])
-                        toast.info('Nueva sesión agregada', { duration: 2000 })
+                        setSessions(prev => {
+                            // Avoid duplicates
+                            if (prev.some(s => s.id === newSession.id)) return prev
+                            return [newSession, ...prev]
+                        })
+                        toast.info('Nueva sesión agregada por otro usuario', { duration: 3000 })
                     }
                     else if (payload.eventType === 'UPDATE') {
                         const updatedSession = payload.new as ClinicalSession
                         setSessions(prev => prev.map(s =>
-                            s.id === updatedSession.id ? updatedSession : s
+                            s.id === updatedSession.id ? { ...s, ...updatedSession } : s
                         ))
-                        // Update notes if viewing the updated session
-                        if (selectedSession?.id === updatedSession.id) {
-                            setNotes(updatedSession.notes || '')
-                        }
+
+                        // Update selected session and notes if it matches
+                        setSelectedSession(prev => {
+                            if (prev?.id === updatedSession.id) {
+                                // Only update local notes if the change is external
+                                if (updatedSession.notes !== notes) {
+                                    setNotes(updatedSession.notes || '')
+                                }
+                                return { ...prev, ...updatedSession }
+                            }
+                            return prev
+                        })
                     }
                     else if (payload.eventType === 'DELETE') {
                         const deletedId = payload.old.id
                         setSessions(prev => prev.filter(s => s.id !== deletedId))
-                        if (selectedSession?.id === deletedId) {
-                            setSelectedSession(null)
-                            setNotes('')
-                        }
+                        setSelectedSession(prev => {
+                            if (prev?.id === deletedId) {
+                                setNotes('')
+                                return null
+                            }
+                            return prev
+                        })
                     }
 
                     setIsRealtime(true)
                     setTimeout(() => setIsRealtime(false), 2000)
                 }
             )
-            .subscribe()
+            .subscribe((status) => {
+                console.log('Realtime subscription status:', status)
+            })
 
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [patient.id, selectedSession?.id, supabase])
+    }, [patient.id, supabase, notes])
 
     // Sync initialSessions prop with local state
     useEffect(() => {
@@ -236,6 +255,12 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                         <div className="flex items-center gap-2">
                             <FileText className="w-4 h-4 text-slate-500" />
                             <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Sesiones</h3>
+                            {isRealtime && (
+                                <div className="flex items-center gap-1.5 animate-pulse">
+                                    <div className="w-2 h-2 rounded-full bg-teal-500" />
+                                    <span className="text-[10px] text-teal-600 font-bold uppercase tracking-tight">Sincro</span>
+                                </div>
+                            )}
                         </div>
                         <Button
                             onClick={handleNewSession}
