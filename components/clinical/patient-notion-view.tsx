@@ -111,32 +111,32 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                     table: 'clinical_sessions'
                 },
                 (payload: any) => {
-                    const sessionData = payload.new || payload.old
+                    // Log details to help debug
+                    console.log('RT EVENTO:', payload.eventType || payload.type)
+
+                    const sessionData = payload.new || payload.old || payload.payload
                     if (!sessionData) return
 
-                    // Normalizamos IDs para evitar fallos de formato (string vs uuid object)
                     const sessionPatientId = String(sessionData.patient_id || '')
                     const currentPatientId = String(patient.id || '')
 
                     if (sessionPatientId !== currentPatientId) return
 
-                    console.log('RT Recibido:', payload.eventType, sessionData.id)
-
-                    // Actualizar lista
+                    // Actualizar lista de sesiones
                     setSessions(prev => {
                         const exists = prev.find(s => s.id === sessionData.id)
                         if (exists) {
                             return prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s)
-                        } else if (payload.eventType === 'INSERT') {
+                        } else if (payload.eventType === 'INSERT' || payload.type === 'broadcast') {
                             return [sessionData, ...prev]
                         }
                         return prev
                     })
 
-                    // Si es la sesión seleccionada (usamos ref para evitar clausura obsoleta), actualizar notas
+                    // Actualizar sesión seleccionada
                     if (selectedSessionIdRef.current === sessionData.id) {
                         if (sessionData.notes !== notesRef.current) {
-                            console.log('RT: Sincronizando notas externas...')
+                            console.log('RT: Sincronizando notas...')
                             setNotes(sessionData.notes || '')
                         }
                         setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
@@ -146,6 +146,21 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                     setTimeout(() => setIsRealtime(false), 2000)
                 }
             )
+            // Escuchar también mensajes directos (BORADCAST) por si la DB tarda
+            .on('broadcast', { event: 'sync-update' }, (payload) => {
+                console.log('RT Broadcast recibido:', payload)
+                // Usamos la misma lógica
+                const sessionData = payload.payload
+                if (String(sessionData.patient_id) === String(patient.id)) {
+                    setSessions(prev => prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s))
+                    if (selectedSessionIdRef.current === sessionData.id) {
+                        setNotes(sessionData.notes || '')
+                        setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
+                    }
+                    setIsRealtime(true)
+                    setTimeout(() => setIsRealtime(false), 2000)
+                }
+            })
             .subscribe((status) => {
                 console.log('RT Status:', status)
                 setRealtimeStatus(status === 'SUBSCRIBED' ? 'connected' : 'error')
@@ -193,10 +208,27 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         if (!selectedSession) return
         setIsSaving(true)
         try {
-            await updateSession(selectedSession.id, { notes })
+            const updated = await updateSession(selectedSession.id, { notes }, patient.id)
+
+            // Optimistic local update
+            if (updated) {
+                setSessions(prev => prev.map(s => s.id === updated.id ? { ...s, ...updated } : s))
+                setSelectedSession(curr => curr?.id === updated.id ? { ...curr, ...updated } : curr)
+
+                // Emitir broadcast manual para otras pestañas (fallback instantáneo)
+                const channel = supabase.channel(`p-${patient.id.substring(0, 8)}`)
+                channel.send({
+                    type: 'broadcast',
+                    event: 'sync-update',
+                    payload: updated
+                })
+            }
+
             toast.success('Notas guardadas')
-            router.refresh()
+            // Don't router.refresh() immediately if we have realtime, to avoid flickering
+            // router.refresh() 
         } catch (error) {
+            console.error('Save error:', error)
             toast.error('Error al guardar')
         } finally {
             setIsSaving(false)

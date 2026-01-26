@@ -174,15 +174,24 @@ export async function createSession(patientId: string, data: Partial<ClinicalSes
     return newSession
 }
 
-export async function updateSession(sessionId: string, data: Partial<ClinicalSession>) {
+export async function updateSession(sessionId: string, data: Partial<ClinicalSession>, patientId?: string) {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data: updated, error } = await supabase
         .from('clinical_sessions')
         .update(data)
         .eq('id', sessionId)
+        .select()
+        .single()
 
     if (error) throw new Error(error.message)
-    revalidatePath(`/patients`) // Revalidate broadly if needed, or specific path
+
+    if (patientId) {
+        revalidatePath(`/patients/${patientId}`)
+    } else {
+        revalidatePath(`/patients`)
+    }
+
+    return updated as ClinicalSession
 }
 
 export async function deleteSession(sessionId: string) {
