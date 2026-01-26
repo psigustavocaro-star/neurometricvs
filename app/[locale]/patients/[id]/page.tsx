@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { PatientDashboard } from '@/components/clinical/patient-dashboard'
+import { PatientNotionView } from '@/components/clinical/patient-notion-view'
 import { getTranslations } from 'next-intl/server'
 
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -130,15 +130,10 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             </div>
 
             <div className="container py-6">
-                <PatientDashboard
+                <PatientNotionView
                     patient={patientData}
                     clinicalRecord={clinicalRecord}
                     sessions={sessions}
-                    testResults={testResults || []}
-                    testAssignments={testAssignments}
-                    userProfile={profile}
-                    vitalsLogs={vitalsLogs}
-                    medications={medications}
                 />
             </div>
         </div>
