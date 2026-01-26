@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ClinicalRecord, ClinicalSession, AIInsight } from '@/types/clinical'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
 import { createSession, updateSession } from '@/app/[locale]/patients/clinical-actions'
+import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useFormatter } from 'next-intl'
@@ -30,7 +31,8 @@ import {
     Plus,
     Save,
     Maximize2,
-    X
+    X,
+    RefreshCw
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -70,15 +72,75 @@ function DataRow({ icon: Icon, label, value, badge, badgeColor }: {
     )
 }
 
-export function PatientNotionView({ patient, clinicalRecord, sessions }: PatientNotionViewProps) {
+export function PatientNotionView({ patient, clinicalRecord, sessions: initialSessions }: PatientNotionViewProps) {
     const router = useRouter()
     const format = useFormatter()
+    const supabase = createClient()
+
+    // Local sessions state for realtime updates
+    const [sessions, setSessions] = useState(initialSessions)
     const [selectedSession, setSelectedSession] = useState<ClinicalSession | null>(
         sessions.length > 0 ? sessions[0] : null
     )
     const [notes, setNotes] = useState(selectedSession?.notes || '')
     const [isSaving, setIsSaving] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isRealtime, setIsRealtime] = useState(false)
+
+    // Supabase Realtime subscription for live sync
+    useEffect(() => {
+        const channel = supabase
+            .channel(`sessions-${patient.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'clinical_sessions',
+                    filter: `patient_id=eq.${patient.id}`
+                },
+                (payload) => {
+                    console.log('Realtime update:', payload)
+
+                    if (payload.eventType === 'INSERT') {
+                        const newSession = payload.new as ClinicalSession
+                        setSessions(prev => [newSession, ...prev])
+                        toast.info('Nueva sesión agregada', { duration: 2000 })
+                    }
+                    else if (payload.eventType === 'UPDATE') {
+                        const updatedSession = payload.new as ClinicalSession
+                        setSessions(prev => prev.map(s =>
+                            s.id === updatedSession.id ? updatedSession : s
+                        ))
+                        // Update notes if viewing the updated session
+                        if (selectedSession?.id === updatedSession.id) {
+                            setNotes(updatedSession.notes || '')
+                        }
+                    }
+                    else if (payload.eventType === 'DELETE') {
+                        const deletedId = payload.old.id
+                        setSessions(prev => prev.filter(s => s.id !== deletedId))
+                        if (selectedSession?.id === deletedId) {
+                            setSelectedSession(null)
+                            setNotes('')
+                        }
+                    }
+
+                    setIsRealtime(true)
+                    setTimeout(() => setIsRealtime(false), 2000)
+                }
+            )
+            .subscribe()
+
+        return () => {
+            supabase.removeChannel(channel)
+        }
+    }, [patient.id, selectedSession?.id, supabase])
+
+    // Sync initialSessions prop with local state
+    useEffect(() => {
+        setSessions(initialSessions)
+    }, [initialSessions])
 
     // Calculate age
     const calculateAge = (birthDate: string) => {
