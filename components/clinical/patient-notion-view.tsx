@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ClinicalRecord, ClinicalSession, AIInsight } from '@/types/clinical'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -83,6 +83,12 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         sessions.length > 0 ? sessions[0] : null
     )
     const [notes, setNotes] = useState(selectedSession?.notes || '')
+    const notesRef = useRef(notes)
+
+    // Sync ref with state
+    useEffect(() => {
+        notesRef.current = notes
+    }, [notes])
     const [isSaving, setIsSaving] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
     const [isRealtime, setIsRealtime] = useState(false)
@@ -102,45 +108,37 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                     filter: `patient_id=eq.${patient.id}`
                 },
                 (payload: any) => {
-                    console.log('Realtime payload received:', payload)
+                    console.log('Realtime update detected:', payload.eventType, payload.new?.id)
 
                     if (payload.eventType === 'INSERT') {
                         const newSession = payload.new as ClinicalSession
                         setSessions(prev => {
-                            // Avoid duplicates
                             if (prev.some(s => s.id === newSession.id)) return prev
                             return [newSession, ...prev]
                         })
-                        toast.info('Nueva sesión agregada por otro usuario', { duration: 3000 })
+                        toast.info('Sesión agregada desde otra pestaña')
                     }
                     else if (payload.eventType === 'UPDATE') {
                         const updatedSession = payload.new as ClinicalSession
+
                         setSessions(prev => prev.map(s =>
                             s.id === updatedSession.id ? { ...s, ...updatedSession } : s
                         ))
 
-                        // Update selected session and notes if it matches
-                        setSelectedSession(prev => {
-                            if (prev?.id === updatedSession.id) {
-                                // Only update local notes if the change is external
-                                if (updatedSession.notes !== notes) {
+                        setSelectedSession(current => {
+                            if (current?.id === updatedSession.id) {
+                                // Update notes if they differ from current local value
+                                if (updatedSession.notes !== notesRef.current) {
                                     setNotes(updatedSession.notes || '')
                                 }
-                                return { ...prev, ...updatedSession }
+                                return { ...current, ...updatedSession }
                             }
-                            return prev
+                            return current
                         })
                     }
                     else if (payload.eventType === 'DELETE') {
                         const deletedId = payload.old.id
                         setSessions(prev => prev.filter(s => s.id !== deletedId))
-                        setSelectedSession(prev => {
-                            if (prev?.id === deletedId) {
-                                setNotes('')
-                                return null
-                            }
-                            return prev
-                        })
                     }
 
                     setIsRealtime(true)
@@ -148,13 +146,13 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                 }
             )
             .subscribe((status) => {
-                console.log('Realtime subscription status:', status)
+                console.log('Status de conexión Realtime:', status)
             })
 
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [patient.id, supabase, notes])
+    }, [patient.id, supabase]) // Correct deps: only patient and supabase
 
     // Sync initialSessions prop with local state
     useEffect(() => {
