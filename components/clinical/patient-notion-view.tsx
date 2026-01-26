@@ -83,12 +83,14 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         sessions.length > 0 ? sessions[0] : null
     )
     const [notes, setNotes] = useState(selectedSession?.notes || '')
+    // Sync refs with state to avoid stale closures in realtime callback
     const notesRef = useRef(notes)
+    const selectedSessionIdRef = useRef(selectedSession?.id)
 
-    // Sync ref with state
     useEffect(() => {
         notesRef.current = notes
-    }, [notes])
+        selectedSessionIdRef.current = selectedSession?.id
+    }, [notes, selectedSession?.id])
     const [isSaving, setIsSaving] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
     const [isRealtime, setIsRealtime] = useState(false)
@@ -131,13 +133,13 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                         return prev
                     })
 
-                    // Si es la sesión seleccionada, forzar actualización de notas
-                    if (selectedSession?.id === sessionData.id) {
+                    // Si es la sesión seleccionada (usamos ref para evitar clausura obsoleta), actualizar notas
+                    if (selectedSessionIdRef.current === sessionData.id) {
                         if (sessionData.notes !== notesRef.current) {
-                            console.log('RT: Actualizando notas externas')
+                            console.log('RT: Sincronizando notas externas...')
                             setNotes(sessionData.notes || '')
                         }
-                        setSelectedSession(curr => ({ ...curr!, ...sessionData }))
+                        setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
                     }
 
                     setIsRealtime(true)
