@@ -100,10 +100,11 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
     const [isExpanded, setIsExpanded] = useState(false)
     const [isRealtime, setIsRealtime] = useState(false)
     const [realtimeStatus, setRealtimeStatus] = useState<'connecting' | 'connected' | 'error'>('connecting')
+    const [presenceCount, setPresenceCount] = useState(0)
 
     // Supabase Realtime subscription for live sync
     useEffect(() => {
-        const channelName = `p-${patient.id.substring(0, 8)}`
+        const channelName = `p-${patient.id}` // Use full ID for safety
         console.log('Connect Realtime:', channelName)
 
         const channel = supabase
@@ -122,20 +123,30 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                 },
                 (payload: any) => {
                     const sessionData = payload.new || payload.old
-                    if (!sessionData) return
-                    if (String(sessionData.patient_id) !== String(patient.id)) return
+                    if (!sessionData || String(sessionData.patient_id) !== String(patient.id)) return
 
                     console.log('RT DB Update:', payload.eventType, sessionData.id)
-                    handleIncomingUpdate(sessionData, payload.eventType === 'INSERT')
+                    handleIncomingUpdate(sessionData)
                 }
             )
             .on('broadcast', { event: 'sync-update' }, (payload) => {
                 console.log('RT Broadcast received:', payload.payload.id)
-                handleIncomingUpdate(payload.payload, false)
+                handleIncomingUpdate(payload.payload)
             })
-            .subscribe((status) => {
+            .on('presence', { event: 'sync' }, () => {
+                const state = channel.presenceState()
+                const count = Object.keys(state).length
+                setPresenceCount(count)
+                console.log('RT Presence count:', count)
+            })
+            .subscribe(async (status) => {
                 console.log('RT Status:', status)
-                setRealtimeStatus(status === 'SUBSCRIBED' ? 'connected' : 'error')
+                if (status === 'SUBSCRIBED') {
+                    setRealtimeStatus('connected')
+                    await channel.track({ online_at: new Date().toISOString() })
+                } else {
+                    setRealtimeStatus('error')
+                }
             })
 
         channelRef.current = channel
@@ -146,18 +157,17 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
     }, [patient.id])
 
     // Common logic for incoming updates (DB or Broadcast)
-    const handleIncomingUpdate = (sessionData: any, isInsert: boolean) => {
+    const handleIncomingUpdate = (sessionData: any) => {
         setSessions(prev => {
             const exists = prev.find(s => s.id === sessionData.id)
             if (exists) {
                 return prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s)
-            } else if (isInsert) {
-                return [sessionData, ...prev]
             }
-            return prev
+            return [sessionData, ...prev]
         })
 
         if (selectedSessionIdRef.current === sessionData.id) {
+            // Update notes only if different from current local value
             if (sessionData.notes !== notesRef.current) {
                 setNotes(sessionData.notes || '')
             }
@@ -300,7 +310,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                                         "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/10 dark:border-red-800"
                             )}>
                                 <RefreshCw className={cn("w-2.5 h-2.5", realtimeStatus === 'connecting' && "animate-spin")} />
-                                {realtimeStatus === 'connected' ? 'En Vivo' : realtimeStatus === 'connecting' ? 'Sincro...' : 'Offline'}
+                                {realtimeStatus === 'connected' ? `En Vivo ${presenceCount > 1 ? `(${presenceCount})` : ''}` : realtimeStatus === 'connecting' ? 'Sincro...' : 'Offline'}
                             </div>
                             {isRealtime && (
                                 <span className="text-[9px] text-teal-500 font-mono animate-pulse">● EVENTO</span>
