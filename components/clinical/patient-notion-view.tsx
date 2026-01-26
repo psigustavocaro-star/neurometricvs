@@ -92,23 +92,29 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
     const [isSaving, setIsSaving] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
     const [isRealtime, setIsRealtime] = useState(false)
+    const [realtimeStatus, setRealtimeStatus] = useState<'connecting' | 'connected' | 'error'>('connecting')
 
     // Supabase Realtime subscription for live sync
     useEffect(() => {
-        console.log('Setting up realtime subscription for patient:', patient.id)
+        console.log('Iniciando suscripción Realtime para paciente:', patient.id)
 
         const channel = supabase
-            .channel(`sessions-${patient.id}`)
+            .channel(`notion-patient-${patient.id}`)
             .on(
                 'postgres_changes',
                 {
                     event: '*',
                     schema: 'public',
-                    table: 'clinical_sessions',
-                    filter: `patient_id=eq.${patient.id}`
+                    table: 'clinical_sessions'
+                    // Quitamos el filtro 'filter' para asegurar que recibimos los cambios
+                    // y filtramos manualmente en JS por seguridad.
                 },
                 (payload: any) => {
-                    console.log('Realtime update detected:', payload.eventType, payload.new?.id)
+                    // Validar que el cambio pertenece a este paciente
+                    const sessionPatientId = payload.new?.patient_id || payload.old?.patient_id
+                    if (sessionPatientId !== patient.id) return
+
+                    console.log('¡Cambio detectado!', payload.eventType, payload.new?.id)
 
                     if (payload.eventType === 'INSERT') {
                         const newSession = payload.new as ClinicalSession
@@ -116,7 +122,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                             if (prev.some(s => s.id === newSession.id)) return prev
                             return [newSession, ...prev]
                         })
-                        toast.info('Sesión agregada desde otra pestaña')
+                        toast.info('Nueva sesión detectada', { icon: '🔄' })
                     }
                     else if (payload.eventType === 'UPDATE') {
                         const updatedSession = payload.new as ClinicalSession
@@ -127,7 +133,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
 
                         setSelectedSession(current => {
                             if (current?.id === updatedSession.id) {
-                                // Update notes if they differ from current local value
+                                // Sincronizar notas solo si son diferentes a lo que está en el ref (lo que el usuario está viendo)
                                 if (updatedSession.notes !== notesRef.current) {
                                     setNotes(updatedSession.notes || '')
                                 }
@@ -146,10 +152,13 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                 }
             )
             .subscribe((status) => {
-                console.log('Status de conexión Realtime:', status)
+                console.log('Estado Realtime:', status)
+                if (status === 'SUBSCRIBED') setRealtimeStatus('connected')
+                if (status === 'CLOSED' || status === 'CHANNEL_ERROR') setRealtimeStatus('error')
             })
 
         return () => {
+            console.log('Cerrando canal Realtime')
             supabase.removeChannel(channel)
         }
     }, [patient.id, supabase]) // Correct deps: only patient and supabase
@@ -253,10 +262,18 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                         <div className="flex items-center gap-2">
                             <FileText className="w-4 h-4 text-slate-500" />
                             <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Sesiones</h3>
+                            <div className={cn(
+                                "flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-tight",
+                                realtimeStatus === 'connected' ? "bg-green-50 text-green-600 border-green-200 dark:bg-green-900/10 dark:border-green-800" :
+                                    realtimeStatus === 'connecting' ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/10 dark:border-amber-800" :
+                                        "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/10 dark:border-red-800"
+                            )}>
+                                <RefreshCw className={cn("w-2.5 h-2.5", realtimeStatus === 'connecting' && "animate-spin")} />
+                                {realtimeStatus === 'connected' ? 'En Vivo' : realtimeStatus === 'connecting' ? 'Sincro...' : 'Offline'}
+                            </div>
                             {isRealtime && (
-                                <div className="flex items-center gap-1.5 animate-pulse">
+                                <div className="flex items-center gap-1.5 animate-bounce">
                                     <div className="w-2 h-2 rounded-full bg-teal-500" />
-                                    <span className="text-[10px] text-teal-600 font-bold uppercase tracking-tight">Sincro</span>
                                 </div>
                             )}
                         </div>
