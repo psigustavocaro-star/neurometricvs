@@ -72,10 +72,13 @@ function DataRow({ icon: Icon, label, value, badge, badgeColor }: {
     )
 }
 
+// Initialize Supabase once outside the component
+const supabase = createClient()
+
 export function PatientNotionView({ patient, clinicalRecord, sessions: initialSessions }: PatientNotionViewProps) {
     const router = useRouter()
     const format = useFormatter()
-    const supabase = createClient()
+    const channelRef = useRef<any>(null)
 
     // Local sessions state for realtime updates
     const [sessions, setSessions] = useState(initialSessions)
@@ -83,6 +86,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         sessions.length > 0 ? sessions[0] : null
     )
     const [notes, setNotes] = useState(selectedSession?.notes || '')
+
     // Sync refs with state to avoid stale closures in realtime callback
     const notesRef = useRef(notes)
     const selectedSessionIdRef = useRef(selectedSession?.id)
@@ -91,6 +95,7 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         notesRef.current = notes
         selectedSessionIdRef.current = selectedSession?.id
     }, [notes, selectedSession?.id])
+
     const [isSaving, setIsSaving] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
     const [isRealtime, setIsRealtime] = useState(false)
@@ -102,7 +107,12 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         console.log('Connect Realtime:', channelName)
 
         const channel = supabase
-            .channel(channelName)
+            .channel(channelName, {
+                config: {
+                    broadcast: { self: false },
+                    presence: { key: patient.id }
+                }
+            })
             .on(
                 'postgres_changes',
                 {
@@ -111,69 +121,58 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                     table: 'clinical_sessions'
                 },
                 (payload: any) => {
-                    // Log details to help debug
-                    console.log('RT EVENTO:', payload.eventType || payload.type)
-
-                    const sessionData = payload.new || payload.old || payload.payload
+                    const sessionData = payload.new || payload.old
                     if (!sessionData) return
+                    if (String(sessionData.patient_id) !== String(patient.id)) return
 
-                    const sessionPatientId = String(sessionData.patient_id || '')
-                    const currentPatientId = String(patient.id || '')
-
-                    if (sessionPatientId !== currentPatientId) return
-
-                    // Actualizar lista de sesiones
-                    setSessions(prev => {
-                        const exists = prev.find(s => s.id === sessionData.id)
-                        if (exists) {
-                            return prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s)
-                        } else if (payload.eventType === 'INSERT' || payload.type === 'broadcast') {
-                            return [sessionData, ...prev]
-                        }
-                        return prev
-                    })
-
-                    // Actualizar sesión seleccionada
-                    if (selectedSessionIdRef.current === sessionData.id) {
-                        if (sessionData.notes !== notesRef.current) {
-                            console.log('RT: Sincronizando notas...')
-                            setNotes(sessionData.notes || '')
-                        }
-                        setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
-                    }
-
-                    setIsRealtime(true)
-                    setTimeout(() => setIsRealtime(false), 2000)
+                    console.log('RT DB Update:', payload.eventType, sessionData.id)
+                    handleIncomingUpdate(sessionData, payload.eventType === 'INSERT')
                 }
             )
-            // Escuchar también mensajes directos (BORADCAST) por si la DB tarda
             .on('broadcast', { event: 'sync-update' }, (payload) => {
-                console.log('RT Broadcast recibido:', payload)
-                // Usamos la misma lógica
-                const sessionData = payload.payload
-                if (String(sessionData.patient_id) === String(patient.id)) {
-                    setSessions(prev => prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s))
-                    if (selectedSessionIdRef.current === sessionData.id) {
-                        setNotes(sessionData.notes || '')
-                        setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
-                    }
-                    setIsRealtime(true)
-                    setTimeout(() => setIsRealtime(false), 2000)
-                }
+                console.log('RT Broadcast received:', payload.payload.id)
+                handleIncomingUpdate(payload.payload, false)
             })
             .subscribe((status) => {
                 console.log('RT Status:', status)
                 setRealtimeStatus(status === 'SUBSCRIBED' ? 'connected' : 'error')
             })
 
-        return () => {
-            supabase.removeChannel(channel)
-        }
-    }, [patient.id, supabase])
+        channelRef.current = channel
 
-    // Sync initialSessions prop with local state
+        return () => {
+            if (channel) supabase.removeChannel(channel)
+        }
+    }, [patient.id])
+
+    // Common logic for incoming updates (DB or Broadcast)
+    const handleIncomingUpdate = (sessionData: any, isInsert: boolean) => {
+        setSessions(prev => {
+            const exists = prev.find(s => s.id === sessionData.id)
+            if (exists) {
+                return prev.map(s => s.id === sessionData.id ? { ...s, ...sessionData } : s)
+            } else if (isInsert) {
+                return [sessionData, ...prev]
+            }
+            return prev
+        })
+
+        if (selectedSessionIdRef.current === sessionData.id) {
+            if (sessionData.notes !== notesRef.current) {
+                setNotes(sessionData.notes || '')
+            }
+            setSelectedSession(curr => curr ? { ...curr, ...sessionData } : null)
+        }
+
+        setIsRealtime(true)
+        setTimeout(() => setIsRealtime(false), 2000)
+    }
+
+    // Sync initialSessions prop with local state only if count changes or initialization
     useEffect(() => {
-        setSessions(initialSessions)
+        if (initialSessions.length !== sessions.length) {
+            setSessions(initialSessions)
+        }
     }, [initialSessions])
 
     // Calculate age
@@ -195,8 +194,16 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
     // Handle new session
     const handleNewSession = async () => {
         try {
-            await createSession(patient.id, { type: 'Consulta', notes: '' })
-            toast.success('Nueva sesión creada')
+            const newSession = await createSession(patient.id, { type: 'Consulta', notes: '' })
+            if (newSession) {
+                toast.success('Nueva sesión creada')
+                // Broadcast the new session immediately
+                channelRef.current?.send({
+                    type: 'broadcast',
+                    event: 'sync-update',
+                    payload: newSession
+                })
+            }
             router.refresh()
         } catch (error) {
             toast.error('Error al crear sesión')
@@ -210,23 +217,22 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         try {
             const updated = await updateSession(selectedSession.id, { notes }, patient.id)
 
-            // Optimistic local update
             if (updated) {
+                // Update local state
                 setSessions(prev => prev.map(s => s.id === updated.id ? { ...s, ...updated } : s))
                 setSelectedSession(curr => curr?.id === updated.id ? { ...curr, ...updated } : curr)
 
-                // Emitir broadcast manual para otras pestañas (fallback instantáneo)
-                const channel = supabase.channel(`p-${patient.id.substring(0, 8)}`)
-                channel.send({
-                    type: 'broadcast',
-                    event: 'sync-update',
-                    payload: updated
-                })
+                // BROADCAST through the STABLE channel
+                if (channelRef.current) {
+                    channelRef.current.send({
+                        type: 'broadcast',
+                        event: 'sync-update',
+                        payload: updated
+                    })
+                }
             }
 
             toast.success('Notas guardadas')
-            // Don't router.refresh() immediately if we have realtime, to avoid flickering
-            // router.refresh() 
         } catch (error) {
             console.error('Save error:', error)
             toast.error('Error al guardar')
