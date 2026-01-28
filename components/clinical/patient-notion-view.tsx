@@ -72,12 +72,13 @@ function DataRow({ icon: Icon, label, value, badge, badgeColor }: {
     )
 }
 
-// Initialize Supabase once outside the component
-const supabase = createClient()
-
 export function PatientNotionView({ patient, clinicalRecord, sessions: initialSessions }: PatientNotionViewProps) {
     const router = useRouter()
     const format = useFormatter()
+
+    // Initialize Supabase inside the component to ensure correct session handling
+    const supabase = React.useMemo(() => createClient(), [])
+
     const channelRef = useRef<any>(null)
 
     // Local sessions state for realtime updates
