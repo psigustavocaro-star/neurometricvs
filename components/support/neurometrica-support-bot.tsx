@@ -135,16 +135,16 @@ export function NeurometricaSupportBot() {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="absolute bottom-20 right-0 w-[calc(100vw-32px)] sm:w-[350px] md:w-[380px] max-w-[400px] h-[calc(100vh-140px)] sm:h-[450px] md:h-[550px] max-h-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
+                        className="absolute bottom-20 right-0 w-[260px] sm:w-[350px] md:w-[380px] max-w-[calc(100vw-40px)] h-[350px] sm:h-[450px] md:h-[550px] max-h-[calc(100vh-160px)] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
                     >
                         {/* Header */}
-                        <div className="p-4 bg-slate-900 text-white flex justify-between items-center shrink-0">
+                        <div className="p-2 md:p-4 bg-slate-900 text-white flex justify-between items-center shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center">
                                     <Bot className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-sm">Aura AI</h3>
+                                    <h3 className="font-bold text-sm">Alana IA</h3>
                                     <p className="text-[10px] text-slate-300 flex items-center gap-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                                         {t('online')}
@@ -157,7 +157,7 @@ export function NeurometricaSupportBot() {
                         </div>
 
                         {/* Messages Area */}
-                        <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 bg-slate-50 dark:bg-slate-950/50">
+                        <ScrollArea ref={scrollAreaRef} className="flex-1 p-2 md:p-4 bg-slate-50 dark:bg-slate-950/50">
                             <div className="space-y-4 pb-4">
                                 {messages.length === 0 && (
                                     <div className="text-center text-sm text-muted-foreground mt-10 px-6">
@@ -238,7 +238,7 @@ export function NeurometricaSupportBot() {
                             </div>
                         </ScrollArea>
 
-                        <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+                        <div className="p-2 md:p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
                             <form onSubmit={handleFormSubmit} className="flex gap-2 relative">
                                 <Input
                                     value={input}

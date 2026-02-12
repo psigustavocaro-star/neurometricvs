@@ -6,6 +6,9 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
+import { GoogleLoginButton } from '@/components/auth/google-login-button'
+import { PasswordInput } from '@/components/ui/password-input'
+import { LoginPageForm } from '@/components/auth/login-page-form'
 
 export default async function LoginPage(props: {
     searchParams: Promise<{ message: string, error: string }>
@@ -49,63 +52,50 @@ export default async function LoginPage(props: {
                         {t('description')}
                     </CardDescription>
                 </CardHeader>
-                <form>
-                    <CardContent className="space-y-4">
-                        {searchParams?.error && (
-                            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 px-4 py-3 rounded-lg text-sm flex items-center gap-2" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                </svg>
-                                {t('error_prefix')}: {searchParams.error}
-                            </div>
-                        )}
-                        {translatedMessage && (
-                            <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900 text-emerald-600 dark:text-emerald-300 px-4 py-3 rounded-lg text-sm" role="alert">
-                                {translatedMessage}
-                            </div>
-                        )}
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">{t('email_label')}</Label>
-                            <Input
-                                id="email" name="email" type="email" required placeholder={t('email_placeholder')}
-                                className="bg-white/50 dark:bg-slate-950/50 border-slate-200 dark:border-slate-800 focus:ring-2 focus:ring-teal-500/20"
-                            />
+                <CardContent className="space-y-4">
+                    {searchParams?.error && (
+                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 px-4 py-3 rounded-lg text-sm flex items-center gap-2" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                            {t('error_prefix')}: {searchParams.error}
                         </div>
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">{t('password_label')}</Label>
-                            </div>
-                            <Input
-                                id="password" name="password" type="password" required
-                                className="bg-white/50 dark:bg-slate-950/50 border-slate-200 dark:border-slate-800 focus:ring-2 focus:ring-teal-500/20"
-                            />
+                    )}
+                    {translatedMessage && (
+                        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-900 text-emerald-600 dark:text-emerald-300 px-4 py-3 rounded-lg text-sm" role="alert">
+                            {translatedMessage}
                         </div>
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-4 pt-2">
-                        <Button formAction={login} className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white shadow-lg shadow-teal-500/20 border-0 h-11">
-                            {t('submit_button')}
+                    )}
+
+                    <LoginPageForm />
+                </CardContent>
+                <CardFooter className="flex flex-col gap-4 pt-2">
+                    <div className="relative w-full py-2">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-slate-200 dark:border-slate-700" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-transparent px-2 text-slate-500 dark:text-slate-400 font-medium">{t('continue_with')}</span>
+                        </div>
+                    </div>
+
+                    <GoogleLoginButton
+                        label={t('google_login')}
+                        className="w-full border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 h-11 text-slate-700 dark:text-slate-300"
+                    />
+
+                    <Link href="/onboarding" className="w-full">
+                        <Button variant="outline" className="w-full border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 h-11 text-slate-700 dark:text-slate-300">
+                            {t('create_account')}
                         </Button>
+                    </Link>
 
-                        <div className="relative w-full py-2">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t border-slate-200 dark:border-slate-700" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-transparent px-2 text-slate-500 dark:text-slate-400 font-medium">{t('continue_with')}</span>
-                            </div>
-                        </div>
-
-                        <Link href="/onboarding" className="w-full">
-                            <Button variant="outline" className="w-full border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 h-11 text-slate-700 dark:text-slate-300">
-                                {t('create_account')}
-                            </Button>
-                        </Link>
-
-                        <Button formAction={resendConfirmation} variant="link" className="w-full text-xs text-slate-500 hover:text-teal-600 dark:hover:text-teal-400">
+                    <form action={resendConfirmation} className="w-full">
+                        <Button type="submit" variant="link" className="w-full text-xs text-slate-500 hover:text-teal-600 dark:hover:text-teal-400">
                             {t('resend_confirmation')}
                         </Button>
-                    </CardFooter>
-                </form>
+                    </form>
+                </CardFooter>
             </Card>
         </div>
     )

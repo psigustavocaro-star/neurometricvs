@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import { BookOpen } from "lucide-react"
 import { ResourceGrid } from "@/components/resources/resource-grid"
 
-export default function ResourcesPage() {
-    const t = useTranslations('Pricing.Dashboard.Resources')
+export default async function ResourcesPage() {
+    const t = await getTranslations('Pricing.Dashboard.Resources')
     return (
         <div className="space-y-6 p-6 md:p-8">
             <div className="flex flex-col gap-2">

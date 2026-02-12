@@ -18,7 +18,7 @@ export function MockTestScoring() {
     }, [])
 
     return (
-        <div className="w-full max-w-xl self-center h-[500px] bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 flex flex-col shadow-2xl overflow-hidden ring-1 ring-slate-900/5">
+        <div className="w-full max-w-xl self-center h-[380px] sm:h-[420px] md:h-[500px] bg-white dark:bg-slate-950 rounded-2xl md:rounded-[2rem] flex flex-col shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800">
             {/* Unified Clinical Header */}
             <div className="h-20 bg-slate-900 flex items-center px-8 justify-between shrink-0">
                 <div className="flex items-center gap-4">
@@ -39,7 +39,7 @@ export function MockTestScoring() {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/20 flex flex-col items-center justify-center p-8">
+            <div className="flex-1 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/20 flex flex-col items-center justify-center p-4 sm:p-8">
                 <AnimatePresence mode="wait" initial={false}>
                     {step === 0 && (
                         <motion.div
@@ -49,23 +49,23 @@ export function MockTestScoring() {
                             exit={{ opacity: 0, scale: 1.05, filter: "blur(8px)" }}
                             className="w-full h-full flex flex-col justify-center gap-6"
                         >
-                            <div className="space-y-4">
+                            <div className="space-y-3 sm:space-y-4">
                                 {[1, 2, 3].map((i) => (
                                     <motion.div
                                         key={i}
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center"
+                                        className="bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center"
                                     >
-                                        <div className="space-y-2">
-                                            <div className="h-2.5 w-32 bg-slate-100 dark:bg-slate-800 rounded-full" />
-                                            <div className="h-1.5 w-20 bg-slate-50 dark:bg-slate-800 rounded-full" />
+                                        <div className="space-y-1.5 sm:space-y-2">
+                                            <div className="h-2 sm:h-2.5 w-24 sm:w-32 bg-slate-100 dark:bg-slate-800 rounded-full" />
+                                            <div className="h-1 sm:h-1.5 w-16 sm:w-20 bg-slate-50 dark:bg-slate-800 rounded-full" />
                                         </div>
-                                        <div className="flex gap-2.5">
+                                        <div className="flex gap-1.5 sm:gap-2.5">
                                             {[0, 1, 2, 3].map(opt => (
                                                 <div key={opt} className={cn(
-                                                    "w-4 h-4 rounded-full border border-slate-200 dark:border-slate-700 transition-all duration-300",
+                                                    "w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-slate-200 dark:border-slate-700 transition-all duration-300",
                                                     opt === (i === 2 ? 1 : 2) ? "bg-teal-500 border-teal-500 scale-110 shadow-lg shadow-teal-500/20" : "bg-slate-50 dark:bg-slate-800"
                                                 )} />
                                             ))}
@@ -73,9 +73,9 @@ export function MockTestScoring() {
                                     </motion.div>
                                 ))}
                             </div>
-                            <div className="mt-4 p-4 bg-slate-900/5 dark:bg-white/5 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-2">
-                                <div className="h-2 w-48 bg-slate-200 dark:bg-slate-800 rounded-full" />
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{t('syncing')}</p>
+                            <div className="mt-2 sm:mt-4 p-3 sm:p-4 bg-slate-900/5 dark:bg-white/5 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center gap-2">
+                                <div className="h-1.5 sm:h-2 w-32 sm:w-48 bg-slate-200 dark:bg-slate-800 rounded-full" />
+                                <p className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">{t('syncing')}</p>
                             </div>
                         </motion.div>
                     )}

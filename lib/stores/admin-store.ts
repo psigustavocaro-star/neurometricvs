@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type UserRole = 'psychologist' | 'psychiatrist' | 'neurologist' | 'physician' | 'occupational_therapist' | 'speech_therapist' | 'psychopedagogue' | 'nutritionist'
+export type UserRole = 'psychologist' | 'psychiatrist' | 'neurologist' | 'physician' | 'occupational_therapist' | 'speech_therapist' | 'nutritionist'
 
 export type SubscriptionPlan = 'free' | 'basic' | 'clinical' | 'pro'
 

@@ -23,7 +23,7 @@ export function MockClinicalRecords() {
     }, [])
 
     return (
-        <div className="w-full max-w-xl self-center h-[480px] bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 flex flex-col shadow-2xl overflow-hidden ring-1 ring-slate-900/5">
+        <div className="w-full max-w-xl self-center h-[380px] sm:h-[420px] md:h-[480px] bg-white dark:bg-slate-950 rounded-2xl md:rounded-[2rem] flex flex-col shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800">
             {/* Unified Clinical Header */}
             <div className="h-16 md:h-20 bg-slate-900 flex items-center px-6 md:px-8 justify-between shrink-0">
                 <div className="flex items-center gap-4">
@@ -42,39 +42,39 @@ export function MockClinicalRecords() {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 p-6 md:p-8 flex flex-col bg-slate-50/50 dark:bg-slate-900/20 overflow-hidden">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                            <User className="h-4 w-4 text-slate-500" />
+            <div className="flex-1 p-4 sm:p-6 md:p-8 flex flex-col bg-slate-50/50 dark:bg-slate-900/20 overflow-hidden">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                            <User className="h-3 w-3 sm:h-4 sm:w-4 text-slate-500" />
                         </div>
                         <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{t('patient_label')}</p>
-                            <p className="text-[10px] text-slate-500 font-medium">{t('last_session')}</p>
+                            <p className="text-[10px] sm:text-xs font-bold text-slate-900 dark:text-slate-100">{t('patient_label')}</p>
+                            <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">{t('last_session')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center border border-indigo-100 dark:border-indigo-500/20">
-                            <Mic className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center border border-indigo-100 dark:border-indigo-500/20">
+                            <Mic className="h-3 w-3 sm:h-4 sm:w-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
                     </div>
                 </div>
 
-                <div className="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 relative overflow-hidden shadow-inner group">
-                    <div className="flex justify-between items-center mb-4 pb-4 border-b border-slate-50 dark:border-slate-800">
+                <div className="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-6 relative overflow-hidden shadow-inner group">
+                    <div className="flex justify-between items-center mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-slate-50 dark:border-slate-800">
                         <div className="flex gap-2">
-                            <div className="h-1.5 w-12 bg-slate-100 dark:bg-slate-800 rounded-full" />
-                            <div className="h-1.5 w-8 bg-slate-50 dark:bg-slate-800 rounded-full" />
+                            <div className="h-1.5 w-10 sm:w-12 bg-slate-100 dark:bg-slate-800 rounded-full" />
+                            <div className="h-1.5 w-6 sm:w-8 bg-slate-50 dark:bg-slate-800 rounded-full" />
                         </div>
-                        <span className="text-[9px] font-bold text-teal-600 bg-teal-50 dark:bg-teal-500/10 px-2 py-0.5 rounded uppercase border border-teal-100 dark:border-teal-500/20">Auto-Save</span>
+                        <span className="text-[8px] sm:text-[9px] font-bold text-teal-600 bg-teal-50 dark:bg-teal-500/10 px-1.5 sm:px-2 py-0.5 rounded uppercase border border-teal-100 dark:border-teal-500/20">Auto-Save</span>
                     </div>
 
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium text-base">
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
                         {text}
                         <motion.span
                             animate={{ opacity: [0, 1, 0] }}
                             transition={{ repeat: Infinity, duration: 0.8 }}
-                            className="inline-block w-0.5 h-5 bg-teal-500 ml-1 align-middle shadow-[0_0_8px_rgba(20,184,166,0.4)]"
+                            className="inline-block w-0.5 h-4 sm:h-5 bg-teal-500 ml-1 align-middle shadow-[0_0_8px_rgba(20,184,166,0.4)]"
                         />
                     </p>
 

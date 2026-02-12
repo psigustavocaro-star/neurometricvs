@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
+import "../instant-transitions.css";
 import { Providers } from "@/app/providers";
+import { QueryProvider } from "@/lib/query-provider";
 import { ConditionalNavbar } from "@/components/layout/conditional-navbar";
 import { createClient } from "@/lib/supabase/server";
 // import { AdminMenu } from "@/components/admin/admin-menu";
@@ -75,17 +77,20 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body
         className={`${fontSans.variable} antialiased font-sans`}
+        suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <ConditionalNavbar user={user} plan={subscription?.plan} profile={profile} />
-            {/* {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />} */}
-            <main className="transition-all duration-300">
-              {children}
-            </main>
-            {user?.email === 'psi.gustavocaro@gmail.com' && <div className="fixed bottom-4 right-4 z-50"><AdminTools /></div>}
-            <Toaster />
-          </Providers>
+          <QueryProvider>
+            <Providers>
+              <ConditionalNavbar user={user} plan={subscription?.plan} profile={profile} />
+              {/* {user?.email === 'psi.gustavocaro@gmail.com' && <AdminMenu />} */}
+              <main>
+                {children}
+              </main>
+              {user?.email === 'psi.gustavocaro@gmail.com' && <div className="fixed bottom-4 right-4 z-50"><AdminTools /></div>}
+              <Toaster />
+            </Providers>
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -51,7 +51,7 @@ export function VerticalNavbar() {
     }
 
     return (
-        <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-4">
+        <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 hidden xl:flex flex-col gap-4">
             {navItems.map(({ id, label, icon: Icon }) => (
                 <div key={id} className="relative group flex items-center">
                     {/* Label Tooltip */}

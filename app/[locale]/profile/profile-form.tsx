@@ -3,6 +3,7 @@
 import { updateProfile } from './actions'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -253,7 +254,6 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                                         <SelectItem value="Médico/a">{t('specialties.physician')}</SelectItem>
                                                         <SelectItem value="Terapeuta Ocupacional">{t('specialties.occupational_therapist')}</SelectItem>
                                                         <SelectItem value="Fonoaudiólogo/a">{t('specialties.speech_therapist')}</SelectItem>
-                                                        <SelectItem value="Psicopedagogo/a">{t('specialties.psychopedagogue')}</SelectItem>
                                                         <SelectItem value="Nutricionista">{t('specialties.nutritionist')}</SelectItem>
                                                     </SelectContent>
                                                 </Select>
@@ -362,10 +362,9 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                             <Label htmlFor="currentPassword">{t('current_password')}</Label>
                                             <div className="relative">
                                                 <Shield className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                                <Input
+                                                <PasswordInput
                                                     id="currentPassword"
                                                     name="currentPassword"
-                                                    type="password"
                                                     value={currentPassword}
                                                     onChange={(e) => setCurrentPassword(e.target.value)}
                                                     className="pl-10"
@@ -379,10 +378,9 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                                 <Label htmlFor="password">{t('new_password')}</Label>
                                                 <div className="relative">
                                                     <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                                    <Input
+                                                    <PasswordInput
                                                         id="password"
                                                         name="password"
-                                                        type="password"
                                                         value={password}
                                                         onChange={(e) => setPassword(e.target.value)}
                                                         className="pl-10"
@@ -394,10 +392,9 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                                 <Label htmlFor="confirmPassword">{t('confirm_password')}</Label>
                                                 <div className="relative">
                                                     <Check className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                                                    <Input
+                                                    <PasswordInput
                                                         id="confirmPassword"
                                                         name="confirmPassword"
-                                                        type="password"
                                                         value={confirmPassword}
                                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                                         className="pl-10"

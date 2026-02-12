@@ -46,7 +46,6 @@
             "Physicians",
             "Occupational Therapists",
             "Speech Therapists",
-            "Psychopedagogues",
             "Nutritionists"
         ]
     },
@@ -170,7 +169,6 @@
             "physician": "Physician",
             "occupational_therapist": "Occupational Therapist",
             "speech_therapist": "Speech Therapist",
-            "psychopedagogue": "Psychopedagogue",
             "nutritionist": "Nutritionist",
             "Psicólogo": "Psychologist",
             "Psiquiatra": "Psychiatrist",
@@ -178,7 +176,6 @@
             "Médico/a": "Physician",
             "Terapeuta Ocupacional": "Occupational Therapist",
             "Fonoaudiólogo/a": "Speech Therapist",
-            "Psicopedagogo/a": "Psychopedagogue",
             "Nutricionista": "Nutritionist"
         }
     },
@@ -287,11 +284,11 @@
             "teleconsultation": "Teleconsultation",
             "alerts": "Alerts"
         },
-        "AuraSupport": {
-            "title": "Aura Support 24/7",
+        "AlanaSupport": {
+            "title": "Alana IA Support 24/7",
             "subtitle": "Integrated Virtual Assistant",
-            "active_system": "Aura Online",
-            "welcome": "Hello! I'm Aura, your 24/7 assistant. How can I support you today?",
+            "active_system": "Alana IA Online",
+            "welcome": "Hello! I'm Alana IA, your 24/7 assistant. How can I support you today?",
             "query_1": "I need help interpreting the GAD-7 test",
             "response_1": "Based on the scores obtained, the patient presents a moderate level of anxiety. It is suggested to correlate with...",
             "query_2": "How do I export the clinical report to PDF?",
@@ -377,7 +374,7 @@
                 "Everything in Basic",
                 "Adaptive clinical record",
                 "Activity timeline",
-                "24/7 Aura Support",
+                "24/7 Alana IA Support",
                 "Unlimited session management"
             ]
         },
@@ -405,11 +402,11 @@
         "clinical_protocol": "Clinical Protocol",
         "config_details": "Configuration Details",
         "Support": {
-            "helper_label": "Questions? Ask Aura",
-            "online": "Aura AI active 24/7",
-            "welcome_title": "Hi, I'm Aura",
+            "helper_label": "Questions? Ask Alana IA",
+            "online": "Alana IA active 24/7",
+            "welcome_title": "Hi, I'm Alana IA",
             "welcome_desc": "I'm here to support you in real-time with any clinical or platform questions. My advanced AI system is available 24/7.",
-            "input_placeholder": "Ask Aura...",
+            "input_placeholder": "Ask Alana IA...",
             "error_chat": "Communication error: ",
             "error_send": "Send error: "
         },
@@ -690,7 +687,27 @@
             }
         },
         "monthly_investment": "Monthly Investment",
-        "choose_this_plan": "Choose this Plan"
+        "choose_this_plan": "Choose this Plan",
+        "Dashboard": {
+            "Resources": {
+                "title": "Clinical Resources",
+                "description": "Library of tools, guides, and support materials for your clinical practice."
+            },
+            "Tests": {
+                "title": "Test Catalog",
+                "description": "Explore our complete library of psychological and neuropsychological evaluations.",
+                "back_to_catalog": "Back to Catalog",
+                "about_test": "About this Test",
+                "disclaimer": "Simplified technical sheet for clinical use.",
+                "estimated_duration": "Estimated Duration",
+                "items_label": "Items",
+                "questions_count": "{count} questions",
+                "variable_questions": "Variable",
+                "actions_title": "Actions",
+                "actions_desc": "Available options",
+                "view_report_sample": "View sample report"
+            }
+        }
     },
     "FAQ": {
         "title": "Frequently Asked Questions",
@@ -1464,8 +1481,8 @@
             "desc": "Automated scoring and pre-report generation for over 50 neuropsychological batteries.",
             "benefit": "Save up to 70% in scoring time."
         },
-        "AuraSupport": {
-            "title": "Aura AI Support 24/7",
+        "AlanaSupport": {
+            "title": "Alana IA AI Support 24/7",
             "desc": "Immediate intelligent assistance integrated into your workstation to resolve clinical and operational doubts at all times.",
             "benefit": "Total availability 365 days a year."
         },
@@ -1539,8 +1556,8 @@
                 "Instant result notifications"
             ]
         },
-        "AuraSupport": {
-            "detailed_description": "Premium support experience with Aura AI, available 24/7 to resolve questions about neuropsychological tests, platform management, and immediate technical guidance. Integrated directly into your clinical workflow.",
+        "AlanaSupport": {
+            "detailed_description": "Premium support experience with Alana IA AI, available 24/7 to resolve questions about neuropsychological tests, platform management, and immediate technical guidance. Integrated directly into your clinical workflow.",
             "benefits": [
                 "Intelligent assistance 24 hours a day",
                 "Instant resolution of operational doubts",
@@ -1562,7 +1579,10 @@
         "resend_confirmation": "Forgot to confirm your email? Resend",
         "error_prefix": "Login error",
         "check_email": "Check your email to continue sign in process",
-        "confirmation_resent": "Confirmation email resent. Check your inbox."
+        "confirmation_resent": "Confirmation email resent. Check your inbox.",
+        "google_login": "Continue with Google",
+        "forgot_password": "Forgot your password?",
+        "remember_me": "Remember me"
     },
     "Contact": {
         "title": "Contact Us",
@@ -1865,7 +1885,7 @@
             "physician": "General Physician",
             "occupational_therapist": "Occupational Therapist",
             "speech_therapist": "Speech Therapist",
-            "psychopedagogue": "Psychopedagogue",
+            "neuropsychologist": "Neuropsychologist",
             "nutritionist": "Nutritionist"
         },
         "registry_number": "Registry / License No.",

@@ -9,7 +9,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { submitRemoteTest } from "@/app/actions/submit-test"
-import { CheckCircle2, ArrowRight } from "lucide-react"
+import { CheckCircle2, ArrowRight, Info } from "lucide-react"
+import { getCurrentCountry, getNormsText } from "@/lib/utils/location"
 
 interface PublicTestRunnerProps {
     test: TestDefinition
@@ -83,6 +84,14 @@ export function PublicTestRunner({ test, token, patientName }: PublicTestRunnerP
                     </div>
                 </div>
                 <Progress value={progress} className="h-1 mt-4 max-w-3xl mx-auto" />
+                <div className="max-w-3xl mx-auto mt-4 px-1">
+                    <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-100 dark:border-teal-800 rounded-lg p-2.5 flex items-center gap-3">
+                        <Info className="h-4 w-4 text-teal-600 flex-shrink-0" />
+                        <p className="text-[11px] font-medium text-teal-700 dark:text-teal-400">
+                            <strong>Nota clínica:</strong> {getNormsText(getCurrentCountry())}
+                        </p>
+                    </div>
+                </div>
             </header>
 
             <main className="flex-1 max-w-3xl w-full mx-auto p-4 md:py-8 flex flex-col justify-center">

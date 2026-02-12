@@ -110,7 +110,7 @@ export function PatientOverview({
     const isPsychiatrist = activeRole.includes('psychiatrist') || activeRole.includes('psiquiatra')
     const isNeurologist = activeRole.includes('neurologist') || activeRole.includes('neurólog')
     const isMedical = isPsychiatrist || isNeurologist || activeRole.includes('physician') || activeRole.includes('médic') || activeRole.includes('nutritionist') || activeRole.includes('nutricionista')
-    const isAcademic = activeRole.includes('psychopedagogue') || activeRole.includes('psicopedagog') || activeRole.includes('speech_therapist') || activeRole.includes('fonoaudiólog')
+    const isAcademic = activeRole.includes('speech_therapist') || activeRole.includes('fonoaudiólog')
     const isPhysical = activeRole.includes('occupational_therapist') || activeRole.includes('terapeuta')
     const isSocial = false // Explicitly disabled
 

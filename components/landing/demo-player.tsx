@@ -18,7 +18,7 @@ export function DemoPlayer() {
     }, [])
 
     return (
-        <div className="w-full h-[500px] bg-slate-50 relative rounded-xl overflow-hidden border border-slate-200 shadow-inner flex font-sans">
+        <div className="w-full h-[250px] md:h-[500px] bg-slate-50 relative rounded-xl overflow-hidden border border-slate-200 shadow-inner flex font-sans">
             {/* Sidebar (High Fidelity) */}
             <div className="w-64 bg-white border-r border-slate-200 flex flex-col p-4 gap-2 z-10 shrink-0 hidden md:flex">
                 <div className="flex items-center gap-2 mb-6 px-2">
@@ -60,7 +60,7 @@ export function DemoPlayer() {
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col min-w-0 bg-slate-50/50">
                 {/* Topbar */}
-                <div className="h-14 border-b border-slate-200 bg-white flex items-center justify-between px-6 shrink-0">
+                <div className="h-12 md:h-14 border-b border-slate-200 bg-white flex items-center justify-between px-4 md:px-6 shrink-0">
                     <h2 className="font-semibold text-slate-800 text-sm">
                         {step === 0 && t('patients')}
                         {step === 1 && t('new_patient')}
@@ -73,7 +73,7 @@ export function DemoPlayer() {
                     </div>
                 </div>
 
-                <div className="flex-1 p-6 relative overflow-hidden">
+                <div className="flex-1 p-3 md:p-6 relative overflow-hidden">
                     <AnimatePresence mode="wait">
                         {step === 0 && (
                             <motion.div
@@ -84,26 +84,26 @@ export function DemoPlayer() {
                                 transition={{ duration: 0.4 }}
                                 className="space-y-6 max-w-4xl mx-auto"
                             >
-                                <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center mb-1">
                                     <div className="space-x-2">
-                                        <h3 className="text-xl font-bold text-slate-900">{t('patient_list')}</h3>
+                                        <h3 className="text-sm md:text-xl font-bold text-slate-900">{t('patient_list')}</h3>
                                         <p className="text-xs text-slate-500">{t('active_count', { count: 32 })}</p>
                                     </div>
                                     <motion.button
-                                        className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm transition-colors"
+                                        className="bg-teal-600 hover:bg-teal-700 text-white px-2 py-1 md:px-4 md:py-2 rounded-lg text-[10px] md:text-sm font-medium flex items-center gap-1 md:gap-2 shadow-sm transition-colors"
                                         animate={{ scale: [1, 1.05, 1] }}
                                         transition={{ delay: 2, duration: 0.3 }}
                                     >
-                                        <UserPlus className="h-4 w-4" /> {t('new')}
+                                        <UserPlus className="h-3 w-3 md:h-4 md:w-4" /> {t('new')}
                                     </motion.button>
                                 </div>
 
                                 {/* Real-looking Table */}
-                                <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                                    <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 border-b border-slate-100 bg-slate-50/50 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        <div className="w-8"></div>
+                                <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden text-[11px] md:text-xs">
+                                    <div className="grid grid-cols-[auto_1fr_auto] gap-2 md:gap-4 p-3 md:p-4 border-b border-slate-100 bg-slate-50/50 font-semibold text-slate-500 uppercase tracking-wider">
+                                        <div className="w-6 md:w-8"></div>
                                         <div>{t('name_label')}</div>
-                                        <div>{t('status_label')}</div>
+                                        <div className="hidden xs:block">{t('status_label')}</div>
                                     </div>
                                     {[
                                         { name: "Ana Martínez", status: t('patient_status_active'), color: "bg-green-100 text-green-700" },
@@ -146,18 +146,18 @@ export function DemoPlayer() {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
-                                className="space-y-6 max-w-2xl mx-auto bg-white p-8 rounded-xl border border-slate-200 shadow-sm"
+                                className="space-y-4 md:space-y-6 max-w-2xl mx-auto bg-white p-4 md:p-8 rounded-xl border border-slate-200 shadow-sm"
                             >
-                                <div className="border-b border-slate-100 pb-4 mb-4">
-                                    <h3 className="text-xl font-bold text-slate-900">{t('new_patient')}</h3>
-                                    <p className="text-sm text-slate-500">{t('complete_basic_info')}</p>
+                                <div className="border-b border-slate-100 pb-2 mb-3">
+                                    <h3 className="text-base md:text-xl font-bold text-slate-900">{t('new_patient')}</h3>
+                                    <p className="text-[10px] md:text-sm text-slate-500">{t('complete_basic_info')}</p>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('full_name')}</label>
+                                        <label className="text-[9px] md:text-xs font-bold text-slate-700 uppercase">{t('full_name')}</label>
                                         <motion.div
-                                            className="h-10 w-full bg-white border border-slate-300 rounded-lg flex items-center px-3 text-sm text-slate-900 shadow-sm"
+                                            className="h-8 md:h-10 w-full bg-white border border-slate-300 rounded-lg flex items-center px-3 text-[12px] md:text-sm text-slate-900 shadow-sm"
                                             initial={{ width: "0%", border: "1px solid #cbd5e1" }}
                                             animate={{ width: "100%", border: "1px solid #0d9488" }} // Highlight border on focus
                                             transition={{ duration: 0.5, delay: 0.2 }}
@@ -167,22 +167,22 @@ export function DemoPlayer() {
                                             </span>
                                         </motion.div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('email')}</label>
-                                        <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] md:text-xs font-bold text-slate-700 uppercase">{t('email')}</label>
+                                        <div className="h-8 md:h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('phone')}</label>
-                                        <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] md:text-xs font-bold text-slate-700 uppercase">{t('phone')}</label>
+                                        <div className="h-8 md:h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-700 uppercase">{t('birth_date')}</label>
-                                        <div className="h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] md:text-xs font-bold text-slate-700 uppercase">{t('birth_date')}</label>
+                                        <div className="h-8 md:h-10 w-full bg-slate-50 border border-slate-200 rounded-lg" />
                                     </div>
                                 </div>
-                                <div className="flex justify-end pt-4">
+                                <div className="flex justify-end pt-2">
                                     <motion.div
-                                        className="h-10 px-6 bg-teal-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-md"
+                                        className="h-8 md:h-10 px-4 md:px-6 bg-teal-600 rounded-lg flex items-center justify-center text-white text-[11px] md:text-sm font-bold shadow-md"
                                         initial={{ scale: 0.95 }}
                                         animate={{ scale: 1 }}
                                     >

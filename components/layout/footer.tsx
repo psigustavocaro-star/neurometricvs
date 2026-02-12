@@ -15,8 +15,8 @@ export function Footer() {
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent opacity-50"></div>
             </div>
 
-            <div className="container px-4 md:px-6 lg:pl-32 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
                     {/* Brand Column */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-2">

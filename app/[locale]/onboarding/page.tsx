@@ -1,8 +1,12 @@
+import { OnboardingFlow } from '@/components/onboarding/onboarding-flow'
 import { Link } from '@/i18n/navigation'
 import { Button } from "@/components/ui/button"
 import { Construction, ArrowLeft } from 'lucide-react'
 
-export default function OnboardingPage() {
+// Check if beta access is enabled
+const isBetaAccess = process.env.NEXT_PUBLIC_BETA_ACCESS === 'true'
+
+function ConstructionPage() {
     return (
         <main className="min-h-screen bg-[#020617] flex flex-col items-center justify-center p-4 relative overflow-hidden">
             {/* Background Texture */}
@@ -45,4 +49,18 @@ export default function OnboardingPage() {
             </div>
         </main>
     )
+}
+
+export default function OnboardingPage() {
+    // If beta access is enabled, show the real onboarding flow
+    if (isBetaAccess) {
+        return (
+            <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-4 md:p-8">
+                <OnboardingFlow />
+            </main>
+        )
+    }
+
+    // Otherwise show construction page
+    return <ConstructionPage />
 }

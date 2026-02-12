@@ -16,9 +16,12 @@ const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/t
 export function ConditionalNavbar({ user, plan, profile }: ConditionalNavbarProps) {
     const pathname = usePathname()
 
-    // Check if current path starts with any of the app shell routes
+    // Check if the current path should show the AppShell instead of the top Navbar
     const isAppShellRoute = APP_SHELL_ROUTES.some(route =>
-        pathname.includes(route)
+        pathname === route ||
+        pathname.startsWith(`${route}/`) ||
+        pathname.includes(`/es${route}`) ||
+        pathname.includes(`/en${route}`)
     )
 
     // Don't render navbar on AppShell routes

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { loginAction, signupAction, resendAction } from '@/app/[locale]/actions/auth'
+import { PasswordInput } from '@/components/ui/password-input'
 import { Loader2 } from 'lucide-react'
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
@@ -39,6 +40,15 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
 
     // Resend State
     const [resendState, resendDispatch] = useActionState(resendAction, null)
+
+    const [email, setEmail] = useState('')
+
+    useEffect(() => {
+        const savedEmail = localStorage.getItem('remembered_email')
+        if (savedEmail) {
+            setEmail(savedEmail)
+        }
+    }, [])
 
     useEffect(() => {
         if (loginState?.success) {
@@ -70,7 +80,19 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
 
                     {/* LOGIN TAB */}
                     <TabsContent value="login">
-                        <form action={loginDispatch} className="space-y-5 py-4">
+                        <form
+                            action={(formData) => {
+                                const email = formData.get('email') as string;
+                                const remember = formData.get('remember') === 'on';
+                                if (remember) {
+                                    localStorage.setItem('remembered_email', email);
+                                } else {
+                                    localStorage.removeItem('remembered_email');
+                                }
+                                loginDispatch(formData);
+                            }}
+                            className="space-y-5 py-4"
+                        >
                             {loginState?.error && (
                                 <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
                                     {loginState.error}
@@ -84,15 +106,16 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
                                     type="email"
                                     required
                                     placeholder="correo@ejemplo.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
-                                <Input
+                                <PasswordInput
                                     id="password"
                                     name="password"
-                                    type="password"
                                     required
                                     className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
                                 />
@@ -104,6 +127,7 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
                                         type="checkbox"
                                         id="remember"
                                         name="remember"
+                                        defaultChecked={!!email}
                                         className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 transition-colors"
                                     />
                                     <label htmlFor="remember" className="text-sm text-gray-700 dark:text-gray-200 cursor-pointer select-none font-medium">
@@ -122,20 +146,60 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
 
                     {/* REGISTER TAB */}
                     <TabsContent value="register">
-                        <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
-                            <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-full animate-in zoom-in-50 duration-500">
-                                <Loader2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Acceso Beta Cerrado</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
-                                    Estamos en construcción. El registro está temporalmente deshabilitado mientras mejoramos la plataforma.
+                        {process.env.NEXT_PUBLIC_BETA_ACCESS === 'true' ? (
+                            <form action={signupDispatch} className="space-y-5 py-4">
+                                {signupState?.error && (
+                                    <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
+                                        {signupState.error}
+                                    </div>
+                                )}
+                                {signupState?.success && (
+                                    <div className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 text-green-600 dark:text-green-400 px-4 py-3 rounded-lg text-sm">
+                                        ¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.
+                                    </div>
+                                )}
+                                <div className="space-y-2">
+                                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
+                                    <Input
+                                        id="signup-email"
+                                        name="email"
+                                        type="email"
+                                        required
+                                        placeholder="correo@ejemplo.com"
+                                        className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
+                                    <PasswordInput
+                                        id="signup-password"
+                                        name="password"
+                                        required
+                                        className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
+                                    />
+                                </div>
+                                <SubmitButton>Crear Cuenta</SubmitButton>
+                                <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+                                    Para registro completo con perfil profesional, visita{' '}
+                                    <a href="/onboarding" className="text-teal-600 dark:text-teal-400 hover:underline">onboarding</a>
                                 </p>
+                            </form>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
+                                <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-full animate-in zoom-in-50 duration-500">
+                                    <Loader2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Acceso Beta Cerrado</h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
+                                        Estamos en construcción. El registro está temporalmente deshabilitado mientras mejoramos la plataforma.
+                                    </p>
+                                </div>
+                                <Button variant="outline" className="w-full mt-4" disabled>
+                                    Próximamente
+                                </Button>
                             </div>
-                            <Button variant="outline" className="w-full mt-4" disabled>
-                                Próximamente
-                            </Button>
-                        </div>
+                        )}
                     </TabsContent>
                 </Tabs>
             </DialogContent>

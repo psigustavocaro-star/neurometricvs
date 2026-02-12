@@ -27,19 +27,19 @@ export function DemoModal({ children }: DemoModalProps) {
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden bg-slate-50 dark:bg-slate-950 border-none shadow-2xl">
-                <div className="p-6 pb-0">
-                    <DialogHeader className="mb-4">
-                        <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-white">
+            <DialogContent className="w-[92vw] sm:max-w-[800px] p-0 overflow-hidden bg-slate-50 dark:bg-slate-950 border-none shadow-2xl rounded-2xl sm:rounded-3xl">
+                <div className="p-4 md:p-6 pb-0">
+                    <DialogHeader className="mb-2 md:mb-4">
+                        <DialogTitle className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                             {t('title')}
                         </DialogTitle>
-                        <DialogDescription className="text-slate-500 dark:text-slate-400">
+                        <DialogDescription className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
                             {t('subtitle')}
                         </DialogDescription>
                     </DialogHeader>
                 </div>
 
-                <div className="p-6 pt-0">
+                <div className="p-4 md:p-6 pt-0">
                     <DemoPlayer />
                 </div>
 

@@ -333,11 +333,11 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                     const isPhysician = specialty.includes('physician') || specialty.includes('médic');
                     const isOccupationalTherapist = specialty.includes('occupational') || specialty.includes('terapeuta ocupacional');
                     const isSpeechTherapist = specialty.includes('speech') || specialty.includes('fonoaudiólog');
-                    const isPsychopedagogue = specialty.includes('psychopedagogue') || specialty.includes('psicopedagog');
+
                     const isNutritionist = specialty.includes('nutritionist') || specialty.includes('nutricionista');
 
                     // Psychologists don't need a special mode banner - it's the default
-                    if (isPsychologist || (!isPsychiatrist && !isNeurologist && !isPhysician && !isOccupationalTherapist && !isSpeechTherapist && !isPsychopedagogue && !isNutritionist)) {
+                    if (isPsychologist || (!isPsychiatrist && !isNeurologist && !isPhysician && !isOccupationalTherapist && !isSpeechTherapist && !isNutritionist)) {
                         return null;
                     }
 
@@ -347,7 +347,7 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
                     else if (isPhysician) modeLabel = 'Modo Médico';
                     else if (isOccupationalTherapist) modeLabel = 'Modo Terapia Ocupacional';
                     else if (isSpeechTherapist) modeLabel = 'Modo Fonoaudiología';
-                    else if (isPsychopedagogue) modeLabel = 'Modo Psicopedagogía';
+
                     else if (isNutritionist) modeLabel = 'Modo Nutrición';
 
                     const ModeIcon = isPsychiatrist ? Pill : Brain;

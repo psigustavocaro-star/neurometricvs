@@ -11,6 +11,13 @@ export const depressionScale: TestDefinition = {
     id: "phq-9",
     title: "Cuestionario de Salud del Paciente (PHQ-9)",
     description: "Escala para evaluar la severidad de la depresión. Durante las últimas 2 semanas, ¿con qué frecuencia le han molestado los siguientes problemas?",
+    category: "psychology",
+    duration: "5 min",
+    norms: {
+        population: "Adultos",
+        region: "Chile",
+        method: "Validación local (Kroenke et al.)"
+    },
     questions: [
         {
             id: "q1",

@@ -11,7 +11,7 @@ export const prolecR: TestDefinition = {
     id: 'prolec-r',
     title: 'PROLEC-R (Batería de Evaluación de los Procesos Lectores, Revisada)',
     description: 'Batería para evaluar los procesos lectores en niños de 6 a 12 años. Identificación de letras, procesos léxicos, sintácticos y semánticos.',
-    category: 'pediatrics', // Psychopedagogy
+    category: 'pediatrics',
     duration: '20-40 min',
     questions: [
         { type: 'info', id: 'inst', text: 'Ingrese la clasificación (DD, D, N, A) obtenida para cada índice principal según el perfil del alumno.' },

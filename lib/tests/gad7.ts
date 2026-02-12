@@ -14,6 +14,13 @@ export const gad7: TestDefinition = {
     instructions: "Durante los últimos 15 días, ¿con qué frecuencia ha sufrido los siguientes problemas?",
     authors: "Spitzer, R.L., Kroenke, K., Williams, J.B., & Löwe, B. (2006)",
     reference: "Spitzer et al. (2006). A brief measure for assessing generalized anxiety disorder: the GAD-7. Archives of Internal Medicine, 166(10), 1092-1097.",
+    category: "psychology",
+    duration: "5 min",
+    norms: {
+        population: "Adultos",
+        region: "Chile",
+        method: "Validación local (García-Campayo et al.)"
+    },
     questions: [
         {
             id: "q1",

@@ -52,6 +52,12 @@ export interface TestDefinition {
         interpret?: (result: number | any) => string
     }
     subscales?: Subscale[]
+    norms?: {
+        population: string
+        region?: string
+        year?: string
+        method?: string
+    }
     reportConfig?: {
         chartType?: 'bar' | 'radar' | 'line'
         showResponseTable?: boolean

@@ -1,0 +1,190 @@
+/* View Transitions API - Transiciones instantáneas entre páginas */
+
+/* Configuración global de transiciones */
+@view-transition {
+  navigation: auto;
+}
+
+/* Transición de fade ultrarrápida (50ms) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 50ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade out del contenido anterior */
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+/* Fade in del contenido nuevo */
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Transición tipo slide para navegación hacia adelante */
+.view-transition-forward::view-transition-old(root) {
+  animation-name: slide-out-left;
+}
+
+.view-transition-forward::view-transition-new(root) {
+  animation-name: slide-in-right;
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Transición tipo slide para navegación hacia atrás */
+.view-transition-back::view-transition-old(root) {
+  animation-name: slide-out-right;
+}
+
+.view-transition-back::view-transition-new(root) {
+  animation-name: slide-in-left;
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Transiciones específicas para elementos con view-transition-name */
+.modal-transition {
+  view-transition-name: modal;
+}
+
+::view-transition-old(modal),
+::view-transition-new(modal) {
+  animation-duration: 100ms;
+}
+
+::view-transition-old(modal) {
+  animation-name: scale-down-fade;
+}
+
+::view-transition-new(modal) {
+  animation-name: scale-up-fade;
+}
+
+@keyframes scale-down-fade {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes scale-up-fade {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Optimizaciones de rendimiento */
+/* Optimizaciones de rendimiento removidas por conflictos con posición fija */
+
+/* Eliminar el delay de click en móviles */
+* {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll suave y optimizado */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optimizar fuentes para carga instantánea */
+@layer base {
+  * {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Preload hint para recursos críticos */
+link[rel="preload"] {
+  /* Los recursos con preload se priorizan */
+  fetchpriority: high;
+}
+
+/* Reducir repaint y reflow */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Contenedores con hardware acceleration */
+.hw-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

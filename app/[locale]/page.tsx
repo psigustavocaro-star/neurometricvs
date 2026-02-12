@@ -18,9 +18,14 @@ import { PricingSection } from "@/components/landing/pricing-section"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { FluidBackground } from "@/components/ui/fluid-background"
 import { ProfessionTextLoop } from "@/components/landing/profession-text-loop"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function LandingPage() {
+  const router = useRouter();
   const tHero = useTranslations('Hero');
+  // ... rest of translations
+
   const tMobile = useTranslations('MobileSection');
   const tTests = useTranslations('Testimonials');
   const tTrust = useTranslations('Trust');
@@ -29,6 +34,11 @@ export default function LandingPage() {
   const tNav = useTranslations('Navbar');
   const tGeneral = useTranslations('General');
 
+  useEffect(() => {
+    // Prefetch critical routes for instant feeling
+    const routesToPrefetch = ['/onboarding', '/login', '/features', '/pricing', '/testimonials'];
+    routesToPrefetch.forEach(route => router.prefetch(route));
+  }, [router]);
 
   return (
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
@@ -48,17 +58,19 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Section */}
-        <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-48 pb-24 md:pb-28 overflow-hidden relative bg-transparent transition-colors duration-300">
-          <div className="container px-4 md:px-6 relative z-10">
+        <section id="hero" className="w-full pt-24 md:pt-32 lg:pt-40 pb-16 md:pb-24 overflow-hidden relative bg-transparent transition-colors duration-300">
+          <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 xl:pl-32 xl:pr-10 relative z-10">
 
-            <div className="grid gap-12 lg:grid-cols-[1fr_500px] xl:grid-cols-[1fr_700px] items-start">
+            <div className="grid gap-12 lg:grid-cols-[1.2fr_450px] xl:grid-cols-[1.2fr_650px] items-start">
               <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
 
 
                 <ScrollAnimation animation="fade-up" delay={100}>
-                  <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm text-balance max-w-4xl leading-[1.1]">
-                    {tHero('title')} <ProfessionTextLoop />
-                  </h1>
+                  <div className="min-h-[140px] sm:min-h-[160px] lg:min-h-[190px] flex items-center lg:items-start relative z-20">
+                    <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm max-w-4xl leading-[1.1]">
+                      {tHero('title')} <ProfessionTextLoop />
+                    </h1>
+                  </div>
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={200}>
@@ -105,9 +117,9 @@ export default function LandingPage() {
                 </ScrollAnimation>
               </div>
 
-              <div className="mx-auto lg:mr-0 relative h-[500px] md:h-[600px] w-full max-w-[800px] flex items-start justify-center mt-8 lg:-mt-20">
+              <div className="mx-auto lg:mr-0 relative h-[550px] sm:h-[600px] md:h-[600px] w-full max-w-[800px] flex items-start justify-center mt-4 sm:mt-8 lg:-mt-20">
                 <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
-                  <div className="scale-75 md:scale-75 lg:scale-90 xl:scale-100 transition-transform origin-center">
+                  <div className="scale-90 sm:scale-100 md:scale-90 lg:scale-100 transition-transform origin-center">
                     <HeroCarousel />
                   </div>
                 </ScrollAnimation>
@@ -124,10 +136,12 @@ export default function LandingPage() {
         </section>
 
         {/* Features Section (What We Offer) */}
-        <FeaturesSection />
+        <div className="xl:pl-32 xl:pr-16">
+          <FeaturesSection />
+        </div>
 
         {/* Testimonials Section (Relatos) */}
-        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden">
+        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
               <div className="text-center mb-12">
@@ -142,24 +156,26 @@ export default function LandingPage() {
         </section >
 
         {/* Pricing Section */}
-        <PricingSection />
+        <div className="xl:pl-32 xl:pr-16">
+          <PricingSection />
+        </div>
 
         {/* FAQ Section */}
-        <section id="faq" className="w-full pt-12 md:pt-24 pb-48 md:pb-64 bg-transparent relative overflow-hidden">
-          <div className="container px-4 md:px-6 relative z-10">
+        <section id="faq" className="w-full pt-16 md:pt-24 pb-32 md:pb-48 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
+          <div className="container px-4 md:px-8 relative z-10">
             <ScrollAnimation>
-              <div className="text-center mb-12">
+              <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tFAQ('title')}</h2>
-                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed">{tFAQ('subtitle')}</p>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed max-w-2xl mx-auto">{tFAQ('subtitle')}</p>
               </div>
             </ScrollAnimation>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-1000">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto perspective-1000">
               {Array.isArray(tFAQ.raw('items')) && tFAQ.raw('items').map((faq: any, i: number) => (
                 <ScrollAnimation key={i} delay={i * 50}>
-                  <Card className="border border-border/50 shadow-md bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:z-50 hover:bg-card hover:border-primary/30 relative group h-full">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{faq.q}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">
+                  <Card className="border border-border/50 shadow-sm bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:z-10 hover:bg-card hover:border-primary/30 relative group h-full">
+                    <CardContent className="p-5 sm:p-8">
+                      <h3 className="font-bold text-foreground mb-3 text-lg group-hover:text-primary transition-colors">{faq.q}</h3>
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                         {faq.a}
                       </p>
                     </CardContent>

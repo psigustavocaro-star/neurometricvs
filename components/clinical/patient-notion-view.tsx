@@ -32,7 +32,8 @@ import {
     Save,
     Maximize2,
     X,
-    RefreshCw
+    RefreshCw,
+    Activity as ActivityIcon
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -360,6 +361,12 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                                         {session.notes.substring(0, 60)}...
                                     </p>
                                 )}
+                                {(session as any).test_results?.length > 0 && (
+                                    <div className="flex items-center gap-1.5 mt-2 ml-6 bg-teal-50 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 px-2 py-0.5 rounded-full w-fit">
+                                        <ActivityIcon className="w-3 h-3" />
+                                        <span className="text-[10px] font-bold">{(session as any).test_results.length} Test aplicado(s)</span>
+                                    </div>
+                                )}
                             </button>
                         ))}
 
@@ -396,6 +403,15 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                                     Expandir
                                 </Button>
                                 <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => router.push(`/dashboard/tests?patientId=${patient.id}&sessionId=${selectedSession.id}`)}
+                                    className="text-xs border-teal-200 text-teal-700 hover:bg-teal-50"
+                                >
+                                    <ActivityIcon className="w-4 h-4 mr-1" />
+                                    Aplicar Test
+                                </Button>
+                                <Button
                                     onClick={handleSave}
                                     size="sm"
                                     disabled={isSaving}
@@ -429,36 +445,38 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
             </div>
 
             {/* Fullscreen Notes Modal */}
-            {isExpanded && selectedSession && (
-                <div className="fixed inset-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm flex flex-col">
-                    <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                            Notas - {format.dateTime(new Date(selectedSession.date), { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </h2>
-                        <div className="flex items-center gap-2">
-                            <Button
-                                onClick={() => { handleSave(); setIsExpanded(false) }}
-                                className="bg-teal-600 hover:bg-teal-700 text-white"
-                            >
-                                <Save className="w-4 h-4 mr-2" />
-                                Guardar y cerrar
-                            </Button>
-                            <Button variant="ghost" size="icon" onClick={() => setIsExpanded(false)} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
-                                <X className="w-5 h-5" />
-                            </Button>
+            {
+                isExpanded && selectedSession && (
+                    <div className="fixed inset-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm flex flex-col">
+                        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                                Notas - {format.dateTime(new Date(selectedSession.date), { day: 'numeric', month: 'long', year: 'numeric' })}
+                            </h2>
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    onClick={() => { handleSave(); setIsExpanded(false) }}
+                                    className="bg-teal-600 hover:bg-teal-700 text-white"
+                                >
+                                    <Save className="w-4 h-4 mr-2" />
+                                    Guardar y cerrar
+                                </Button>
+                                <Button variant="ghost" size="icon" onClick={() => setIsExpanded(false)} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                                    <X className="w-5 h-5" />
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="flex-1 p-6">
+                            <Textarea
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                className="h-full w-full resize-none bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-lg p-6 rounded-xl"
+                                placeholder="Escribe las notas de la sesión aquí..."
+                                autoFocus
+                            />
                         </div>
                     </div>
-                    <div className="flex-1 p-6">
-                        <Textarea
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                            className="h-full w-full resize-none bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-200 text-lg p-6 rounded-xl"
-                            placeholder="Escribe las notas de la sesión aquí..."
-                            autoFocus
-                        />
-                    </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     )
 }

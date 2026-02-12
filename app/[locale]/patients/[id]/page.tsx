@@ -67,7 +67,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
     try {
         const { data: sess } = await supabase
             .from('clinical_sessions')
-            .select(`*, ai_insights (*)`)
+            .select(`*, ai_insights (*), test_results (id)`)
             .eq('patient_id', id)
             .order('date', { ascending: false })
 

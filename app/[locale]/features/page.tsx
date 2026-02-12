@@ -6,7 +6,7 @@ import { MockTestScoring } from "@/components/landing/mocks/mock-test-scoring"
 import { MockAICopilot } from "@/components/landing/mocks/mock-ai-copilot"
 import { MockMobileApp } from "@/components/landing/mocks/mock-mobile-app"
 import { MockMedicalCalculators } from "@/components/landing/mocks/mock-medical-calculators"
-import { MockAuraSupport } from "@/components/landing/mocks/mock-aura-support"
+import { MockAlanaSupport } from "@/components/landing/mocks/mock-aura-support"
 import { Activity, Sparkles, Bot, TabletSmartphone, Calculator, Check, ArrowRight, ChevronRight, MessageSquareQuote } from "lucide-react"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { Button } from "@/components/ui/button"
@@ -62,12 +62,12 @@ export default function FeaturesPage() {
             alignment: 'left'
         },
         {
-            key: 'AuraSupport',
-            slug: 'aura-support',
+            key: 'AlanaSupport',
+            slug: 'alana-ia',
             icon: MessageSquareQuote,
             color: 'text-indigo-600',
             bg: 'bg-indigo-50',
-            component: <MockAuraSupport />,
+            component: <MockAlanaSupport />,
             alignment: 'right'
         }
     ]

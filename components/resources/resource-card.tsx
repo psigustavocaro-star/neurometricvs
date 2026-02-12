@@ -85,15 +85,19 @@ export function ResourceCard({ resource }: ResourceCardProps) {
                         <Button asChild variant="outline" className="flex-1 border-border/60 hover:bg-muted hover:neon-glow transition-all" size="sm">
                             <Link href={`/dashboard/resources/${resource.id}`}>
                                 <BookOpen className="w-4 h-4 mr-2" />
-                                Ver
+                                Abrir Recurso
                             </Link>
                         </Button>
-                        <Button asChild variant="secondary" className="flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground" size="sm">
-                            <Link href={`/dashboard/resources/${resource.id}`}>
-                                <Download className="w-4 h-4 mr-2" />
-                                Descargar
-                            </Link>
-                        </Button>
+
+                        {/* Only show download/external link if it's a real URL */}
+                        {resource.url && resource.url !== '#' && (
+                            <Button asChild variant="secondary" className="flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground" size="sm">
+                                <Link href={resource.url} target="_blank" rel="noopener noreferrer">
+                                    <Download className="w-4 h-4 mr-2" />
+                                    {resource.type === 'link' ? 'Visitar' : 'Descargar'}
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                 )}
             </CardFooter>

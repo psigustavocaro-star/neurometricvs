@@ -28,6 +28,13 @@ export function AdminTools({ patientId: propPatientId }: AdminToolsProps) {
     const { currentRole, setRole, currentPlan, setPlan, triggerFillForm } = useAdminStore()
     const params = useParams()
     const patientId = propPatientId || (params?.patientId as string)
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) return null
 
     const handleAddMockSession = async () => {
         try {
@@ -122,7 +129,6 @@ export function AdminTools({ patientId: propPatientId }: AdminToolsProps) {
                                     <SelectItem value="physician">Médico/a</SelectItem>
                                     <SelectItem value="occupational_therapist">Terapeuta Ocupacional</SelectItem>
                                     <SelectItem value="speech_therapist">Fonoaudiólogo/a</SelectItem>
-                                    <SelectItem value="psychopedagogue">Psicopedagogo/a</SelectItem>
                                     <SelectItem value="nutritionist">Nutricionista</SelectItem>
                                 </SelectContent>
                             </Select>

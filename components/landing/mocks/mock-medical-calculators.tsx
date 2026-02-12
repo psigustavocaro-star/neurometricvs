@@ -11,7 +11,7 @@ export function MockMedicalCalculators() {
     const [activeTab, setActiveTab] = useState('imc')
 
     return (
-        <div className="w-full max-w-xl self-center h-[480px] bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 flex flex-col shadow-2xl overflow-hidden ring-1 ring-slate-900/5">
+        <div className="w-full max-w-xl self-center h-[380px] sm:h-[420px] md:h-[480px] bg-white dark:bg-slate-950 rounded-2xl md:rounded-[2rem] flex flex-col shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800">
             {/* Unified Clinical Header */}
             <div className="h-16 md:h-20 bg-slate-900 flex items-center px-6 md:px-8 justify-between shrink-0">
                 <div className="flex items-center gap-4">

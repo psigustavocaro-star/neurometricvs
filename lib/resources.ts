@@ -630,27 +630,5 @@ export const resources: Resource[] = [
         `
     },
 
-    // --- FILLERS (Standardized Generic Content) ---
-    ...Array.from({ length: 40 }).map((_, i) => ({
-        id: `extra-${i}`,
-        title: `Recurso Clínico de Referencia #${i + 1}`,
-        description: 'Material de consulta estándar para apoyo en procesos psicoterapéuticos. Contiene pautas generales.',
-        category: i % 2 === 0 ? 'Otros' : 'Psicoeducación' as any,
-        type: 'pdf' as const,
-        url: '#',
-        tags: ['general', 'referencia'],
-        content: `
-            <h3>Material de Referencia Clínica #${i + 1}</h3>
-            <p>Este documento es un recurso complementario genérico. En un entorno de producción real, este espacio estaría ocupado por un protocolo específico, una escala de evaluación validada o un capítulo de bibliografía seleccionada.</p>
-            <div class="bg-slate-100 p-4 rounded-lg my-4">
-                <h4 class="font-bold">Estructura del Recurso:</h4>
-                <ul class="list-disc pl-5">
-                    <li>Introducción Teórica</li>
-                    <li>Aplicación Práctica</li>
-                    <li>Bibliografía</li>
-                </ul>
-            </div>
-            <p>Utilice este espacio para tomar notas durante la sesión o asignar tareas de reflexión al paciente relacionadas con el tema de la semana.</p>
-        `
-    }))
+    // --- End of High Quality Resources ---
 ];

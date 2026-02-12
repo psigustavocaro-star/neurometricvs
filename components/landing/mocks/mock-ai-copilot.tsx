@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl"
 export function MockAICopilot() {
     const t = useTranslations('Mocks.AICopilot')
     return (
-        <div className="w-full max-w-xl self-center h-[500px] bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 flex flex-col shadow-2xl overflow-hidden ring-1 ring-slate-900/5">
+        <div className="w-full max-w-xl self-center h-[380px] sm:h-[420px] md:h-[500px] bg-white dark:bg-slate-950 rounded-2xl md:rounded-[2rem] flex flex-col shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800">
             {/* Unified Clinical Header */}
             <div className="h-20 bg-slate-900 flex items-center px-8 justify-between shrink-0">
                 <div className="flex items-center gap-4">
@@ -31,12 +31,12 @@ export function MockAICopilot() {
                 <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 dark:opacity-0" />
 
                 {/* User Message */}
-                <div className="flex gap-4 justify-end relative z-10">
-                    <div className="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-sm p-5 rounded-3xl rounded-tr-none max-w-[85%] border border-slate-200 dark:border-slate-800 shadow-sm leading-relaxed font-medium">
+                <div className="flex gap-2 sm:gap-4 justify-end relative z-10">
+                    <div className="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-[11px] sm:text-sm p-4 sm:p-5 rounded-3xl rounded-tr-none max-w-[85%] border border-slate-200 dark:border-slate-800 shadow-sm leading-relaxed font-medium">
                         {t('user_note')}
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 border-2 border-white dark:border-slate-950 shadow-sm shrink-0 flex items-center justify-center">
-                        <User className="w-4 h-4 text-slate-500" />
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-200 dark:bg-slate-800 border-2 border-white dark:border-slate-950 shadow-sm shrink-0 flex items-center justify-center">
+                        <User className="w-3 h-3 sm:w-4 sm:h-4 text-slate-500" />
                     </div>
                 </div>
 
@@ -45,13 +45,13 @@ export function MockAICopilot() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="flex gap-4 relative z-10"
+                    className="flex gap-2 sm:gap-4 relative z-10"
                 >
-                    <div className="w-10 h-10 rounded-2xl bg-teal-500 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/20 border-2 border-white dark:border-slate-950">
-                        <ClipboardList className="h-5 w-5 text-white" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-teal-500 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/20 border-2 border-white dark:border-slate-950">
+                        <ClipboardList className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <div className="space-y-4 w-full">
-                        <div className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 text-sm p-6 rounded-3xl rounded-tl-none border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-900/5 relative overflow-hidden">
+                    <div className="space-y-3 sm:space-y-4 w-full">
+                        <div className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 text-[10px] sm:text-sm p-4 sm:p-6 rounded-3xl rounded-tl-none border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-900/5 relative overflow-hidden">
                             <div className="absolute left-0 top-0 w-1.5 h-full bg-teal-500" />
                             <p className="font-black mb-4 text-teal-700 dark:text-teal-400 flex items-center gap-2 text-[10px] uppercase tracking-widest">
                                 <Sparkles className="w-3.5 h-3.5" /> {t('predictive_analysis')}

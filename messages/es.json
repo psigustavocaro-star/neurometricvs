@@ -1,6 +1,34 @@
 {
+    "NotFound": {
+        "title": "Página no encontrada",
+        "description": "Lo sentimos, la página que buscas no existe o ha sido movida. Verifica la URL o regresa a un lugar seguro.",
+        "go_home": "Ir al Inicio",
+        "go_dashboard": "Ir al Dashboard"
+    },
+    "ForgotPassword": {
+        "title": "Recuperar Contraseña",
+        "description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+        "email_label": "Correo Electrónico",
+        "email_placeholder": "tu@email.com",
+        "submit_button": "Enviar Enlace",
+        "back_to_login": "Volver al Login",
+        "success_title": "¡Correo Enviado!",
+        "success_message": "Revisa tu bandeja de entrada para restablecer tu contraseña.",
+        "error_prefix": "Error"
+    },
+    "ResetPassword": {
+        "title": "Nueva Contraseña",
+        "description": "Ingresa tu nueva contraseña. Asegúrate de que sea segura.",
+        "password_label": "Nueva Contraseña",
+        "confirm_label": "Confirmar Contraseña",
+        "submit_button": "Actualizar Contraseña",
+        "success_title": "¡Contraseña Actualizada!",
+        "success_message": "Tu contraseña ha sido actualizada correctamente.",
+        "go_to_login": "Ir al Login",
+        "error_mismatch": "Las contraseñas no coinciden"
+    },
     "Navbar": {
-        "features": "Lo que Ofrecemos",
+        "features": "¿Qué ofrecemos?",
         "pricing": "Precios",
         "testimonials": "Testimonios",
         "demo": "Ver Demo",
@@ -43,11 +71,10 @@
             "Psicólogos",
             "Psiquiatras",
             "Neurólogos",
+            "Neuropsicólogos",
             "Médicos",
-            "Terapeutas Ocupacionales",
-            "Fonoaudiólogos",
-            "Psicopedagogos",
-            "Nutricionistas"
+            "Terapeutas",
+            "Fonoaudiólogos"
         ]
     },
     "General": {
@@ -170,7 +197,6 @@
             "physician": "Médico",
             "occupational_therapist": "Terapeuta Ocupacional",
             "speech_therapist": "Fonoaudiólogo",
-            "psychopedagogue": "Psicopedagogo",
             "nutritionist": "Nutricionista",
             "Psicólogo": "Psicólogo",
             "Psiquiatra": "Psiquiatra",
@@ -178,7 +204,6 @@
             "Médico/a": "Médico/a",
             "Terapeuta Ocupacional": "Terapeuta Ocupacional",
             "Fonoaudiólogo/a": "Fonoaudiólogo/a",
-            "Psicopedagogo/a": "Psicopedagogo/a",
             "Nutricionista": "Nutricionista"
         }
     },
@@ -287,11 +312,11 @@
             "teleconsultation": "Teleconsulta",
             "alerts": "Alertas"
         },
-        "AuraSupport": {
-            "title": "Aura Support 24/7",
+        "AlanaSupport": {
+            "title": "Alana IA Support 24/7",
             "subtitle": "Asistente Virtual Integrado",
-            "active_system": "Aura en Línea",
-            "welcome": "¡Hola! Soy Aura, tu asistente 24/7. ¿En qué puedo apoyarte hoy?",
+            "active_system": "Alana IA en Línea",
+            "welcome": "¡Hola! Soy Alana IA, tu asistente 24/7. ¿En qué puedo apoyarte hoy?",
             "query_1": "Necesito ayuda con la interpretación del test GAD-7",
             "response_1": "Basado en los puntajes obtenidos, el paciente presenta un nivel de ansiedad moderado. Se sugiere correlacionar con...",
             "query_2": "¿Cómo exporto el reporte clínico a PDF?",
@@ -377,7 +402,7 @@
                 "Todo lo de Básico",
                 "Ficha clínica adaptativa",
                 "Timeline de actividad",
-                "Aura Support 24/7",
+                "Alana IA Support 24/7",
                 "Gestión de sesiones ilimitada"
             ]
         },
@@ -405,11 +430,11 @@
         "clinical_protocol": "Protocolo Clínico",
         "config_details": "Detalles de Configuración",
         "Support": {
-            "helper_label": "¿Dudas? Pregúntale a Aura",
-            "online": "Aura AI activa 24/7",
-            "welcome_title": "Hola, soy Aura",
+            "helper_label": "¿Dudas? Pregúntale a Alana IA",
+            "online": "Alana IA activa 24/7",
+            "welcome_title": "Hola, soy Alana IA",
             "welcome_desc": "Estoy aquí para apoyarte en tiempo real con cualquier duda clínica o sobre la plataforma. Mi sistema de inteligencia avanzada está disponible 24/7.",
-            "input_placeholder": "Pregúntale a Aura...",
+            "input_placeholder": "Pregúntale a Alana IA...",
             "error_chat": "Error de comunicación: ",
             "error_send": "Error al enviar: "
         },
@@ -690,7 +715,27 @@
             }
         },
         "monthly_investment": "Inversión Mensual",
-        "choose_this_plan": "Elegir este Plan"
+        "choose_this_plan": "Elegir este Plan",
+        "Dashboard": {
+            "Resources": {
+                "title": "Recursos Clínicos",
+                "description": "Biblioteca de herramientas, guías y materiales de apoyo para tu práctica clínica."
+            },
+            "Tests": {
+                "title": "Catálogo de Tests",
+                "description": "Explora nuestra biblioteca completa de evaluaciones psicológicas y neuropsicológicas.",
+                "back_to_catalog": "Volver al Catálogo",
+                "about_test": "Sobre este Test",
+                "disclaimer": "Ficha técnica simplificada para uso clínico.",
+                "estimated_duration": "Duración Estimada",
+                "items_label": "Ítems",
+                "questions_count": "{count} preguntas",
+                "variable_questions": "Variable",
+                "actions_title": "Acciones",
+                "actions_desc": "Opciones disponibles",
+                "view_report_sample": "Ver ejemplo de informe"
+            }
+        }
     },
     "FAQ": {
         "title": "Preguntas Frecuentes",
@@ -1464,8 +1509,8 @@
             "desc": "Corrección automatizada y pre-generación de informes para más de 50 baterías neuropsicológicas.",
             "benefit": "Ahorra hasta un 70% en tiempo de tabulación."
         },
-        "AuraSupport": {
-            "title": "Soporte Aura AI 24/7",
+        "AlanaSupport": {
+            "title": "Soporte Alana IA 24/7",
             "desc": "Asistencia inteligente inmediata integrada en tu workstation para resolver dudas clínicas y operativas en todo momento.",
             "benefit": "Disponibilidad total los 365 días."
         },
@@ -1539,8 +1584,8 @@
                 "Notificaciones de resultados al instante"
             ]
         },
-        "AuraSupport": {
-            "detailed_description": "Experiencia de soporte premium con Aura AI, disponible 24/7 para resolver dudas sobre tests neuropsicológicos, manejo de la plataforma y orientación técnica inmediata. Integrada directamente en tu flujo de trabajo clínico.",
+        "AlanaSupport": {
+            "detailed_description": "Experiencia de soporte premium con Alana IA AI, disponible 24/7 para resolver dudas sobre tests neuropsicológicos, manejo de la plataforma y orientación técnica inmediata. Integrada directamente en tu flujo de trabajo clínico.",
             "benefits": [
                 "Asistencia inteligente las 24 horas del día",
                 "Resolución instantánea de dudas operativas",
@@ -1562,7 +1607,10 @@
         "resend_confirmation": "¿Olvidaste confirmar tu email? Reenviar",
         "error_prefix": "Error al iniciar sesión",
         "check_email": "Revisa tu correo para continuar con el inicio de sesión",
-        "confirmation_resent": "Correo de confirmación reenviado. Revisa tu bandeja de entrada."
+        "confirmation_resent": "Correo de confirmación reenviado. Revisa tu bandeja de entrada.",
+        "google_login": "Continuar con Google",
+        "forgot_password": "¿Olvidaste tu contraseña?",
+        "remember_me": "Recordar datos"
     },
     "Contact": {
         "title": "Contáctanos",
@@ -1736,6 +1784,8 @@
         "step4_placeholder_email": "doctor@clinica.com",
         "step4_label_password": "Contraseña de Protección",
         "step4_label_confirm": "Validar Contraseña",
+        "step4_btn_google": "Continuar con Google",
+        "step4_or": "O",
         "step4_legal_info": "Al activar su cuenta, confirma que ha revisado y acepta nuestros <terms>Términos de Servicio</terms> y el <privacy>Tratamiento de Datos Médicos</privacy>.",
         "step4_btn_submit": "Activar Estación de Trabajo",
         "step5_welcome": "¡Bienvenido/a!",
@@ -1864,7 +1914,7 @@
             "physician": "Médico General",
             "occupational_therapist": "Terapeuta Ocupacional",
             "speech_therapist": "Fonoaudiólogo/a",
-            "psychopedagogue": "Psicopedagogo/a",
+            "neuropsychologist": "Neuropsicólogo/a",
             "nutritionist": "Nutricionista"
         },
         "registry_number": "Nº Registro / Licencia",

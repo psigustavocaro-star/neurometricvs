@@ -11,14 +11,17 @@ import { toast } from 'sonner'
 import { saveTestResult } from '@/app/[locale]/tests/actions'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { getCurrentCountry, getNormsText } from '@/lib/utils/location'
+import { Info } from 'lucide-react'
 
 interface ListTestRunnerProps {
     test: TestDefinition
     patientId?: string
+    sessionId?: string
     onComplete?: () => void
 }
 
-export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerProps) {
+export function ListTestRunner({ test, patientId, sessionId, onComplete }: ListTestRunnerProps) {
     const [answers, setAnswers] = useState<Record<string, number>>({})
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isCompleted, setIsCompleted] = useState(false)
@@ -89,7 +92,7 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
                     subscales: subscaleResults,
                     answers: answers,
                     reference: test.reference
-                })
+                }, sessionId)
                 if (result.id) {
                     setResultId(result.id)
                 }
@@ -197,6 +200,19 @@ export function ListTestRunner({ test, patientId, onComplete }: ListTestRunnerPr
                         {isSubmitting ? "Procesando..." : "Finalizar Protocolo"}
                         <Save className="ml-2 h-3 w-3" />
                     </Button>
+                </div>
+            </div>
+
+            {/* Country Norms Info Banner */}
+            <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-100 dark:border-teal-800 rounded-xl p-3 flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-teal-100 dark:bg-teal-800 flex items-center justify-center flex-shrink-0">
+                    <Info className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+                </div>
+                <div>
+                    <p className="text-xs font-bold text-teal-800 dark:text-teal-300 uppercase tracking-wider mb-0.5">Baremo Aplicado</p>
+                    <p className="text-sm text-teal-700 dark:text-teal-400">
+                        {getNormsText(getCurrentCountry())} Esta evaluación ha sido calibrada con las normas clínicas vigentes para su región.
+                    </p>
                 </div>
             </div>
 

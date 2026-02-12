@@ -7,9 +7,9 @@ import { useTranslations } from "next-intl"
 export function MockMobileApp() {
     const t = useTranslations('Mocks.MobileApp')
     return (
-        <div className="w-full h-full flex items-center justify-center py-8">
+        <div className="w-full h-full flex items-center justify-center py-4 md:py-8">
             {/* Mobile Frame - Clean iPhone 15 Pro Style */}
-            <div className="w-[300px] h-[620px] bg-slate-950 rounded-[55px] border-[8px] border-slate-900 shadow-2xl overflow-hidden relative ring-1 ring-white/20">
+            <div className="w-[260px] h-[540px] md:w-[300px] md:h-[620px] bg-slate-950 rounded-[45px] md:rounded-[55px] border-[6px] md:border-[8px] border-slate-900 shadow-2xl overflow-hidden relative ring-1 ring-white/20 scale-[0.65] sm:scale-75 md:scale-90 lg:scale-100 transition-transform duration-500">
                 {/* Dynamic Island */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-30 flex items-center justify-center pointer-events-none">
                     <div className="w-[80px] h-[20px] bg-black rounded-full grid place-items-center relative">

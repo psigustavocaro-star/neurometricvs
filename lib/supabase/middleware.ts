@@ -48,6 +48,13 @@ export async function updateSession(request: NextRequest, response?: NextRespons
         }
     }
 
+    // Redirect authenticated users away from Auth pages (Login, Onboarding)
+    if (user && (path.startsWith('/login') || path.startsWith('/onboarding'))) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+    }
+
     if (
         !user &&
         !path.startsWith('/login') &&

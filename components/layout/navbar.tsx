@@ -108,21 +108,21 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     : "bg-transparent py-4 shadow-none border-b-transparent"
             )}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-[1600px] mx-auto px-6 md:pl-32 lg:pl-36 md:pr-10 lg:pr-16">
                 <div className={cn(
                     "flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
                     scrolled ? "h-14" : "h-20"
                 )}>
                     {/* Logo */}
-                    <Link href="/" className="flex-shrink flex items-center gap-2 group min-w-0">
+                    <Link href="/" className="flex-shrink-0 flex items-center gap-2 group min-w-0">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-8 w-auto sm:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
+                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-7 w-auto sm:h-10 md:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
                         </div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-1">
+                    <div className="hidden md:flex items-center space-x-2 lg:space-x-6">
                         {currentUser ? (
                             <>
                                 {navLinks.map((link) => (
@@ -130,7 +130,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                                         key={link.href}
                                         href={link.href}
                                         className={cn(
-                                            "px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2",
+                                            "px-2 lg:px-3 py-2 rounded-full text-xs lg:text-sm font-medium transition-all duration-200 flex items-center gap-2",
                                             pathname === link.href
                                                 ? "bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200 dark:bg-teal-900/20 dark:text-teal-400 dark:ring-teal-800"
                                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
@@ -139,20 +139,20 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                                         <span className="truncate">{link.name}</span>
                                     </Link>
                                 ))}
-                                <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
+                                <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-1 lg:mx-2" />
                             </>
                         ) : (
                             <>
-                                <Link href="/" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
+                                <Link href="/" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
                                     {t('home')}
                                 </Link>
-                                <Link href="/features" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
+                                <Link href="/features" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
                                     {t('features')}
                                 </Link>
-                                <Link href="/pricing" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
+                                <Link href="/pricing" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
                                     {t('pricing')}
                                 </Link>
-                                <Link href="/testimonials" className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-4 py-2 transition-colors">
+                                <Link href="/testimonials" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
                                     {t('testimonials')}
                                 </Link>
                             </>
@@ -212,8 +212,8 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     </div>
 
                     {/* Mobile Menu Button - Enhanced for better touch */}
-                    <div className="md:hidden flex items-center gap-1 sm:gap-3">
-                        <div className="flex items-center">
+                    <div className="md:hidden flex items-center gap-2">
+                        <div className="hidden xs:flex items-center">
                             <ThemeToggle />
                             <LanguageToggle />
                         </div>

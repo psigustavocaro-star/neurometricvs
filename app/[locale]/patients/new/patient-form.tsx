@@ -105,14 +105,14 @@ export function NewPatientForm({
             initialSpecialty?.toLowerCase().includes('neurólog') ? 'neurologist' :
                 initialSpecialty?.toLowerCase().includes('médic') ? 'physician' :
                     initialSpecialty?.toLowerCase().includes('fonoaudiólog') ? 'speech_therapist' :
-                        initialSpecialty?.toLowerCase().includes('psicopedagog') ? 'psychopedagogue' :
-                            initialSpecialty?.toLowerCase().includes('terapeuta') ? 'occupational_therapist' :
-                                initialSpecialty?.toLowerCase().includes('nutricion') ? 'nutritionist' :
-                                    'psychologist'
+
+                        initialSpecialty?.toLowerCase().includes('terapeuta') ? 'occupational_therapist' :
+                            initialSpecialty?.toLowerCase().includes('nutricion') ? 'nutritionist' :
+                                'psychologist'
     )
 
     const isMedical = ['psychiatrist', 'neurologist', 'physician', 'nutritionist'].includes(activeRole)
-    const isAcademic = ['psychopedagogue', 'speech_therapist'].includes(activeRole)
+    const isAcademic = ['speech_therapist'].includes(activeRole)
     const isPhysical = ['occupational_therapist'].includes(activeRole)
     const isPsych = ['psychologist', 'psychiatrist'].includes(activeRole)
 

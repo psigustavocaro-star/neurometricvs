@@ -1,8 +1,7 @@
 'use client'
 
 import Image from "next/image"
-
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
@@ -14,21 +13,18 @@ import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { AdminTools } from '@/components/admin/admin-tools'
 import { useAdminStore } from '@/lib/stores/admin-store'
+import { useAggressivePrefetch, usePrefetchOnHover } from '@/lib/hooks/use-prefetch'
+import { useInstantTransition, InstantLink } from '@/lib/hooks/use-instant-transition'
 
 import {
     LayoutDashboard,
     Users,
     Search,
-    CreditCard,
+    BookOpen,
     UserCircle,
     LogOut,
-    ChevronLeft,
-    ChevronRight,
     Menu,
     X,
-    Globe,
-    ExternalLink,
-    BookOpen
 } from "lucide-react"
 
 interface AppShellProps {
@@ -44,287 +40,170 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     const router = useRouter()
     const supabase = createClient()
 
-    // Persistent Sidebar State
-    const [isCollapsed, setIsCollapsed] = useState(false)
-
-    // Load state from local storage on mount
-    useEffect(() => {
-        const stored = localStorage.getItem('sidebar-collapsed')
-        if (stored) {
-            setIsCollapsed(JSON.parse(stored))
-        }
-    }, [])
-
-    // Save state to local storage on change
-    const toggleSidebar = (collapsed: boolean) => {
-        setIsCollapsed(collapsed)
-        localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsed))
-    }
-
+    // Estados
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+    // 🚀 Optimizaciones de rendimiento
+    useAggressivePrefetch()
+    const { handleMouseEnter } = usePrefetchOnHover()
+    const { navigate } = useInstantTransition()
 
     // Admin Simulation
     const { currentPlan, isSimulating } = useAdminStore()
     const effectivePlan = isSimulating ? currentPlan : plan
-
 
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
         { name: t("search_tests"), href: "/dashboard/tests", icon: Search },
         { name: t('resources'), href: '/dashboard/resources', icon: BookOpen },
         ...((effectivePlan === 'clinical' || effectivePlan === 'pro') ? [{ name: t("patients"), href: "/patients", icon: Users }] : []),
-
         { name: t("profile"), href: "/profile", icon: UserCircle },
     ]
 
     const handleSignOut = async () => {
         setIsLoggingOut(true)
         await supabase.auth.signOut()
-        router.push('/')
+        navigate('/')
         router.refresh()
     }
 
     const isActive = (href: string) => {
-        if (href === '/dashboard') {
-            return pathname === '/dashboard'
-        }
-        return pathname.startsWith(href)
+        if (href === '/dashboard' && pathname === '/dashboard') return true
+        if (href !== '/dashboard' && pathname.startsWith(href)) return true
+        return false
     }
-
-    const handleResize = () => {
-        const width = window.innerWidth
-        if (width < 768) {
-            setIsMobileMenuOpen(false)
-        }
-        if (width >= 768 && width < 1280) { // Auto-collapse on smaller desktops/tablets
-            setIsCollapsed(true)
-        }
-    }
-
-    useEffect(() => {
-        // Initial check
-        handleResize()
-
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
 
     return (
-        <div className="flex min-h-screen bg-background transition-colors duration-500 ease-in-out">
-            {/* Desktop Sidebar - Visible from md (768px) upwards */}
-            <aside className={cn(
-                "hidden md:flex flex-col h-screen sticky top-0 bg-sidebar transition-all duration-500 ease-in-out relative z-40 border-r border-slate-200/60 dark:border-slate-800/60 shadow-[1px_0_10px_rgba(0,0,0,0.02)]",
-                isCollapsed ? 'w-[70px]' : 'w-[260px]'
-            )}>
-                {/* Logo Area */}
-                <div className={cn(
-                    "h-20 flex items-center shrink-0",
-                    isCollapsed ? "justify-center px-2" : "px-5"
-                )}>
-                    <div className="flex items-center gap-3 group">
-                        <Link href="/dashboard">
-                            <div className="relative w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 cursor-pointer">
-                                {/* Calipso Flow Effect - Softened */}
-                                <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-40 group-hover:opacity-70 transition-opacity duration-500" />
+        <div className="flex min-h-screen flex-col bg-background/50">
 
-                                {/* Main Container - Professional Brand Icon */}
-                                <div className="relative w-full h-full flex items-center justify-center transition-all duration-500 group-hover:scale-105">
-                                    <Image
-                                        src="/neurometrics-logo-small.png"
-                                        alt="Neurometrics"
-                                        width={28}
-                                        height={28}
-                                        className="object-contain"
-                                    />
-                                </div>
-                            </div>
-                        </Link>
-                        <div className={cn(
-                            "flex flex-col overflow-hidden transition-all duration-500 ease-in-out whitespace-nowrap",
-                            isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100 pl-2"
-                        )}>
-                            <Link href="/dashboard" className="flex flex-col">
-                                <span className="text-[17px] font-bold text-foreground tracking-tight leading-none group-hover:text-primary transition-colors duration-500 ease-in-out">
-                                    Neurometrics
-                                </span>
-                                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5 group-hover:text-primary/70 transition-colors">
-                                    {t('dashboard')}
-                                </span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Unified Toggle Button - Floating on the border */}
-                <button
-                    onClick={() => toggleSidebar(!isCollapsed)}
-                    className={cn(
-                        "absolute -right-4 top-24 w-8 h-8 rounded-xl flex items-center justify-center z-50 group transition-all duration-300",
-                        "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800",
-                        "shadow-[0_2px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.3)]",
-                        "hover:border-teal-500/50 hover:shadow-[0_4px_15px_rgba(20,184,166,0.15)]",
-                        "active:scale-90"
-                    )}
-                    title={isCollapsed ? t("expand") : t("collapse")}
-                >
-                    <div className="absolute inset-0 bg-teal-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {isCollapsed ? (
-                        <ChevronRight className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 transition-colors" />
-                    ) : (
-                        <ChevronLeft className="w-4 h-4 text-slate-600 dark:text-slate-400 group-hover:text-teal-600 transition-colors" />
-                    )}
-                </button>
-
-                {/* Navigation Links */}
-                <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative text-sm font-medium",
-                                isActive(link.href)
-                                    ? "bg-primary/10 text-primary font-semibold shadow-[0_0_15px_rgba(var(--primary),0.1)]"
-                                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                                isCollapsed && "justify-center px-2"
-                            )}
-                        >
-                            <link.icon className={cn(
-                                "w-5 h-5 shrink-0 transition-all duration-500 ease-in-out",
-                                isActive(link.href) ? "text-primary scale-110" : "text-muted-foreground group-hover:text-primary"
-                            )} />
-                            <span className={cn(
-                                "text-sm tracking-tight overflow-hidden transition-all duration-500 ease-in-out whitespace-nowrap",
-                                isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
-                            )}>{link.name}</span>
-                            {isActive(link.href) && (
-                                <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full shadow-[0_0_10px_rgba(var(--primary),0.8)]" />
-                            )}
-                        </Link>
-                    ))}
-                </nav>
-
-                {/* Bottom Section */}
-                <div className={cn(
-                    "p-4 border-t border-border flex flex-col gap-1",
-                    isCollapsed && "items-center"
-                )}>
-
-
-                    {/* Back to Landing */}
-                    <Link
-                        href="/"
-                        className={cn(
-                            "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-all group overflow-hidden whitespace-nowrap",
-                            isCollapsed && "justify-center px-2"
-                        )}
-                        title={t('home')}
-                    >
-                        <ExternalLink className="w-4 h-4 shrink-0 group-hover:text-primary transition-colors" />
-                        <span className={cn(
-                            "font-semibold overflow-hidden transition-all duration-500 ease-in-out",
-                            isCollapsed ? "w-0 opacity-0 translate-x-4" : "w-auto opacity-100 translate-x-0"
-                        )}>{t('home')}</span>
-                    </Link>
-
-
-
-                    {/* Sign Out */}
-                    <Button
-                        variant="ghost"
-                        onClick={handleSignOut}
-                        disabled={isLoggingOut}
-                        className={cn(
-                            "w-full justify-start px-3 py-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all group overflow-hidden whitespace-nowrap",
-                            isCollapsed && "justify-center px-2"
-                        )}
-                    >
-                        <LogOut className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                        <span className={cn(
-                            "ml-3 text-sm font-medium overflow-hidden transition-all duration-500 ease-in-out",
-                            isCollapsed ? "w-0 opacity-0 translate-x-4 ml-0" : "w-auto opacity-100 translate-x-0"
-                        )}>{isLoggingOut ? t('logging_out') : t('sign_out')}</span>
-                    </Button>
-                </div>
-            </aside>
-
-            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/50 z-50 flex items-center justify-between px-6 shadow-sm">
-                <Link href="/" className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 flex items-center justify-center">
+            {/* 🚀 TOP NAVBAR (Desktop) */}
+            <header
+                className={cn(
+                    "hidden md:flex items-center justify-between",
+                    "fixed top-4 left-4 right-4 z-50 h-16 px-4",
+                    "bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-white/10",
+                    "rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20",
+                    "transition-all duration-300"
+                )}
+            >
+                {/* Left: Logo */}
+                <Link href="/dashboard" className="flex items-center gap-3 group">
+                    <div className="relative w-8 h-8 shrink-0 transition-transform duration-300 group-hover:scale-110">
                         <Image
                             src="/neurometrics-logo-small.png"
                             alt="Neurometrics"
-                            width={24}
-                            height={24}
-                            className="object-contain"
+                            width={32}
+                            height={32}
+                            className="object-contain drop-shadow-sm"
                         />
                     </div>
-                    <span className="font-bold text-foreground tracking-tight">Workstation</span>
+                    <div className="flex flex-col">
+                        <span className="font-bold text-foreground text-sm tracking-tight leading-none group-hover:text-primary transition-colors">Neurometrics</span>
+                        <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Workstation</span>
+                    </div>
                 </Link>
-                <div className="flex items-center gap-2">
 
-                    <LanguageToggle />
-                    <ThemeToggle />
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 rounded-lg hover:bg-muted active:scale-95 transition-transform"
+                {/* Center: Navigation */}
+                <nav className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2">
+                    {navLinks.map((link) => (
+                        <InstantLink
+                            key={link.href}
+                            href={link.href}
+                            onMouseEnter={() => handleMouseEnter(link.href)}
+                            className={cn(
+                                "flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all duration-300 relative group overflow-hidden",
+                                isActive(link.href)
+                                    ? "bg-primary/10 text-primary font-semibold shadow-sm"
+                                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                            )}
+                        >
+                            <link.icon className={cn(
+                                "w-4 h-4 shrink-0 transition-transform duration-300",
+                                isActive(link.href) ? "scale-105" : "group-hover:scale-105"
+                            )} />
+                            <span className="text-xs">{link.name}</span>
+                        </InstantLink>
+                    ))}
+                </nav>
+
+                {/* Right: User Actions */}
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 bg-muted/30 dark:bg-muted/10 rounded-xl p-1 border border-border/20">
+                        <ThemeToggle />
+                        <div className="w-px h-3 bg-border/40" />
+                        <LanguageToggle />
+                    </div>
+
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSignOut}
+                        disabled={isLoggingOut}
+                        className="text-muted-foreground hover:text-red-500 hover:bg-red-50/50 dark:hover:bg-red-900/10 transition-colors rounded-xl px-2 h-9"
+                        title={t('sign_out')}
                     >
-                        {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                    </button>
+                        <LogOut className={cn("w-4 h-4", isLoggingOut && "animate-pulse")} />
+                    </Button>
                 </div>
-            </div>
+            </header>
+
+            {/* Mobile Header (Visible only on small screens) */}
+            <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 z-50 flex items-center justify-between px-4">
+                <Link href="/dashboard" className="flex items-center gap-2">
+                    <Image src="/neurometrics-logo-small.png" alt="Logo" width={32} height={32} />
+                    <span className="font-bold text-lg">Neurometrics</span>
+                </Link>
+                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2">
+                    {isMobileMenuOpen ? <X /> : <Menu />}
+                </button>
+            </header>
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
-                <div className="md:hidden fixed inset-0 z-50 bg-slate-950/40" onClick={() => setIsMobileMenuOpen(false)}>
-                    <div
-                        className="absolute top-16 left-0 right-0 bg-background border-b border-border p-6 space-y-3 shadow-2xl animate-in slide-in-from-top-4 duration-300 rounded-b-[2rem]"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {navLinks.map((link) => (
-                            <Link
+                <div className="md:hidden fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}>
+                    <div className="absolute top-16 left-0 right-0 bg-white dark:bg-slate-900 border-b p-4 space-y-4 shadow-xl animate-in slide-in-from-top-4" onClick={e => e.stopPropagation()}>
+                        {navLinks.map(link => (
+                            <InstantLink
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={cn(
-                                    "flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
-                                    isActive(link.href)
-                                        ? "bg-primary/10 text-primary font-bold shadow-[0_0_10px_rgba(var(--primary),0.1)]"
-                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    "flex items-center gap-3 p-3 rounded-lg transition-colors",
+                                    isActive(link.href) ? "bg-primary/10 text-primary font-bold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
                                 )}
                             >
                                 <link.icon className="w-5 h-5" />
-                                <span>{link.name}</span>
-                            </Link>
+                                {link.name}
+                            </InstantLink>
                         ))}
-                        <div className="border-t border-border pt-3 mt-3">
-                            <Button
-                                variant="ghost"
-                                onClick={handleSignOut}
-                                disabled={isLoggingOut}
-                                className="w-full justify-start text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
-                            >
+                        <div className="pt-4 border-t flex items-center justify-between">
+                            <div className="flex gap-2">
+                                <ThemeToggle />
+                                <LanguageToggle />
+                            </div>
+                            <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-red-500">
                                 <LogOut className="w-4 h-4 mr-2" />
-                                {isLoggingOut ? t('logging_out') : t('sign_out')}
+                                {t('sign_out')}
                             </Button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Main Content */}
-            <main
-                className={cn(
-                    "flex-1 transition-all duration-500 ease-in-out relative min-h-screen overflow-x-hidden",
-                    "pt-16 md:pt-0" // Mobile header offset
-                )}
-            >
+            {/* Main Content Area */}
+            <main className={cn(
+                "flex-1 w-full max-w-7xl mx-auto transition-all duration-300 relative",
+                "pt-20 md:pt-28 pb-8 px-4 md:px-8", /* Adjusted padding for top navbar */
+                "min-h-screen"
+            )}>
                 {children}
             </main>
 
-            {/* Floating Support Assistant */}
-            <NeurometricaSupportBot />
+            {/* Floating Tools */}
+            <div className="fixed bottom-4 right-4 z-[40]">
+                <NeurometricaSupportBot />
+            </div>
             <AdminTools />
         </div>
     )
