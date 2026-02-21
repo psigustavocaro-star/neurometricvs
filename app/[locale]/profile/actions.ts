@@ -16,6 +16,7 @@ export async function updateProfile(formData: FormData) {
     const specialty = formData.get('specialty') as string
     const phone = formData.get('phone') as string
     const signatureUrl = formData.get('signatureUrl') as string
+    const avatarUrl = formData.get('avatarUrl') as string
 
     // Auth Updates
     const email = formData.get('email') as string
@@ -48,6 +49,10 @@ export async function updateProfile(formData: FormData) {
         updates.password = password
     }
 
+    if (avatarUrl !== undefined && avatarUrl !== null) {
+        updates.avatar_url = avatarUrl === '' ? null : avatarUrl
+    }
+
     if (Object.keys(updates).length > 0) {
         const { error: authError } = await supabase.auth.updateUser(updates)
         if (authError) {
@@ -64,6 +69,7 @@ export async function updateProfile(formData: FormData) {
             specialty: specialty,
             phone: phone,
             signature_url: signatureUrl,
+            avatar_url: avatarUrl === '' ? null : avatarUrl,
             updated_at: new Date().toISOString(),
         })
 

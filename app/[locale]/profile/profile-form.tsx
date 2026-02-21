@@ -66,6 +66,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [registry, setRegistry] = useState(profile?.registry_number || '')
     const [phone, setPhone] = useState(profile?.phone || '')
     const [signature, setSignature] = useState(profile?.signature_url || '')
+    const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '')
 
     // Auth State
     const [email, setEmail] = useState(user?.email || '')
@@ -77,6 +78,8 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [pendingSpecialty, setPendingSpecialty] = useState('')
     const [selectedPlan, setSelectedPlan] = useState(currentPlan)
+    const [activeTab, setActiveTab] = useState('profile')
+    const [isTabLoading, setIsTabLoading] = useState(false)
 
     const { theme, setTheme } = useTheme()
 
@@ -85,6 +88,15 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const handleSpecialtyChange = (value: string) => {
         setPendingSpecialty(value)
         setIsAlertOpen(true)
+    }
+
+    const handleTabChange = (value: string) => {
+        setIsTabLoading(true)
+        // Set a brief authentic-feeling pause before actually switching content
+        setTimeout(() => {
+            setActiveTab(value)
+            setIsTabLoading(false)
+        }, 300)
     }
 
     const confirmSpecialtyChange = () => {
@@ -104,6 +116,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
 
         const formData = new FormData(e.currentTarget)
         formData.append('currentPassword', currentPassword)
+        formData.append('avatarUrl', avatarUrl)
 
         const result = await updateProfile(formData)
 
@@ -171,49 +184,47 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-2 font-medium">{t('subtitle')}</p>
                 </div>
-                <div className="flex flex-col items-end gap-3">
-                    <div
-                        onClick={copyId}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/40 rounded-lg cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700/50 group"
-                    >
-                        <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 uppercase tracking-tighter">Account ID: {user?.id?.substring(0, 12)}...</span>
-                        <Copy className="w-3 h-3 text-slate-400 group-hover:text-teal-500 transition-colors" />
-                    </div>
-                </div>
             </div>
 
-            <Tabs defaultValue="profile" className="w-full overflow-x-hidden">
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full relative min-h-[500px]">
                 <div className="overflow-x-auto -mx-4 px-4 scrollbar-none">
-                    <TabsList className="w-max min-w-full sm:w-auto justify-start border-none bg-slate-100/50 dark:bg-slate-900/40 p-1 h-auto rounded-xl gap-1 inline-flex mb-4 mt-6">
+                    <TabsList className="w-full sm:w-auto inline-flex items-center justify-start sm:justify-center p-1.5 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md rounded-2xl sm:rounded-full gap-2 mb-8 mt-6 overflow-x-auto scrollbar-none shadow-inner border border-slate-200/50 dark:border-slate-800/50">
                         <TabsTrigger
                             value="profile"
-                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                            className="flex-1 sm:flex-none rounded-xl sm:rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950 data-[state=active]:shadow-md data-[state=active]:ring-1 data-[state=active]:ring-slate-200/50 dark:data-[state=active]:ring-teal-500/20 px-5 sm:px-8 py-2.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
                         >
                             {t('tabs.profile')}
                         </TabsTrigger>
                         <TabsTrigger
                             value="security"
-                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                            className="flex-1 sm:flex-none rounded-xl sm:rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950 data-[state=active]:shadow-md data-[state=active]:ring-1 data-[state=active]:ring-slate-200/50 dark:data-[state=active]:ring-teal-500/20 px-5 sm:px-8 py-2.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
                         >
                             {t('tabs.security')}
                         </TabsTrigger>
                         <TabsTrigger
                             value="billing"
-                            className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm px-4 sm:px-6 py-2.5 text-slate-500 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider transition-all whitespace-nowrap flex-shrink-0"
+                            className="flex-1 sm:flex-none rounded-xl sm:rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950 data-[state=active]:shadow-md data-[state=active]:ring-1 data-[state=active]:ring-slate-200/50 dark:data-[state=active]:ring-teal-500/20 px-5 sm:px-8 py-2.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 data-[state=active]:text-teal-600 dark:data-[state=active]:text-teal-400 font-bold text-[10px] sm:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
                         >
                             {t('tabs.billing')}
                         </TabsTrigger>
                     </TabsList>
                 </div>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="relative">
+                    {/* Fake Loading Overlay during Tab Change */}
+                    {isTabLoading && (
+                        <div className="absolute inset-0 z-50 flex items-center justify-center bg-slate-50/60 dark:bg-slate-950/60 backdrop-blur-sm rounded-3xl animate-in fade-in duration-200">
+                            <Loader2 className="w-10 h-10 text-teal-500 animate-spin" />
+                        </div>
+                    )}
+
                     {/* PROFILE TAB */}
                     <TabsContent value="profile" className="mt-6 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
                             {/* Avatar Column */}
                             <div className="md:col-span-4 flex flex-col items-center text-center space-y-4">
                                 <div className="mt-4">
-                                    <AvatarUpload uid={user?.id} url={profile?.avatar_url} />
+                                    <AvatarUpload uid={user?.id} url={avatarUrl} onUploadComplete={setAvatarUrl} />
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="font-bold text-xl text-slate-900 dark:text-white">
@@ -411,8 +422,8 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                     </TabsContent>
 
                     {/* BILLING TAB */}
-                    <TabsContent value="billing" className="mt-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                    <TabsContent value="billing" className="mt-6 sm:mt-8 px-1 sm:px-2 pb-16">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto py-4">
                             {/* Basic */}
                             <motion.div
                                 onClick={() => setSelectedPlan('basic')}
@@ -425,7 +436,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 className="group relative"
                             >
-                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-lg opacity-80 hover:opacity-100 shadow-sm'}`}>
+                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-4 ring-teal-500/50 shadow-[0_8px_30px_rgb(20,184,166,0.2)] bg-white dark:bg-slate-900 translate-y-[-8px]' : 'hover:shadow-xl opacity-80 hover:opacity-100 shadow-md bg-slate-50/50 dark:bg-slate-900/50'}`}>
                                     {/* Selection Glow */}
                                     {selectedPlan === 'basic' && (
                                         <div className="absolute inset-0 bg-teal-500/5 blur-2xl rounded-2xl -z-10 animate-pulse" />
@@ -482,7 +493,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 className="group relative"
                             >
-                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative overflow-visible border-teal-500/20 shadow-teal-500/5 ${selectedPlan === 'clinical' ? 'ring-2 ring-teal-500 shadow-2xl bg-white dark:bg-slate-900' : 'hover:shadow-xl opacity-80 hover:opacity-100 border-slate-200/60 dark:border-slate-800/60 shadow-sm'}`}>
+                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative border-teal-500/20 ${selectedPlan === 'clinical' ? 'ring-4 ring-teal-500/50 shadow-[0_8px_30px_rgb(20,184,166,0.3)] bg-white dark:bg-slate-900 translate-y-[-8px]' : 'hover:shadow-xl opacity-80 hover:opacity-100 bg-slate-50/50 dark:bg-slate-900/50 shadow-md'}`}>
 
                                     <CardHeader className="relative">
                                         <div className="flex justify-between items-start">
@@ -535,7 +546,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 className="group relative"
                             >
-                                <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-visible shadow-2xl ${selectedPlan === 'pro' ? 'ring-2 ring-teal-400' : 'opacity-80 hover:opacity-100'}`}>
+                                <Card className={`flex flex-col h-full bg-slate-950 text-white border-none transition-all cursor-pointer relative overflow-hidden shadow-xl ${selectedPlan === 'pro' ? 'ring-4 ring-teal-400/50 shadow-[0_8px_30px_rgb(45,212,191,0.3)] translate-y-[-8px]' : 'opacity-80 hover:opacity-100'}`}>
                                     {/* Premium Cosmic Decoration */}
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 blur-[120px] rounded-full -mr-32 -mt-32 pointer-events-none" />
 
@@ -589,7 +600,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-slate-900 hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-500 text-white min-w-[200px] h-12 rounded-xl shadow-lg shadow-black/10 dark:shadow-teal-900/20 text-sm font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95"
+                            className="bg-slate-900 hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-500 text-white min-w-[200px] h-12 rounded-xl shadow-lg shadow-black/10 dark:shadow-teal-900/20 text-sm font-bold uppercase tracking-wider transition-all hover:-translate-y-0.5 active:translate-y-0"
                         >
                             {loading ? (
                                 <>

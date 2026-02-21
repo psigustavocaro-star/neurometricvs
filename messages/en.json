@@ -1,4 +1,10 @@
 {
+    "NotFound": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for does not exist or has been moved.",
+        "go_home": "Go Home",
+        "go_dashboard": "Go to Workstation"
+    },
     "Navbar": {
         "features": "What We Offer",
         "pricing": "Pricing",

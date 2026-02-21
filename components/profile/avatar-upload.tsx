@@ -32,10 +32,14 @@ export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarU
             const file = event.target.files[0]
 
             if (file.size > 5 * 1024 * 1024) {
-                throw new Error("La imagen no debe pesar más de 5MB")
+                toast.error("La imagen excede el límite de 5MB")
+                return
             }
-            if (!file.type.startsWith('image/')) {
-                throw new Error("El archivo debe ser una imagen")
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+            if (!allowedTypes.includes(file.type)) {
+                toast.error("Formato no soportado. Usa JPG, PNG o WEBP")
+                return
             }
 
             const fileExt = file.name.split('.').pop()
@@ -51,25 +55,15 @@ export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarU
                 .from('avatars')
                 .getPublicUrl(filePath)
 
-            const { error: updateError } = await supabase
-                .from('profiles')
-                .upsert({ id: uid, avatar_url: publicUrl, updated_at: new Date().toISOString() })
-
-            if (updateError) throw updateError
-
-            await supabase.auth.updateUser({
-                data: { avatar_url: publicUrl }
-            })
-
             setAvatarUrl(publicUrl)
             if (onUploadComplete) onUploadComplete(publicUrl)
 
-            toast.success("Foto de perfil actualizada")
-            router.refresh()
+            toast.info("Foto cargada localmente. ¡Recuerda presionar Guardar Cambios para finalizar!")
 
         } catch (error: any) {
-            console.error("Upload Error:", error)
-            toast.error(error.message || "Error al subir la imagen")
+            console.error("Upload Error Stringified:", JSON.stringify(error, null, 2))
+            const errorMsg = error.message || error.error_description || JSON.stringify(error) || "Ocurrió un error al subir tu fotografía.";
+            toast.error(errorMsg)
         } finally {
             setUploading(false)
             if (fileInputRef.current) fileInputRef.current.value = ''
@@ -81,21 +75,9 @@ export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarU
         try {
             setUploading(true)
 
-            const { error: updateError } = await supabase
-                .from('profiles')
-                .update({ avatar_url: null, updated_at: new Date().toISOString() })
-                .eq('id', uid)
-
-            if (updateError) throw updateError
-
-            await supabase.auth.updateUser({
-                data: { avatar_url: null }
-            })
-
             setAvatarUrl(null)
             if (onUploadComplete) onUploadComplete('')
-            toast.success("Foto eliminada")
-            router.refresh()
+            toast.info("Foto eliminada localmente. ¡Recuerda presionar Guardar Cambios para finalizar!")
         } catch (error: any) {
             toast.error("Error al eliminar la imagen")
         } finally {
@@ -120,6 +102,7 @@ export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarU
                             className="w-full h-full object-cover transition-transform duration-700 group-hover/container:scale-105"
                         />
                         <button
+                            type="button"
                             onClick={deleteAvatar}
                             className="absolute top-3 right-3 p-1.5 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full text-white transition-all opacity-0 group-hover/container:opacity-100 border border-white/20 shadow-lg"
                         >
@@ -145,6 +128,7 @@ export function AvatarUpload({ uid, url, size = 200, onUploadComplete }: AvatarU
             {/* Action Bar */}
             <div className="w-full mt-3 p-2 bg-slate-50/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 rounded-xl">
                 <Button
+                    type="button"
                     variant="outline"
                     onClick={triggerUpload}
                     disabled={uploading}
