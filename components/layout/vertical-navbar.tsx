@@ -16,8 +16,8 @@ export function VerticalNavbar() {
         { id: 'MedicalCalculators', label: t('calculators'), icon: Calculator },
         { id: 'AICopilot', label: t('aiCopilot'), icon: Bot },
         { id: 'MobileAccess', label: t('mobile'), icon: Smartphone },
+        { id: 'AlanaSupport', label: t('trust'), icon: Shield },
         { id: 'testimonials', label: t('testimonials'), icon: MessageSquare },
-        { id: 'trust', label: t('trust'), icon: Shield },
         { id: 'pricing', label: t('pricing'), icon: CreditCard },
         { id: 'faq', label: t('faq'), icon: HelpCircle },
     ]
@@ -32,7 +32,7 @@ export function VerticalNavbar() {
                     }
                 })
             },
-            { threshold: 0.5 }
+            { threshold: 0.15, rootMargin: "-10% 0px -40% 0px" }
         )
 
         navItems.forEach(({ id }) => {
@@ -46,6 +46,7 @@ export function VerticalNavbar() {
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id)
         if (element) {
+            setActiveSection(id)
             element.scrollIntoView({ behavior: 'smooth' })
         }
     }
