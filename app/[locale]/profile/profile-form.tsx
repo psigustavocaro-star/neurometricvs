@@ -250,7 +250,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
 
                     {/* PROFILE TAB */}
                     <TabsContent value="profile" className="mt-6 space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-5xl mx-auto">
                             {/* Avatar Column */}
                             <div className="md:col-span-4 flex flex-col items-center text-center space-y-4">
                                 <div className="mt-4">
@@ -354,10 +354,10 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
 
                     {/* SECURITY TAB */}
                     <TabsContent value="security" className="mt-6">
-                        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                            <Card className="xl:col-span-8 border-none shadow-sm bg-slate-50/50 dark:bg-slate-900/20">
+                        <div className="max-w-4xl mx-auto space-y-10">
+                            <Card className="border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900/50">
                                 <CardHeader>
-                                    <CardTitle className="text-lg">{t('security_title')}</CardTitle>
+                                    <CardTitle className="text-xl">{t('security_title')}</CardTitle>
                                     <CardDescription>{t('security_desc')}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
@@ -449,34 +449,29 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                 </CardContent>
                             </Card>
 
-                            <Card className="border-rose-200 dark:border-rose-900/50 bg-rose-50/50 dark:bg-rose-950/20 shadow-none">
-                                <CardHeader className="pb-3 border-b border-rose-100 dark:border-rose-900/50">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-rose-100 dark:bg-rose-900/50 rounded-lg">
-                                            <Shield className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                            <div className="space-y-4 pt-4">
+                                <h3 className="text-lg font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 px-1">
+                                    <Shield className="w-5 h-5" /> Zona de Peligro
+                                </h3>
+                                <Card className="border-rose-200 dark:border-rose-900/50 bg-rose-50/30 dark:bg-rose-950/20 shadow-none">
+                                    <CardContent className="p-6">
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                                            <div className="space-y-1.5 text-sm text-slate-600 dark:text-slate-400">
+                                                <p className="font-bold text-slate-900 dark:text-rose-50 text-base">Eliminar cuenta permanentemente</p>
+                                                <p className="leading-relaxed max-w-xl">Al hacer esto, eliminarás todos tus perfiles clínicos, datos de pacientes, y se cancelará tu suscripción de Neurometrics activa (si tienes alguna). <strong className="text-rose-600 dark:text-rose-400">Esta acción no se puede deshacer.</strong></p>
+                                            </div>
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                className="shrink-0 w-full sm:w-auto font-bold shadow-sm"
+                                                onClick={() => setShowDeleteAlert(true)}
+                                            >
+                                                Eliminar Cuenta
+                                            </Button>
                                         </div>
-                                        <div>
-                                            <CardTitle className="text-rose-700 dark:text-rose-400 text-lg">Zona de Peligro</CardTitle>
-                                        </div>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="pt-6">
-                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                        <div className="space-y-1 text-sm text-rose-600/80 dark:text-rose-400/80">
-                                            <p className="font-semibold text-rose-700 dark:text-rose-400">Eliminar cuenta permanentemente</p>
-                                            <p>Al hacer esto, eliminarás todos tus perfiles clínicos, datos de pacientes, y se cancelará tu suscripción de Neurometrics activa (si tienes alguna). Esta acción no se puede deshacer.</p>
-                                        </div>
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            className="shrink-0 w-full sm:w-auto"
-                                            onClick={() => setShowDeleteAlert(true)}
-                                        >
-                                            Eliminar Cuenta
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
+                            </div>
                         </div>
 
                         <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
@@ -515,7 +510,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
 
                     {/* BILLING TAB */}
                     <TabsContent value="billing" className="mt-6 sm:mt-8 px-1 sm:px-2 pb-16">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto py-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto py-4">
                             {/* Basic */}
                             <motion.div
                                 onClick={() => setSelectedPlan('basic')}
@@ -687,7 +682,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                         </div>
 
                         {!isBasicActive && currentPlan !== 'basic' && (
-                            <div className="mt-8 max-w-6xl mx-auto">
+                            <div className="mt-8 max-w-5xl mx-auto">
                                 <Card className="border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 shadow-none">
                                     <CardContent className="pt-6">
                                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -732,7 +727,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                     </TabsContent>
 
                     {/* Common Action Bar */}
-                    <div className="mt-8 flex justify-end border-t border-slate-200 dark:border-slate-800 pt-6 pb-12">
+                    <div className="mt-8 flex justify-end border-t border-slate-200 dark:border-slate-800 pt-6 pb-12 max-w-5xl mx-auto">
                         <Button
                             type="submit"
                             disabled={loading}
