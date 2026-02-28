@@ -6,17 +6,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Check, ChevronRight, ChevronLeft, Loader2, ShieldCheck, Clock, Star, X, Zap, Sparkles, Brain, FileText, Calendar, Activity, Lock, FlaskConical, Stethoscope, UserCheck, Cpu, Globe, Database, Sun, Moon, ArrowLeft, Home } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Brain, Home, CheckCircle2, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Link, useRouter } from "@/i18n/navigation"
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { cn } from "@/lib/utils"
-import { PriceDisplay } from "@/components/pricing/price-display"
 import { PADDLE_ENV, PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
 import { getPaddle } from '@/lib/paddle-client'
+import { GoogleLoginButton } from '@/components/auth/google-login-button'
 
 interface OnboardingFlowProps {
     onComplete?: () => void;
@@ -27,19 +26,15 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
     const t = useTranslations('Onboarding')
     const router = useRouter()
     const [step, setStep] = useState(0)
-    const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+
+    // Core Data
     const [formData, setFormData] = useState({
-        goal: '',
         name: '',
         role: '',
-        formation: '',
         registryNumber: '',
         country: '',
-        patientsPerMonth: '',
-        primaryNeed: '',
         email: '',
         password: '',
-        confirmPassword: '',
         plan: 'pro'
     })
 
@@ -55,16 +50,16 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
 
     const handleInputChange = (field: string, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }))
+        setError(null)
     }
 
     const nextStep = () => setStep(prev => prev + 1)
     const prevStep = () => setStep(prev => prev - 1)
 
-    const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark')
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (step !== 4) return
+        if (step !== 2) return
+
         if (!formData.email || !formData.password) {
             setError(t('errors.empty_fields'))
             return
@@ -81,12 +76,8 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                 data: {
                     full_name: formData.name,
                     role: formData.role,
-                    formation: formData.formation,
                     registry_number: formData.registryNumber,
                     country: formData.country,
-                    patients_per_month: formData.patientsPerMonth,
-                    primary_need: formData.primaryNeed,
-                    main_goal: formData.goal,
                     plan: formData.plan
                 }
             }
@@ -98,18 +89,11 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
             return
         }
 
-        if (formData.plan === 'free') {
-            setIsLoading(false)
-            setStep(5)
-            onComplete?.()
-            return
-        }
-
-        if (paddle) {
+        // Open paddle if user selected plan and paid
+        if (paddle && formData.plan !== 'free') {
             try {
-                let priceId = ''
-                if (formData.plan === 'pro') priceId = PRICE_ID_PRO?.trim()
-                else if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL?.trim()
+                let priceId = PRICE_ID_PRO?.trim()
+                if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL?.trim()
                 else if (formData.plan === 'basic') priceId = PRICE_ID_BASIC?.trim()
 
                 if (priceId) {
@@ -125,573 +109,262 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                         }
                     })
                     setIsLoading(false)
-                } else {
-                    setError(t('errors.price_not_configured'))
-                    setIsLoading(false)
+                    return
                 }
             } catch (err: any) {
-                setError(`Error: ${err.message}`)
-                setIsLoading(false)
+                console.error("Paddle Open Error", err)
             }
-        } else {
-            setError(t('errors.payment_unavailable'))
-            setIsLoading(false)
         }
-    }
 
-    const handleGoogleLogin = async () => {
-        setIsLoading(true)
-        setError(null)
-        const supabase = createClient()
-
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-                queryParams: {
-                    access_type: 'offline',
-                    prompt: 'consent',
-                }
-            }
-        })
-
-        if (error) {
-            setError(error.message)
-            setIsLoading(false)
-        }
+        // Fallback or free plan complete
+        setIsLoading(false)
+        setStep(3)
+        onComplete?.()
     }
 
     const variants = {
-        enter: (d: number) => ({ x: d > 0 ? 20 : -20, opacity: 0 }),
+        enter: (d: number) => ({ x: d > 0 ? 10 : -10, opacity: 0 }),
         center: { x: 0, opacity: 1 },
-        exit: (d: number) => ({ x: d < 0 ? 20 : -20, opacity: 0 })
+        exit: (d: number) => ({ x: d < 0 ? 10 : -10, opacity: 0 })
     }
 
     return (
-        <div className={cn(
-            "w-full max-w-5xl mx-auto min-h-[600px] flex flex-col relative transition-colors duration-500",
-            theme === 'dark' ? "text-white" : "text-slate-900"
-        )}>
-            {/* Header / Navigation Top Bar */}
-            <div className="flex items-center justify-between mb-8 px-2">
-                <div className="flex items-center gap-4">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                        className="rounded-full gap-2 text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition-all"
-                    >
+        <div className="w-full max-w-md mx-auto">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden relative">
+
+                {/* Header Section */}
+                <div className="px-8 pt-8 pb-4 text-center">
+                    <div className="flex justify-center mb-6">
                         <Link href="/">
-                            <Home className="w-3.5 h-3.5" />
-                            {t('back_to_landing')}
+                            <Image
+                                src="/neurometrics-logo-small.png"
+                                alt="Neurometrics Logo"
+                                width={56}
+                                height={56}
+                                className="object-contain hover:scale-105 transition-transform"
+                            />
                         </Link>
-                    </Button>
-                    {step > 0 && step < 5 && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={prevStep}
-                            className="rounded-full gap-2 text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition-all border border-white/5"
-                        >
-                            <ArrowLeft className="w-3.5 h-3.5" />
-                            {t('back')}
-                        </Button>
-                    )}
+                    </div>
+
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        {step === 0 && "Crea tu cuenta clínica"}
+                        {step === 1 && "Verifica tu profesión"}
+                        {step === 2 && "Asegura tu cuenta"}
+                        {step === 3 && "¡Cuenta creada!"}
+                    </h1>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {step === 0 && "Únete a la plataforma elegida por expertos en salud mental."}
+                        {step === 1 && "Cuéntanos sobre tu práctica para adaptar la plataforma."}
+                        {step === 2 && "Configura tus credenciales de acceso seguro."}
+                        {step === 3 && "Revisa tu correo para verificar tu cuenta."}
+                    </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={toggleTheme}
-                        className={cn(
-                            "p-2 rounded-full border transition-all hover:scale-110 active:scale-95",
-                            theme === 'dark' ? "bg-white/5 border-white/10 text-white" : "bg-slate-100 border-slate-200 text-slate-600"
-                        )}
-                    >
-                        {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                    </button>
-                    {onClose && (
-                        <button onClick={onClose} className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                            <X className="w-5 h-5 opacity-50 hover:opacity-100" />
-                        </button>
-                    )}
-                </div>
-            </div>
-
-            {/* Main Content Card */}
-            <div className={cn(
-                "flex-1 rounded-[2rem] border transition-all duration-700 overflow-hidden relative flex flex-col shadow-[0_40px_100px_rgba(0,0,0,0.3)]",
-                theme === 'dark' ? "bg-slate-950/40 backdrop-blur-2xl border-white/5" : "bg-white border-slate-200"
-            )}>
-                {/* Visual Accent - Background Realistic Image */}
-                <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.06]">
-                    <Image
-                        src="/brain/73d5cd2b-e558-473c-a0dd-285d09e0566c/modern_clinical_reception_realistic_1767561220730.png"
-                        alt="Clinical"
-                        fill
-                        className="object-cover grayscale"
-                    />
-                </div>
-
-                <div className="p-8 md:p-12 relative z-10 flex-1 flex flex-col">
-                    {/* Progress Indicator - Minimalist */}
-                    {step > 0 && step < 5 && (
-                        <div className="mb-10 w-full max-w-md mx-auto">
-                            <div className="flex justify-between text-[7px] font-black uppercase tracking-[0.4em] mb-4 opacity-30 px-1">
-                                <span className={cn(step >= 1 && "text-teal-500 opacity-100")}>01. {t('steps.identity')}</span>
-                                <span className={cn(step >= 2 && "text-teal-500 opacity-100")}>02. {t('steps.practice')}</span>
-                                <span className={cn(step >= 3 && "text-teal-500 opacity-100")}>03. {t('steps.workstation')}</span>
-                                <span className={cn(step >= 4 && "text-teal-500 opacity-100")}>04. {t('steps.security')}</span>
-                            </div>
-                            <div className={cn("h-[1.5px] w-full rounded-full overflow-hidden", theme === 'dark' ? "bg-white/5" : "bg-slate-100")}>
-                                <motion.div
-                                    className="h-full bg-teal-500"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${(step / 4) * 100}%` }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                {/* Progress Bar */}
+                {step < 3 && (
+                    <div className="px-8 pt-2 pb-6">
+                        <div className="flex gap-2 w-full h-1.5 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                            {[0, 1, 2].map((i) => (
+                                <div
+                                    key={i}
+                                    className={cn(
+                                        "h-full flex-1 transition-all duration-500",
+                                        step >= i ? "bg-teal-500" : "bg-transparent"
+                                    )}
                                 />
-                            </div>
+                            ))}
                         </div>
-                    )}
+                    </div>
+                )}
 
-                    <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-center">
-                        <AnimatePresence mode='wait' custom={step}>
+                <div className="px-8 pb-8">
+                    <form onSubmit={handleSubmit}>
+                        <AnimatePresence mode="wait" custom={step}>
                             {step === 0 && (
-                                <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12">
-                                    <div className="text-center space-y-6">
-                                        <div className={cn(
-                                            "inline-flex items-center gap-2 px-4 py-1 rounded-full text-[9px] font-black tracking-[0.3em] uppercase border",
-                                            theme === 'dark' ? "bg-teal-500/10 text-teal-400 border-teal-500/20" : "bg-teal-50 text-teal-700 border-teal-100"
-                                        )}>
-                                            <Brain className="w-3.5 h-3.5" /> {t('step_0_badge')}
+                                <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-5">
+                                    <GoogleLoginButton
+                                        label="Registrarse con Google"
+                                        className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold shadow-sm"
+                                    />
+
+                                    <div className="relative py-2 hidden">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <span className="w-full border-t border-slate-200 dark:border-slate-700" />
                                         </div>
-                                        <h1 className="text-5xl md:text-6xl font-black tracking-tighter leading-[0.9] max-w-3xl mx-auto">
-                                            {t.rich('step_0_heading', {
-                                                prioritario: (chunks) => <span className="text-teal-500 italic font-normal font-serif">{chunks}</span>
-                                            })}
-                                        </h1>
-                                        <p className="text-base font-medium opacity-40 dark:opacity-60 dark:text-slate-300 max-w-lg mx-auto">
-                                            {t('step_0_subtext')}
-                                        </p>
+                                        <div className="relative flex justify-center text-xs uppercase uppercase">
+                                            <span className="bg-white dark:bg-slate-900 px-2 text-slate-500">o por correo</span>
+                                        </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto w-full">
-                                        {[
-                                            { id: 'time', label: t('goal_efficiency_label'), icon: <Zap className="w-5 h-5" />, desc: t('goal_efficiency_desc') },
-                                            { id: 'modernize', label: t('goal_precision_label'), icon: <Activity className="w-5 h-5" />, desc: t('goal_precision_desc') },
-                                            { id: 'patients', label: t('goal_digital_label'), icon: <FileText className="w-5 h-5" />, desc: t('goal_digital_desc') },
-                                            { id: 'ai', label: t('goal_connection_label'), icon: <Brain className="w-5 h-5" />, desc: t('goal_connection_desc') },
-                                        ].map((option) => (
-                                            <button
-                                                key={option.id}
-                                                type="button"
-                                                onClick={() => { handleInputChange('goal', option.label); nextStep(); }}
-                                                className={cn(
-                                                    "group flex items-center p-6 rounded-3xl border transition-all duration-500 text-left",
-                                                    theme === 'dark'
-                                                        ? "bg-slate-900/40 border-white/5 hover:border-white/20 hover:bg-slate-900/60"
-                                                        : "bg-slate-50 border-slate-100 hover:border-slate-300 hover:bg-white"
-                                                )}
-                                            >
-                                                <div className={cn(
-                                                    "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 mr-6 transition-all border",
-                                                    theme === 'dark' ? "bg-slate-950 border-white/5 group-hover:bg-teal-500 group-hover:text-black" : "bg-white border-slate-200 group-hover:bg-slate-900 group-hover:text-white"
-                                                )}>
-                                                    {option.icon}
-                                                </div>
-                                                <div className="flex-1">
-                                                    <div className="font-bold text-xs uppercase tracking-widest mb-0.5">{option.label}</div>
-                                                    <div className="text-[9px] opacity-30 dark:opacity-50 dark:text-slate-400 font-bold uppercase tracking-widest">{option.desc}</div>
-                                                </div>
-                                                <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
-                                            </button>
-                                        ))}
+                                    <div className="relative py-3">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <span className="w-full border-t border-slate-200 dark:border-slate-800" />
+                                        </div>
+                                        <div className="relative flex justify-center text-xs">
+                                            <span className="bg-white dark:bg-slate-900 px-3 text-slate-500 font-medium">Registro con Correo Electrónico</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="name" className="text-slate-700 dark:text-slate-300">Nombre Completo</Label>
+                                            <Input
+                                                id="name"
+                                                value={formData.name}
+                                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                                className="bg-slate-50 dark:bg-slate-950/50"
+                                                placeholder="Ej. Dr. Juan Pérez"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <Button
+                                        type="button"
+                                        onClick={nextStep}
+                                        disabled={!formData.name}
+                                        className="w-full h-11 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100"
+                                    >
+                                        Continuar <ArrowRight className="ml-2 w-4 h-4" />
+                                    </Button>
+
+                                    <div className="text-center pt-2">
+                                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                                            ¿Ya tienes cuenta? <Link href="/login" className="text-teal-600 dark:text-teal-400 font-medium hover:underline">Iniciar Sesión</Link>
+                                        </p>
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 1 && (
-                                <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-10 max-w-2xl mx-auto w-full px-4">
-                                    <div className="space-y-4">
-                                        <h2 className="text-4xl font-black tracking-tighter">{t('step1_title')}</h2>
-                                        <p className="border-l-2 border-teal-500 pl-6 py-1 italic opacity-40 text-sm font-medium leading-relaxed">{t('step1_quote')}</p>
+                                <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-5">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-700 dark:text-slate-300">Profesión / Especialidad</Label>
+                                        <Select value={formData.role} onValueChange={(val) => handleInputChange('role', val)}>
+                                            <SelectTrigger className="bg-slate-50 dark:bg-slate-950/50">
+                                                <SelectValue placeholder="Selecciona tu rol" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="physician">Médico General</SelectItem>
+                                                <SelectItem value="psychologist">Psicólogo Clínico</SelectItem>
+                                                <SelectItem value="psychiatrist">Psiquiatra</SelectItem>
+                                                <SelectItem value="neurologist">Neurólogo</SelectItem>
+                                                <SelectItem value="neuropsychologist">Neuropsicólogo</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     </div>
 
-                                    <div className="grid gap-6">
-                                        <div className="space-y-2">
-                                            <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step1_label_name')}</Label>
-                                            <Input
-                                                value={formData.name}
-                                                onChange={(e) => handleInputChange('name', e.target.value)}
-                                                className={cn(
-                                                    "h-12 rounded-2xl font-bold transition-all px-6 text-base border",
-                                                    theme === 'dark' ? "bg-slate-950 border-white/5 focus:border-teal-500/50" : "bg-white border-slate-200 focus:border-slate-900"
-                                                )}
-                                                placeholder={t('step1_placeholder_name')}
-                                            />
-                                        </div>
-
-                                        <div className="grid md:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step1_label_role')}</Label>
-                                                <Select value={formData.role} onValueChange={(val) => handleInputChange('role', val)}>
-                                                    <SelectTrigger className={cn(
-                                                        "h-12 rounded-2xl font-bold px-6 border",
-                                                        theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200"
-                                                    )}>
-                                                        <SelectValue placeholder={t('step1_placeholder_role')} />
-                                                    </SelectTrigger>
-                                                    <SelectContent className={theme === 'dark' ? "bg-slate-900 border-white/10 dark:text-slate-100" : "bg-white border-slate-200"}>
-                                                        <SelectItem value="physician">{t('professions.physician')}</SelectItem>
-                                                        <SelectItem value="psychologist">{t('professions.psychologist')}</SelectItem>
-                                                        <SelectItem value="psychiatrist">{t('professions.psychiatrist')}</SelectItem>
-                                                        <SelectItem value="neurologist">{t('professions.neurologist')}</SelectItem>
-                                                        <SelectItem value="neuropsychologist">{t('professions.neuropsychologist')}</SelectItem>
-                                                        <SelectItem value="occupational_therapist">{t('professions.occupational_therapist')}</SelectItem>
-                                                        <SelectItem value="speech_therapist">{t('professions.speech_therapist')}</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step1_label_registry')}</Label>
-                                                <Input
-                                                    value={formData.registryNumber}
-                                                    onChange={(e) => handleInputChange('registryNumber', e.target.value)}
-                                                    className={cn(
-                                                        "h-12 rounded-2xl font-bold px-6 border",
-                                                        theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200"
-                                                    )}
-                                                    placeholder={t('step1_placeholder_registry')}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step1_label_country')}</Label>
-                                            <Input
-                                                value={formData.country}
-                                                onChange={(e) => handleInputChange('country', e.target.value)}
-                                                className={cn(
-                                                    "h-12 rounded-2xl font-bold px-6 border",
-                                                    theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200"
-                                                )}
-                                                placeholder={t('step1_placeholder_country')}
-                                            />
-                                        </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-700 dark:text-slate-300">Número de Registro / Colegiatura</Label>
+                                        <Input
+                                            value={formData.registryNumber}
+                                            onChange={(e) => handleInputChange('registryNumber', e.target.value)}
+                                            className="bg-slate-50 dark:bg-slate-950/50"
+                                            placeholder="Ej. CMP 12345"
+                                        />
                                     </div>
 
-                                    <div className="pt-6 flex justify-end">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-700 dark:text-slate-300">País de Ejercicio</Label>
+                                        <Input
+                                            value={formData.country}
+                                            onChange={(e) => handleInputChange('country', e.target.value)}
+                                            className="bg-slate-50 dark:bg-slate-950/50"
+                                            placeholder="Ej. Chile, México, España"
+                                        />
+                                    </div>
+
+                                    <div className="flex gap-3 pt-2">
+                                        <Button
+                                            type="button"
+                                            onClick={prevStep}
+                                            variant="outline"
+                                            className="w-full"
+                                        >
+                                            Paso Anterior
+                                        </Button>
                                         <Button
                                             type="button"
                                             onClick={nextStep}
-                                            disabled={!formData.name || !formData.role || !formData.registryNumber}
-                                            className={cn(
-                                                "transition-all font-black text-[10px] uppercase tracking-widest h-11 px-12 rounded-2xl",
-                                                theme === 'dark' ? "bg-white text-black hover:bg-teal-500" : "bg-slate-900 text-white hover:bg-teal-600"
-                                            )}
+                                            disabled={!formData.role || !formData.registryNumber || !formData.country}
+                                            className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900"
                                         >
-                                            {t('step1_btn_next')} <ChevronRight className="ml-2 w-4 h-4" />
+                                            Siguiente
                                         </Button>
                                     </div>
                                 </motion.div>
                             )}
 
                             {step === 2 && (
-                                <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 max-w-2xl mx-auto w-full px-4 text-center">
-                                    <div className="space-y-3">
-                                        <h2 className="text-4xl font-black tracking-tighter">{t('step2_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-sm mx-auto">{t('step2_subtext')}</p>
+                                <motion.div key="s2" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-5">
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-700 dark:text-slate-300">Correo Electrónico</Label>
+                                        <Input
+                                            type="email"
+                                            value={formData.email}
+                                            onChange={(e) => handleInputChange('email', e.target.value)}
+                                            className="bg-slate-50 dark:bg-slate-950/50"
+                                            placeholder="tu@correo.com"
+                                        />
                                     </div>
-
-                                    <div className="space-y-10">
-                                        <div className="space-y-4">
-                                            <Label className="text-[8px] uppercase tracking-[0.6em] font-black opacity-20 block mb-6">{t('step2_label_volume')}</Label>
-                                            <RadioGroup value={formData.patientsPerMonth} onValueChange={(val) => handleInputChange('patientsPerMonth', val)} className="flex justify-center gap-4">
-                                                {['1-10', '11-30', '30+'].map((opt) => (
-                                                    <div key={opt} className="relative w-28 h-28">
-                                                        <RadioGroupItem value={opt} id={opt} className="peer sr-only" />
-                                                        <Label htmlFor={opt} className={cn(
-                                                            "flex flex-col items-center justify-center h-full rounded-2xl border transition-all cursor-pointer",
-                                                            theme === 'dark'
-                                                                ? "border-white/5 bg-slate-900/40 peer-data-[state=checked]:border-teal-500/50 peer-data-[state=checked]:bg-teal-500/10"
-                                                                : "border-slate-100 bg-slate-50 peer-data-[state=checked]:border-slate-900 peer-data-[state=checked]:bg-white"
-                                                        )}>
-                                                            <span className="text-2xl font-black tracking-tighter">{opt}</span>
-                                                            <span className="text-[7px] font-black uppercase tracking-[0.3em] mt-1 opacity-30 dark:opacity-60">{t('step2_unit_patients')}</span>
-                                                        </Label>
-                                                    </div>
-                                                ))}
-                                            </RadioGroup>
-                                        </div>
-
-                                        <div className="space-y-6 max-w-md mx-auto">
-                                            <Label className="text-[8px] uppercase tracking-[0.6em] font-black opacity-20 block mb-4">{t('step2_label_friction')}</Label>
-                                            <div className="grid gap-3">
-                                                {[
-                                                    { id: 'tests', label: t('needs.tests'), icon: <FlaskConical className="w-4 h-4" /> },
-                                                    { id: 'reports', label: t('needs.reports'), icon: <FileText className="w-4 h-4" /> },
-                                                    { id: 'digital', label: t('needs.digital'), icon: <ShieldCheck className="w-4 h-4" /> }
-                                                ].map((opt) => (
-                                                    <button
-                                                        key={opt.id}
-                                                        type="button"
-                                                        onClick={() => handleInputChange('primaryNeed', opt.label)}
-                                                        className={cn(
-                                                            "group flex items-center p-5 rounded-2xl border transition-all",
-                                                            formData.primaryNeed === opt.label
-                                                                ? (theme === 'dark' ? "border-teal-500/50 bg-teal-500/10 text-white" : "border-slate-900 bg-white")
-                                                                : (theme === 'dark' ? "border-white/5 bg-slate-900/40 opacity-40 hover:opacity-100" : "border-slate-100 bg-slate-50 opacity-40 hover:opacity-100")
-                                                        )}
-                                                    >
-                                                        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center mr-6", formData.primaryNeed === opt.label ? "bg-teal-500 text-black" : "bg-white/5 text-slate-400")}>{opt.icon}</div>
-                                                        <span className="text-xs font-bold uppercase tracking-widest text-left flex-1">{opt.label}</span>
-                                                        {formData.primaryNeed === opt.label && <Check className="w-4 h-4 text-teal-500" strokeWidth={3} />}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="pt-6 flex justify-center">
-                                        <Button
-                                            type="button"
-                                            onClick={nextStep}
-                                            disabled={!formData.patientsPerMonth || !formData.primaryNeed}
-                                            className={cn(
-                                                "transition-all font-black text-[10px] uppercase tracking-widest h-11 px-12 rounded-2xl",
-                                                theme === 'dark' ? "bg-white text-black hover:bg-teal-500" : "bg-slate-900 text-white hover:bg-teal-600"
-                                            )}
-                                        >
-                                            {t('step2_btn_next')} <ChevronRight className="ml-2 w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                </motion.div>
-                            )}
-
-                            {step === 3 && (
-                                <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-12 max-w-5xl mx-auto w-full px-4 text-center">
-                                    <div className="space-y-3">
-                                        <h2 className="text-4xl font-black tracking-tighter">{t('step3_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-lg mx-auto">{t('step3_subtext')}</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                        {[
-                                            { id: 'free', name: t('plans_details.free_name'), price: 0, desc: t('plans_details.free_desc'), period: '', icon: <Star className="w-5 h-5" /> },
-                                            { id: 'basic', name: t('plans_details.basic_name'), price: 10, desc: t('plans_details.basic_desc'), period: '/mes', icon: <Activity className="w-5 h-5" />, pid: PRICE_ID_BASIC },
-                                            { id: 'clinical', name: t('plans_details.clinical_name'), price: 15, desc: t('plans_details.clinical_desc'), period: '/mes', icon: <Brain className="w-5 h-5" />, pid: PRICE_ID_CLINICAL, popular: true },
-                                            { id: 'pro', name: t('plans_details.pro_name'), price: 65, desc: t('plans_details.pro_desc'), period: '/año', icon: <Sparkles className="w-5 h-5" />, pid: PRICE_ID_PRO, savings: '65% OFF' }
-                                        ].map((p) => (
-                                            <div
-                                                key={p.id}
-                                                onClick={() => handleInputChange('plan', p.id)}
-                                                className={cn(
-                                                    "group relative p-8 rounded-3xl border transition-all cursor-pointer flex flex-col items-center",
-                                                    formData.plan === p.id
-                                                        ? (theme === 'dark' ? "border-teal-500/50 bg-teal-500/10 ring-1 ring-teal-500/20" : "border-slate-900 bg-white ring-1 ring-slate-900/5")
-                                                        : (theme === 'dark' ? "border-white/5 bg-slate-900/40 hover:bg-slate-900/60" : "border-slate-100 bg-slate-50 hover:bg-white")
-                                                )}
-                                            >
-                                                {p.popular && <div className="absolute -top-2 inset-x-0 mx-auto w-fit bg-teal-500 text-black text-[6px] font-black px-3 py-1 rounded-full uppercase tracking-widest">{t('step3_recommendation')}</div>}
-
-                                                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-6 transition-all", formData.plan === p.id ? "bg-teal-500 text-black" : "bg-white/5 text-slate-500")}>
-                                                    {p.icon}
-                                                </div>
-
-                                                <div className="flex-1 space-y-4">
-                                                    <div className="space-y-1">
-                                                        <div className="font-bold text-[11px] uppercase tracking-widest">{p.name}</div>
-                                                        <div className="text-[8px] opacity-20 dark:opacity-50 dark:text-slate-400 font-bold uppercase tracking-tighter leading-tight line-clamp-2">{p.desc}</div>
-                                                    </div>
-                                                    <div className="py-2">
-                                                        {p.price === 0 ? <div className="font-black text-2xl">0.00</div> : <PriceDisplay amount={p.price} period={p.period} priceId={p.pid} className="font-black text-2xl" />}
-                                                    </div>
-                                                </div>
-
-                                                <div className={cn(
-                                                    "mt-6 w-full py-2.5 rounded-xl border flex items-center justify-center font-black text-[8px] uppercase tracking-[0.2em] transition-all",
-                                                    formData.plan === p.id
-                                                        ? (theme === 'dark' ? "bg-teal-500 border-teal-500 text-black" : "bg-slate-900 border-slate-900 text-white")
-                                                        : "border-white/10 text-slate-500 opacity-50 group-hover:opacity-100"
-                                                )}>
-                                                    {formData.plan === p.id ? t('step3_btn_next') : t('step3_btn_select')}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="pt-6 flex justify-center">
-                                        <Button
-                                            type="button"
-                                            onClick={nextStep}
-                                            className={cn(
-                                                "transition-all font-black text-[10px] uppercase tracking-widest h-11 px-12 rounded-2xl",
-                                                theme === 'dark' ? "bg-white text-black hover:bg-teal-500" : "bg-slate-900 text-white hover:bg-teal-600"
-                                            )}
-                                        >
-                                            {t('step3_btn_next')} <ChevronRight className="ml-2 w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                </motion.div>
-                            )}
-
-                            {step === 4 && (
-                                <motion.div key="s4" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-10 max-w-xl mx-auto w-full px-4 text-center">
-                                    <div className="space-y-4">
-                                        <div className={cn(
-                                            "inline-flex items-center gap-2 px-4 py-1 rounded-full text-[9px] font-black tracking-[0.3em] uppercase border",
-                                            theme === 'dark' ? "bg-blue-500/10 text-blue-400 border-blue-500/20" : "bg-blue-50 text-blue-700 border-blue-100"
-                                        )}>
-                                            <Lock className="w-3.5 h-3.5" /> {t('step4_badge')}
-                                        </div>
-                                        <h2 className="text-4xl font-black tracking-tighter">{t('step4_title')}</h2>
-                                        <p className="text-sm font-medium opacity-30 dark:opacity-60 dark:text-slate-300 max-w-md mx-auto">{t('step4_subtext')}</p>
-                                    </div>
-
-                                    <div className="grid gap-6 text-left">
-                                        <div className="space-y-2">
-                                            <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step4_label_email')}</Label>
-                                            <Input
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => handleInputChange('email', e.target.value)}
-                                                className={cn(
-                                                    "h-12 rounded-2xl font-bold px-6 text-base border",
-                                                    theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200"
-                                                )}
-                                                placeholder={t('step4_placeholder_email')}
-                                            />
-                                        </div>
-                                        <div className="grid md:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step4_label_password')}</Label>
-                                                <PasswordInput
-                                                    value={formData.password}
-                                                    onChange={(e) => handleInputChange('password', e.target.value)}
-                                                    className={cn(
-                                                        "h-12 rounded-2xl font-bold px-6 border",
-                                                        theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200"
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label className="text-[9px] uppercase tracking-[0.4em] font-black opacity-30 ml-1">{t('step4_label_confirm')}</Label>
-                                                <PasswordInput
-                                                    value={formData.confirmPassword}
-                                                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                                                    className={cn(
-                                                        "h-12 rounded-2xl font-bold px-6 border transition-colors",
-                                                        formData.confirmPassword && formData.password !== formData.confirmPassword ? "border-rose-500/50" : (theme === 'dark' ? "bg-slate-950 border-white/5" : "bg-white border-slate-200")
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-slate-700 dark:text-slate-300">Contraseña Segura</Label>
+                                        <PasswordInput
+                                            value={formData.password}
+                                            onChange={(e) => handleInputChange('password', e.target.value)}
+                                            className="bg-slate-50 dark:bg-slate-950/50"
+                                        />
                                     </div>
 
                                     {error && (
-                                        <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-2xl text-[10px] font-bold uppercase tracking-widest">
+                                        <div className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 rounded-xl text-sm font-medium">
                                             {error}
                                         </div>
                                     )}
 
-                                    <div className="pt-6 flex flex-col items-center gap-6">
-                                        <p className="text-[8px] font-bold uppercase tracking-[0.4em] opacity-20 max-w-xs leading-relaxed">
-                                            {t.rich('step4_legal_info', {
-                                                terms: (chunks) => <span className="underline">{chunks}</span>,
-                                                privacy: (chunks) => <span className="underline">{chunks}</span>
-                                            })}
-                                        </p>
-
-                                        <div className="flex flex-col gap-4 w-full max-w-xs">
-                                            <Button
-                                                type="submit"
-                                                disabled={isLoading || !formData.email || !formData.password || formData.password !== formData.confirmPassword}
-                                                className={cn(
-                                                    "transition-all font-black text-[10px] uppercase tracking-widest h-12 px-16 rounded-2xl w-full",
-                                                    theme === 'dark' ? "bg-white text-black hover:bg-teal-500" : "bg-slate-900 text-white hover:bg-teal-600"
-                                                )}
-                                            >
-                                                {isLoading ? <Loader2 className="animate-spin w-5 h-5 mx-auto" /> : (
-                                                    <span className="flex items-center gap-2">
-                                                        {t('step4_btn_submit')} <Check className="w-4 h-4" strokeWidth={4} />
-                                                    </span>
-                                                )}
-                                            </Button>
-
-                                            <div className="relative w-full">
-                                                <div className="absolute inset-0 flex items-center">
-                                                    <span className="w-full border-t border-slate-200 dark:border-slate-800" />
-                                                </div>
-                                                <div className="relative flex justify-center text-[8px] uppercase tracking-widest">
-                                                    <span className={cn("px-4 font-black opacity-30", theme === 'dark' ? "bg-slate-900" : "bg-white")}>{t('step4_or')}</span>
-                                                </div>
-                                            </div>
-
-                                            <Button
-                                                type="button"
-                                                onClick={handleGoogleLogin}
-                                                disabled={isLoading}
-                                                variant="outline"
-                                                className={cn(
-                                                    "h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest border transition-all flex items-center justify-center gap-3",
-                                                    theme === 'dark' ? "bg-slate-950 border-white/10 hover:bg-white/5" : "bg-white border-slate-200 hover:bg-slate-50"
-                                                )}
-                                            >
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                                                </svg>
-                                                {t('step4_btn_google')}
-                                            </Button>
-                                        </div>
+                                    <div className="flex gap-3 pt-2">
+                                        <Button
+                                            type="button"
+                                            onClick={prevStep}
+                                            variant="outline"
+                                            className="w-full"
+                                            disabled={isLoading}
+                                        >
+                                            Atrás
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            disabled={!formData.email || !formData.password || isLoading}
+                                            className="w-full bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-600/20"
+                                        >
+                                            {isLoading ? "Creando..." : "Crear mi cuenta"}
+                                        </Button>
                                     </div>
+
+                                    <p className="text-xs text-center text-slate-500 pt-2">
+                                        Al crear una cuenta aceptas los Términos de Servicio y la Política de Privacidad de Neurometrics.
+                                    </p>
                                 </motion.div>
                             )}
 
-                            {step === 5 && (
-                                <motion.div key="s5" variants={variants} initial="enter" animate="center" className="flex-1 flex flex-col items-center justify-center space-y-10 text-center py-12 px-6">
-                                    <div className={cn(
-                                        "w-24 h-24 rounded-full flex items-center justify-center border-2 transition-all duration-1000",
-                                        theme === 'dark' ? "bg-teal-500/10 border-teal-500/50" : "bg-teal-50 border-teal-600"
-                                    )}>
-                                        <Check className={cn("w-10 h-10", theme === 'dark' ? "text-teal-400" : "text-teal-600")} strokeWidth={5} />
+                            {step === 3 && (
+                                <motion.div key="s3" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="text-center space-y-6 py-6">
+                                    <div className="w-16 h-16 bg-teal-100 dark:bg-teal-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <CheckCircle2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
                                     </div>
-                                    <div className="space-y-4">
-                                        <h2 className="text-5xl font-black tracking-tighter uppercase">{t('step5_welcome')}</h2>
-                                        <p className="text-xs font-bold uppercase tracking-[0.4em] opacity-30">{t('step5_activation_link')}</p>
-                                        <div className="text-teal-500 text-2xl font-black tracking-tighter">{formData.email}</div>
-                                    </div>
-                                    <Button asChild className={cn(
-                                        "h-14 w-full max-w-sm rounded-2xl transition-all font-black text-[11px] uppercase tracking-widest",
-                                        theme === 'dark' ? "bg-white text-black hover:bg-teal-500" : "bg-slate-900 text-white hover:bg-teal-600"
-                                    )}>
-                                        <Link href="/login">{t('step5_btn_dashboard')}</Link>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Verifica tu correo electrónico</h3>
+                                    <p className="text-slate-600 dark:text-slate-400">
+                                        Hemos enviado un enlace de confirmación a <span className="font-semibold">{formData.email}</span>.
+                                        Haz clic en él para activar tu cuenta y acceder a Neurometrics.
+                                    </p>
+                                    <Button asChild className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 mt-6">
+                                        <Link href="/login">Ir a Iniciar Sesión</Link>
                                     </Button>
                                 </motion.div>
                             )}
                         </AnimatePresence>
                     </form>
                 </div>
-
-                {/* Footer - Branding */}
-                <div className={cn(
-                    "p-6 border-t flex flex-col items-center gap-3",
-                    theme === 'dark' ? "border-white/5 bg-slate-950/20" : "border-slate-100 bg-slate-50/30"
-                )}>
-                    <div className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-                        <Brain className={cn("w-4 h-4", theme === 'dark' ? "text-teal-400" : "text-teal-600")} />
-                        <span className="text-[10px] font-black tracking-[0.5em] uppercase">NEUROMETRICS</span>
-                    </div>
-                    <div className="flex items-center gap-4 text-[7px] font-bold uppercase tracking-[0.2em] opacity-20">
-                        <span>AES-256 SECURED</span>
-                        <span className="w-1 h-1 rounded-full bg-current opacity-30" />
-                        <span>HIPAA COMPLIANT</span>
-                        <span className="w-1 h-1 rounded-full bg-current opacity-30" />
-                        <span>CLINICAL AI SYSTEMS</span>
-                    </div>
-                </div>
             </div>
         </div>
     )
-}
+} 
