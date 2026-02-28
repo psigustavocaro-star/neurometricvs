@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { paddle } from '@/lib/paddle'
 
 export async function updateProfile(formData: FormData) {
     const supabase = await createClient()
@@ -91,10 +92,29 @@ export async function deleteAccount() {
         return { error: 'No autorizado' }
     }
 
-    // Here we could try to call Paddle API if there's a stored active subscription 
-    // to cancel it securely, but Paddle doesn't have native cancel-by-email cleanly without subscription ID. 
-    // In many cases, Paddle manages recurring billing via the webhooks, or we notify manual cancel.
-    // For now, destroying the supabase user will break app access, so we do it with admin.
+    try {
+        // Fetch current subscription from DB to see if they have Paddle recurrent billing
+        const { data: subscription } = await supabase
+            .from('subscriptions')
+            .select('*')
+            .eq('user_id', user.id)
+            .single()
+
+        if (subscription && subscription.stripe_subscription_id) {
+            // Attempt to proactively cancel the subscription in Paddle
+            try {
+                await paddle.subscriptions.cancel(subscription.stripe_subscription_id, {
+                    effectiveFrom: 'immediately'
+                })
+            } catch (paddleError) {
+                console.error("Failed to cancel paddle subscription automatically during account deletion:", paddleError)
+                // Continue with deletion even if Paddle fails, to not trap the user. 
+                // In production, this might trigger manual review.
+            }
+        }
+    } catch (e) {
+        console.error("Error reading subscription for cancellation:", e)
+    }
 
     const adminAuthClient = createAdminClient()
     const { error } = await adminAuthClient.auth.admin.deleteUser(user.id)
