@@ -1608,7 +1608,7 @@
         "error_prefix": "Error al iniciar sesión",
         "check_email": "Revisa tu correo para continuar con el inicio de sesión",
         "confirmation_resent": "Correo de confirmación reenviado. Revisa tu bandeja de entrada.",
-        "google_login": "Continuar con Google",
+        "google_login": "Ingresar / Registrarse con Google",
         "forgot_password": "¿Olvidaste tu contraseña?",
         "remember_me": "Recordar datos"
     },

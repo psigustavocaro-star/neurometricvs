@@ -1586,7 +1586,7 @@
         "error_prefix": "Login error",
         "check_email": "Check your email to continue sign in process",
         "confirmation_resent": "Confirmation email resent. Check your inbox.",
-        "google_login": "Continue with Google",
+        "google_login": "Login / Sign up with Google",
         "forgot_password": "Forgot your password?",
         "remember_me": "Remember me"
     },
