@@ -482,10 +482,21 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                         <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Esta acción no se puede deshacer. Esto borrará permanentemente tu cuenta de Neurometrics. <br /><br />
-                                        <span className="font-bold text-rose-600 dark:text-rose-400">Si tienes una suscripción paga activa, también será cancelada inmediatamente y perderás el acceso restante.</span>
+                                    <AlertDialogTitle>¿Estás completamente seguro de eliminar tu cuenta?</AlertDialogTitle>
+                                    <AlertDialogDescription className="space-y-3">
+                                        <p>Esta acción no se puede deshacer. Esto borrará permanentemente todos tus datos de la plataforma.</p>
+
+                                        {!isBasicActive ? (
+                                            <p className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-800 dark:text-rose-400 rounded-lg text-sm font-semibold">
+                                                ⚠️ Tienes un plan de pago. Al eliminar tu cuenta, tu suscripción se cancelará de forma inmediata y perderás el tiempo que ya habías pagado.
+                                                <br /><br />
+                                                Si solo deseas detener los cobros, es mejor que cierres esta ventana y uses el botón "Cancelar Suscripción" en la pestaña de Facturación.
+                                            </p>
+                                        ) : (
+                                            <p className="font-medium text-rose-600 dark:text-rose-400">
+                                                Perderás todos los historiales y registros de tus pacientes para siempre.
+                                            </p>
+                                        )}
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
