@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LanguageToggle } from "@/components/layout/language-toggle"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
+import { UpgradePopup } from "@/components/dashboard/upgrade-popup"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { AdminTools } from '@/components/admin/admin-tools'
@@ -204,6 +205,7 @@ export function AppShell({ children, user, plan }: AppShellProps) {
             <div className="fixed bottom-4 right-4 z-[40]">
                 <NeurometricaSupportBot />
             </div>
+            <UpgradePopup plan={effectivePlan ?? ''} />
             <AdminTools />
         </div>
     )

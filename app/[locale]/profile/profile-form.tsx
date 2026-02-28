@@ -1,6 +1,6 @@
 'use client'
 
-import { updateProfile } from './actions'
+import { updateProfile, deleteAccount } from './actions'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/ui/password-input"
@@ -73,6 +73,11 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [password, setPassword] = useState('')
     const [currentPassword, setCurrentPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+
+    // Derived states
+    const isBasicActive = subscription?.plan === 'basic' || !subscription
     const [loading, setLoading] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -133,9 +138,20 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                 toast.success(t('password_success'))
             }
         }
+        setIsTabLoading(false)
     }
 
-
+    const handleDeleteAccount = async () => {
+        setIsDeleting(true)
+        const result = await deleteAccount()
+        if (result.error) {
+            toast.error(result.error)
+            setIsDeleting(false)
+        } else {
+            toast.success("Cuenta eliminada exitosamente")
+            window.location.href = '/' // force full reload to clean cache and session and redirect
+        }
+    }
 
     const copyId = () => {
         if (user?.id) {
@@ -418,7 +434,58 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
                                     </div>
                                 </CardContent>
                             </Card>
+
+                            <Card className="border-rose-200 dark:border-rose-900/50 bg-rose-50/50 dark:bg-rose-950/20 shadow-none">
+                                <CardHeader className="pb-3 border-b border-rose-100 dark:border-rose-900/50">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-rose-100 dark:bg-rose-900/50 rounded-lg">
+                                            <Shield className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                                        </div>
+                                        <div>
+                                            <CardTitle className="text-rose-700 dark:text-rose-400 text-lg">Zona de Peligro</CardTitle>
+                                        </div>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="pt-6">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                        <div className="space-y-1 text-sm text-rose-600/80 dark:text-rose-400/80">
+                                            <p className="font-semibold text-rose-700 dark:text-rose-400">Eliminar cuenta permanentemente</p>
+                                            <p>Al hacer esto, eliminarás todos tus perfiles clínicos, datos de pacientes, y se cancelará tu suscripción de Neurometrics activa (si tienes alguna). Esta acción no se puede deshacer.</p>
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            className="shrink-0 w-full sm:w-auto"
+                                            onClick={() => setShowDeleteAlert(true)}
+                                        >
+                                            Eliminar Cuenta
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </div>
+
+                        <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Esta acción no se puede deshacer. Esto borrará permanentemente tu cuenta de Neurometrics. <br /><br />
+                                        <span className="font-bold text-rose-600 dark:text-rose-400">Si tienes una suscripción paga activa, también será cancelada inmediatamente y perderás el acceso restante.</span>
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        className="bg-rose-600 hover:bg-rose-700 focus:ring-rose-600"
+                                        onClick={handleDeleteAccount}
+                                        disabled={isDeleting}
+                                    >
+                                        {isDeleting ? "Eliminando..." : "Sí, Eliminar mi cuenta"}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </TabsContent>
 
                     {/* BILLING TAB */}

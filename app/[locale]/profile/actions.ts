@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function updateProfile(formData: FormData) {
     const supabase = await createClient()
@@ -80,4 +81,29 @@ export async function updateProfile(formData: FormData) {
 
     revalidatePath('/profile')
     return { success: true, emailChanged: !!updates.email }
+}
+
+export async function deleteAccount() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        return { error: 'No autorizado' }
+    }
+
+    // Here we could try to call Paddle API if there's a stored active subscription 
+    // to cancel it securely, but Paddle doesn't have native cancel-by-email cleanly without subscription ID. 
+    // In many cases, Paddle manages recurring billing via the webhooks, or we notify manual cancel.
+    // For now, destroying the supabase user will break app access, so we do it with admin.
+
+    const adminAuthClient = createAdminClient()
+    const { error } = await adminAuthClient.auth.admin.deleteUser(user.id)
+
+    if (error) {
+        return { error: error.message }
+    }
+
+    // Sign out to clean up local cookies
+    await supabase.auth.signOut()
+    return { success: true }
 }
