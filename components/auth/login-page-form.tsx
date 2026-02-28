@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { PasswordInput } from '@/components/ui/password-input'
 import { useTranslations } from 'next-intl'
+import { GoogleLoginButton } from './google-login-button'
 
 export function LoginPageForm() {
     const t = useTranslations('Login')
@@ -76,6 +77,17 @@ export function LoginPageForm() {
                 <Button type="submit" className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white shadow-lg shadow-teal-500/20 border-0 h-11">
                     {t('submit_button')}
                 </Button>
+
+                <div className="relative my-4 py-2">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                        <span className="bg-white/50 dark:bg-slate-950/50 px-2 text-slate-500 uppercase font-bold tracking-widest">O continuar con</span>
+                    </div>
+                </div>
+
+                <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-900 border-slate-200 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800 font-bold shadow-sm" />
             </div>
         </form>
     )

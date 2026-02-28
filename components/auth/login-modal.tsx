@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { loginAction, signupAction, resendAction } from '@/app/[locale]/actions/auth'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Loader2 } from 'lucide-react'
+import { GoogleLoginButton } from './google-login-button'
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
     const { pending } = useFormStatus()
@@ -140,6 +141,17 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
                             </div>
 
                             <SubmitButton>Ingresar</SubmitButton>
+
+                            <div className="relative my-4">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                                </div>
+                                <div className="relative flex justify-center text-xs">
+                                    <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 uppercase font-semibold tracking-wider">O continuar con</span>
+                                </div>
+                            </div>
+
+                            <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold" />
                         </form>
 
                     </TabsContent>
@@ -179,6 +191,18 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
                                     />
                                 </div>
                                 <SubmitButton>Crear Cuenta</SubmitButton>
+
+                                <div className="relative my-4">
+                                    <div className="absolute inset-0 flex items-center">
+                                        <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                                    </div>
+                                    <div className="relative flex justify-center text-xs">
+                                        <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 uppercase font-semibold tracking-wider">O continuar con</span>
+                                    </div>
+                                </div>
+
+                                <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold" />
+
                                 <p className="text-xs text-center text-gray-500 dark:text-gray-400">
                                     Para registro completo con perfil profesional, visita{' '}
                                     <a href="/onboarding" className="text-teal-600 dark:text-teal-400 hover:underline">onboarding</a>
