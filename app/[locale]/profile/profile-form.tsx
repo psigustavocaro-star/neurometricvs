@@ -1,6 +1,6 @@
 'use client'
 
-import { updateProfile, deleteAccount } from './actions'
+import { updateProfile, deleteAccount, cancelSubscription } from './actions'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/ui/password-input"
@@ -75,6 +75,8 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
     const [confirmPassword, setConfirmPassword] = useState('')
     const [isDeleting, setIsDeleting] = useState(false)
     const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+    const [isCancelingAuth, setIsCancelingAuth] = useState(false)
+    const [showCancelAlert, setShowCancelAlert] = useState(false)
 
     // Derived states
     const isBasicActive = subscription?.plan === 'basic' || !subscription
@@ -150,6 +152,18 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
         } else {
             toast.success("Cuenta eliminada exitosamente")
             window.location.href = '/' // force full reload to clean cache and session and redirect
+        }
+    }
+
+    const handleCancelSubscription = async () => {
+        setIsCancelingAuth(true)
+        const result = await cancelSubscription()
+        if (result.error) {
+            toast.error(result.error)
+            setIsCancelingAuth(false)
+        } else {
+            toast.success("Suscripción cancelada exitosamente")
+            window.location.reload()
         }
     }
 
@@ -660,6 +674,50 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                 </Card>
                             </motion.div>
                         </div>
+
+                        {!isBasicActive && currentPlan !== 'basic' && (
+                            <div className="mt-8 max-w-6xl mx-auto">
+                                <Card className="border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 shadow-none">
+                                    <CardContent className="pt-6">
+                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                            <div className="space-y-1 text-sm text-amber-900/80 dark:text-amber-500/80">
+                                                <p className="font-semibold text-amber-700 dark:text-amber-500">¿Deseas dar de baja tu plan pago?</p>
+                                                <p>Al cancelar, conservarás todos los beneficios de tu plan actual hasta el final del periodo facturado. Luego, volverás automáticamente al Plan Básico (Gratis) sin perder tu cuenta.</p>
+                                            </div>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                className="shrink-0 w-full sm:w-auto border-amber-300 text-amber-700 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-900/50"
+                                                onClick={() => setShowCancelAlert(true)}
+                                            >
+                                                Cancelar Suscripción
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        )}
+
+                        <AlertDialog open={showCancelAlert} onOpenChange={setShowCancelAlert}>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Cancelar Suscripción</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Tu cuenta Premium seguirá activa hasta que termine el periodo de ciclo actual pero ya no generaremos nuevos cobros a tu tarjeta. ¿Continuar con la cancelación?
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Volver</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        className="bg-amber-600 hover:bg-amber-700 focus:ring-amber-600"
+                                        onClick={handleCancelSubscription}
+                                        disabled={isCancelingAuth}
+                                    >
+                                        {isCancelingAuth ? "Procesando..." : "Sí, Cancelar pago automático"}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </TabsContent>
 
                     {/* Common Action Bar */}

@@ -127,3 +127,42 @@ export async function deleteAccount() {
     await supabase.auth.signOut()
     return { success: true }
 }
+
+export async function cancelSubscription() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        return { error: 'No autorizado' }
+    }
+
+    try {
+        const { data: subscription } = await supabase
+            .from('subscriptions')
+            .select('*')
+            .eq('user_id', user.id)
+            .single()
+
+        if (!subscription || !subscription.stripe_subscription_id) {
+            return { error: 'No se encontró una suscripción activa.' }
+        }
+
+        // Cancel the subscription in Paddle effectively at the end of the billing period
+        await paddle.subscriptions.cancel(subscription.stripe_subscription_id, {
+            effectiveFrom: 'next_billing_period'
+        })
+
+        // Update local DB to reflect status intent. Wait for webhook to fully downgrade.
+        await supabase
+            .from('subscriptions')
+            .update({ status: 'canceled' })
+            .eq('user_id', user.id)
+
+        revalidatePath('/profile')
+        return { success: true }
+
+    } catch (e: any) {
+        console.error("Error canceling subscription:", e)
+        return { error: e.message || 'Error al cancelar la suscripción. Por favor contacta a soporte.' }
+    }
+}
