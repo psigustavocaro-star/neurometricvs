@@ -6,31 +6,37 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Users, FileText, FlaskConical, Bot, CheckCircle2, ChevronRight, X } from 'lucide-react'
+import { useRouter } from '@/i18n/navigation'
 
 const TOUR_STEPS = [
     {
         title: "¡Bienvenido a Neurometrics!",
         description: "Tu nueva central clínica está lista. Te daremos un recorrido rapidísimo de 3 pasos para que aprendas a usarla al máximo.",
-        icon: <Bot className="w-12 h-12 text-teal-500" />
+        icon: <Bot className="w-12 h-12 text-teal-500" />,
+        path: "/dashboard"
     },
     {
         title: "1. Agrega a tus pacientes",
         description: "En la sección 'Pacientes' puedes registrar a las personas que atiendes. Toda su historia, documentos y tests vivirán ahí de forma segura y centralizada.",
-        icon: <Users className="w-12 h-12 text-blue-500" />
+        icon: <Users className="w-12 h-12 text-blue-500" />,
+        path: "/patients"
     },
     {
         title: "2. Evaluaciones Validadas",
         description: "Ve a 'Tests' para ver el catálogo de pruebas psicométricas. Puedes enviar links para que los llenen en casa o aplicarlos tú mismo en la consulta.",
-        icon: <FlaskConical className="w-12 h-12 text-purple-500" />
+        icon: <FlaskConical className="w-12 h-12 text-purple-500" />,
+        path: "/dashboard/tests"
     },
     {
         title: "3. Informes Automáticos",
         description: "Neurometrics analiza los resultados en segundos y redacta informes pre-completados con Inteligencia Artificial. ¡Solo debes firmar!",
-        icon: <FileText className="w-12 h-12 text-amber-500" />
+        icon: <FileText className="w-12 h-12 text-amber-500" />,
+        path: "/dashboard"
     }
 ]
 
 export function WelcomeTour() {
+    const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
     const [step, setStep] = useState(0)
 
@@ -45,7 +51,9 @@ export function WelcomeTour() {
 
     const handleNext = () => {
         if (step < TOUR_STEPS.length - 1) {
-            setStep(s => s + 1)
+            const nextStep = step + 1;
+            setStep(nextStep)
+            router.push(TOUR_STEPS[nextStep].path)
         } else {
             handleComplete()
         }
@@ -54,6 +62,7 @@ export function WelcomeTour() {
     const handleComplete = () => {
         localStorage.setItem('neurometrics_tour_done', 'true')
         setIsOpen(false)
+        router.push('/dashboard')
     }
 
     if (!isOpen) return null
