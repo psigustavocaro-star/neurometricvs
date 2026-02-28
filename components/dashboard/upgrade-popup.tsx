@@ -68,7 +68,7 @@ export function UpgradePopup({ plan }: { plan: string }) {
                         </div>
 
                         <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <Link href="/profile" className="w-full">
+                            <Link href="/profile?tab=billing" className="w-full">
                                 <Button className="w-full bg-teal-600 hover:bg-teal-700 text-white shadow-sm h-9 text-xs">
                                     Comenzar mis 7 días gratis <ChevronRight className="w-3 h-3 ml-1" />
                                 </Button>

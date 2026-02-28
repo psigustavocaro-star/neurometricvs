@@ -57,7 +57,7 @@ import {
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
-export function ProfileForm({ profile, subscription, user }: { profile: any, subscription?: any, user?: any }) {
+export function ProfileForm({ profile, subscription, user, initialTab = 'profile' }: { profile: any, subscription?: any, user?: any, initialTab?: string }) {
     const t = useTranslations('Profile')
 
     const currentPlan = subscription?.plan || 'basic'
@@ -83,7 +83,7 @@ export function ProfileForm({ profile, subscription, user }: { profile: any, sub
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [pendingSpecialty, setPendingSpecialty] = useState('')
     const [selectedPlan, setSelectedPlan] = useState(currentPlan)
-    const [activeTab, setActiveTab] = useState('profile')
+    const [activeTab, setActiveTab] = useState(initialTab)
     const [isTabLoading, setIsTabLoading] = useState(false)
 
     const { theme, setTheme } = useTheme()

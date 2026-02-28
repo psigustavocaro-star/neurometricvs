@@ -2,8 +2,12 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from '@/i18n/navigation'
 import { ProfileForm } from "./profile-form"
 
-export default async function ProfilePage({ params }: { params: Promise<{ locale: string }> }) {
-    const { locale } = await params
+export default async function ProfilePage(
+    props: { params: Promise<{ locale: string }>; searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
+) {
+    const { locale } = await props.params
+    const searchParams = await props.searchParams
+    const initialTab = typeof searchParams?.tab === 'string' ? searchParams.tab : 'profile'
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -33,6 +37,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ locale
                     profile={profile}
                     subscription={subscription}
                     user={user}
+                    initialTab={initialTab}
                 />
             </div>
         </div>
