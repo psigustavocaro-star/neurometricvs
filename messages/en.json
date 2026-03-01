@@ -25,7 +25,8 @@
         "sign_out": "Sign Out",
         "expand": "Expand",
         "collapse": "Collapse",
-        "logout": "Log Out"
+        "logout": "Log Out",
+        "start_tour": "Start Tour"
     },
     "VerticalNavbar": {
         "hero": "Home",

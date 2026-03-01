@@ -47,7 +47,8 @@
         "sign_out": "Cerrar Sesión",
         "expand": "Expandir",
         "collapse": "Colapsar",
-        "logout": "Cerrar Sesión"
+        "logout": "Cerrar Sesión",
+        "start_tour": "Iniciar Tour"
     },
     "VerticalNavbar": {
         "hero": "Inicio",
