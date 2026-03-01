@@ -32,7 +32,7 @@ export default async function DashboardLayout({
     }
 
     return (
-        <AppShell user={user} plan={plan}>
+        <AppShell user={user} plan={plan} profile={profile}>
             <WelcomeTour />
             {children}
         </AppShell>

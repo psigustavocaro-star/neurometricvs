@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useState } from 'react'
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { cn } from "@/lib/utils"
+import { cn, getUserDisplayData } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LanguageToggle } from "@/components/layout/language-toggle"
@@ -32,10 +32,11 @@ import {
 interface AppShellProps {
     children: React.ReactNode
     user?: User | null
+    profile?: any
     plan?: string
 }
 
-export function AppShell({ children, user, plan }: AppShellProps) {
+export function AppShell({ children, user, profile, plan }: AppShellProps) {
     const t = useTranslations('Navbar')
     const locale = useLocale()
     const pathname = usePathname()
@@ -54,6 +55,8 @@ export function AppShell({ children, user, plan }: AppShellProps) {
     // Admin Simulation
     const { currentPlan, isSimulating } = useAdminStore()
     const effectivePlan = isSimulating ? currentPlan : plan
+
+    const displayData = getUserDisplayData(user, profile)
 
     const navLinks = [
         { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
@@ -131,6 +134,36 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
                 {/* Right: User Actions */}
                 <div className="flex items-center gap-3">
+
+                    {/* User Greeting (Desktop) */}
+                    {user && (
+                        <div className="hidden xl:flex items-center gap-2.5 mr-1 pr-4 border-r border-border/40">
+                            <div className="flex flex-col items-end pt-0.5">
+                                <span className="text-[10px] uppercase font-bold text-muted-foreground/80 tracking-widest leading-none mb-0.5">
+                                    BIENVENIDO
+                                </span>
+                                <span className="text-sm font-extrabold text-foreground tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-teal-700 to-teal-500 dark:from-teal-400 dark:to-cyan-400">
+                                    {displayData.displayName}
+                                </span>
+                            </div>
+
+                            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-white dark:border-slate-900 flex items-center justify-center overflow-hidden shrink-0 shadow-md ring-2 ring-teal-500/20 dark:ring-teal-400/20 relative">
+                                {displayData.avatarUrl ? (
+                                    <Image
+                                        src={displayData.avatarUrl}
+                                        alt={displayData.displayName}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                ) : (
+                                    <span className="text-[15px] font-black text-teal-600 dark:text-cyan-400 tracking-tighter">
+                                        {displayData.initials}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     <Link href="/">
                         <Button
                             variant="ghost"
