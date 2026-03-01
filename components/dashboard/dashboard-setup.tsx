@@ -70,11 +70,13 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
             return
         }
 
-        // 2. Open Paddle Checkout if not basic (free plan)
-        if (paddle && formData.plan !== 'basic') {
+        // 2. Open Paddle Checkout if not free plan
+        if (paddle && formData.plan !== 'free') {
             try {
-                let priceId = PRICE_ID_PRO?.trim()
-                if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL?.trim()
+                let priceId = '';
+                if (formData.plan === 'pro') priceId = PRICE_ID_PRO?.trim()
+                else if (formData.plan === 'clinical') priceId = PRICE_ID_CLINICAL?.trim()
+                else if (formData.plan === 'basic') priceId = PRICE_ID_BASIC?.trim()
 
                 if (priceId) {
                     paddle.Checkout.open({
@@ -96,7 +98,7 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
             }
         }
 
-        // If basic plan or no paddle, just jump into dashboard
+        // If free plan or no paddle, just jump into dashboard
         setIsComplete(true)
         setTimeout(() => {
             window.location.href = '/dashboard'
@@ -215,9 +217,10 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
                                     <motion.div key="s1" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-5 mt-4">
                                         <div className="grid gap-4">
                                             {[
-                                                { id: 'basic', name: 'Básico (Gratis)', desc: 'Gestión de pacientes esencial', price: '0.00 / mes', icon: <Brain className="w-5 h-5 text-slate-500" /> },
-                                                { id: 'clinical', name: 'Plan Clínico', desc: 'Tests guiados y análisis avanzado', price: '15.00 / mes', icon: <Activity className="w-5 h-5 text-teal-600 dark:text-teal-400" /> },
-                                                { id: 'pro', name: 'Plan Pro Anual (Más Popular)', desc: 'IA completa, informes automáticos y soporte prioritario', price: '65.00 / año', icon: <Sparkles className="w-5 h-5 text-amber-500" /> }
+                                                { id: 'free', name: 'Gratis', desc: 'Modo Lectura / Exploración', price: '0 / mes', icon: <Brain className="w-5 h-5 text-slate-500" /> },
+                                                { id: 'basic', name: 'Básico', desc: 'Acceso completo para comenzar', price: '10 / mes', icon: <CheckCircle2 className="w-5 h-5 text-teal-500" /> },
+                                                { id: 'clinical', name: 'Plan Clínico', desc: 'Tests guiados y análisis avanzado', price: '15 / mes', icon: <Activity className="w-5 h-5 text-teal-600 dark:text-teal-400" /> },
+                                                { id: 'pro', name: 'Plan Pro Anual (Más Popular)', desc: 'IA completa, informes automáticos y soporte prioritario', price: '65 / año', icon: <Sparkles className="w-5 h-5 text-amber-500" /> }
                                             ].map((p) => (
                                                 <div
                                                     key={p.id}
