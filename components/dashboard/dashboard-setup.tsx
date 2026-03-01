@@ -44,6 +44,12 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
     const nextStep = () => setStep(prev => prev + 1)
     const prevStep = () => setStep(prev => prev - 1)
 
+    const handleCancelSetup = async () => {
+        const supabase = createClient()
+        await supabase.auth.signOut()
+        router.push('/')
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (step !== 1) return
@@ -202,14 +208,24 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
                                             </div>
                                         </div>
 
-                                        <Button
-                                            type="button"
-                                            onClick={nextStep}
-                                            disabled={!formData.name || !formData.specialty || !formData.registryNumber}
-                                            className="w-full mt-6 h-11 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 font-semibold"
-                                        >
-                                            Continuar <ChevronRight className="ml-2 w-4 h-4" />
-                                        </Button>
+                                        <div className="flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 mt-6">
+                                            <Button
+                                                type="button"
+                                                onClick={handleCancelSetup}
+                                                variant="outline"
+                                                className="px-6 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
+                                            >
+                                                Volver
+                                            </Button>
+                                            <Button
+                                                type="button"
+                                                onClick={nextStep}
+                                                disabled={!formData.name || !formData.specialty || !formData.registryNumber}
+                                                className="flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 font-semibold"
+                                            >
+                                                Continuar <ChevronRight className="ml-2 w-4 h-4" />
+                                            </Button>
+                                        </div>
                                     </motion.div>
                                 )}
 
@@ -267,7 +283,7 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
                                                 disabled={isLoading}
                                                 className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold h-10 shadow-lg shadow-teal-600/20"
                                             >
-                                                {isLoading ? "Procesando..." : (formData.plan === 'basic' ? "Finalizar Configuración" : "Proceder al Pago")}
+                                                {isLoading ? "Procesando..." : (formData.plan === 'free' ? "Finalizar Configuración" : "Proceder al Pago")}
                                             </Button>
                                         </div>
                                     </motion.div>
