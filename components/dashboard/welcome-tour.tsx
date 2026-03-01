@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Users, FileText, FlaskConical, Bot, CheckCircle2, ChevronRight, X } from 'lucide-react'
 import { useRouter } from '@/i18n/navigation'
 
@@ -73,6 +73,7 @@ export function WelcomeTour() {
             setIsOpen(open)
         }}>
             <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-transparent border-none shadow-none" showCloseButton={false}>
+                <DialogTitle className="sr-only">Recorrido de Bienvenida</DialogTitle>
                 <div className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative">
 
                     {/* Progress Bar */}
