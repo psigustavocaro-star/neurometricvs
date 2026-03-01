@@ -26,6 +26,7 @@ import {
     LogOut,
     Menu,
     X,
+    Globe,
 } from "lucide-react"
 
 interface AppShellProps {
@@ -130,6 +131,17 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
                 {/* Right: User Actions */}
                 <div className="flex items-center gap-3">
+                    <Link href="/">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="hidden lg:flex items-center gap-2 text-muted-foreground hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/10 transition-colors rounded-xl px-3 h-9"
+                        >
+                            <Globe className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider">Web Principal</span>
+                        </Button>
+                    </Link>
+
                     <div className="flex items-center gap-1 bg-muted/30 dark:bg-muted/10 rounded-xl p-1 border border-border/20">
                         <ThemeToggle />
                         <div className="w-px h-3 bg-border/40" />
@@ -178,6 +190,18 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                                 {link.name}
                             </InstantLink>
                         ))}
+
+                        <div className="h-px bg-slate-200 dark:bg-slate-800 my-2" />
+
+                        <Link
+                            href="/"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium"
+                        >
+                            <Globe className="w-5 h-5" />
+                            Web Principal
+                        </Link>
+
                         <div className="pt-4 border-t flex items-center justify-between">
                             <div className="flex gap-2">
                                 <ThemeToggle />
