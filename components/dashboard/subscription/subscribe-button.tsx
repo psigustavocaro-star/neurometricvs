@@ -74,6 +74,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
 
     return (
         <Button
+            type="button"
             variant={isActive ? 'outline' : variant}
             disabled={isActive || loading}
             className={className}
