@@ -39,9 +39,9 @@ export default async function SubscriptionPage() {
                 {/* Basic Plan */}
                 <Card className={cn(
                     "transition-all duration-300",
-                    currentPlan === 'basic' ? 'border-primary border-2 relative scale-105 z-10' : ''
+                    currentPlan === 'free' ? 'border-primary border-2 relative scale-105 z-10' : ''
                 )}>
-                    {currentPlan === 'basic' && (
+                    {currentPlan === 'free' && (
                         <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-bl">{t('active_badge')}</div>
                     )}
                     <CardHeader>
