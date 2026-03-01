@@ -283,7 +283,7 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
 
             {/* Floating Tools */}
             <WelcomeTour />
-            <div className="fixed bottom-4 right-4 z-[40]">
+            <div className="fixed bottom-4 right-4 z-[60]">
                 <NeurometricaSupportBot />
             </div>
             <UpgradePopup plan={effectivePlan ?? ''} />
