@@ -90,19 +90,19 @@ export function AppShell({ children, user, plan }: AppShellProps) {
                 )}
             >
                 {/* Left: Logo */}
-                <Link href="/dashboard" className="flex items-center gap-3 group">
-                    <div className="relative w-8 h-8 shrink-0 transition-transform duration-300 group-hover:scale-110">
+                <Link href="/dashboard" className="flex items-center gap-3.5 group">
+                    <div className="relative w-10 h-10 shrink-0 transition-transform duration-300 group-hover:scale-110">
                         <Image
                             src="/neurometrics-logo-small.png"
                             alt="Neurometrics"
-                            width={32}
-                            height={32}
+                            width={40}
+                            height={40}
                             className="object-contain drop-shadow-sm"
                         />
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-bold text-foreground text-sm tracking-tight leading-none group-hover:text-primary transition-colors">Neurometrics</span>
-                        <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Workstation</span>
+                        <span className="font-extrabold text-foreground text-base tracking-tight leading-none group-hover:text-primary transition-colors">Neurometrics</span>
+                        <span className="text-[10px] text-teal-600 dark:text-teal-500 font-extrabold uppercase tracking-widest mt-0.5">Workstation</span>
                     </div>
                 </Link>
 
@@ -163,9 +163,9 @@ export function AppShell({ children, user, plan }: AppShellProps) {
 
             {/* Mobile Header (Visible only on small screens) */}
             <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 z-50 flex items-center justify-between px-4">
-                <Link href="/dashboard" className="flex items-center gap-2">
-                    <Image src="/neurometrics-logo-small.png" alt="Logo" width={32} height={32} />
-                    <span className="font-bold text-lg">Neurometrics</span>
+                <Link href="/dashboard" className="flex items-center gap-2.5">
+                    <Image src="/neurometrics-logo-small.png" alt="Logo" width={36} height={36} />
+                    <span className="font-extrabold text-xl tracking-tight">Neurometrics</span>
                 </Link>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2">
                     {isMobileMenuOpen ? <X /> : <Menu />}

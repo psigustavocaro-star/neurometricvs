@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "../globals.css";
 import "../instant-transitions.css";
 import { Providers } from "@/app/providers";
@@ -14,11 +14,10 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
-const fontSans = Plus_Jakarta_Sans({
+const fontSans = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
