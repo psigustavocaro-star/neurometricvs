@@ -25,10 +25,12 @@ export async function GET(request: NextRequest) {
                 }
             }
 
-            return NextResponse.redirect(`${origin}${finalNext}`)
+            const baseRedirectUrl = process.env.NEXT_PUBLIC_BASE_URL || origin;
+            return NextResponse.redirect(`${baseRedirectUrl}${finalNext}`)
         }
     }
 
     // Return the user to an error page with some instructions
-    return NextResponse.redirect(`${origin}/login?error=Could not authenticate user`)
+    const baseRedirectUrl = process.env.NEXT_PUBLIC_BASE_URL || origin;
+    return NextResponse.redirect(`${baseRedirectUrl}/login?error=Could not authenticate user`)
 }
