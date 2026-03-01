@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes"
 import { useState, useEffect, Suspense } from 'react'
 import { OnboardingDialog } from "@/components/onboarding/onboarding-dialog"
 import { useSearchParams } from 'next/navigation'
+import { PaddleProvider } from "@/components/providers/paddle-provider"
 
 function OnboardingManager() {
     const [isOpen, setIsOpen] = useState(false)
@@ -33,6 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <Suspense fallback={null}>
                 <OnboardingManager />
             </Suspense>
+            <PaddleProvider />
         </ThemeProvider>
     )
 }
