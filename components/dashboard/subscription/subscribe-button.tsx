@@ -31,7 +31,9 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
         })
     }, [])
 
-    const handleSubscribe = async () => {
+    const handleSubscribe = async (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
         if (!paddle) {
             toast.error(t('loading_payment'))
             return
