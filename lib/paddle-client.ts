@@ -1,6 +1,6 @@
 'use client';
 
-import { initializePaddle, Paddle } from '@paddle/paddle-js';
+import { initializePaddle, Paddle, Environments } from '@paddle/paddle-js';
 import { PADDLE_CLIENT_TOKEN, PADDLE_ENV } from './config';
 
 let paddlePromise: Promise<Paddle | undefined> | null = null;
@@ -19,7 +19,7 @@ export async function getPaddle() {
             console.log(`[PaddleClient] Initializing in ${PADDLE_ENV} env...`);
             const paddleInstance = await initializePaddle({
                 token: PADDLE_CLIENT_TOKEN,
-                environment: PADDLE_ENV,
+                environment: PADDLE_ENV as "sandbox" | "production",
                 checkout: {
                     settings: {
                         displayMode: "overlay",
