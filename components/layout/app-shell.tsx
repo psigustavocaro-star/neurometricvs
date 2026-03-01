@@ -110,7 +110,7 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
                 </Link>
 
                 {/* Center: Navigation */}
-                <nav className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2">
+                <nav className="hidden lg:flex items-center gap-1.5 mx-auto">
                     {navLinks.map((link) => (
                         <InstantLink
                             key={link.href}
@@ -137,7 +137,7 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
 
                     {/* User Greeting (Desktop) */}
                     {user && (
-                        <div className="hidden xl:flex items-center gap-2.5 mr-1 pr-4 border-r border-border/40">
+                        <div className="hidden xl:flex items-center gap-2.5 mr-1 pr-4 border-r border-border/40 min-w-max">
                             <div className="flex flex-col items-end pt-0.5">
                                 <span className="text-[10px] uppercase font-bold text-muted-foreground/80 tracking-widest leading-none mb-0.5">
                                     BIENVENIDO
