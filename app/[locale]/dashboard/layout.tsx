@@ -1,7 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardSetup } from "@/components/dashboard/dashboard-setup"
-import { WelcomeTour } from "@/components/dashboard/welcome-tour"
 
 export default async function DashboardLayout({
     children,
@@ -33,7 +32,6 @@ export default async function DashboardLayout({
 
     return (
         <AppShell user={user} plan={plan} profile={profile}>
-            <WelcomeTour />
             {children}
         </AppShell>
     )

@@ -47,6 +47,14 @@ export function WelcomeTour() {
             const timer = setTimeout(() => setIsOpen(true), 1500)
             return () => clearTimeout(timer)
         }
+
+        const handleStartTour = () => {
+            setStep(0)
+            setIsOpen(true)
+        }
+
+        window.addEventListener('start-tour', handleStartTour)
+        return () => window.removeEventListener('start-tour', handleStartTour)
     }, [])
 
     const handleNext = () => {

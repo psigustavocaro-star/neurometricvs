@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LanguageToggle } from "@/components/layout/language-toggle"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
+import { WelcomeTour } from "@/components/dashboard/welcome-tour"
 import { UpgradePopup } from "@/components/dashboard/upgrade-popup"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/supabase-js"
@@ -27,6 +28,7 @@ import {
     Menu,
     X,
     Globe,
+    HelpCircle,
 } from "lucide-react"
 
 interface AppShellProps {
@@ -175,6 +177,16 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
                         </Button>
                     </Link>
 
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => window.dispatchEvent(new Event('start-tour'))}
+                        className="text-muted-foreground hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/10 transition-colors rounded-xl px-2 h-9"
+                        title={t('start_tour') || "Iniciar Tour"}
+                    >
+                        <HelpCircle className="w-4 h-4" />
+                    </Button>
+
                     <div className="flex items-center gap-1 bg-muted/30 dark:bg-muted/10 rounded-xl p-1 border border-border/20">
                         <ThemeToggle />
                         <div className="w-px h-3 bg-border/40" />
@@ -235,6 +247,17 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
                             Web Principal
                         </Link>
 
+                        <button
+                            onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                window.dispatchEvent(new Event('start-tour'));
+                            }}
+                            className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium"
+                        >
+                            <HelpCircle className="w-5 h-5" />
+                            {t('start_tour') || "Iniciar Tour"}
+                        </button>
+
                         <div className="pt-4 border-t flex items-center justify-between">
                             <div className="flex gap-2">
                                 <ThemeToggle />
@@ -259,6 +282,7 @@ export function AppShell({ children, user, profile, plan }: AppShellProps) {
             </main>
 
             {/* Floating Tools */}
+            <WelcomeTour />
             <div className="fixed bottom-4 right-4 z-[40]">
                 <NeurometricaSupportBot />
             </div>
