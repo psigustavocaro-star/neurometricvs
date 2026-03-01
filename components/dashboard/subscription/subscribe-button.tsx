@@ -15,9 +15,10 @@ interface SubscribeButtonProps {
     variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
     className?: string
     userId?: string
+    userEmail?: string
 }
 
-export function SubscribeButton({ planId, price, planName, currentPlan, variant = 'default', className, userId }: SubscribeButtonProps) {
+export function SubscribeButton({ planId, price, planName, currentPlan, variant = 'default', className, userId, userEmail }: SubscribeButtonProps) {
     const [loading, setLoading] = useState(false)
     const [paddle, setPaddle] = useState<any>()
     const t = useTranslations('Dashboard.Subscription')
@@ -36,18 +37,19 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
             return
         }
 
-        const priceId = planId === 'pro' ? PRICE_ID_PRO :
+        const priceId = (planId === 'pro' ? PRICE_ID_PRO :
             planId === 'clinical' ? PRICE_ID_CLINICAL :
-                planId === 'basic' ? PRICE_ID_BASIC : ''
+                planId === 'basic' ? PRICE_ID_BASIC : '')?.trim()
 
         if (!priceId) {
-            toast.error(t('price_config_not_found'))
+            toast.error("Error de configuración externa de precios.")
             return
         }
 
         try {
             setLoading(true)
-            paddle.Checkout.open({
+
+            const advancedOptions: any = {
                 items: [{ priceId, quantity: 1 }],
                 customData: { userId: userId || '' },
                 settings: {
@@ -55,7 +57,13 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
                     theme: 'light',
                     allowDiscount: true
                 }
-            })
+            }
+
+            if (userEmail) {
+                advancedOptions.customer = { email: userEmail }
+            }
+
+            paddle.Checkout.open(advancedOptions)
         } catch (error) {
             console.error("Paddle Checkout Error:", error)
             toast.error(t('error_starting'))

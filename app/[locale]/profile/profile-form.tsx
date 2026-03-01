@@ -563,6 +563,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                             currentPlan={currentPlan}
                                             className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-md transition-all ${selectedPlan === 'basic' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
                                             userId={user?.id}
+                                            userEmail={user?.email}
                                         />
                                     </CardFooter>
                                 </Card>
@@ -616,6 +617,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                             currentPlan={currentPlan}
                                             className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-lg transition-all ${selectedPlan === 'clinical' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
                                             userId={user?.id}
+                                            userEmail={user?.email}
                                         />
                                     </CardFooter>
                                 </Card>
@@ -674,6 +676,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                             currentPlan={currentPlan}
                                             variant="secondary"
                                             userId={user?.id}
+                                            userEmail={user?.email}
                                             className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-xl transition-all ${selectedPlan === 'pro' ? 'bg-white text-slate-900 hover:bg-slate-100' : 'bg-slate-800 text-white'}`}
                                         />
                                     </CardFooter>
