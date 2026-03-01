@@ -21,7 +21,7 @@ export function GoogleLoginButton({ label, className, intent = 'login' }: Google
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/es/auth/callback?intent=${intent}`,
+                redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL || window.location.origin}/es/auth/callback?intent=${intent}`,
                 queryParams: {
                     access_type: 'offline',
                     prompt: 'consent',
