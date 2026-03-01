@@ -11,6 +11,7 @@ interface Article {
     title: string
     description: string
     url: string
+    imageUrl?: string | null
     source: { name: string }
     category?: string
     publishedAt: string
@@ -130,9 +131,15 @@ export function ResourcesSection() {
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-muted/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                                 <div className="shrink-0 mt-1">
-                                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/20 transition-colors">
-                                        <Activity className="w-5 h-5 text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                                    </div>
+                                    {article.imageUrl ? (
+                                        <div className="w-12 h-12 rounded-lg overflow-hidden border border-border/50 bg-muted shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                                            <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
+                                        </div>
+                                    ) : (
+                                        <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/20 transition-colors border border-border/50 shrink-0">
+                                            <Activity className="w-5 h-5 text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex flex-col gap-1.5 relative z-10">

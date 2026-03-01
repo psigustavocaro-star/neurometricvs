@@ -7,10 +7,10 @@ export async function GET(request: Request) {
     // Different feeds based on language
     const FEEDS_CONFIG: Record<string, { name: string, url: string, category: string }[]> = {
         es: [
-            { name: 'El País Salud', url: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/salud/portada', category: 'Salud Mental' },
-            { name: 'ABC Salud', url: 'https://www.abc.es/rss/2.0/salud/', category: 'Salud' },
-            { name: 'Mente y Cerebro', url: 'https://www.investigacionyciencia.es/rss/mente-y-cerebro.xml', category: 'Neurociencia' },
-            { name: 'Psicología y Mente', url: 'https://psicologiaymente.com/rss.xml', category: 'Psicología' }
+            { name: 'MedlinePlus Salud Mental', url: 'https://medlineplus.gov/feeds/topics/mentalhealthandbehavior.xml', category: 'Salud Mental' },
+            { name: 'El País Salud', url: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/salud/portada', category: 'Salud' },
+            { name: 'Investigación y Ciencia', url: 'https://www.investigacionyciencia.es/rss/mente-y-cerebro.xml', category: 'Neurociencia' },
+            { name: 'Psiquiatria.com', url: 'https://psiquiatria.com/rss/', category: 'Psiquiatría' }
         ],
         en: [
             { name: 'Psychology Today', url: 'https://www.psychologytoday.com/intl/front/feed', category: 'Psychology' },
@@ -36,6 +36,18 @@ export async function GET(request: Request) {
 
                 if (data.status === 'ok' && data.items) {
                     return data.items.map((item: any) => {
+                        // Extract image if available
+                        let imageUrl = null;
+                        if (item.enclosure && item.enclosure.link) {
+                            imageUrl = item.enclosure.link;
+                        } else if (item.thumbnail) {
+                            imageUrl = item.thumbnail;
+                        } else {
+                            // Try to parse img from description if applicable
+                            const imgMatch = item.description?.match(/<img[^>]+src="([^">]+)"/);
+                            if (imgMatch) imageUrl = imgMatch[1];
+                        }
+
                         // Clean up description
                         let description = item.description || '';
                         description = description.replace(/<[^>]*>/g, '').trim();
@@ -47,6 +59,7 @@ export async function GET(request: Request) {
                             title: item.title,
                             description: description,
                             url: item.link,
+                            imageUrl: imageUrl,
                             source: { name: feed.name },
                             category: feed.category,
                             publishedAt: item.pubDate
