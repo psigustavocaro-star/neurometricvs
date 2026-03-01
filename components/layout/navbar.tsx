@@ -63,9 +63,13 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
             if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
                 if (newUser?.id !== currentUser?.id) {
                     setCurrentUser(newUser)
-                    startTransition(() => {
-                        router.refresh()
-                    })
+                    if (pathname === '/login') {
+                        window.location.href = '/dashboard'
+                    } else {
+                        startTransition(() => {
+                            router.refresh()
+                        })
+                    }
                 }
             } else if (event === 'SIGNED_OUT') {
                 setCurrentUser(null)
@@ -129,6 +133,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                                     <Link
                                         key={link.href}
                                         href={link.href}
+                                        prefetch={link.href === '/dashboard' ? false : undefined}
                                         className={cn(
                                             "px-2 lg:px-3 py-2 rounded-full text-xs lg:text-sm font-medium transition-all duration-200 flex items-center gap-2",
                                             pathname === link.href
@@ -166,7 +171,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         {/* Auth Buttons */}
                         {currentUser ? (
                             <div className="flex items-center gap-3 pl-2">
-                                <Link href="/profile" className="flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full pr-3 pl-1 py-1 transition-colors group">
+                                <Link href="/profile" prefetch={false} className="flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full pr-3 pl-1 py-1 transition-colors group">
                                     <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 bg-teal-50 dark:bg-slate-900 flex items-center justify-center relative">
                                         {currentUser.user_metadata?.avatar_url ? (
                                             <Image
@@ -255,7 +260,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
 
                         {currentUser ? (
                             <>
-                                <Link href="/dashboard" className="px-4 py-4 text-base font-semibold text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 rounded-xl transition-colors flex items-center gap-3 active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link href="/dashboard" prefetch={false} className="px-4 py-4 text-base font-semibold text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 rounded-xl transition-colors flex items-center gap-3 active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
                                     <LayoutDashboard className="w-5 h-5" />
                                     Workstation
                                 </Link>
