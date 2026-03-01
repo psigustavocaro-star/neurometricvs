@@ -53,7 +53,6 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
 
             const advancedOptions: any = {
                 items: [{ priceId, quantity: 1 }],
-                customData: { userId: userId || '' },
                 settings: {
                     displayMode: 'overlay',
                     theme: 'light',
@@ -61,10 +60,15 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
                 }
             }
 
+            if (userId) {
+                advancedOptions.customData = { userId }
+            }
+
             if (userEmail) {
                 advancedOptions.customer = { email: userEmail }
             }
 
+            console.log("Attempting Paddle.Checkout.open with:", advancedOptions)
             paddle.Checkout.open(advancedOptions)
         } catch (error) {
             console.error("Paddle Checkout Error:", error)
