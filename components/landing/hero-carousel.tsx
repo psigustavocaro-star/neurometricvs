@@ -156,7 +156,7 @@ export function HeroCarousel() {
             </div>
 
             {/* Pagination Dots (Optional, subtle) */}
-            <div className="absolute -bottom-12 flex gap-2">
+            <div className="absolute -bottom-12 flex gap-1">
                 {slides.map((_, index) => (
                     <button
                         key={index}
@@ -165,14 +165,16 @@ export function HeroCarousel() {
                             setCurrentSlide(index)
                             setIsAutoPlaying(false)
                         }}
-                        className={cn(
-                            "w-2 h-2 rounded-full transition-all duration-300",
-                            index === currentSlide
-                                ? "bg-teal-600 w-6"
-                                : "bg-slate-300 hover:bg-teal-400"
-                        )}
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-full"
                         aria-label={t('go_to', { index: index + 1 })}
-                    />
+                    >
+                        <span className={cn(
+                            "rounded-full transition-all duration-300",
+                            index === currentSlide
+                                ? "bg-teal-600 w-6 h-2"
+                                : "bg-slate-300 group-hover:bg-teal-400 w-2 h-2"
+                        )} />
+                    </button>
                 ))}
             </div>
         </div>

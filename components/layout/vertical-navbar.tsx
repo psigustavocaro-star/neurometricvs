@@ -64,9 +64,11 @@ export function VerticalNavbar() {
 
                     <button
                         onClick={() => scrollToSection(id)}
+                        aria-label={label}
+                        title={label}
                         className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border ${activeSection === id
                             ? 'bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-600/30 scale-110'
-                            : 'bg-white/10 dark:bg-slate-950/30 backdrop-blur-md border-slate-200/50 dark:border-slate-800/50 text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-200 dark:hover:border-teal-800 hover:bg-teal-50/50 dark:hover:bg-teal-950/30 shadow-sm hover:scale-105'
+                            : 'bg-white/10 dark:bg-slate-950/30 backdrop-blur-md border-slate-200/50 dark:border-slate-800/50 text-slate-500 dark:text-slate-400 hover:text-teal-700 dark:hover:text-teal-400 hover:border-teal-300 dark:hover:border-teal-700 hover:bg-teal-50/50 dark:hover:bg-teal-950/30 shadow-sm hover:scale-105'
                             }`}
                     >
                         <Icon className="w-4 h-4" />

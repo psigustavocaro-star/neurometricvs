@@ -52,11 +52,13 @@ export function ThemeToggle({ isCollapsed }: ThemeToggleProps) {
                 <button
                     key={option.id}
                     onClick={() => setTheme(option.id)}
+                    aria-label={`Theme: ${option.id}`}
+                    title={option.id}
                     className={cn(
                         "relative flex-1 flex items-center justify-center px-1 rounded-md transition-colors z-10",
                         theme === option.id
                             ? "text-teal-600 dark:text-cyan-400"
-                            : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+                            : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
                     )}
                 >
                     <option.icon className={cn("transition-all duration-300", theme === option.id ? "h-4 w-4 scale-110" : "h-4 w-4 group-hover:scale-105")} strokeWidth={theme === option.id ? 2.5 : 2} />

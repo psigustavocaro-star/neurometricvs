@@ -50,7 +50,7 @@ export function LanguageToggle({ isCollapsed }: LanguageToggleProps) {
                             "relative px-2.5 py-1 flex items-center justify-center rounded-md transition-all duration-200 text-[11px] font-bold tracking-wide uppercase",
                             locale === option.id
                                 ? "text-teal-700 dark:text-cyan-400 bg-white dark:bg-slate-800 shadow-sm ring-1 ring-black/5 dark:ring-white/10"
-                                : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50"
+                                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-white/50 dark:hover:bg-slate-800/50"
                         )}
                     >
                         {option.label}
