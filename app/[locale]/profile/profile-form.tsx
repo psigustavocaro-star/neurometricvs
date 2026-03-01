@@ -66,7 +66,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
     const [registry, setRegistry] = useState(profile?.registry_number || '')
     const [phone, setPhone] = useState(profile?.phone || '')
     const [signature, setSignature] = useState(profile?.signature_url || '')
-    const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '')
+    const [avatarUrl, setAvatarUrl] = useState(getUserDisplayData(user, profile).avatarUrl || '')
 
     // Auth State
     const [email, setEmail] = useState(user?.email || '')
