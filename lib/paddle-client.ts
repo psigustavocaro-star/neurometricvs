@@ -24,6 +24,12 @@ export async function getPaddle() {
         paddleInstance = await initializePaddle({
             token: PADDLE_CLIENT_TOKEN,
             environment: PADDLE_ENV,
+            checkout: {
+                settings: {
+                    displayMode: "overlay",
+                    theme: "light"
+                }
+            }
         });
         console.log('[PaddleClient] Initialized successfully');
         return paddleInstance;
