@@ -11,7 +11,7 @@ export default async function DashboardLayout({
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
-    let plan = 'basic'
+    let plan = 'free'
     let profile = null
 
     if (user) {
@@ -20,7 +20,7 @@ export default async function DashboardLayout({
             supabase.from('profiles').select('*').eq('id', user.id).single()
         ])
 
-        plan = subResponse.data?.plan || 'basic'
+        plan = subResponse.data?.plan || 'free'
         profile = profileResponse.data
     }
 

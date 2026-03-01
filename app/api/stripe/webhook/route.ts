@@ -41,7 +41,7 @@ export async function POST(req: Request) {
         }
 
         // Map Stripe Price ID to Plan Name
-        let planName = 'basic'
+        let planName = 'free'
         const priceId = subscription.items.data[0].price.id
 
         if (priceId === process.env.STRIPE_PRICE_ID_PRO) planName = 'pro'

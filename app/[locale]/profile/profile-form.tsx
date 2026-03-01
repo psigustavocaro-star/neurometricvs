@@ -60,7 +60,7 @@ import { useTranslations } from 'next-intl'
 export function ProfileForm({ profile, subscription, user, initialTab = 'profile' }: { profile: any, subscription?: any, user?: any, initialTab?: string }) {
     const t = useTranslations('Profile')
 
-    const currentPlan = subscription?.plan || 'basic'
+    const currentPlan = subscription?.plan || 'free'
     const [fullName, setFullName] = useState(profile?.full_name || '')
     const [specialty, setSpecialty] = useState(profile?.specialty || '')
     const [registry, setRegistry] = useState(profile?.registry_number || '')
@@ -79,7 +79,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
     const [showCancelAlert, setShowCancelAlert] = useState(false)
 
     // Derived states
-    const isBasicActive = subscription?.plan === 'basic' || !subscription
+    const isFreeActive = subscription?.plan === 'free' || !subscription
     const [loading, setLoading] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -481,7 +481,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                     <AlertDialogDescription className="space-y-3">
                                         <p>Esta acción no se puede deshacer. Esto borrará permanentemente todos tus datos de la plataforma.</p>
 
-                                        {!isBasicActive ? (
+                                        {!isFreeActive ? (
                                             <p className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-800 dark:text-rose-400 rounded-lg text-sm font-semibold">
                                                 ⚠️ Tienes un plan de pago. Al eliminar tu cuenta, tu suscripción se cancelará de forma inmediata y perderás el tiempo que ya habías pagado.
                                                 <br /><br />
@@ -513,19 +513,19 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto py-4">
                             {/* Basic */}
                             <motion.div
-                                onClick={() => setSelectedPlan('basic')}
+                                onClick={() => setSelectedPlan('free')}
                                 initial={false}
                                 animate={{
-                                    scale: selectedPlan === 'basic' ? 1.05 : 1,
-                                    zIndex: selectedPlan === 'basic' ? 20 : 10
+                                    scale: selectedPlan === 'free' ? 1.05 : 1,
+                                    zIndex: selectedPlan === 'free' ? 20 : 10
                                 }}
-                                whileHover={{ scale: selectedPlan === 'basic' ? 1.07 : 1.02 }}
+                                whileHover={{ scale: selectedPlan === 'free' ? 1.07 : 1.02 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 className="group relative"
                             >
-                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'basic' ? 'ring-4 ring-teal-500/50 shadow-[0_8px_30px_rgb(20,184,166,0.2)] bg-white dark:bg-slate-900 translate-y-[-8px]' : 'hover:shadow-xl opacity-80 hover:opacity-100 shadow-md bg-slate-50/50 dark:bg-slate-900/50'}`}>
+                                <Card className={`flex flex-col h-full transition-all cursor-pointer relative border-slate-200/60 dark:border-slate-800/60 ${selectedPlan === 'free' ? 'ring-4 ring-teal-500/50 shadow-[0_8px_30px_rgb(20,184,166,0.2)] bg-white dark:bg-slate-900 translate-y-[-8px]' : 'hover:shadow-xl opacity-80 hover:opacity-100 shadow-md bg-slate-50/50 dark:bg-slate-900/50'}`}>
                                     {/* Selection Glow */}
-                                    {selectedPlan === 'basic' && (
+                                    {selectedPlan === 'free' && (
                                         <div className="absolute inset-0 bg-teal-500/5 blur-2xl rounded-2xl -z-10 animate-pulse" />
                                     )}
 
@@ -533,7 +533,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                         <div className="flex justify-between items-start">
                                             <div>
                                                 <div className="flex items-center gap-1.5 mb-1">
-                                                    <div className={`w-1.5 h-1.5 rounded-full ${currentPlan === 'basic' ? 'bg-teal-500' : 'bg-slate-300'}`} />
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${currentPlan === 'free' ? 'bg-teal-500' : 'bg-slate-300'}`} />
                                                     <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-teal-500 transition-colors">Digital Entry</span>
                                                 </div>
                                                 <CardTitle className="text-xl font-black tracking-tight">{t('billing.basic.name')}</CardTitle>
@@ -561,7 +561,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                             price={10}
                                             planName="Basic"
                                             currentPlan={currentPlan}
-                                            className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-md transition-all ${selectedPlan === 'basic' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
+                                            className={`w-full h-10 rounded-xl font-black tracking-wider text-[10px] uppercase shadow-md transition-all ${selectedPlan === 'free' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-500/20' : 'bg-slate-800 hover:bg-slate-900'}`}
                                             userId={user?.id}
                                             userEmail={user?.email}
                                         />
@@ -684,7 +684,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                             </motion.div>
                         </div>
 
-                        {!isBasicActive && currentPlan !== 'basic' && (
+                        {!isFreeActive && currentPlan !== 'free' && (
                             <div className="mt-8 max-w-5xl mx-auto">
                                 <Card className="border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 shadow-none">
                                     <CardContent className="pt-6">

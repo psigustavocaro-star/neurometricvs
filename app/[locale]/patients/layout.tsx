@@ -10,14 +10,14 @@ export default async function PatientsLayout({
     const { data: { user } } = await supabase.auth.getUser()
 
     // Fetch user's plan
-    let plan = 'basic'
+    let plan = 'free'
     if (user) {
         const { data: subscription } = await supabase
             .from('subscriptions')
             .select('plan')
             .eq('user_id', user.id)
             .single()
-        plan = subscription?.plan || 'basic'
+        plan = subscription?.plan || 'free'
     }
 
     return (

@@ -131,7 +131,7 @@ export async function getDashboardStats() {
         recentPatients: allPatients || [],
         allPatients: allPatients || [],
         recentTests: recentTests || [],
-        subscriptionPlan: subscription?.plan || 'basic',
+        subscriptionPlan: subscription?.plan || 'free',
         user_name: profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario',
         avatar_url: profile?.avatar_url,
         sessionsToday: sessionsToday || 0,

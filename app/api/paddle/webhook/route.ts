@@ -37,7 +37,7 @@ export async function POST(req: Request) {
                 // Map Price ID to Plan
                 // Assuming items[0] is the main subscription item
                 const priceId = data.items[0]?.price?.id;
-                let planName = 'basic';
+                let planName = 'free';
 
                 if (priceId === PRICE_ID_PRO) planName = 'pro';
                 else if (priceId === PRICE_ID_CLINICAL) planName = 'clinical';

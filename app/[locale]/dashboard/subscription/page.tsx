@@ -12,7 +12,7 @@ export default async function SubscriptionPage() {
     const { data: { user } } = await supabase.auth.getUser()
     const t = await getTranslations('Dashboard.Subscription')
 
-    let currentPlan = 'basic'
+    let currentPlan = 'free'
 
     if (user) {
         const { data: subscription } = await supabase
