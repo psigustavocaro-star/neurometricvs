@@ -57,7 +57,7 @@ export function UpgradePopup({ plan }: { plan: string }) {
                             <div className="p-2 bg-teal-50 dark:bg-teal-500/10 rounded-xl shrink-0">
                                 <Sparkles className="w-5 h-5 text-teal-600 dark:text-teal-400" />
                             </div>
-                            <div className="space-y-1 mt-0.5">
+                            <div className="space-y-1 mt-0.5 pr-8">
                                 <h4 className="font-bold text-slate-900 dark:text-white leading-tight">
                                     Mejora tu cuenta a Plan Básico
                                 </h4>
