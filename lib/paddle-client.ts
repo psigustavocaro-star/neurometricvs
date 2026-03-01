@@ -3,38 +3,38 @@
 import { initializePaddle, Paddle } from '@paddle/paddle-js';
 import { PADDLE_CLIENT_TOKEN, PADDLE_ENV } from './config';
 
-let paddleInstance: Paddle | undefined;
+let paddlePromise: Promise<Paddle | undefined> | null = null;
 
-/**
- * Get or initialize the Paddle.js instance.
- * Centralizing this ensures we don't have multiple initializations
- * and provides a single place for debugging.
- */
 export async function getPaddle() {
-    if (paddleInstance) return paddleInstance;
+    if (paddlePromise) {
+        return paddlePromise;
+    }
 
-    if (typeof window === 'undefined') return undefined;
-
-    if (!PADDLE_CLIENT_TOKEN) {
+    if (typeof window === 'undefined' || !PADDLE_CLIENT_TOKEN) {
         return undefined;
     }
 
-    try {
-        console.log(`[PaddleClient] Initializing in ${PADDLE_ENV} env...`);
-        paddleInstance = await initializePaddle({
-            token: PADDLE_CLIENT_TOKEN,
-            environment: PADDLE_ENV,
-            checkout: {
-                settings: {
-                    displayMode: "overlay",
-                    theme: "light"
+    paddlePromise = new Promise(async (resolve) => {
+        try {
+            console.log(`[PaddleClient] Initializing in ${PADDLE_ENV} env...`);
+            const paddleInstance = await initializePaddle({
+                token: PADDLE_CLIENT_TOKEN,
+                environment: PADDLE_ENV,
+                checkout: {
+                    settings: {
+                        displayMode: "overlay",
+                        theme: "light",
+                        allowDiscount: true
+                    }
                 }
-            }
-        });
-        console.log('[PaddleClient] Initialized successfully');
-        return paddleInstance;
-    } catch (error) {
-        console.error('[PaddleClient] Failed to initialize:', error);
-        return undefined;
-    }
+            });
+            console.log('[PaddleClient] Initialized successfully');
+            resolve(paddleInstance);
+        } catch (error) {
+            console.error('[PaddleClient] Failed to initialize:', error);
+            resolve(undefined);
+        }
+    });
+
+    return paddlePromise;
 }
