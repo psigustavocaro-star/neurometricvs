@@ -5,6 +5,28 @@
         "go_home": "Go Home",
         "go_dashboard": "Go to Workstation"
     },
+    "ForgotPassword": {
+        "title": "Recover Password",
+        "description": "Enter your email and we'll send you a link to reset your password.",
+        "email_label": "Email Address",
+        "email_placeholder": "you@email.com",
+        "submit_button": "Send Link",
+        "back_to_login": "Back to Login",
+        "success_title": "Email Sent!",
+        "success_message": "Check your inbox to reset your password.",
+        "error_prefix": "Error"
+    },
+    "ResetPassword": {
+        "title": "New Password",
+        "description": "Enter your new password. Make sure it's secure.",
+        "password_label": "New Password",
+        "confirm_label": "Confirm Password",
+        "submit_button": "Update Password",
+        "success_title": "Password Updated!",
+        "success_message": "Your password has been successfully updated.",
+        "go_to_login": "Go to Login",
+        "error_mismatch": "Passwords do not match"
+    },
     "Navbar": {
         "features": "What We Offer",
         "pricing": "Pricing",
@@ -1694,7 +1716,7 @@
             "access_title": "Access and Authentication",
             "access_body": "We use secure authentication via Supabase, with support for strong passwords and, soon, two-factor authentication (2FA).",
             "backup_title": "Backups",
-            " backup_body": "We perform daily automatic backups of all databases to prevent data loss.",
+            "backup_body": "We perform daily automatic backups of all databases to prevent data loss.",
             "report_title": "Vulnerability Reporting",
             "report_body": "If you find a security vulnerability, please report it immediately to support@neurometricslatam.com."
         }
@@ -1764,6 +1786,8 @@
         "step4_placeholder_email": "doctor@clinic.com",
         "step4_label_password": "Protection Password",
         "step4_label_confirm": "Validate Password",
+        "step4_btn_google": "Continue with Google",
+        "step4_or": "OR",
         "step4_legal_info": "By activating your account, you confirm that you have reviewed and accept our <terms>Terms of Service</terms> and <privacy>Medical Data Treatment</privacy>.",
         "step4_btn_submit": "Activate Workstation",
         "step5_welcome": "Welcome!",
@@ -1928,6 +1952,27 @@
             "cancel": "Cancel",
             "confirm": "Confirm Change"
         },
+        "account_actions": {
+            "danger_zone": "Danger Zone",
+            "delete_account_title": "Delete account permanently",
+            "delete_account_desc": "By doing this, you will delete all your clinical profiles, patient data, and your active Neurometrics subscription will be canceled (if you have one). <strong className=\"text-rose-600 dark:text-rose-400\">This action cannot be undone.</strong>",
+            "delete_account_btn": "Delete Account",
+            "delete_confirm_title": "Are you completely sure you want to delete your account?",
+            "delete_confirm_desc_1": "This action cannot be undone. This will permanently delete all your data from the platform.",
+            "delete_confirm_desc_2_paid": "⚠️ You have a paid plan. By deleting your account, your subscription will be canceled immediately and you will lose the time you have already paid for.<br /><br />If you only want to stop payments, it is better to close this window and use the \"Cancel Subscription\" button in the Billing tab.",
+            "delete_confirm_desc_2_free": "You will lose all patient histories and records forever.",
+            "cancel": "Cancel",
+            "deleting": "Deleting...",
+            "delete_yes": "Yes, Delete my account",
+            "cancel_sub_title": "Do you want to cancel your paid plan?",
+            "cancel_sub_desc": "By canceling, you will keep all the benefits of your current plan until the end of the billed period. Then, you will automatically return to the Basic Plan (Free) without losing your account.",
+            "cancel_sub_btn": "Cancel Subscription",
+            "cancel_sub_confirm_title": "Cancel Subscription",
+            "cancel_sub_confirm_desc": "Your Premium account will remain active until the end of the current cycle period, but we will no longer make new charges to your card. Continue with cancellation?",
+            "cancel_sub_back": "Go Back",
+            "processing": "Processing...",
+            "cancel_sub_yes": "Yes, Cancel automatic payment"
+        },
         "billing": {
             "current_badge": "Current",
             "popular_badge": "MOST POPULAR",
@@ -2084,5 +2129,11 @@
                 "family_history": "Maternal grandfather with Alzheimer's"
             }
         }
+    },
+    "TestBank": {
+        "title": "Psychological Test Bank",
+        "subtitle": "Explore our complete library of scientifically validated clinical evaluations.",
+        "search_placeholder": "Search tests by name, category...",
+        "back_to_dashboard": "Back to Dashboard"
     }
 }

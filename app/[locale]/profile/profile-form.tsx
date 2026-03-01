@@ -451,14 +451,14 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
 
                             <div className="space-y-4 pt-4">
                                 <h3 className="text-lg font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 px-1">
-                                    <Shield className="w-5 h-5" /> Zona de Peligro
+                                    <Shield className="w-5 h-5" /> {t('account_actions.danger_zone')}
                                 </h3>
                                 <Card className="border-rose-200 dark:border-rose-900/50 bg-rose-50/30 dark:bg-rose-950/20 shadow-none">
                                     <CardContent className="p-6">
                                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                                             <div className="space-y-1.5 text-sm text-slate-600 dark:text-slate-400">
-                                                <p className="font-bold text-slate-900 dark:text-rose-50 text-base">Eliminar cuenta permanentemente</p>
-                                                <p className="leading-relaxed max-w-xl">Al hacer esto, eliminarás todos tus perfiles clínicos, datos de pacientes, y se cancelará tu suscripción de Neurometrics activa (si tienes alguna). <strong className="text-rose-600 dark:text-rose-400">Esta acción no se puede deshacer.</strong></p>
+                                                <p className="font-bold text-slate-900 dark:text-rose-50 text-base">{t('account_actions.delete_account_title')}</p>
+                                                <p className="leading-relaxed max-w-xl" dangerouslySetInnerHTML={{ __html: t.raw('account_actions.delete_account_desc') }} />
                                             </div>
                                             <Button
                                                 type="button"
@@ -466,7 +466,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                                 className="shrink-0 w-full sm:w-auto font-bold shadow-sm"
                                                 onClick={() => setShowDeleteAlert(true)}
                                             >
-                                                Eliminar Cuenta
+                                                {t('account_actions.delete_account_btn')}
                                             </Button>
                                         </div>
                                     </CardContent>
@@ -477,31 +477,27 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                         <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>¿Estás completamente seguro de eliminar tu cuenta?</AlertDialogTitle>
+                                    <AlertDialogTitle>{t('account_actions.delete_confirm_title')}</AlertDialogTitle>
                                     <AlertDialogDescription className="space-y-3">
-                                        <p>Esta acción no se puede deshacer. Esto borrará permanentemente todos tus datos de la plataforma.</p>
+                                        <p>{t('account_actions.delete_confirm_desc_1')}</p>
 
                                         {!isFreeActive ? (
-                                            <p className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-800 dark:text-rose-400 rounded-lg text-sm font-semibold">
-                                                ⚠️ Tienes un plan de pago. Al eliminar tu cuenta, tu suscripción se cancelará de forma inmediata y perderás el tiempo que ya habías pagado.
-                                                <br /><br />
-                                                Si solo deseas detener los cobros, es mejor que cierres esta ventana y uses el botón "Cancelar Suscripción" en la pestaña de Facturación.
-                                            </p>
+                                            <p className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-800 dark:text-rose-400 rounded-lg text-sm font-semibold" dangerouslySetInnerHTML={{ __html: t.raw('account_actions.delete_confirm_desc_2_paid') }} />
                                         ) : (
                                             <p className="font-medium text-rose-600 dark:text-rose-400">
-                                                Perderás todos los historiales y registros de tus pacientes para siempre.
+                                                {t('account_actions.delete_confirm_desc_2_free')}
                                             </p>
                                         )}
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                    <AlertDialogCancel>{t('account_actions.cancel')}</AlertDialogCancel>
                                     <AlertDialogAction
                                         className="bg-rose-600 hover:bg-rose-700 focus:ring-rose-600"
                                         onClick={handleDeleteAccount}
                                         disabled={isDeleting}
                                     >
-                                        {isDeleting ? "Eliminando..." : "Sí, Eliminar mi cuenta"}
+                                        {isDeleting ? t('account_actions.deleting') : t('account_actions.delete_yes')}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
@@ -690,8 +686,8 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                     <CardContent className="pt-6">
                                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                                             <div className="space-y-1 text-sm text-amber-900/80 dark:text-amber-500/80">
-                                                <p className="font-semibold text-amber-700 dark:text-amber-500">¿Deseas dar de baja tu plan pago?</p>
-                                                <p>Al cancelar, conservarás todos los beneficios de tu plan actual hasta el final del periodo facturado. Luego, volverás automáticamente al Plan Básico (Gratis) sin perder tu cuenta.</p>
+                                                <p className="font-semibold text-amber-700 dark:text-amber-500">{t('account_actions.cancel_sub_title')}</p>
+                                                <p>{t('account_actions.cancel_sub_desc')}</p>
                                             </div>
                                             <Button
                                                 type="button"
@@ -699,7 +695,7 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                                 className="shrink-0 w-full sm:w-auto border-amber-300 text-amber-700 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-900/50"
                                                 onClick={() => setShowCancelAlert(true)}
                                             >
-                                                Cancelar Suscripción
+                                                {t('account_actions.cancel_sub_btn')}
                                             </Button>
                                         </div>
                                     </CardContent>
@@ -710,19 +706,19 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                         <AlertDialog open={showCancelAlert} onOpenChange={setShowCancelAlert}>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>Cancelar Suscripción</AlertDialogTitle>
+                                    <AlertDialogTitle>{t('account_actions.cancel_sub_confirm_title')}</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        Tu cuenta Premium seguirá activa hasta que termine el periodo de ciclo actual pero ya no generaremos nuevos cobros a tu tarjeta. ¿Continuar con la cancelación?
+                                        {t('account_actions.cancel_sub_confirm_desc')}
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Volver</AlertDialogCancel>
+                                    <AlertDialogCancel>{t('account_actions.cancel_sub_back')}</AlertDialogCancel>
                                     <AlertDialogAction
                                         className="bg-amber-600 hover:bg-amber-700 focus:ring-amber-600"
                                         onClick={handleCancelSubscription}
                                         disabled={isCancelingAuth}
                                     >
-                                        {isCancelingAuth ? "Procesando..." : "Sí, Cancelar pago automático"}
+                                        {isCancelingAuth ? t('account_actions.processing') : t('account_actions.cancel_sub_yes')}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>

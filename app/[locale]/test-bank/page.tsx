@@ -37,7 +37,7 @@ const testCategories = [
 ]
 
 export default function TestBankPage() {
-    const t = useTranslations('Tests')
+    const t = useTranslations('TestBank')
     const [searchQuery, setSearchQuery] = useState('')
 
     return (
@@ -48,17 +48,17 @@ export default function TestBankPage() {
                     <Button variant="ghost" size="sm" asChild className="gap-2">
                         <Link href="/dashboard">
                             <ArrowLeft className="w-4 h-4" />
-                            Volver al Dashboard
+                            {t('back_to_dashboard')}
                         </Link>
                     </Button>
                 </div>
 
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">
-                        Banco de Tests Psicológicos
+                        {t('title')}
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-                        Explora nuestra biblioteca completa de evaluaciones clínicas validadas científicamente.
+                        {t('subtitle')}
                     </p>
                 </div>
 
@@ -66,7 +66,7 @@ export default function TestBankPage() {
                 <div className="relative max-w-md mx-auto mb-10">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                     <Input
-                        placeholder="Buscar tests por nombre, categoría..."
+                        placeholder={t('search_placeholder')}
                         className="pl-10 h-12 rounded-xl"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}

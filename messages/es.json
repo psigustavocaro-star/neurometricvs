@@ -1722,6 +1722,7 @@
         }
     },
     "Onboarding": {
+        "no_cost": "Sin Costo",
         "branding_heading": "Diseñado por y para <specialists>especialistas.</specialists>",
         "branding_subtext": "Únete a la red más avanzada de profesionales de la salud mental y neurociencias en Latinoamérica.",
         "branding_feature_1": "Cumplimiento HIPAA / GDPR",
@@ -1951,6 +1952,27 @@
             "cancel": "Cancelar",
             "confirm": "Confirmar Cambio"
         },
+        "account_actions": {
+            "danger_zone": "Zona de Peligro",
+            "delete_account_title": "Eliminar cuenta permanentemente",
+            "delete_account_desc": "Al hacer esto, eliminarás todos tus perfiles clínicos, datos de pacientes, y se cancelará tu suscripción de Neurometrics activa (si tienes alguna). <strong className=\"text-rose-600 dark:text-rose-400\">Esta acción no se puede deshacer.</strong>",
+            "delete_account_btn": "Eliminar Cuenta",
+            "delete_confirm_title": "¿Estás completamente seguro de eliminar tu cuenta?",
+            "delete_confirm_desc_1": "Esta acción no se puede deshacer. Esto borrará permanentemente todos tus datos de la plataforma.",
+            "delete_confirm_desc_2_paid": "⚠️ Tienes un plan de pago. Al eliminar tu cuenta, tu suscripción se cancelará de forma inmediata y perderás el tiempo que ya habías pagado.<br /><br />Si solo deseas detener los cobros, es mejor que cierres esta ventana y uses el botón \"Cancelar Suscripción\" en la pestaña de Facturación.",
+            "delete_confirm_desc_2_free": "Perderás todos los historiales y registros de tus pacientes para siempre.",
+            "cancel": "Cancelar",
+            "deleting": "Eliminando...",
+            "delete_yes": "Sí, Eliminar mi cuenta",
+            "cancel_sub_title": "¿Deseas dar de baja tu plan pago?",
+            "cancel_sub_desc": "Al cancelar, conservarás todos los beneficios de tu plan actual hasta el final del periodo facturado. Luego, volverás automáticamente al Plan Básico (Gratis) sin perder tu cuenta.",
+            "cancel_sub_btn": "Cancelar Suscripción",
+            "cancel_sub_confirm_title": "Cancelar Suscripción",
+            "cancel_sub_confirm_desc": "Tu cuenta Premium seguirá activa hasta que termine el periodo de ciclo actual pero ya no generaremos nuevos cobros a tu tarjeta. ¿Continuar con la cancelación?",
+            "cancel_sub_back": "Volver",
+            "processing": "Procesando...",
+            "cancel_sub_yes": "Sí, Cancelar pago automático"
+        },
         "billing": {
             "current_badge": "Actual",
             "popular_badge": "MÁS POPULAR",
@@ -2107,5 +2129,11 @@
                 "family_history": "Abuelo materno con Alzheimer"
             }
         }
+    },
+    "TestBank": {
+        "title": "Banco de Tests Psicológicos",
+        "subtitle": "Explora nuestra biblioteca completa de evaluaciones clínicas validadas científicamente.",
+        "search_placeholder": "Buscar tests por nombre, categoría...",
+        "back_to_dashboard": "Volver al Dashboard"
     }
 }
