@@ -52,7 +52,7 @@ export async function updateProfile(formData: FormData) {
     }
 
     if (avatarUrl !== undefined && avatarUrl !== null) {
-        updates.avatar_url = avatarUrl === '' ? null : avatarUrl
+        updates.data = { avatar_url: avatarUrl === '' ? '' : avatarUrl }
     }
 
     if (Object.keys(updates).length > 0) {
@@ -71,7 +71,7 @@ export async function updateProfile(formData: FormData) {
             specialty: specialty,
             phone: phone,
             signature_url: signatureUrl,
-            avatar_url: avatarUrl === '' ? null : avatarUrl,
+            avatar_url: avatarUrl === '' ? '' : avatarUrl,
             updated_at: new Date().toISOString(),
         })
 

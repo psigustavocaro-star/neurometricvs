@@ -65,7 +65,13 @@ export function getUserDisplayData(user: any, profile?: any) {
   }
 
   // 4. Determine Avatar URL
-  const avatarUrl = profile?.avatar_url || metadata?.avatar_url || metadata?.picture || null
+  // If explicitly set to empty string, it means the user deleted their avatar
+  let avatarUrl = null
+  if (profile?.avatar_url === '') {
+    avatarUrl = null
+  } else {
+    avatarUrl = profile?.avatar_url || metadata?.avatar_url || metadata?.picture || null
+  }
 
   return {
     displayName: finalName,
