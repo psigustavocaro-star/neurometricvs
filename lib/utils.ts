@@ -64,8 +64,12 @@ export function getUserDisplayData(user: any, profile?: any) {
       .toUpperCase()
   }
 
+  // 4. Determine Avatar URL
+  const avatarUrl = profile?.avatar_url || metadata?.avatar_url || metadata?.picture || null
+
   return {
     displayName: finalName,
-    initials: initials
+    initials: initials,
+    avatarUrl: avatarUrl
   }
 }

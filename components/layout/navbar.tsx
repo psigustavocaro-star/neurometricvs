@@ -173,9 +173,9 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                             <div className="flex items-center gap-3 pl-2">
                                 <Link href="/profile" prefetch={false} className="flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full pr-3 pl-1 py-1 transition-colors group">
                                     <div className="h-8 w-8 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 bg-teal-50 dark:bg-slate-900 flex items-center justify-center relative">
-                                        {currentUser.user_metadata?.avatar_url ? (
+                                        {getUserDisplayData(currentUser, currentProfile).avatarUrl ? (
                                             <Image
-                                                src={currentUser.user_metadata?.avatar_url}
+                                                src={getUserDisplayData(currentUser, currentProfile).avatarUrl!}
                                                 alt="Avatar"
                                                 fill
                                                 className="object-cover"

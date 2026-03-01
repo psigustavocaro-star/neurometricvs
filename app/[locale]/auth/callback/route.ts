@@ -9,10 +9,23 @@ export async function GET(request: NextRequest) {
 
     if (code) {
         const supabase = await createClient()
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
-        if (!error) {
-            return NextResponse.redirect(`${origin}${next}`)
+        if (!error && data?.user) {
+            let finalNext = next
+            const intent = searchParams.get('intent')
+
+            if (intent === 'signup') {
+                const createdAt = new Date(data.user.created_at).getTime()
+                const now = new Date().getTime()
+
+                // If created more than 1 minute ago, it means the account already existed
+                if ((now - createdAt) > 60000) {
+                    finalNext += finalNext.includes('?') ? '&login_alert=existing_account' : '?login_alert=existing_account'
+                }
+            }
+
+            return NextResponse.redirect(`${origin}${finalNext}`)
         }
     }
 

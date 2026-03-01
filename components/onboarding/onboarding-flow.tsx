@@ -184,6 +184,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                 <motion.div key="s0" custom={step} variants={variants} initial="enter" animate="center" exit="exit" className="space-y-5">
                                     <GoogleLoginButton
                                         label="Registrarse con Google"
+                                        intent="signup"
                                         className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold shadow-sm"
                                     />
 

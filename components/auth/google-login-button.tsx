@@ -8,9 +8,10 @@ import { Loader2 } from 'lucide-react'
 interface GoogleLoginButtonProps {
     label: string
     className?: string
+    intent?: 'login' | 'signup'
 }
 
-export function GoogleLoginButton({ label, className }: GoogleLoginButtonProps) {
+export function GoogleLoginButton({ label, className, intent = 'login' }: GoogleLoginButtonProps) {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleGoogleLogin = async () => {
@@ -20,7 +21,7 @@ export function GoogleLoginButton({ label, className }: GoogleLoginButtonProps) 
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/es/auth/callback`,
+                redirectTo: `${window.location.origin}/es/auth/callback?intent=${intent}`,
                 queryParams: {
                     access_type: 'offline',
                     prompt: 'consent',
