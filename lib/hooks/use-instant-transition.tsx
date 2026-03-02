@@ -2,48 +2,52 @@
 
 import { useRouter } from 'next/navigation'
 import Link, { LinkProps } from 'next/link'
-import { ReactNode, MouseEvent } from 'react'
+import { ReactNode, MouseEvent, startTransition } from 'react'
 
 /**
- * Hook para transiciones instantáneas entre páginas usando View Transitions API
- * Hace que las navegaciones se sientan como una app nativa
+ * Hook para transiciones instantáneas entre páginas
+ * Optimizado para Interaction to Next Paint (INP)
  */
 export function useInstantTransition() {
     const router = useRouter()
 
     const navigate = (href: string) => {
-        // Verificar si el navegador soporta View Transitions API
-        if ('startViewTransition' in document) {
-            // @ts-ignore - View Transitions API
-            document.startViewTransition(() => {
+        startTransition(() => {
+            if ('startViewTransition' in document) {
+                // @ts-ignore
+                document.startViewTransition(() => {
+                    router.push(href)
+                })
+            } else {
                 router.push(href)
-            })
-        } else {
-            // Fallback para navegadores que no soportan
-            router.push(href)
-        }
+            }
+        })
     }
 
     const replace = (href: string) => {
-        if ('startViewTransition' in document) {
-            // @ts-ignore
-            document.startViewTransition(() => {
+        startTransition(() => {
+            if ('startViewTransition' in document) {
+                // @ts-ignore
+                document.startViewTransition(() => {
+                    router.replace(href)
+                })
+            } else {
                 router.replace(href)
-            })
-        } else {
-            router.replace(href)
-        }
+            }
+        })
     }
 
     const back = () => {
-        if ('startViewTransition' in document) {
-            // @ts-ignore
-            document.startViewTransition(() => {
+        startTransition(() => {
+            if ('startViewTransition' in document) {
+                // @ts-ignore
+                document.startViewTransition(() => {
+                    router.back()
+                })
+            } else {
                 router.back()
-            })
-        } else {
-            router.back()
-        }
+            }
+        })
     }
 
     return { navigate, replace, back }
