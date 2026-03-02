@@ -5,9 +5,9 @@ export const runtime = 'edge';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { plan: string } }
+    context: { params: Promise<{ plan: string }> } | any
 ) {
-    const plan = params.plan;
+    const { plan } = await context.params;
 
     let title = 'Plan Básico';
     if (plan === 'clinical') title = 'Plan Clínico';
@@ -15,7 +15,7 @@ export async function GET(
 
     // We can load the image from the public folder dynamically
     const url = new URL(request.url);
-    const logoUrl = `${url.origin}/logo-brain.png`;
+    const logoUrl = `${url.origin}/logo-brain-clear.png`;
 
     return new ImageResponse(
         (
