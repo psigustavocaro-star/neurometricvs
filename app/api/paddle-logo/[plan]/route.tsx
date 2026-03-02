@@ -15,7 +15,7 @@ export async function GET(
 
     // We can load the image from the public folder dynamically
     const url = new URL(request.url);
-    const logoUrl = `${url.origin}/logo-brain-clear.png`;
+    const logoUrl = `${url.origin}/neurometrics-logo-small.png`;
 
     return new ImageResponse(
         (
@@ -27,26 +27,26 @@ export async function GET(
                     justifyContent: 'center',
                     width: '100%',
                     height: '100%',
-                    backgroundColor: 'white',
+                    backgroundColor: '#f9f9f9', // Perfect match for Paddle overlay side panel
                 }}
             >
                 <img
                     src={logoUrl}
                     style={{
-                        width: '400px',
-                        height: '350px',
+                        width: '320px',
+                        height: '320px',
                         objectFit: 'contain',
-                        marginBottom: '10px',
+                        marginBottom: '20px',
                     }}
                 />
                 <div
                     style={{
-                        fontSize: '56px',
+                        fontSize: '60px',
                         fontWeight: '900',
                         color: '#0f766e', // teal-700
                         fontFamily: 'Inter, sans-serif',
                         textAlign: 'center',
-                        letterSpacing: '-1.5px',
+                        letterSpacing: '-2px',
                         textTransform: 'uppercase'
                     }}
                 >
