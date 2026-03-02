@@ -33,20 +33,21 @@ export async function GET(
                 <img
                     src={logoUrl}
                     style={{
-                        width: '440px',
-                        height: '380px',
+                        width: '400px',
+                        height: '350px',
                         objectFit: 'contain',
                         marginBottom: '10px',
                     }}
                 />
                 <div
                     style={{
-                        fontSize: '48px',
-                        fontWeight: 'bolder',
-                        color: '#0f172a', // slate-900
-                        fontFamily: 'sans-serif',
+                        fontSize: '56px',
+                        fontWeight: '900',
+                        color: '#0f766e', // teal-700
+                        fontFamily: 'Inter, sans-serif',
                         textAlign: 'center',
-                        letterSpacing: '-1px'
+                        letterSpacing: '-1.5px',
+                        textTransform: 'uppercase'
                     }}
                 >
                     {title}
