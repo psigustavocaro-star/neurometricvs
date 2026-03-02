@@ -55,8 +55,7 @@ export function SubscribeButton({ planId, price, planName, currentPlan, variant 
                 items: [{ priceId, quantity: 1 }],
                 settings: {
                     displayMode: 'overlay',
-                    theme: 'light',
-                    allowDiscount: true
+                    theme: 'light'
                 }
             }
 

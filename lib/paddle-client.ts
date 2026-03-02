@@ -23,8 +23,7 @@ export async function getPaddle() {
                 checkout: {
                     settings: {
                         displayMode: "overlay",
-                        theme: "light",
-                        allowDiscount: true
+                        theme: "light"
                     }
                 }
             });

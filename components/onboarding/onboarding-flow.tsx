@@ -104,8 +104,7 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                         settings: {
                             displayMode: 'overlay',
                             successUrl: `${window.location.origin}/payment/success`,
-                            theme: 'light',
-                            allowDiscount: true
+                            theme: 'light'
                         }
                     })
                     setIsLoading(false)

@@ -92,8 +92,7 @@ export function DashboardSetup({ user, profile }: { user: any, profile: any }) {
                         settings: {
                             displayMode: 'overlay',
                             successUrl: `${window.location.origin}/dashboard`,
-                            theme: 'light',
-                            allowDiscount: true
+                            theme: 'light'
                         }
                     })
                     setIsLoading(false)
