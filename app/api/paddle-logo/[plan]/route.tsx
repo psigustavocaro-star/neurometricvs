@@ -10,8 +10,17 @@ export async function GET(
     const { plan } = await context.params;
 
     let title = 'Plan Básico';
-    if (plan === 'clinical') title = 'Plan Clínico';
-    if (plan === 'pro') title = 'Plan Pro Anual';
+    let fontSize = '68px';
+    let letterSpacing = '-3px';
+
+    if (plan === 'clinical') {
+        title = 'Plan Clínico';
+    }
+    if (plan === 'pro') {
+        title = 'Plan Pro Anual';
+        fontSize = '50px';
+        letterSpacing = '-2px';
+    }
 
     // We can load the image from the public folder dynamically
     const url = new URL(request.url);
@@ -41,12 +50,12 @@ export async function GET(
                 />
                 <div
                     style={{
-                        fontSize: '78px',
+                        fontSize: fontSize,
                         fontWeight: '900',
                         color: '#0f766e', // teal-700
                         fontFamily: 'Inter, sans-serif',
                         textAlign: 'center',
-                        letterSpacing: '-3.5px',
+                        letterSpacing: letterSpacing,
                         lineHeight: 1,
                         textTransform: 'uppercase'
                     }}
