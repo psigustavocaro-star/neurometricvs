@@ -10,7 +10,7 @@ const getGeminiKey = () => {
     return process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY;
 };
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent";
 
 const ClinicalSessionRecorder = ({ patientName, onSaveSession }) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -273,7 +273,7 @@ ${fullTranscript}
                         Nueva Sesión: <span className="text-indigo-700">{patientName}</span>
                     </h3>
                     <p className="text-slate-500 text-xs mt-1">
-                        Grabación inteligente con Gemini 2.5 Flash
+                        Grabación inteligente con Gemini 3.1 Flash Lite
                     </p>
                 </div>
                 <div className="flex items-center gap-3 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">

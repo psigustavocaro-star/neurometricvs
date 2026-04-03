@@ -15,13 +15,10 @@ export async function POST(req: Request) {
         const { messages } = await req.json();
         console.log("CHAT_DEBUG: Messages received", messages.length);
 
-        const coreMessages = messages.map((m: any) => ({
-            role: m.role,
-            content: m.content || (m.parts && m.parts.find((p: any) => p.type === 'text')?.text) || ''
-        }));
+        const coreMessages = convertToCoreMessages(messages);
 
         const result = streamText({
-            model: google('gemini-flash-latest'),
+            model: google('gemini-3.1-flash-lite-preview'),
             system: `Actúa como Alana IA (Neurometrics IA), la asistente avanzada de inteligencia artificial de Neurometrics.
 Tu propósito es apoyar a profesionales de la salud (médicos, psicólogos, psiquiatras, neurólogos, terapeutas ocupacionales y fonoaudiólogos) en su práctica clínica dentro de la plataforma Neurometrics Workstation.`,
             messages: coreMessages,

@@ -254,7 +254,7 @@ export async function generateAIInsights(sessionId: string, approach: string = '
 
     // 2. Call Gemini
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash', generationConfig: { responseMimeType: "application/json" } })
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview', generationConfig: { responseMimeType: "application/json" } })
 
     const prompt = `
     Actúa como un Supervisor Clínico Experto y "Cultural Therapist".
@@ -377,7 +377,7 @@ export async function generateProfessionalReport(
     if (!process.env.GOOGLE_API_KEY) throw new Error('API Key missing')
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY)
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }) // Standard text model for reports
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' }) // Standard text model for reports
 
     // 2. Construct Prompt based on Type
     let systemPrompt = ''
