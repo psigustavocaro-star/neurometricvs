@@ -28,9 +28,10 @@ interface EditPatientSheetProps {
         contact_email?: string
         diagnosis?: string
     }
+    trigger?: React.ReactNode
 }
 
-export function EditPatientSheet({ patient }: EditPatientSheetProps) {
+export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
     const t = useTranslations('Dashboard.Patients.Edit')
     const [open, setOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -55,10 +56,12 @@ export function EditPatientSheet({ patient }: EditPatientSheetProps) {
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 gap-2">
-                    <Pencil className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">{t('trigger')}</span>
-                </Button>
+                {trigger ? trigger : (
+                    <Button variant="outline" size="sm" className="h-8 gap-2">
+                        <Pencil className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">{t('trigger')}</span>
+                    </Button>
+                )}
             </SheetTrigger>
             <SheetContent className="w-[400px] sm:w-[540px]">
                 <SheetHeader>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { PatientNotionView } from '@/components/clinical/patient-notion-view'
 import { getTranslations } from 'next-intl/server'
+import { EditPatientSheet } from '@/components/patients/edit-patient-sheet'
 
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const t = await getTranslations('Dashboard.Patients.Detail')
@@ -121,12 +122,15 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-            <div className="container py-4">
+            <div className="container py-4 flex items-center justify-between">
                 <Button variant="ghost" asChild className="mb-4 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 -ml-2">
                     <Link href="/dashboard">
                         <ArrowLeft className="mr-2 h-4 w-4" /> {t('back_to_dashboard')}
                     </Link>
                 </Button>
+                <div className="mb-4">
+                    <EditPatientSheet patient={{...patientData, diagnosis: clinicalRecord?.diagnosis || ''}} />
+                </div>
             </div>
 
             <div className="container py-6">

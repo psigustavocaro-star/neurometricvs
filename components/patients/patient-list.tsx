@@ -13,7 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { MoreHorizontal, FileText, Trash2, ArrowRight, UserCircle2, Mail, Calendar, User } from "lucide-react"
+import { MoreHorizontal, FileText, Trash2, ArrowRight, UserCircle2, Mail, Calendar, User, Pencil } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -36,6 +36,7 @@ import { useTranslations, useFormatter } from "next-intl"
 import { Patient } from "@/types/patient"
 import { deletePatient } from "@/app/[locale]/patients/actions"
 import { toast } from "sonner"
+import { EditPatientSheet } from "./edit-patient-sheet"
 
 interface PatientListProps {
     initialPatients: Patient[]
@@ -194,6 +195,11 @@ export function PatientList({ initialPatients }: PatientListProps) {
                                                     <FileText className="h-4 w-4" />
                                                 </Link>
                                             </Button>
+                                            <EditPatientSheet patient={patient} trigger={
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/50">
+                                                    <Pencil className="h-4 w-4" />
+                                                </Button>
+                                            } />
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
