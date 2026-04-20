@@ -13,40 +13,19 @@ export function useInstantTransition() {
 
     const navigate = (href: string) => {
         startTransition(() => {
-            if ('startViewTransition' in document) {
-                // @ts-ignore
-                document.startViewTransition(() => {
-                    router.push(href)
-                })
-            } else {
-                router.push(href)
-            }
+            router.push(href)
         })
     }
 
     const replace = (href: string) => {
         startTransition(() => {
-            if ('startViewTransition' in document) {
-                // @ts-ignore
-                document.startViewTransition(() => {
-                    router.replace(href)
-                })
-            } else {
-                router.replace(href)
-            }
+            router.replace(href)
         })
     }
 
     const back = () => {
         startTransition(() => {
-            if ('startViewTransition' in document) {
-                // @ts-ignore
-                document.startViewTransition(() => {
-                    router.back()
-                })
-            } else {
-                router.back()
-            }
+            router.back()
         })
     }
 
