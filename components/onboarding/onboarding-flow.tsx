@@ -244,11 +244,13 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
                                                 <SelectValue placeholder="Selecciona tu rol" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="physician">Médico General</SelectItem>
-                                                <SelectItem value="psychologist">Psicólogo Clínico</SelectItem>
-                                                <SelectItem value="psychiatrist">Psiquiatra</SelectItem>
-                                                <SelectItem value="neurologist">Neurólogo</SelectItem>
-                                                <SelectItem value="neuropsychologist">Neuropsicólogo</SelectItem>
+                                                <SelectItem value="Psicólogo/a">Psicólogo/a</SelectItem>
+                                                <SelectItem value="Psiquiatra">Psiquiatra</SelectItem>
+                                                <SelectItem value="Neurólogo/a">Neurólogo/a</SelectItem>
+                                                <SelectItem value="Médico General">Médico General</SelectItem>
+                                                <SelectItem value="Terapeuta Ocupacional">Terapeuta Ocupacional</SelectItem>
+                                                <SelectItem value="Fonoaudiólogo/a">Fonoaudiólogo/a</SelectItem>
+                                                <SelectItem value="Nutricionista">Nutricionista</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>

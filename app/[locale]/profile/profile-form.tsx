@@ -289,10 +289,10 @@ export function ProfileForm({ profile, subscription, user, initialTab = 'profile
                                                         <SelectValue placeholder={t('specialty_placeholder')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="Psicólogo">{t('specialties.psychologist')}</SelectItem>
+                                                        <SelectItem value="Psicólogo/a">{t('specialties.psychologist')}</SelectItem>
                                                         <SelectItem value="Psiquiatra">{t('specialties.psychiatrist')}</SelectItem>
-                                                        <SelectItem value="Neurólogo">{t('specialties.neurologist')}</SelectItem>
-                                                        <SelectItem value="Médico/a">{t('specialties.physician')}</SelectItem>
+                                                        <SelectItem value="Neurólogo/a">{t('specialties.neurologist')}</SelectItem>
+                                                        <SelectItem value="Médico General">{t('specialties.physician')}</SelectItem>
                                                         <SelectItem value="Terapeuta Ocupacional">{t('specialties.occupational_therapist')}</SelectItem>
                                                         <SelectItem value="Fonoaudiólogo/a">{t('specialties.speech_therapist')}</SelectItem>
                                                         <SelectItem value="Nutricionista">{t('specialties.nutritionist')}</SelectItem>

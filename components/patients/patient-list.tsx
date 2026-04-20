@@ -34,6 +34,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useTranslations, useFormatter } from "next-intl"
 
 import { Patient } from "@/types/patient"
+import { deletePatient } from "@/app/[locale]/patients/actions"
+import { toast } from "sonner"
 
 interface PatientListProps {
     initialPatients: Patient[]
@@ -84,11 +86,27 @@ export function PatientList({ initialPatients }: PatientListProps) {
         setIsDeleteDialogOpen(true)
     }
 
-    const executeDelete = () => {
+    const executeDelete = async () => {
         if (patientToDelete) {
-            setPatients(patients.filter(p => p.id !== patientToDelete))
+            const idToDelete = patientToDelete
+            // Optimistic update
+            const prevPatients = [...patients]
+            setPatients(patients.filter(p => p.id !== idToDelete))
             setPatientToDelete(null)
             setIsDeleteDialogOpen(false)
+            
+            try {
+                const result = await deletePatient(idToDelete)
+                if (result?.error) {
+                    setPatients(prevPatients) // Revert on failure
+                    toast.error(t('actions.error') || 'Error al eliminar')
+                } else {
+                    toast.success(t('actions.success') || 'Eliminado exitosamente')
+                }
+            } catch (error) {
+                setPatients(prevPatients)
+                toast.error('Error al eliminar')
+            }
         }
     }
 

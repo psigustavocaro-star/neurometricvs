@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, memo } from 'react'
 import { useAdminStore } from '@/lib/stores/admin-store'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
@@ -33,7 +33,23 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const FormField = ({ id, label, icon: Icon, type = "text", placeholder, name, required = false, value, onChange, itemVariant }: any) => (
+const container = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            staggerChildren: 0.05
+        }
+    }
+}
+
+const item = {
+    hidden: { opacity: 0, x: -10 },
+    show: { opacity: 1, x: 0 }
+}
+
+const FormField = memo(({ id, label, icon: Icon, type = "text", placeholder, name, required = false, value, onChange, itemVariant }: any) => (
     <motion.div variants={itemVariant} className="space-y-2">
         <Label htmlFor={id} className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-wide">
             <Icon className="w-3.5 h-3.5 text-teal-600 dark:text-cyan-500" />
@@ -94,10 +110,10 @@ export function NewPatientForm({
         family_history: ''
     })
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
-    }
+    }, [])
 
     // Determine active role (simulated or real)
     const activeRole = isSimulating ? currentRole : (
@@ -166,21 +182,7 @@ export function NewPatientForm({
         }
     }
 
-    const container = {
-        hidden: { opacity: 0, y: 20 },
-        show: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                staggerChildren: 0.05
-            }
-        }
-    }
 
-    const item = {
-        hidden: { opacity: 0, x: -10 },
-        show: { opacity: 1, x: 0 }
-    }
 
     return (
         <motion.div

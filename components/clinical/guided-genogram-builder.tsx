@@ -332,7 +332,11 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
         if (!element) return
 
         try {
-            toast.loading("Generando PDF...")
+            const toastId = toast.loading("Generando PDF...")
+            
+            // Allow the UI to paint the toast and Next.js to resolve the click interaction before blocking the thread
+            await new Promise(resolve => setTimeout(resolve, 150));
+
             const canvas = await html2canvas(element, {
                 scale: 2, // Higher quality
                 backgroundColor: null // Transparent background if possible, or matches theme
@@ -351,7 +355,7 @@ export function GuidedGenogramBuilder({ patientName, patientGender, onSave, embe
 
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
             pdf.save(`genograma_${patientName.replace(/\s+/g, '_')}.pdf`)
-            toast.dismiss()
+            toast.dismiss(toastId)
             toast.success("PDF descargado correctamente")
         } catch (error) {
             console.error("Error generating PDF:", error)
