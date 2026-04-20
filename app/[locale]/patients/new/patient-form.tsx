@@ -69,7 +69,7 @@ const FormField = memo(({ id, label, icon: Icon, type = "text", placeholder, nam
             />
         </div>
     </motion.div>
-)
+))
 
 export function NewPatientForm({
     initialSpecialty,
