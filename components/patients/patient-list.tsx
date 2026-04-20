@@ -99,13 +99,13 @@ export function PatientList({ initialPatients }: PatientListProps) {
                 const result = await deletePatient(idToDelete)
                 if (result?.error) {
                     setPatients(prevPatients) // Revert on failure
-                    toast.error(t('actions.error') || 'Error al eliminar')
+                    toast.error('Error al eliminar paciente')
                 } else {
-                    toast.success(t('actions.success') || 'Eliminado exitosamente')
+                    toast.success('Paciente eliminado exitosamente')
                 }
             } catch (error) {
                 setPatients(prevPatients)
-                toast.error('Error al eliminar')
+                toast.error('Error al eliminar paciente')
             }
         }
     }
