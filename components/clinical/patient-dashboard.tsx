@@ -139,7 +139,6 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                 {patient.full_name.substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
-                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
                     </div>
                     <div className="min-w-0 flex-1">
                         <h2 className="font-bold text-slate-900 dark:text-white text-sm truncate">{patient.full_name}</h2>
@@ -149,9 +148,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                             <span className="text-teal-600 dark:text-cyan-400 truncate">{clinicalRecord?.diagnosis || t('under_evaluation')}</span>
                         </div>
                     </div>
-                    <Badge variant="outline" className="flex-shrink-0 bg-green-50 dark:bg-green-900/10 text-[10px] border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
-                        {t('active')}
-                    </Badge>
+
                 </div>
 
                 {/* Mobile Navigation Tabs */}
@@ -219,7 +216,6 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                                     {patient.full_name.substring(0, 2).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
                         </div>
                         <div className="min-w-0 flex-1">
                             <h2 className="font-bold text-slate-900 dark:text-white leading-tight text-base truncate tracking-tight">{patient.full_name}</h2>
@@ -294,9 +290,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
                         <Badge variant="outline" className="bg-slate-50 dark:bg-slate-800/50 text-[10px] font-medium border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
                             {t('sessions_count', { count: sessions.length })}
                         </Badge>
-                        <Badge variant="outline" className="bg-green-50 dark:bg-green-900/10 text-[10px] font-medium border-green-200 dark:border-green-800 text-green-700 dark:text-green-400">
-                            {t('active')}
-                        </Badge>
+
                     </div>
                 </div>
 

@@ -205,11 +205,7 @@ export function PatientOverview({
                                     <p className="font-bold text-foreground text-base leading-tight">{diagnosis || t('in_evaluation')}</p>
                                 )}
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="text-primary bg-primary/10 border-primary/20 text-xs px-2 py-0.5 font-medium">
-                                    {t('stable')}
-                                </Badge>
-                            </div>
+
                         </CardContent>
                     </Card>
 

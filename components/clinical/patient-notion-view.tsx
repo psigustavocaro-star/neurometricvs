@@ -305,18 +305,6 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
                         <div className="flex items-center gap-2">
                             <FileText className="w-4 h-4 text-slate-500" />
                             <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Sesiones</h3>
-                            <div className={cn(
-                                "flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-tight",
-                                realtimeStatus === 'connected' ? "bg-green-50 text-green-600 border-green-200 dark:bg-green-900/10 dark:border-green-800" :
-                                    realtimeStatus === 'connecting' ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/10 dark:border-amber-800" :
-                                        "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/10 dark:border-red-800"
-                            )}>
-                                <RefreshCw className={cn("w-2.5 h-2.5", realtimeStatus === 'connecting' && "animate-spin")} />
-                                {realtimeStatus === 'connected' ? `En Vivo ${presenceCount > 1 ? `(${presenceCount})` : ''}` : realtimeStatus === 'connecting' ? 'Sincro...' : 'Offline'}
-                            </div>
-                            {isRealtime && (
-                                <span className="text-[9px] text-teal-500 font-mono animate-pulse">● EVENTO</span>
-                            )}
                         </div>
                         <Button
                             onClick={handleNewSession}
