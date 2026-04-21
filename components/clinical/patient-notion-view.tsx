@@ -180,11 +180,9 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
         setTimeout(() => setIsRealtime(false), 2000)
     }
 
-    // Sync initialSessions prop with local state only if count changes or initialization
+    // Sync initialSessions prop with local state 
     useEffect(() => {
-        if (initialSessions.length !== sessions.length) {
-            setSessions(initialSessions)
-        }
+        setSessions(initialSessions)
     }, [initialSessions])
 
     // Calculate age
@@ -206,18 +204,32 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
     // Handle new session
     const handleNewSession = async () => {
         try {
-            const newSession = await createSession(patient.id, { type: 'Consulta', notes: '' })
+            const newSession = await createSession(patient.id, { 
+                type: 'Consulta', 
+                notes: '',
+                date: new Date().toISOString()
+            })
+            
             if (newSession) {
                 toast.success('Nueva sesión creada')
-                // Broadcast the new session immediately
+                
+                // 1. Update local state immediately for instant feedback
+                setSessions(prev => [newSession, ...prev])
+                setSelectedSession(newSession)
+                setNotes('')
+                
+                // 2. Broadcast for other open tabs
                 channelRef.current?.send({
                     type: 'broadcast',
                     event: 'sync-update',
                     payload: newSession
                 })
+                
+                // 3. Refresh parent data
+                router.refresh()
             }
-            router.refresh()
         } catch (error) {
+            console.error('Error creating session:', error)
             toast.error('Error al crear sesión')
         }
     }

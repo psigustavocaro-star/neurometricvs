@@ -171,6 +171,7 @@ export async function createSession(patientId: string, data: Partial<ClinicalSes
 
     if (error) throw new Error(error.message)
     revalidatePath(`/patients/${patientId}`)
+    revalidatePath('/dashboard')
     return newSession
 }
 
@@ -326,8 +327,9 @@ export async function generateAIInsights(sessionId: string, approach: string = '
             }, { onConflict: 'session_id' })
 
         if (error) console.error('Error saving insights:', error)
-
-        revalidatePath(`/ patients / ${session.patient_id} `)
+        
+        revalidatePath(`/patients/${session.patient_id}`)
+        revalidatePath('/dashboard')
         return jsonResponse
 
     } catch (e) {
