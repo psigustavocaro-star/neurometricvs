@@ -152,51 +152,90 @@ export async function deletePatient(id: string) {
 export async function updatePatient(id: string, formData: FormData) {
     const supabase = await createClient()
 
+    // Patient Fields
     const fullName = formData.get('fullName') as string
     const birthDate = formData.get('birthDate') as string
     const gender = formData.get('gender') as string
     const email = formData.get('email') as string
+    const rut = formData.get('rut') as string
+    const age = formData.get('age') as string
+    const phone = formData.get('phone') as string
+    const address = formData.get('address') as string
+    const clinic = formData.get('clinic') as string
+    const education = formData.get('education') as string
+    const occupation = formData.get('occupation') as string
+    const companion = formData.get('companion') as string
+    const emergencyContact = formData.get('emergencyContact') as string
+    const genogramBase64 = formData.get('genogram') as string
+
+    // Clinical Fields
     const diagnosis = formData.get('diagnosis') as string
+    const medications = formData.get('medications') as string
+    const school = formData.get('school') as string
+    const grade = formData.get('grade') as string
+    const physicalStatus = formData.get('physical_status') as string
+    const reasonForConsultation = formData.get('reason_for_consultation') as string
+    const familyHistory = formData.get('family_history') as string
 
     // Update patient basic info
-    const { error } = await supabase
+    const { error: patientError } = await supabase
         .from('patients')
         .update({
             full_name: fullName,
             birth_date: birthDate || null,
             gender: gender,
             contact_email: email || null,
+            rut: rut || null,
+            age: age ? parseInt(age) : null,
+            phone: phone || null,
+            address: address || null,
+            clinic: clinic || null,
+            education: education || null,
+            occupation: occupation || null,
+            companion: companion || null,
+            emergency_contact: emergencyContact || null,
+            genogram: genogramBase64 || null,
         })
         .eq('id', id)
 
-    if (error) {
-        return { error: 'Could not update patient' }
+    if (patientError) {
+        console.error('Update patient error:', patientError)
+        return { error: 'Could not update patient data' }
     }
 
-    // Update or create clinical record with diagnosis
-    if (diagnosis !== undefined) {
-        // Check if clinical record exists
-        const { data: existingRecord } = await supabase
-            .from('clinical_records')
-            .select('id')
-            .eq('patient_id', id)
-            .single()
+    // Update or create clinical record
+    const { data: existingRecord } = await supabase
+        .from('clinical_records')
+        .select('id')
+        .eq('patient_id', id)
+        .single()
 
-        if (existingRecord) {
-            // Update existing record
-            await supabase
-                .from('clinical_records')
-                .update({ diagnosis: diagnosis || null })
-                .eq('patient_id', id)
-        } else {
-            // Create new clinical record
-            await supabase
-                .from('clinical_records')
-                .insert({
-                    patient_id: id,
-                    diagnosis: diagnosis || null
-                })
+    const clinicalData = {
+        patient_id: id,
+        diagnosis: diagnosis || null,
+        medications: medications || null,
+        anamnesis: {
+            school: school || null,
+            grade: grade || null,
+            physical_status: physicalStatus || null,
+            reason_for_consultation: reasonForConsultation || null,
+            family_history: familyHistory || null
         }
+    }
+
+    if (existingRecord) {
+        const { error: clinicalUpdateError } = await supabase
+            .from('clinical_records')
+            .update(clinicalData)
+            .eq('patient_id', id)
+        
+        if (clinicalUpdateError) console.warn('Clinical record update failed:', clinicalUpdateError)
+    } else {
+        const { error: clinicalInsertError } = await supabase
+            .from('clinical_records')
+            .insert(clinicalData)
+        
+        if (clinicalInsertError) console.warn('Clinical record insert failed:', clinicalInsertError)
     }
 
     revalidatePath(`/patients/${id}`)

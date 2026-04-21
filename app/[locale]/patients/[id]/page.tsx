@@ -129,7 +129,16 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                     </Link>
                 </Button>
                 <div className="mb-4">
-                    <EditPatientSheet patient={{...patientData, diagnosis: clinicalRecord?.diagnosis || ''}} />
+                    <EditPatientSheet patient={{
+                        ...patientData, 
+                        diagnosis: clinicalRecord?.diagnosis || '',
+                        medications: clinicalRecord?.medications || '',
+                        school: clinicalRecord?.anamnesis?.school || '',
+                        grade: clinicalRecord?.anamnesis?.grade || '',
+                        physical_status: clinicalRecord?.anamnesis?.physical_status || '',
+                        reason_for_consultation: clinicalRecord?.anamnesis?.reason_for_consultation || '',
+                        family_history: clinicalRecord?.anamnesis?.family_history || ''
+                    }} />
                 </div>
             </div>
 

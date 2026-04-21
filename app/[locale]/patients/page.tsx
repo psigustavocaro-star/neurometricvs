@@ -54,7 +54,7 @@ export default async function PatientsPage() {
 
     const { data: patients } = await supabase
         .from('patients')
-        .select('*')
+        .select('*, clinical_records(*)')
         .eq('profile_id', user?.id)
         .order('created_at', { ascending: false })
 

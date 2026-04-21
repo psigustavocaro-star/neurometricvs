@@ -195,7 +195,16 @@ export function PatientList({ initialPatients }: PatientListProps) {
                                                     <FileText className="h-4 w-4" />
                                                 </Link>
                                             </Button>
-                                            <EditPatientSheet patient={patient} trigger={
+                                            <EditPatientSheet patient={{
+                                                ...patient,
+                                                diagnosis: (patient as any).clinical_records?.[0]?.diagnosis || '',
+                                                medications: (patient as any).clinical_records?.[0]?.medications || '',
+                                                school: (patient as any).clinical_records?.[0]?.anamnesis?.school || '',
+                                                grade: (patient as any).clinical_records?.[0]?.anamnesis?.grade || '',
+                                                physical_status: (patient as any).clinical_records?.[0]?.anamnesis?.physical_status || '',
+                                                reason_for_consultation: (patient as any).clinical_records?.[0]?.anamnesis?.reason_for_consultation || '',
+                                                family_history: (patient as any).clinical_records?.[0]?.anamnesis?.family_history || ''
+                                            }} trigger={
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/50">
                                                     <Pencil className="h-4 w-4" />
                                                 </Button>
