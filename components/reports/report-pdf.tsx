@@ -244,7 +244,7 @@ export const ReportPDF = ({ patient, profile, result, interpretation }: any) => 
                         </View>
                         <View style={styles.infoItem}>
                             <Text style={styles.label}>Instrumento Clínico:</Text>
-                            <Text style={[styles.value, { fontWeight: 'bold' }]}>{result?.test_id?.toUpperCase()}</Text>
+                            <Text style={[styles.value, { fontWeight: 'bold' }]}>{result?.test_type?.toUpperCase()}</Text>
                         </View>
                     </View>
                 </View>

@@ -35,7 +35,7 @@ export function ReportActions({ patient, profile, result, interpretation, chartD
 
             <PDFDownloadLink
                 document={<ReportPDF patient={patient} profile={profile} result={result} interpretation={interpretation} chartData={chartData} />}
-                fileName={`Informe_${patient.full_name.replace(/\s+/g, '_')}_${result.test_id}.pdf`}
+                fileName={`Informe_${patient.full_name.replace(/\s+/g, '_')}_${result.test_type}.pdf`}
             >
                 {/* @ts-ignore */}
                 {({ blob, url, loading, error }) => (

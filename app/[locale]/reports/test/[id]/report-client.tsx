@@ -18,6 +18,20 @@ import { gad7 } from '@/lib/tests/gad7'
 import { rosenbergSelfEsteem } from '@/lib/tests/rosenberg'
 import { bis11 } from '@/lib/tests/bis11'
 import { scared } from '@/lib/tests/scared'
+import { carasR } from '@/lib/tests/caras-r'
+import { barthel } from '@/lib/tests/barthel'
+import { aceIII } from '@/lib/tests/ace-iii'
+import { ad8 } from '@/lib/tests/ad8'
+import { asrsV11 } from '@/lib/tests/asrs-v1.1'
+import { audit } from '@/lib/tests/audit'
+import { cage } from '@/lib/tests/cage'
+import { crafft } from '@/lib/tests/crafft'
+import { fagerstrom } from '@/lib/tests/fagerstrom'
+import { isi } from '@/lib/tests/isi'
+import { pcl5 } from '@/lib/tests/pcl-5'
+import { pss } from '@/lib/tests/pss'
+import { zungSas } from '@/lib/tests/zung-sas'
+import { zarit } from '@/lib/tests/zarit'
 
 const testDefinitions: Record<string, TestDefinition> = {
     'phq-9': phq9,
@@ -25,7 +39,21 @@ const testDefinitions: Record<string, TestDefinition> = {
     'gad-7': gad7,
     'rosenberg': rosenbergSelfEsteem,
     'bis-11': bis11,
-    'scared': scared
+    'scared': scared,
+    'caras-r': carasR,
+    'barthel': barthel,
+    'ace-iii': aceIII,
+    'ad8': ad8,
+    'asrs': asrsV11,
+    'audit': audit,
+    'cage': cage,
+    'crafft': crafft,
+    'fagerstrom': fagerstrom,
+    'isi': isi,
+    'pcl-5': pcl5,
+    'pss': pss,
+    'zung-sas': zungSas,
+    'zarit': zarit
 }
 
 interface ReportPageClientProps {
@@ -68,9 +96,9 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                 setPatient(result.patients)
 
                 // Get test definition
-                const def = testDefinitions[result.test_id]
+                const def = testDefinitions[result.test_type]
                 if (!def) {
-                    throw new Error(`${t('client.error_fallback')} "${result.test_id}"`)
+                    throw new Error(`${t('client.error_fallback')} "${result.test_type}"`)
                 }
                 setTestDef(def)
 
@@ -150,7 +178,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
     const range = testDef.scoring?.ranges?.find(r => score >= r.min && score <= r.max)
 
     const results: TestResults = {
-        testId: testResult.test_id,
+        testId: testResult.test_type,
         totalScore: score,
         maxPossibleScore,
         percentageScore: (score / maxPossibleScore) * 100,

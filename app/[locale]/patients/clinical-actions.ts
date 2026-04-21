@@ -399,7 +399,7 @@ export async function generateProfessionalReport(
     ${patientWithData.clinical_sessions?.slice(0, 5).map((s: any) => `- [${new Date(s.date).toLocaleDateString()}] (${s.type}): ${s.notes?.substring(0, 200)}...`).join('\n')}
     
     RESULTADOS DE TESTS:
-    ${patientWithData.test_results?.map((t: any) => `- [${t.test_id}]: Score ${t.results_json?.score} (${t.results_json?.label})`).join('\n')}
+    ${patientWithData.test_results?.map((t: any) => `- [${t.test_type}]: Score ${t.results_json?.score} (${t.results_json?.label})`).join('\n')}
     `
 
     if (type === 'clinical_report') {
