@@ -46,9 +46,9 @@ export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
         setIsLoading(false)
 
         if (result?.error) {
-            toast.error(t('error'))
+            toast.error('Error al actualizar paciente')
         } else {
-            toast.success(t('success'))
+            toast.success('Paciente actualizado exitosamente')
             setOpen(false)
         }
     }
@@ -59,20 +59,20 @@ export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
                 {trigger ? trigger : (
                     <Button variant="outline" size="sm" className="h-8 gap-2">
                         <Pencil className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">{t('trigger')}</span>
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Editar</span>
                     </Button>
                 )}
             </SheetTrigger>
             <SheetContent className="w-[400px] sm:w-[540px]">
                 <SheetHeader>
-                    <SheetTitle>{t('title')}</SheetTitle>
+                    <SheetTitle>Editar datos del paciente</SheetTitle>
                     <SheetDescription>
-                        {t('description')}
+                        Modifica y actualiza la información clínica y personal asociada a este perfil.
                     </SheetDescription>
                 </SheetHeader>
                 <form onSubmit={handleSubmit} className="space-y-6 mt-8">
                     <div className="space-y-2">
-                        <Label htmlFor="fullName">{t('fields.name')}</Label>
+                        <Label htmlFor="fullName">Nombre Completo</Label>
                         <Input
                             id="fullName"
                             name="fullName"
@@ -83,7 +83,7 @@ export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="birthDate">{t('fields.birth_date')}</Label>
+                            <Label htmlFor="birthDate">Fecha de Nacimiento</Label>
                             <Input
                                 id="birthDate"
                                 name="birthDate"
@@ -92,28 +92,28 @@ export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="gender">{t('fields.gender')}</Label>
+                            <Label htmlFor="gender">Género</Label>
                             <select
                                 id="gender"
                                 name="gender"
                                 defaultValue={patient.gender}
                                 className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                             >
-                                <option value="male">{t('gender.male')}</option>
-                                <option value="female">{t('gender.female')}</option>
-                                <option value="other">{t('gender.other')}</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Femenino</option>
+                                <option value="other">Otro</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email">{t('fields.email')}</Label>
+                        <Label htmlFor="email">Correo Electrónico</Label>
                         <Input
                             id="email"
                             name="email"
                             type="email"
                             defaultValue={patient.contact_email || ''}
-                            placeholder={t('placeholders.email')}
+                            placeholder="paciente@correo.com"
                         />
                     </div>
 
@@ -133,11 +133,11 @@ export function EditPatientSheet({ patient, trigger }: EditPatientSheetProps) {
 
                     <SheetFooter className="mt-8">
                         <SheetClose asChild>
-                            <Button type="button" variant="ghost">{t('cancel')}</Button>
+                            <Button type="button" variant="ghost">Cancelar</Button>
                         </SheetClose>
                         <Button type="submit" disabled={isLoading} className="bg-teal-600 hover:bg-teal-700">
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {t('save')}
+                            Guardar Cambios
                         </Button>
                     </SheetFooter>
                 </form>
