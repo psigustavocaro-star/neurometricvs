@@ -6,6 +6,9 @@ import { PatientNotionView } from '@/components/clinical/patient-notion-view'
 import { getTranslations } from 'next-intl/server'
 import { EditPatientSheet } from '@/components/patients/edit-patient-sheet'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function PatientDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const t = await getTranslations('Dashboard.Patients.Detail')
     const supabase = await createClient()

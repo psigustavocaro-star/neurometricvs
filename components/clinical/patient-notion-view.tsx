@@ -182,7 +182,18 @@ export function PatientNotionView({ patient, clinicalRecord, sessions: initialSe
 
     // Sync initialSessions prop with local state 
     useEffect(() => {
-        setSessions(initialSessions)
+        setSessions(prev => {
+            // Merge: keep all from initialSessions + any in prev that are NOT in initialSessions (locally added)
+            const initialIds = new Set(initialSessions.map(s => s.id))
+            const locallyAdded = prev.filter(s => !initialIds.has(s.id))
+            
+            // To prevent memory leaks of deleted sessions, we could filter locallyAdded by time, 
+            // but for now, simple merge is safer against staleness.
+            const merged = [...initialSessions, ...locallyAdded]
+            
+            // Re-sort by date descending
+            return merged.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        })
     }, [initialSessions])
 
     // Calculate age
