@@ -76,11 +76,26 @@ export const depressionScale: TestDefinition = {
     ],
     scoring: {
         ranges: [
-            { min: 0, max: 4, label: "Ninguna o mínima", color: "green" },
-            { min: 5, max: 9, label: "Leve", color: "yellow" },
-            { min: 10, max: 14, label: "Moderada", color: "orange" },
-            { min: 15, max: 19, label: "Moderadamente severa", color: "red" },
-            { min: 20, max: 27, label: "Severa", color: "purple" }
-        ]
+            { min: 0, max: 4, label: "Ninguna o mínima", color: "green", description: "Los síntomas reportados no sugieren la presencia de un trastorno depresivo clínicamente significativo." },
+            { min: 5, max: 9, label: "Depresión Leve", color: "yellow", description: "Presencia de síntomas depresivos leves que pueden requerir seguimiento o apoyo psicoeducativo." },
+            { min: 10, max: 14, label: "Depresión Moderada", color: "orange", description: "Síntomas significativos que sugieren la necesidad de una intervención clínica o psicofarmacológica según criterio." },
+            { min: 15, max: 19, label: "Depresión Moderadamente Severa", color: "red", description: "Nivel de síntomas elevado con impacto funcional considerable; requiere intervención activa." },
+            { min: 20, max: 27, label: "Depresión Severa", color: "purple", description: "Cuadro sintomatológico grave. Se recomienda intervención clínica inmediata y evaluación psiquiátrica." }
+        ],
+        interpretation: `
+## Análisis del PHQ-9
+        
+El Cuestionario de Salud del Paciente (PHQ-9) es una herramienta validada para el cribado, diagnóstico y monitoreo de la gravedad de la depresión. Se basa directamente en los criterios diagnósticos del DSM.
+
+### Criterios de Gravedad:
+- **0-4**: Ausencia de síntomas significativos.
+- **5-9**: Síntomas leves que pueden ser normales o indicar una depresión incipiente.
+- **10-14**: Umbral clínico; se sugiere evaluación diagnóstica.
+- **15-19**: Nivel elevado de distress; tratamiento indicado.
+- **20+**: Gravedad máxima; requiere atención prioritaria.
+
+### Nota sobre el Ítem 9:
+Cualquier puntuación mayor a 0 en el último ítem ("Pensamientos de que estaría mejor muerto/a") requiere una evaluación inmediata del riesgo suicida, independientemente de la puntuación total.
+        `
     }
 }

@@ -556,8 +556,8 @@ export function ProfessionalTestReport({
                                 <AlertTitle className="text-lg">{results.rangeLabel}</AlertTitle>
                                 <AlertDescription className="mt-2">
                                     {results.rangeDescription ||
-                                        `El evaluado obtuvo una puntuación de ${results.totalScore} puntos, 
-                                        lo cual corresponde a la categoría "${results.rangeLabel}".`
+                                        `El evaluado obtuvo una puntuación de ${results.totalScore ?? 0} puntos, 
+                                        lo cual corresponde a la categoría "${results.rangeLabel || 'No clasificado'}".`
                                     }
                                 </AlertDescription>
                             </div>

@@ -141,8 +141,8 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
     }
 
     // Build TestResults object from stored data
-    const metadata = testResult.metadata || {}
-    const score = testResult.score
+    const resultsJson = testResult.results_json || {}
+    const score = Number(resultsJson.score || testResult.score || 0) || 0
 
     // Calculate max possible score
     const maxPossibleScore = testDef.questions.reduce((acc, q) => {
@@ -152,8 +152,8 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
 
     // Build subscale scores
     let subscaleScores: TestResults['subscaleScores'] = []
-    if (metadata.subscales) {
-        subscaleScores = metadata.subscales.map((sub: any) => {
+    if (resultsJson.subscales) {
+        subscaleScores = resultsJson.subscales.map((sub: any) => {
             // Find subscale definition to get max score
             const subDef = testDef.subscales?.find(s => s.id === sub.id)
             const maxSubScore = subDef ? subDef.questionIds.reduce((acc, qId) => {
@@ -181,12 +181,12 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
         testId: testResult.test_type,
         totalScore: score,
         maxPossibleScore,
-        percentageScore: (score / maxPossibleScore) * 100,
-        rangeLabel: metadata.label || t('client.default_label'),
-        rangeColor: metadata.color || 'gray',
+        percentageScore: maxPossibleScore > 0 ? (score / maxPossibleScore) * 100 : 0,
+        rangeLabel: resultsJson.label || t('client.default_label'),
+        rangeColor: resultsJson.color || 'gray',
         rangeDescription: range?.description,
         subscaleScores,
-        responses: metadata.answers || {},
+        responses: resultsJson.answers || {},
         completedAt: new Date(testResult.created_at)
     }
 
