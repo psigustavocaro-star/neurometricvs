@@ -93,6 +93,12 @@ export function ListTestRunner({ test, patientId, sessionId, onComplete }: ListT
                     answers: answers,
                     reference: test.reference
                 }, sessionId)
+
+                if (result.error) {
+                    toast.error(`Error: ${result.error}`)
+                    return
+                }
+                
                 if (result.id) {
                     setResultId(result.id)
                 }
@@ -101,7 +107,7 @@ export function ListTestRunner({ test, patientId, sessionId, onComplete }: ListT
                 if (onComplete) onComplete()
             } catch (error) {
                 toast.error("Error al guardar los resultados")
-                console.error(error)
+                console.error('Exception in test runner:', error)
             } finally {
                 setIsSubmitting(false)
             }

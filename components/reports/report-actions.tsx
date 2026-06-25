@@ -1,4 +1,5 @@
 "use client"
+import { useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import { Button } from "@/components/ui/button"
@@ -27,24 +28,35 @@ interface ReportActionsProps {
 }
 
 export function ReportActions({ patient, profile, result, interpretation, chartData }: ReportActionsProps) {
+    const [showDownload, setShowDownload] = useState(false)
+
     return (
         <div className="flex gap-2">
             <Button variant="outline" onClick={() => window.print()}>
                 <Printer className="mr-2 h-4 w-4" /> Imprimir
             </Button>
 
-            <PDFDownloadLink
-                document={<ReportPDF patient={patient} profile={profile} result={result} interpretation={interpretation} chartData={chartData} />}
-                fileName={`Informe_${patient.full_name.replace(/\s+/g, '_')}_${result.test_type}.pdf`}
-            >
-                {/* @ts-ignore */}
-                {({ blob, url, loading, error }) => (
-                    <Button className="bg-teal-600 hover:bg-teal-700" disabled={loading}>
-                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                        {loading ? 'Generando...' : 'Descargar PDF'}
-                    </Button>
-                )}
-            </PDFDownloadLink>
+            {!showDownload ? (
+                <Button 
+                    className="bg-teal-600 hover:bg-teal-700"
+                    onClick={() => setShowDownload(true)}
+                >
+                    <Download className="mr-2 h-4 w-4" /> Exportar PDF
+                </Button>
+            ) : (
+                <PDFDownloadLink
+                    document={<ReportPDF patient={patient} profile={profile} result={result} interpretation={interpretation} chartData={chartData} />}
+                    fileName={`Informe_${patient.full_name.replace(/\s+/g, '_')}_${result.test_type}.pdf`}
+                >
+                    {/* @ts-ignore */}
+                    {({ blob, url, loading, error }) => (
+                        <Button className="bg-teal-600 hover:bg-teal-700" disabled={loading}>
+                            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                            {loading ? 'Preparando...' : 'Descargar Ahora'}
+                        </Button>
+                    )}
+                </PDFDownloadLink>
+            )}
         </div>
     )
 }

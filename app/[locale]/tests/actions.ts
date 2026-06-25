@@ -30,9 +30,9 @@ export async function saveTestResult(patientId: string, testId: string, score: n
         .select('id')
         .single()
 
-    if (error) {
-        console.error(error)
-        return { error: 'Could not save test result' }
+    if (error || !newResult) {
+        console.error('Save error:', error)
+        return { error: error?.message || 'Could not save test result' }
     }
 
     revalidatePath(`/patients/${patientId}`)

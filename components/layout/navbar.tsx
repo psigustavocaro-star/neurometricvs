@@ -43,7 +43,10 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
         if (user !== currentUser) {
             setCurrentUser(user)
         }
-    }, [user])
+        if (profile !== currentProfile) {
+            setCurrentProfile(profile)
+        }
+    }, [user, profile])
 
     useEffect(() => {
         const handleScroll = () => {

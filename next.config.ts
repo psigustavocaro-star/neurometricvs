@@ -4,6 +4,14 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zxbbvokudyivgbyqrllq.supabase.co';
+let supabaseHost = 'zxbbvokudyivgbyqrllq.supabase.co';
+try {
+  supabaseHost = new URL(supabaseUrl).hostname;
+} catch (e) {
+  // fallback
+}
+
 const nextConfig: NextConfig = {
 
   transpilePackages: ['@react-pdf/renderer'],
@@ -20,7 +28,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'dojetjntlqidtfdtykxt.supabase.co',
+        hostname: supabaseHost,
         pathname: '/storage/v1/object/public/**',
       },
     ],
@@ -36,10 +44,10 @@ const nextConfig: NextConfig = {
               default-src 'self';
               script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com https://public.profitwell.com https://*.profitwell.com https://vercel.live https://*.vercel.live https://js.stripe.com;
               style-src 'self' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com;
-              img-src 'self' blob: data: https://vercel.com https://*.vercel.com https://assets.vercel.com https://*.paddle.com https://dojetjntlqidtfdtykxt.supabase.co https://neurometricslatam.com https://flagcdn.com https://lh3.googleusercontent.com;
+              img-src 'self' blob: data: https://vercel.com https://*.vercel.com https://assets.vercel.com https://*.paddle.com https://${supabaseHost} https://neurometricslatam.com https://flagcdn.com https://lh3.googleusercontent.com;
               font-src 'self' data: https://*.paddle.com https://vercel.live https://*.vercel.live https://assets.vercel.com;
               frame-src 'self' https://*.paddle.com https://vercel.live https://*.vercel.live https://js.stripe.com;
-              connect-src 'self' ws://localhost:* wss://localhost:* https://*.paddle.com https://*.profitwell.com https://dojetjntlqidtfdtykxt.supabase.co https://mindicador.cl https://open.er-api.com https://ipwho.is http://ipwho.is https://api.openweathermap.org https://api.open-meteo.com http://ip-api.com https://ipapi.co wss://ws-us3.pusher.com https://sockjs-us3.pusher.com wss://*.pusher.com https://vercel.live https://*.vercel.live;
+              connect-src 'self' ws://localhost:* wss://localhost:* https://*.paddle.com https://*.profitwell.com https://${supabaseHost} https://mindicador.cl https://open.er-api.com https://ipwho.is http://ipwho.is https://api.openweathermap.org https://api.open-meteo.com http://ip-api.com https://ipapi.co wss://ws-us3.pusher.com https://sockjs-us3.pusher.com wss://*.pusher.com https://vercel.live https://*.vercel.live;
             `.replace(/\s{2,}/g, ' ').trim()
           }
         ],

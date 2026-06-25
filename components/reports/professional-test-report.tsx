@@ -18,6 +18,7 @@ import {
     AlertCircle
 } from "lucide-react"
 import { TestDefinition, ScoringRange, Subscale } from "@/types/test"
+import { ReportActions } from "./report-actions"
 
 // Tipos para los resultados del test
 export interface TestResults {
@@ -48,8 +49,12 @@ interface ProfessionalReportProps {
     patientAge?: number
     patientGender?: 'male' | 'female' | 'other'
     evaluatorName?: string
+    evaluatorSpecialty?: string
+    evaluatorRegistry?: string
     evaluationDate?: Date
     additionalNotes?: string
+    evaluatorProfile?: any
+    testResult?: any
 }
 
 // Componente de gráfico de barras
@@ -225,12 +230,14 @@ function generateRecommendations(test: TestDefinition, results: TestResults): st
 export function ProfessionalTestReport({
     test,
     results,
-    patientName,
-    patientAge,
     patientGender,
     evaluatorName = "Profesional Evaluador",
+    evaluatorSpecialty,
+    evaluatorRegistry,
     evaluationDate = new Date(),
-    additionalNotes
+    additionalNotes,
+    evaluatorProfile,
+    testResult
 }: ProfessionalReportProps) {
     const formatDate = (date: Date) => {
         return date.toLocaleDateString('es-ES', {
@@ -278,10 +285,14 @@ export function ProfessionalTestReport({
                     <Printer className="mr-2 h-4 w-4" />
                     Imprimir
                 </Button>
-                <Button variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    Exportar PDF
-                </Button>
+                {evaluatorProfile && testResult && (
+                    <ReportActions 
+                        patient={{ full_name: patientName }}
+                        profile={evaluatorProfile}
+                        result={testResult}
+                        interpretation={results.rangeDescription || ""}
+                    />
+                )}
             </div>
 
             {/* ===== ENCABEZADO DEL INFORME ===== */}
@@ -652,6 +663,15 @@ export function ProfessionalTestReport({
                     )}
                 </CardContent>
             </Card>
+            
+            {/* Signature Block */}
+            <div className="mt-16 mb-8 flex flex-col items-center justify-center space-y-1 print:mt-24">
+                <div className="w-64 border-t-2 border-slate-900 mb-2" />
+                <p className="font-bold text-lg text-slate-900">{evaluatorName}</p>
+                <p className="text-sm text-slate-600 font-medium">{evaluatorSpecialty || 'Especialista a Cargo'}</p>
+                {evaluatorRegistry && <p className="text-xs text-slate-500">Registro: {evaluatorRegistry}</p>}
+                <p className="text-xs text-slate-400 mt-1 italic">Firma Electrónica Autorizada</p>
+            </div>
 
             {/* ===== PIE DE PÁGINA ===== */}
             <div className="text-center text-xs text-muted-foreground border-t pt-4 print:mt-8 space-y-2">

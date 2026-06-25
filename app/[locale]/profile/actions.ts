@@ -80,7 +80,7 @@ export async function updateProfile(formData: FormData) {
         return { error: `Could not update profile: ${error.message}` }
     }
 
-    revalidatePath('/profile')
+    revalidatePath('/', 'layout')
     return { success: true, emailChanged: !!updates.email }
 }
 

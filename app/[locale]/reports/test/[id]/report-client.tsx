@@ -66,6 +66,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
     const [error, setError] = useState<string | null>(null)
     const [testResult, setTestResult] = useState<any>(null)
     const [patient, setPatient] = useState<any>(null)
+    const [evaluator, setEvaluator] = useState<any>(null)
     const [testDef, setTestDef] = useState<TestDefinition | null>(null)
     const router = useRouter()
 
@@ -84,6 +85,9 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                             full_name,
                             birth_date,
                             gender
+                        ),
+                        profiles (
+                            *
                         )
                     `)
                     .eq('id', resultId)
@@ -94,6 +98,7 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
 
                 setTestResult(result)
                 setPatient(result.patients)
+                setEvaluator(result.profiles)
 
                 // Get test definition
                 const def = testDefinitions[result.test_type]
@@ -211,7 +216,12 @@ export function ReportPageClient({ resultId }: ReportPageClientProps) {
                 patientName={patient?.full_name || t('client.default_patient')}
                 patientAge={calculateAge(patient?.birth_date)}
                 patientGender={patient?.gender}
+                evaluatorName={evaluator?.full_name || t('client.default_evaluator')}
+                evaluatorSpecialty={evaluator?.specialty}
+                evaluatorRegistry={evaluator?.registry_number}
                 evaluationDate={new Date(testResult.created_at)}
+                evaluatorProfile={evaluator}
+                testResult={testResult}
             />
         </div>
     )

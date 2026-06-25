@@ -33,10 +33,23 @@ export const gds15: TestDefinition = {
     ],
     scoring: {
         ranges: [
-            { min: 0, max: 4, label: "Normal", color: "green" },
-            { min: 5, max: 8, label: "Depresión leve", color: "yellow" },
-            { min: 9, max: 11, label: "Depresión moderada", color: "orange" },
-            { min: 12, max: 15, label: "Depresión severa", color: "red" }
-        ]
+            { min: 0, max: 4, label: "Normal (Sin Sintomatología)", color: "green", description: "Puntuación dentro de rangos normales. No se detectan indicadores significativos de depresión." },
+            { min: 5, max: 8, label: "Depresión Leve", color: "yellow", description: "Sugiere presencia de sintomatología depresiva leve. Se recomienda monitoreo y evaluación de factores estresores." },
+            { min: 9, max: 11, label: "Depresión Moderada", color: "orange", description: "Sintomatología depresiva manifiesta. Se sugiere evaluación diagnóstica formal e intervención clínica." },
+            { min: 12, max: 15, label: "Depresión Severa", color: "red", description: "Indicadores de depresión grave. Se requiere intervención clínica inmediata y evaluación psiquiátrica." }
+        ],
+        interpretation: `
+## Análisis de la Escala Geriátrica de Yesavage (GDS-15)
+
+La GDS-15 es una herramienta de cribado diseñada específicamente para adultos mayores, omitiendo síntomas somáticos que suelen confundirse con el envejecimiento normal o enfermedades médicas.
+
+### Escalas de Gravedad:
+- **0 - 4**: Normalidad psicofuncional.
+- **5 - 9**: Indica una depresión probable; se justifica una evaluación más profunda.
+- **10 o más**: Depresión casi siempre presente; requiere derivación a salud mental.
+
+### Nota sobre Adultos Mayores:
+Es fundamental considerar que la depresión en el adulto mayor puede presentarse de forma atípica (apatía, irritabilidad o quejas cognitivas) en lugar de tristeza manifiesta.
+        `
     }
 }

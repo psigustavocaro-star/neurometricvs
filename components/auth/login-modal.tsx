@@ -29,8 +29,7 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
     )
 }
 
-export function LoginModal({ children }: { children: React.ReactNode }) {
-    const [open, setOpen] = useState(false)
+function LoginModalContent({ setOpen }: { setOpen: (open: boolean) => void }) {
     const router = useRouter()
 
     // Login State
@@ -56,91 +55,134 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
             setOpen(false)
             router.push('/dashboard')
         }
-    }, [loginState, router])
+    }, [loginState, router, setOpen])
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                {children}
-            </DialogTrigger>
-            <DialogContent
-                className="sm:max-w-[425px] bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 border dark:border-gray-800/50 shadow-2xl backdrop-blur-xl transition-all duration-500"
-                overlayClassName="backdrop-blur-md bg-black/60 transition-all duration-500"
-            >
-                <DialogHeader className="space-y-3">
-                    <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">Bienvenido a Neurometrics</DialogTitle>
-                    <DialogDescription className="text-gray-600 dark:text-gray-300 font-medium">
-                        Ingresa a tu cuenta o regístrate para comenzar.
-                    </DialogDescription>
-                </DialogHeader>
-                <Tabs defaultValue="login" className="w-full mt-2">
-                    <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800/50 p-1 rounded-lg">
-                        <TabsTrigger value="login" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-md transition-all">Iniciar Sesión</TabsTrigger>
-                        <TabsTrigger value="register" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-md transition-all">Registrarse</TabsTrigger>
-                    </TabsList>
+        <>
+            <DialogHeader className="space-y-3">
+                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">Bienvenido a Neurometrics</DialogTitle>
+                <DialogDescription className="text-gray-600 dark:text-gray-300 font-medium">
+                    Ingresa a tu cuenta o regístrate para comenzar.
+                </DialogDescription>
+            </DialogHeader>
+            <Tabs defaultValue="login" className="w-full mt-2">
+                <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800/50 p-1 rounded-lg">
+                    <TabsTrigger value="login" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-md transition-all">Iniciar Sesión</TabsTrigger>
+                    <TabsTrigger value="register" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:shadow-sm rounded-md transition-all">Registrarse</TabsTrigger>
+                </TabsList>
 
-                    {/* LOGIN TAB */}
-                    <TabsContent value="login">
-                        <form
-                            action={(formData) => {
-                                const email = formData.get('email') as string;
-                                const remember = formData.get('remember') === 'on';
-                                if (remember) {
-                                    localStorage.setItem('remembered_email', email);
-                                } else {
-                                    localStorage.removeItem('remembered_email');
-                                }
-                                loginDispatch(formData);
-                            }}
-                            className="space-y-5 py-4"
-                        >
-                            {loginState?.error && (
+                {/* LOGIN TAB */}
+                <TabsContent value="login">
+                    <form
+                        action={(formData) => {
+                            const email = formData.get('email') as string;
+                            const remember = formData.get('remember') === 'on';
+                            if (remember) {
+                                localStorage.setItem('remembered_email', email);
+                            } else {
+                                localStorage.removeItem('remembered_email');
+                            }
+                            loginDispatch(formData);
+                        }}
+                        className="space-y-5 py-4"
+                    >
+                        {loginState?.error && (
+                            <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
+                                {loginState.error}
+                            </div>
+                        )}
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                placeholder="correo@ejemplo.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
+                            <PasswordInput
+                                id="password"
+                                name="password"
+                                required
+                                className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
+                            />
+                        </div>
+
+                        <div className="flex items-center justify-between py-1">
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    id="remember"
+                                    name="remember"
+                                    defaultChecked={!!email}
+                                    className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 transition-colors"
+                                />
+                                <label htmlFor="remember" className="text-sm text-gray-700 dark:text-gray-200 cursor-pointer select-none font-medium">
+                                    Recordar datos
+                                </label>
+                            </div>
+                            <a href="/forgot-password" className="text-sm font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        </div>
+
+                        <SubmitButton>Ingresar</SubmitButton>
+
+                        <div className="relative my-4">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                            </div>
+                            <div className="relative flex justify-center text-xs">
+                                <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 uppercase font-semibold tracking-wider">O continuar con</span>
+                            </div>
+                        </div>
+
+                        <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold" />
+                    </form>
+
+                </TabsContent>
+
+                {/* REGISTER TAB */}
+                <TabsContent value="register">
+                    {process.env.NEXT_PUBLIC_BETA_ACCESS === 'true' ? (
+                        <form action={signupDispatch} className="space-y-5 py-4">
+                            {signupState?.error && (
                                 <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                                    {loginState.error}
+                                    {signupState.error}
+                                </div>
+                            )}
+                            {signupState?.success && (
+                                <div className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 text-green-600 dark:text-green-400 px-4 py-3 rounded-lg text-sm">
+                                    ¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.
                                 </div>
                             )}
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
+                                <Label htmlFor="signup-email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
                                 <Input
-                                    id="email"
+                                    id="signup-email"
                                     name="email"
                                     type="email"
                                     required
                                     placeholder="correo@ejemplo.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
                                     className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
+                                <Label htmlFor="signup-password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
                                 <PasswordInput
-                                    id="password"
+                                    id="signup-password"
                                     name="password"
                                     required
                                     className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
                                 />
                             </div>
-
-                            <div className="flex items-center justify-between py-1">
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        id="remember"
-                                        name="remember"
-                                        defaultChecked={!!email}
-                                        className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-500 dark:bg-gray-800 transition-colors"
-                                    />
-                                    <label htmlFor="remember" className="text-sm text-gray-700 dark:text-gray-200 cursor-pointer select-none font-medium">
-                                        Recordar datos
-                                    </label>
-                                </div>
-                                <a href="/forgot-password" className="text-sm font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
-                                    ¿Olvidaste tu contraseña?
-                                </a>
-                            </div>
-
-                            <SubmitButton>Ingresar</SubmitButton>
+                            <SubmitButton>Crear Cuenta</SubmitButton>
 
                             <div className="relative my-4">
                                 <div className="absolute inset-0 flex items-center">
@@ -152,81 +194,49 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
                             </div>
 
                             <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold" />
+
+                            <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+                                Para registro completo con perfil profesional, visita{' '}
+                                <a href="/onboarding" className="text-teal-600 dark:text-teal-400 hover:underline">onboarding</a>
+                            </p>
                         </form>
-
-                    </TabsContent>
-
-                    {/* REGISTER TAB */}
-                    <TabsContent value="register">
-                        {process.env.NEXT_PUBLIC_BETA_ACCESS === 'true' ? (
-                            <form action={signupDispatch} className="space-y-5 py-4">
-                                {signupState?.error && (
-                                    <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                                        {signupState.error}
-                                    </div>
-                                )}
-                                {signupState?.success && (
-                                    <div className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 text-green-600 dark:text-green-400 px-4 py-3 rounded-lg text-sm">
-                                        ¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.
-                                    </div>
-                                )}
-                                <div className="space-y-2">
-                                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Correo Electrónico</Label>
-                                    <Input
-                                        id="signup-email"
-                                        name="email"
-                                        type="email"
-                                        required
-                                        placeholder="correo@ejemplo.com"
-                                        className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 dark:placeholder:text-gray-500 transition-colors"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</Label>
-                                    <PasswordInput
-                                        id="signup-password"
-                                        name="password"
-                                        required
-                                        className="h-11 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:border-teal-500 dark:focus:border-teal-500 focus:ring-teal-500/20 dark:text-gray-100 transition-colors"
-                                    />
-                                </div>
-                                <SubmitButton>Crear Cuenta</SubmitButton>
-
-                                <div className="relative my-4">
-                                    <div className="absolute inset-0 flex items-center">
-                                        <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
-                                    </div>
-                                    <div className="relative flex justify-center text-xs">
-                                        <span className="bg-white dark:bg-slate-900 px-2 text-slate-500 uppercase font-semibold tracking-wider">O continuar con</span>
-                                    </div>
-                                </div>
-
-                                <GoogleLoginButton label="Google" className="w-full h-11 bg-white hover:bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 font-semibold" />
-
-                                <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-                                    Para registro completo con perfil profesional, visita{' '}
-                                    <a href="/onboarding" className="text-teal-600 dark:text-teal-400 hover:underline">onboarding</a>
-                                </p>
-                            </form>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
-                                <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-full animate-in zoom-in-50 duration-500">
-                                    <Loader2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
-                                </div>
-                                <div className="space-y-2">
-                                    <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Acceso Beta Cerrado</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
-                                        Estamos en construcción. El registro está temporalmente deshabilitado mientras mejoramos la plataforma.
-                                    </p>
-                                </div>
-                                <Button variant="outline" className="w-full mt-4" disabled>
-                                    Próximamente
-                                </Button>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
+                            <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-full animate-in zoom-in-50 duration-500">
+                                <Loader2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
                             </div>
-                        )}
-                    </TabsContent>
-                </Tabs>
+                            <div className="space-y-2">
+                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Acceso Beta Cerrado</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
+                                    Estamos en construcción. El registro está temporalmente deshabilitado mientras mejoramos la plataforma.
+                                </p>
+                            </div>
+                            <Button variant="outline" className="w-full mt-4" disabled>
+                                Próximamente
+                            </Button>
+                        </div>
+                    )}
+                </TabsContent>
+            </Tabs>
+        </>
+    )
+}
+
+export function LoginModal({ children }: { children: React.ReactNode }) {
+    const [open, setOpen] = useState(false)
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                {children}
+            </DialogTrigger>
+            <DialogContent
+                className="sm:max-w-[425px] bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950 border dark:border-gray-800/50 shadow-2xl backdrop-blur-xl transition-all duration-500"
+                overlayClassName="backdrop-blur-md bg-black/60 transition-all duration-500"
+            >
+                {open && <LoginModalContent setOpen={setOpen} />}
             </DialogContent>
         </Dialog>
     )
 }
+
