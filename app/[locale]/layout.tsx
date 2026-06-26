@@ -53,12 +53,15 @@ export default async function RootLayout({
     notFound();
   }
 
-  // Provide all messages to the client - forced reload
-  const messages = await getMessages();
-
   // Supabase logic
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  // Run i18n messages loading and auth validation concurrently to avoid
+  // two sequential network round-trips on every request.
+  const [messages, { data: { user } }] = await Promise.all([
+    getMessages(),
+    supabase.auth.getUser(),
+  ]);
 
   let profile = null;
   let subscription = null;
