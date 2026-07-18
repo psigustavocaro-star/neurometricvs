@@ -78,6 +78,11 @@
             "Nutritionists"
         ],
         "badge": "Clinical practice platform",
+        "platform_label": "Unified clinical intelligence",
+        "monitoring_label": "Monitoring",
+        "monitoring_value": "Real-time data",
+        "protection_label": "Protection",
+        "protection_value": "Secure clinical workflow",
         "trust_points": [
             "Free plan available",
             "No credit card required",
@@ -2167,6 +2172,7 @@
         "languages": "Languages"
     },
     "CTA": {
+        "eyebrow": "Start a new way of working",
         "title": "Your clinical practice deserves better tools.",
         "subtitle": "Start free today and discover how much time you can win back every week.",
         "button": "Create free account",
@@ -2223,6 +2229,17 @@
                 "sub": "Automatically generated",
                 "ready": "PDF ready"
             }
+        }
+    },
+    "CinematicClinical": {
+        "eyebrow": "Technology serving clinical judgment",
+        "title": "Less operation. More clinical presence.",
+        "description": "Neurometrics brings every part of your practice into one precise, connected workspace. You keep the judgment; the platform handles repetitive work.",
+        "capabilities": {
+            "records": { "title": "Living clinical record", "description": "History, progress and context remain connected." },
+            "tests": { "title": "Automated assessment", "description": "Real instruments, delivery and immediate scoring." },
+            "reports": { "title": "Reports, ready", "description": "Clear results that become clinical decisions." },
+            "ai": { "title": "Intelligent assistance", "description": "Contextual support without replacing your judgment." }
         }
     }
 }

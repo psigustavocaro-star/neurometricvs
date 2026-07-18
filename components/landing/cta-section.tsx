@@ -19,7 +19,7 @@ export function CTASection() {
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
                     viewport={{ once: true, margin: '-80px' }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative overflow-hidden rounded-[2.5rem] bg-slate-950 px-6 py-20 md:px-16 md:py-28 text-center isolate"
+                    className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] bg-slate-950 px-6 py-20 md:px-16 md:py-32 text-center isolate border border-white/10 shadow-[0_50px_120px_-55px_rgba(13,148,136,0.55)]"
                 >
                     {/* Radial glow */}
                     <div
@@ -33,7 +33,10 @@ export function CTASection() {
                     {/* Hairline ring */}
                     <div aria-hidden className="absolute inset-0 rounded-[2.5rem] ring-1 ring-inset ring-white/10 -z-10" />
 
-                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white text-balance max-w-3xl mx-auto leading-[1.05]">
+                    <div className="mx-auto mb-8 flex w-fit items-center gap-2 rounded-full border border-teal-300/20 bg-teal-300/10 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-200">
+                        <span className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_12px_rgba(94,234,212,0.8)]" /> {t('eyebrow')}
+                    </div>
+                    <h2 className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-[-0.05em] text-white text-balance max-w-4xl mx-auto leading-[0.96]">
                         <AnimatedWords text={t('title')} stagger={0.05} />
                     </h2>
 

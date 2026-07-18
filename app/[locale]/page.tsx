@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowRight, Check, Play, ShieldCheck } from "lucide-react"
+import { ArrowRight, Check, Play, ShieldCheck, Activity, LockKeyhole, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ProductShowcase } from "@/components/landing/product-showcase"
@@ -19,6 +19,7 @@ import { StatsBand } from "@/components/landing/stats-band"
 import { CTASection } from "@/components/landing/cta-section"
 import { NeuroDivider } from "@/components/landing/neuro-divider"
 import { WorkflowSection } from "@/components/landing/workflow-section"
+import { CinematicClinicalSection } from "@/components/landing/cinematic-clinical-section"
 import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
 import { ProfessionTextLoop } from "@/components/landing/profession-text-loop"
@@ -58,41 +59,35 @@ export default function LandingPage() {
       <main className="flex-1 relative bg-transparent">
 
         {/* Hero Section */}
-        <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-44 pb-20 md:pb-28 relative">
-          {/* Hairline dot grid, fades out towards edges */}
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.4] dark:opacity-[0.15] pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_30%,transparent_75%)]"
-            style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(100 116 139 / 0.25) 1px, transparent 0)', backgroundSize: '28px 28px' }}
-          />
+        <section id="hero" className="landing-hero w-full pt-32 md:pt-40 lg:pt-44 pb-16 md:pb-24 relative isolate">
+          <div aria-hidden className="landing-hero__aurora" />
+          <div aria-hidden className="landing-grid absolute inset-0 pointer-events-none" />
 
           <div className="container px-4 md:px-6 relative z-10">
-
-            <div className="grid gap-16 lg:grid-cols-2 items-center">
-              <div className="flex flex-col justify-center space-y-8 items-center text-center lg:items-start lg:text-left">
+            <div className="mx-auto max-w-5xl flex flex-col items-center text-center">
 
                 <motion.div {...heroItem(0)}>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-xs font-semibold text-teal-700 dark:text-teal-300 tracking-wide">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-teal-200/60 dark:border-white/10 bg-white/70 dark:bg-white/[0.055] backdrop-blur-xl text-xs font-semibold text-teal-800 dark:text-teal-200 tracking-wide shadow-[0_8px_30px_rgba(8,145,178,0.08)]">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     {tHero('badge')}
                   </div>
                 </motion.div>
 
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white text-balance max-w-3xl leading-[1.08]">
+                <h1 className="mt-8 text-[clamp(3rem,7vw,6.8rem)] font-semibold tracking-[-0.055em] text-slate-950 dark:text-white text-balance max-w-5xl leading-[0.92]">
                   <AnimatedWords text={tHero('title')} onMount delay={0.15} />{' '}
-                  <motion.span {...heroItem(0.6)} className="inline-block">
+                  <motion.span {...heroItem(0.6)} className="inline-block text-gradient-clinical">
                     <ProfessionTextLoop />
                   </motion.span>
                 </h1>
 
-                <motion.p {...heroItem(0.45)} className="max-w-[600px] text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0">
+                <motion.p {...heroItem(0.45)} className="mt-8 max-w-2xl text-slate-600 dark:text-slate-300/80 text-lg md:text-xl leading-relaxed text-balance">
                   {tHero('subtitle')}
                 </motion.p>
 
-                <motion.div {...heroItem(0.6)}>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start w-full sm:w-auto items-center">
+                <motion.div {...heroItem(0.6)} className="mt-9">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center w-full sm:w-auto items-center">
                     <Magnetic>
-                      <Button asChild size="lg" className="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-full px-8 h-12 text-base font-semibold shadow-lg shadow-slate-900/10 dark:shadow-white/10 group">
+                      <Button asChild size="lg" className="bg-slate-950 hover:bg-slate-800 dark:bg-teal-300 dark:hover:bg-teal-200 text-white dark:text-slate-950 rounded-full px-8 h-13 text-base font-semibold shadow-[0_14px_45px_-14px_rgba(15,23,42,0.55)] dark:shadow-[0_14px_45px_-14px_rgba(94,234,212,0.55)] group">
                         <Link href="/onboarding">
                           {tHero('cta_primary')}
                           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -100,7 +95,7 @@ export default function LandingPage() {
                       </Button>
                     </Magnetic>
                     <DemoModal>
-                      <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full px-8 h-12 text-base font-medium cursor-pointer">
+                      <Button variant="outline" size="lg" className="border-slate-300/80 dark:border-white/15 bg-white/45 dark:bg-white/[0.04] backdrop-blur-md text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-white/[0.08] rounded-full px-8 h-13 text-base font-medium cursor-pointer">
                         <Play className="mr-2 h-4 w-4 text-teal-600 dark:text-teal-400 fill-current" />
                         {tHero('cta_secondary')}
                       </Button>
@@ -109,8 +104,8 @@ export default function LandingPage() {
                 </motion.div>
 
                 {trustPoints && trustPoints.length > 0 && (
-                  <motion.div {...heroItem(0.75)}>
-                    <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center lg:justify-start text-sm text-slate-500 dark:text-slate-400">
+                  <motion.div {...heroItem(0.75)} className="mt-7">
+                    <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center text-sm text-slate-500 dark:text-slate-400">
                       {trustPoints.map((point) => (
                         <li key={point} className="flex items-center gap-2">
                           <Check className="w-4 h-4 text-teal-600 dark:text-teal-400" strokeWidth={2.5} />
@@ -120,12 +115,24 @@ export default function LandingPage() {
                     </ul>
                   </motion.div>
                 )}
-              </div>
+            </div>
 
-              <Parallax offset={36} className="w-full">
+            <motion.div {...heroItem(0.82)} className="mt-12 md:mt-16 relative max-w-6xl mx-auto">
+              <div className="hidden xl:flex absolute -left-20 top-24 z-20 clinical-float-card items-center gap-3">
+                <span className="grid size-9 place-items-center rounded-xl bg-emerald-400/15 text-emerald-300"><Activity className="size-4" /></span>
+                <div><span className="block text-[10px] uppercase tracking-[0.18em] text-slate-400">{tHero('monitoring_label')}</span><span className="text-sm font-semibold text-white">{tHero('monitoring_value')}</span></div>
+              </div>
+              <div className="hidden xl:flex absolute -right-20 bottom-20 z-20 clinical-float-card items-center gap-3">
+                <span className="grid size-9 place-items-center rounded-xl bg-cyan-400/15 text-cyan-300"><LockKeyhole className="size-4" /></span>
+                <div><span className="block text-[10px] uppercase tracking-[0.18em] text-slate-400">{tHero('protection_label')}</span><span className="text-sm font-semibold text-white">{tHero('protection_value')}</span></div>
+              </div>
+              <div className="absolute left-1/2 -top-5 -translate-x-1/2 z-20 hidden md:flex items-center gap-2 rounded-full border border-white/10 bg-slate-950/90 px-4 py-2 text-[11px] font-semibold text-teal-200 shadow-2xl backdrop-blur-xl">
+                <Sparkles className="size-3.5" /> {tHero('platform_label')}
+              </div>
+              <Parallax offset={28} className="w-full">
                 <ProductShowcase />
               </Parallax>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -137,6 +144,9 @@ export default function LandingPage() {
 
         {/* Clinical workflow scrollytelling */}
         <WorkflowSection />
+
+        {/* Human layer: original editorial image + real platform capabilities */}
+        <CinematicClinicalSection />
 
         {/* Features Section (What We Offer) */}
         <FeaturesSection />

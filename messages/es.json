@@ -78,6 +78,11 @@
             "Fonoaudiólogos"
         ],
         "badge": "Plataforma de gestión clínica",
+        "platform_label": "Inteligencia clínica unificada",
+        "monitoring_label": "Monitoreo",
+        "monitoring_value": "Datos en tiempo real",
+        "protection_label": "Protección",
+        "protection_value": "Flujo clínico seguro",
         "trust_points": [
             "Plan gratuito disponible",
             "Sin tarjeta de crédito",
@@ -2167,6 +2172,7 @@
         "languages": "Idiomas"
     },
     "CTA": {
+        "eyebrow": "Empieza una nueva forma de trabajar",
         "title": "Tu práctica clínica merece mejores herramientas.",
         "subtitle": "Empieza gratis hoy y descubre cuánto tiempo puedes recuperar cada semana.",
         "button": "Crear cuenta gratis",
@@ -2223,6 +2229,17 @@
                 "sub": "Generado automáticamente",
                 "ready": "PDF listo"
             }
+        }
+    },
+    "CinematicClinical": {
+        "eyebrow": "Tecnología al servicio del criterio clínico",
+        "title": "Menos operación. Más presencia clínica.",
+        "description": "Neurometrics reúne cada parte de tu práctica en un espacio preciso y conectado. Tú conservas el criterio; la plataforma se ocupa del trabajo repetitivo.",
+        "capabilities": {
+            "records": { "title": "Ficha clínica viva", "description": "Historia, evolución y contexto siempre conectados." },
+            "tests": { "title": "Evaluación automatizada", "description": "Instrumentos reales, aplicación y corrección inmediata." },
+            "reports": { "title": "Informes listos", "description": "Resultados claros que se convierten en decisiones." },
+            "ai": { "title": "Asistencia inteligente", "description": "Apoyo contextual sin reemplazar tu juicio profesional." }
         }
     }
 }

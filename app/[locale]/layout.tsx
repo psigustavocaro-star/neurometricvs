@@ -21,6 +21,7 @@ const fontSans = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://neurometricslatam.com"),
   title: "Neurometrics",
   description: "Plataforma de gestión clínica para psicólogos",
   openGraph: {
@@ -29,8 +30,14 @@ export const metadata: Metadata = {
     url: "https://neurometricslatam.com",
     siteName: "Neurometrics",
     locale: "es_ES",
-
+    images: [{ url: "/neurometrics-clinical-intelligence.png", width: 1672, height: 941, alt: "Neurometrics — Inteligencia clínica" }],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Neurometrics - Gestión Clínica Inteligente",
+    description: "Tests, ficha clínica, informes y asistencia IA en una sola plataforma.",
+    images: ["/neurometrics-clinical-intelligence.png"],
   },
   icons: {
     icon: "/neurometrics-logo-small.png",

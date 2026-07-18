@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { ClipboardList, Cpu, FileCheck2, Check, User, Sparkles } from 'lucide-react'
@@ -33,33 +33,35 @@ export function WorkflowSection() {
     const vignettes = [<VignetteEvaluate key="v0" />, <VignetteScore key="v1" />, <VignetteReport key="v2" />]
 
     return (
-        <section id="workflow" className="w-full py-20 md:py-28 relative">
-            <div className="container px-4 md:px-6">
+        <section id="workflow" className="w-full py-24 md:py-36 relative overflow-hidden bg-slate-950 text-white">
+            <div aria-hidden className="absolute inset-0 clinical-dark-grid opacity-60" />
+            <div aria-hidden className="absolute -top-64 left-1/2 -translate-x-1/2 size-[44rem] rounded-full bg-teal-500/10 blur-[120px]" />
+            <div className="container px-4 md:px-6 relative z-10">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
                     <motion.div
                         initial={reduce ? undefined : { opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-60px' }}
                         transition={{ duration: 0.7, ease: EASE }}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-xs font-semibold text-teal-700 dark:text-teal-300 tracking-wide mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-300/20 bg-teal-300/10 text-xs font-semibold text-teal-200 tracking-wide mb-6"
                     >
                         <Sparkles className="w-3.5 h-3.5" />
                         {t('badge')}
                     </motion.div>
-                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white text-balance">
+                    <h2 className="text-4xl font-semibold tracking-[-0.045em] sm:text-5xl lg:text-6xl text-white text-balance leading-[0.98]">
                         {t('title')}
                     </h2>
-                    <p className="mt-4 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">{t('subtitle')}</p>
+                    <p className="mt-5 text-slate-400 text-lg leading-relaxed">{t('subtitle')}</p>
                 </div>
 
-                <div ref={containerRef} className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start max-w-5xl mx-auto">
+                <div ref={containerRef} className="grid lg:grid-cols-[1.15fr_.85fr] gap-12 lg:gap-20 items-start max-w-6xl mx-auto">
                     {/* Pinned visual (desktop) */}
-                    <div className="hidden lg:block sticky top-28 h-[480px]">
-                        <div className="relative w-full h-full rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-xl shadow-slate-200/50 dark:shadow-black/30 overflow-hidden">
+                    <div className="hidden lg:block sticky top-24 h-[560px]">
+                        <div className="relative w-full h-full rounded-[2.25rem] border border-white/10 bg-white/[0.055] shadow-[0_40px_100px_-40px_rgba(45,212,191,0.28)] backdrop-blur-xl overflow-hidden">
                             {/* Stage progress strip */}
                             <div className="absolute top-0 inset-x-0 h-1 flex z-10">
                                 {steps.map((_, i) => (
-                                    <div key={i} className="flex-1 bg-slate-100 dark:bg-slate-800">
+                                    <div key={i} className="flex-1 bg-white/5">
                                         <motion.div
                                             className="h-full bg-teal-500"
                                             animate={{ width: i < active ? '100%' : i === active ? '100%' : '0%' }}
@@ -96,29 +98,30 @@ export function WorkflowSection() {
                                         viewport={{ once: true, margin: '-80px' }}
                                         transition={{ duration: 0.7, ease: EASE }}
                                         className={cn(
-                                            "relative pl-14 transition-opacity duration-500",
-                                            !isActive && "lg:opacity-40"
+                                            "relative pl-16 transition-all duration-500",
+                                            !isActive && "lg:opacity-30 lg:translate-x-0",
+                                            isActive && "lg:translate-x-3"
                                         )}
                                     >
                                         <div className={cn(
                                             "absolute left-0 top-0 w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-500",
                                             isActive
-                                                ? "bg-teal-500/10 border-teal-500/30 text-teal-600 dark:text-teal-400"
-                                                : "bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400"
+                                                ? "bg-teal-300 text-slate-950 border-teal-200 shadow-[0_0_30px_rgba(94,234,212,0.28)]"
+                                                : "bg-white/5 border-white/10 text-slate-500"
                                         )}>
                                             <Icon className="w-5 h-5" strokeWidth={1.8} />
                                         </div>
-                                        <div className="text-xs font-bold text-teal-600 dark:text-teal-400 tracking-widest mb-2">
+                                        <div className="text-xs font-bold text-teal-300 tracking-widest mb-2">
                                             {String(i + 1).padStart(2, '0')}
                                         </div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-3">
+                                        <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-3">
                                             {step.title}
                                         </h3>
-                                        <p className="text-slate-600 dark:text-slate-400 leading-relaxed max-w-md">
+                                        <p className="text-slate-400 leading-relaxed max-w-md">
                                             {step.desc}
                                         </p>
                                         {/* Mobile inline vignette */}
-                                        <div className="lg:hidden mt-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 h-[340px] relative overflow-hidden">
+                                        <div className="lg:hidden mt-6 rounded-2xl border border-white/10 bg-white text-slate-950 p-6 h-[340px] relative overflow-hidden">
                                             {vignettes[i]}
                                         </div>
                                     </motion.div>

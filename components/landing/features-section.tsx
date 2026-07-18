@@ -74,36 +74,37 @@ export function FeaturesSection() {
     ]
 
     return (
-        <section id="features" className="w-full py-24 relative overflow-hidden">
+        <section id="features" className="w-full py-24 md:py-36 relative overflow-hidden">
             {/* Clinical Grid Background - Hidden in dark mode */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f080_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f080_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 dark:opacity-0" />
 
             <div className="container px-4 md:px-6 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-20 md:mb-32">
+                <div className="text-center max-w-4xl mx-auto mb-20 md:mb-32">
                     <ScrollAnimation animation="fade-up">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] font-bold uppercase tracking-widest mb-6 border border-border">
                             {t('hero_badge')}
                         </div>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6" dangerouslySetInnerHTML={{ __html: t.raw('hero_title') }} />
+                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-semibold text-slate-950 dark:text-white tracking-[-0.05em] leading-[0.98] mb-7" dangerouslySetInnerHTML={{ __html: t.raw('hero_title') }} />
                         <p className="text-lg text-muted-foreground leading-relaxed font-light text-balance">
                             {t('hero_description')}
                         </p>
                     </ScrollAnimation>
                 </div>
 
-                <div className="space-y-32">
+                <div className="space-y-28 md:space-y-44 max-w-6xl mx-auto">
                     {features.map((feature, index) => (
                         <div
                             key={feature.key}
                             id={feature.key}
-                            className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${feature.alignment === 'right' ? 'lg:flex-row-reverse' : ''}`}
+                            className={`relative flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${feature.alignment === 'right' ? 'lg:flex-row-reverse' : ''}`}
                         >
                             <div className="flex-1 space-y-8">
                                 <ScrollAnimation animation={feature.alignment === 'left' ? 'slide-in-left' : 'slide-in-right'}>
-                                    <div className={`w-14 h-14 rounded-2xl ${feature.bg} dark:bg-slate-800 flex items-center justify-center mb-6 shadow-sm border border-slate-100 dark:border-slate-700`}>
+                                    <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-teal-600 dark:text-teal-300 mb-5">Neurometrics / {String(index + 1).padStart(2, '0')}</div>
+                                    <div className={`w-14 h-14 rounded-2xl ${feature.bg} dark:bg-white/[0.07] flex items-center justify-center mb-6 shadow-sm border border-slate-100 dark:border-white/10`}>
                                         <feature.icon className={`w-7 h-7 ${feature.color}`} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-950 dark:text-white tracking-[-0.04em] leading-[1.02] mb-6">
                                         {t(`${feature.key}.title`)}
                                     </h3>
                                     <p className="text-lg text-muted-foreground leading-relaxed mb-8">
@@ -137,7 +138,7 @@ export function FeaturesSection() {
                             <Parallax offset={32} className="flex-1 w-full">
                                 <ScrollAnimation
                                     animation="fade-up"
-                                    className="w-full bg-slate-50 dark:bg-slate-900/50 rounded-[2.5rem] border border-slate-200/50 dark:border-slate-800 p-4 md:p-8 flex items-center justify-center relative overflow-hidden group"
+                                    className="w-full bg-white/75 dark:bg-white/[0.045] rounded-[2.5rem] border border-slate-200/70 dark:border-white/10 p-3 md:p-6 flex items-center justify-center relative overflow-hidden group shadow-[0_35px_90px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
                                 >
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 rounded-full blur-3xl group-hover:bg-teal-500/10 transition-colors" />
                                     <div className="relative z-10 w-full transform group-hover:scale-[1.02] transition-transform duration-500">

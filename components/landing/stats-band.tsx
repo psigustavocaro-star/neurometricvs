@@ -15,9 +15,9 @@ export function StatsBand() {
     const t = useTranslations('Stats')
 
     return (
-        <section className="w-full border-y border-border/60 bg-background/60 backdrop-blur-sm relative">
+        <section className="w-full relative px-4 md:px-6 -mt-1">
             <div className="container px-4 md:px-6">
-                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border/40">
+                <div className="grid grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-[1.75rem] border border-slate-200/70 dark:border-white/10 bg-white/65 dark:bg-white/[0.035] backdrop-blur-2xl shadow-[0_20px_70px_-35px_rgba(15,23,42,0.25)] divide-x divide-slate-200/60 dark:divide-white/10">
                     {stats.map((stat, i) => (
                         <motion.div
                             key={stat.key}
@@ -25,9 +25,10 @@ export function StatsBand() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: '-60px' }}
                             transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                            className="flex flex-col items-center justify-center py-10 md:py-14 px-4 text-center"
+                            className="group flex flex-col items-center justify-center py-9 md:py-12 px-4 text-center relative"
                         >
-                            <div className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white tabular-nums">
+                            <span className="absolute inset-x-0 bottom-0 h-px scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-transparent via-teal-400 to-transparent transition-transform duration-500" />
+                            <div className="text-4xl md:text-5xl font-semibold tracking-[-0.05em] text-slate-950 dark:text-white tabular-nums">
                                 <CountUp value={stat.value} suffix={stat.suffix} />
                             </div>
                             <div className="mt-2 text-xs md:text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-widest">
