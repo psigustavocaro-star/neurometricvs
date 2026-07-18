@@ -76,6 +76,12 @@
             "Occupational Therapists",
             "Speech Therapists",
             "Nutritionists"
+        ],
+        "badge": "Clinical practice platform",
+        "trust_points": [
+            "Free plan available",
+            "No credit card required",
+            "Encrypted data"
         ]
     },
     "General": {
@@ -1611,7 +1617,17 @@
         "confirmation_resent": "Confirmation email resent. Check your inbox.",
         "google_login": "Login / Sign up with Google",
         "forgot_password": "Forgot your password?",
-        "remember_me": "Remember me"
+        "remember_me": "Remember me",
+        "errors": {
+            "invalid_credentials": "Incorrect email or password. Please check your details and try again.",
+            "email_not_confirmed": "Your email is not confirmed yet. Check your inbox or resend the confirmation.",
+            "service_unavailable": "We could not reach the authentication server. Please try again in a few minutes.",
+            "rate_limited": "Too many attempts. Please wait a few minutes before trying again.",
+            "already_registered": "This email is already registered. Sign in with your password.",
+            "weak_password": "Password must be at least 6 characters long.",
+            "invalid_email": "The email format is not valid.",
+            "unknown": "An unexpected error occurred. Please try again."
+        }
     },
     "Contact": {
         "title": "Contact Us",
@@ -2135,5 +2151,78 @@
         "subtitle": "Explore our complete library of scientifically validated clinical evaluations.",
         "search_placeholder": "Search tests by name, category...",
         "back_to_dashboard": "Back to Dashboard"
+    },
+    "ProductShowcase": {
+        "tabs": {
+            "records": "Clinical Records",
+            "tests": "Tests",
+            "calculators": "Calculators"
+        },
+        "caption": "Actual platform preview"
+    },
+    "Stats": {
+        "tests": "Psychometric tests",
+        "calculators": "Clinical calculators",
+        "specialties": "Specialties",
+        "languages": "Languages"
+    },
+    "CTA": {
+        "title": "Your clinical practice deserves better tools.",
+        "subtitle": "Start free today and discover how much time you can win back every week.",
+        "button": "Create free account",
+        "secondary": "View plans and pricing",
+        "note": "No credit card required · Cancel anytime"
+    },
+    "Workflow": {
+        "badge": "Workflow",
+        "title": "From assessment to report, without friction.",
+        "subtitle": "This is what a full session looks like inside Neurometrics: three steps that used to take hours.",
+        "steps": [
+            {
+                "title": "Assess with validated instruments",
+                "desc": "Apply PHQ-9, GAD-7, BIS-11 and 60+ more tests directly in the platform, or send them to your patient through a secure link."
+            },
+            {
+                "title": "Scoring happens on its own",
+                "desc": "Scores, subscales and severity levels are computed instantly following each instrument's protocol. No spreadsheets, no transcription errors."
+            },
+            {
+                "title": "Report with clinical backing",
+                "desc": "Generate a professional, share-ready report with organized results and appropriate clinical language."
+            }
+        ],
+        "vignettes": {
+            "evaluate": {
+                "label": "Assessment in progress",
+                "items": [
+                    "Little interest or pleasure in doing things",
+                    "Trouble sleeping or sleeping too much",
+                    "Feeling tired or having little energy"
+                ]
+            },
+            "score": {
+                "label": "Automatic scoring",
+                "severity": "Moderate",
+                "scales": [
+                    {
+                        "name": "Affective symptoms",
+                        "pct": 64
+                    },
+                    {
+                        "name": "Somatic symptoms",
+                        "pct": 42
+                    },
+                    {
+                        "name": "Risk indicator",
+                        "pct": 18
+                    }
+                ]
+            },
+            "report": {
+                "label": "Clinical report",
+                "sub": "Automatically generated",
+                "ready": "PDF ready"
+            }
+        }
     }
 }

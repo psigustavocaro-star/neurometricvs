@@ -45,6 +45,9 @@ export async function updateProfile(formData: FormData) {
         })
 
         if (signInError) {
+            if (mapAuthErrorKey(signInError) === 'service_unavailable') {
+                return { error: 'No pudimos conectar con el servidor. Inténtalo de nuevo en unos minutos.' }
+            }
             return { error: 'La contraseña actual es incorrecta.' }
         }
 
@@ -58,7 +61,10 @@ export async function updateProfile(formData: FormData) {
     if (Object.keys(updates).length > 0) {
         const { error: authError } = await supabase.auth.updateUser(updates)
         if (authError) {
-            return { error: `Error updating account: ${authError.message}` }
+            if (mapAuthErrorKey(authError) === 'service_unavailable') {
+                return { error: 'No pudimos conectar con el servidor. Inténtalo de nuevo en unos minutos.' }
+            }
+            return { error: `No se pudo actualizar la cuenta: ${authError.message}` }
         }
     }
 

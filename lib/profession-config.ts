@@ -119,6 +119,22 @@ export const professionConfigs: Record<Profession, ProfessionConfig> = {
             { id: 'session', label: 'Sesión Terapia', icon: 'Mic', href: '/patients' },
             { id: 'report', label: 'Informe Fono', icon: 'FileText', href: '/patients' }
         ]
+    },
+
+    psychopedagogue: {
+        key: 'psychopedagogue',
+        label: 'Psicopedagogo/a',
+        labelEn: 'Psychopedagogue',
+        recommendedTests: ['wisc', 'snapiv', 'stroop', 'trail', 'rey', 'dstj_jr'],
+        availableCalculators: ['bmi'],
+        dashboardWidgets: ['sessions', 'tests', 'cognitive_profile', 'academic_progress'],
+        sessionNoteTemplate: 'psychopedagogical',
+        specializations: ['Dificultades de Aprendizaje', 'TDAH', 'TEA', 'Lectoescritura', 'Cálculo'],
+        quickActions: [
+            { id: 'new_session', label: 'Nueva Sesión', icon: 'MessageSquare', href: '/patients' },
+            { id: 'apply_test', label: 'Aplicar Test', icon: 'ClipboardList', href: '/dashboard/tests' },
+            { id: 'progress_report', label: 'Informe Evolutivo', icon: 'TrendingUp', href: '/patients' }
+        ]
     }
 }
 

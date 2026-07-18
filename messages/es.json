@@ -76,6 +76,12 @@
             "Médicos",
             "Terapeutas",
             "Fonoaudiólogos"
+        ],
+        "badge": "Plataforma de gestión clínica",
+        "trust_points": [
+            "Plan gratuito disponible",
+            "Sin tarjeta de crédito",
+            "Datos cifrados"
         ]
     },
     "General": {
@@ -1611,7 +1617,17 @@
         "confirmation_resent": "Correo de confirmación reenviado. Revisa tu bandeja de entrada.",
         "google_login": "Ingresar / Registrarse con Google",
         "forgot_password": "¿Olvidaste tu contraseña?",
-        "remember_me": "Recordar datos"
+        "remember_me": "Recordar datos",
+        "errors": {
+            "invalid_credentials": "Correo o contraseña incorrectos. Verifica tus datos e inténtalo de nuevo.",
+            "email_not_confirmed": "Tu correo aún no está confirmado. Revisa tu bandeja de entrada o reenvía la confirmación.",
+            "service_unavailable": "No pudimos conectar con el servidor de autenticación. Inténtalo de nuevo en unos minutos.",
+            "rate_limited": "Demasiados intentos. Espera unos minutos antes de volver a intentarlo.",
+            "already_registered": "Este correo ya está registrado. Inicia sesión con tu contraseña.",
+            "weak_password": "La contraseña debe tener al menos 6 caracteres.",
+            "invalid_email": "El formato del correo no es válido.",
+            "unknown": "Ocurrió un error inesperado. Inténtalo de nuevo."
+        }
     },
     "Contact": {
         "title": "Contáctanos",
@@ -2135,5 +2151,78 @@
         "subtitle": "Explora nuestra biblioteca completa de evaluaciones clínicas validadas científicamente.",
         "search_placeholder": "Buscar tests por nombre, categoría...",
         "back_to_dashboard": "Volver al Dashboard"
+    },
+    "ProductShowcase": {
+        "tabs": {
+            "records": "Ficha Clínica",
+            "tests": "Tests",
+            "calculators": "Calculadoras"
+        },
+        "caption": "Vista real de la plataforma"
+    },
+    "Stats": {
+        "tests": "Tests psicométricos",
+        "calculators": "Calculadoras clínicas",
+        "specialties": "Especialidades",
+        "languages": "Idiomas"
+    },
+    "CTA": {
+        "title": "Tu práctica clínica merece mejores herramientas.",
+        "subtitle": "Empieza gratis hoy y descubre cuánto tiempo puedes recuperar cada semana.",
+        "button": "Crear cuenta gratis",
+        "secondary": "Ver planes y precios",
+        "note": "Sin tarjeta de crédito · Cancela cuando quieras"
+    },
+    "Workflow": {
+        "badge": "Flujo de trabajo",
+        "title": "De la evaluación al informe, sin fricción.",
+        "subtitle": "Así se ve una sesión completa dentro de Neurometrics: tres pasos que antes tomaban horas.",
+        "steps": [
+            {
+                "title": "Evalúa con instrumentos validados",
+                "desc": "Aplica PHQ-9, GAD-7, BIS-11 y más de 60 tests directamente en la plataforma, o envíalos a tu paciente con un enlace seguro."
+            },
+            {
+                "title": "La corrección ocurre sola",
+                "desc": "Puntajes, subescalas y niveles de severidad se calculan al instante según el protocolo de cada instrumento. Sin planillas, sin errores de transcripción."
+            },
+            {
+                "title": "Informa con respaldo clínico",
+                "desc": "Genera un informe profesional listo para compartir, con los resultados organizados y lenguaje clínico apropiado."
+            }
+        ],
+        "vignettes": {
+            "evaluate": {
+                "label": "Aplicación en curso",
+                "items": [
+                    "Poco interés o placer en hacer cosas",
+                    "Dificultad para dormir o dormir en exceso",
+                    "Sentirse cansado o con poca energía"
+                ]
+            },
+            "score": {
+                "label": "Corrección automática",
+                "severity": "Moderado",
+                "scales": [
+                    {
+                        "name": "Síntomas afectivos",
+                        "pct": 64
+                    },
+                    {
+                        "name": "Síntomas somáticos",
+                        "pct": 42
+                    },
+                    {
+                        "name": "Indicador de riesgo",
+                        "pct": 18
+                    }
+                ]
+            },
+            "report": {
+                "label": "Informe clínico",
+                "sub": "Generado automáticamente",
+                "ready": "PDF listo"
+            }
+        }
     }
 }

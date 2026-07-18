@@ -8,6 +8,7 @@ export type Profession =
     | 'neurologist'
     | 'occupational_therapist'
     | 'speech_therapist'
+    | 'psychopedagogue'
 
 export type CalculatorCategory =
     | 'general'

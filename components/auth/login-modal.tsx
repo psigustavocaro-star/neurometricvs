@@ -3,6 +3,7 @@
 import { useState, useEffect, useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -31,6 +32,9 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
 
 function LoginModalContent({ setOpen }: { setOpen: (open: boolean) => void }) {
     const router = useRouter()
+    const tLogin = useTranslations('Login')
+    const translateError = (key?: string) =>
+        key ? (tLogin.has(`errors.${key}` as any) ? tLogin(`errors.${key}` as any) : tLogin('errors.unknown' as any)) : null
 
     // Login State
     const [loginState, loginDispatch] = useActionState(loginAction, null)
@@ -86,9 +90,9 @@ function LoginModalContent({ setOpen }: { setOpen: (open: boolean) => void }) {
                         }}
                         className="space-y-5 py-4"
                     >
-                        {loginState?.error && (
-                            <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                                {loginState.error}
+                        {loginState?.errorKey && (
+                            <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm" role="alert">
+                                {translateError(loginState.errorKey)}
                             </div>
                         )}
                         <div className="space-y-2">
@@ -152,9 +156,9 @@ function LoginModalContent({ setOpen }: { setOpen: (open: boolean) => void }) {
                 <TabsContent value="register">
                     {process.env.NEXT_PUBLIC_BETA_ACCESS === 'true' ? (
                         <form action={signupDispatch} className="space-y-5 py-4">
-                            {signupState?.error && (
-                                <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                                    {signupState.error}
+                            {signupState?.errorKey && (
+                                <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm" role="alert">
+                                    {translateError(signupState.errorKey)}
                                 </div>
                             )}
                             {signupState?.success && (

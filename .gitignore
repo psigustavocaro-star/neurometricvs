@@ -43,3 +43,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Legacy pre-i18n route tree (backup, not used)
+_legacy_backup/
+
+# Claude Code local settings
+.claude/settings.local.json

@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl'
 import { cn } from "@/lib/utils"
 import { PADDLE_ENV, PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from '@/lib/config'
 import { getPaddle } from '@/lib/paddle-client'
+import { mapAuthErrorKey } from '@/lib/auth-errors'
 import { GoogleLoginButton } from '@/components/auth/google-login-button'
 
 interface OnboardingFlowProps {
@@ -24,6 +25,7 @@ interface OnboardingFlowProps {
 
 export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
     const t = useTranslations('Onboarding')
+    const tLogin = useTranslations('Login')
     const router = useRouter()
     const [step, setStep] = useState(0)
 
@@ -84,7 +86,8 @@ export function OnboardingFlow({ onComplete, onClose }: OnboardingFlowProps) {
         })
 
         if (signUpError) {
-            setError(signUpError.message)
+            const errorKey = mapAuthErrorKey(signUpError)
+            setError(tLogin.has(`errors.${errorKey}` as any) ? tLogin(`errors.${errorKey}` as any) : tLogin('errors.unknown' as any))
             setIsLoading(false)
             return
         }

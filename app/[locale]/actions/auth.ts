@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { mapAuthErrorKey } from '@/lib/auth-errors'
 
 export async function loginAction(prevState: any, formData: FormData) {
     const supabase = await createClient()
@@ -15,7 +16,8 @@ export async function loginAction(prevState: any, formData: FormData) {
     })
 
     if (error) {
-        return { error: error.message }
+        console.error('Login error:', error)
+        return { errorKey: mapAuthErrorKey(error) }
     }
 
     revalidatePath('/', 'layout')
@@ -34,11 +36,12 @@ export async function signupAction(prevState: any, formData: FormData) {
     })
 
     if (error) {
-        return { error: error.message }
+        console.error('Signup error:', error)
+        return { errorKey: mapAuthErrorKey(error) }
     }
 
     revalidatePath('/', 'layout')
-    return { success: true, message: 'Check your email to continue sign in process' }
+    return { success: true, messageKey: 'check_email' }
 }
 
 export async function resendAction(prevState: any, formData: FormData) {
@@ -51,8 +54,8 @@ export async function resendAction(prevState: any, formData: FormData) {
     })
 
     if (error) {
-        return { error: error.message }
+        return { errorKey: mapAuthErrorKey(error) }
     }
 
-    return { success: true, message: 'Confirmation email resent. Check your inbox.' }
+    return { success: true, messageKey: 'confirmation_resent' }
 }

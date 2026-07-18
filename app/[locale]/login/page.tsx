@@ -17,17 +17,13 @@ export default async function LoginPage(props: {
     const searchParams = await props.searchParams
 
     const translatedMessage = searchParams.message ? t(searchParams.message as any) : null
+    const translatedError = searchParams.error
+        ? (t.has(`errors.${searchParams.error}` as any) ? t(`errors.${searchParams.error}` as any) : t('errors.unknown' as any))
+        : null
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-8 pt-28 md:pt-24 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-x-hidden">
-
-            {/* Enhanced Background Effects */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-[10%] sm:-top-[30%] -left-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-teal-500/15 blur-[80px] sm:blur-[120px] animate-pulse" />
-                <div className="absolute -bottom-[10%] sm:-bottom-[30%] -right-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-indigo-500/15 blur-[80px] sm:blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-            </div>
-
-            <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 rounded-3xl mx-auto">
+        <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-8 pt-28 md:pt-24 relative overflow-x-hidden">
+            <Card className="w-full max-w-md relative z-10 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/60 dark:shadow-black/40 rounded-2xl mx-auto">
                 <CardHeader className="text-center pb-4 pt-8">
                     {/* Official Neurometrics Logo */}
                     <div className="flex justify-center mb-6">
@@ -53,12 +49,12 @@ export default async function LoginPage(props: {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {searchParams?.error && (
+                    {translatedError && (
                         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 px-4 py-3 rounded-lg text-sm flex items-center gap-2" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                             </svg>
-                            {t('error_prefix')}: {searchParams.error}
+                            {translatedError}
                         </div>
                     )}
                     {translatedMessage && (
