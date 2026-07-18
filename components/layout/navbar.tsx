@@ -36,6 +36,8 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
     const [currentProfile, setCurrentProfile] = useState<any>(profile)
     const [scrolled, setScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const isLandingHome = pathname === '/' || pathname === '/es' || pathname === '/en';
+    const overDarkHero = isLandingHome && !scrolled;
 
     useEffect(() => {
         setMounted(true)
@@ -114,7 +116,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     : "bg-transparent py-4 shadow-none border-b-transparent"
             )}
         >
-            <div className="w-full max-w-[1600px] mx-auto px-6 md:pl-32 lg:pl-36 md:pr-10 lg:pr-16">
+            <div className="w-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-20">
                 <div className={cn(
                     "flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
                     scrolled ? "h-14" : "h-20"
@@ -123,7 +125,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                     <Link href="/" className="flex-shrink-0 flex items-center gap-2 group min-w-0">
                         <div className="relative">
                             <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-7 w-auto sm:h-10 md:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
+                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className={cn("h-7 w-auto sm:h-10 md:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert", overDarkHero && "brightness-0 invert")} priority />
                         </div>
                     </Link>
 
@@ -150,25 +152,25 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                             </>
                         ) : (
                             <>
-                                <Link href="/" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
+                                <Link href="/" className={cn("text-xs lg:text-sm font-medium px-2 lg:px-3 py-2 transition-colors whitespace-nowrap", overDarkHero ? "text-white/70 hover:text-white" : "text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400")}>
                                     {t('home')}
                                 </Link>
-                                <Link href="/features" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
+                                <Link href="/features" className={cn("text-xs lg:text-sm font-medium px-2 lg:px-3 py-2 transition-colors whitespace-nowrap", overDarkHero ? "text-white/70 hover:text-white" : "text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400")}>
                                     {t('features')}
                                 </Link>
-                                <Link href="/pricing" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
+                                <Link href="/pricing" className={cn("text-xs lg:text-sm font-medium px-2 lg:px-3 py-2 transition-colors whitespace-nowrap", overDarkHero ? "text-white/70 hover:text-white" : "text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400")}>
                                     {t('pricing')}
                                 </Link>
-                                <Link href="/testimonials" className="text-xs lg:text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 px-2 lg:px-3 py-2 transition-colors whitespace-nowrap">
+                                <Link href="/testimonials" className={cn("text-xs lg:text-sm font-medium px-2 lg:px-3 py-2 transition-colors whitespace-nowrap", overDarkHero ? "text-white/70 hover:text-white" : "text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400")}>
                                     {t('testimonials')}
                                 </Link>
                             </>
                         )}
 
-                        <ThemeToggle />
-                        <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 mx-2" />
+                        <div className={cn(overDarkHero && "[&_button]:text-white/75 [&_button:hover]:text-white")}><ThemeToggle /></div>
+                        <div className={cn("h-6 w-px mx-2", overDarkHero ? "bg-white/20" : "bg-slate-200 dark:bg-slate-800")} />
 
-                        <LanguageToggle />
+                        <div className={cn(overDarkHero && "[&_button]:text-white/75 [&_button:hover]:text-white")}><LanguageToggle /></div>
 
                         {/* Auth Buttons */}
                         {currentUser ? (
@@ -205,12 +207,12 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         ) : (
                             <div className="ml-4 flex items-center gap-2">
                                 <Link href="/login">
-                                    <Button variant="ghost" suppressHydrationWarning={true} className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors rounded-full hover:bg-teal-50">
+                                    <Button variant="ghost" suppressHydrationWarning={true} className={cn("text-sm font-medium transition-colors", overDarkHero ? "rounded-none text-white/75 hover:bg-white/10 hover:text-white" : "rounded-full text-slate-600 hover:bg-teal-50 hover:text-teal-700")}>
                                         {t('login')}
                                     </Button>
                                 </Link>
                                 <Link href="/onboarding">
-                                    <Button className="rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-md transition-all hover:scale-105 text-sm font-medium px-6">
+                                    <Button className={cn("text-sm font-medium px-6 transition-colors", overDarkHero ? "rounded-none bg-[#b9f4e6] text-[#07151b] shadow-none hover:bg-white" : "rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-md")}>
                                         {t('register')}
                                     </Button>
                                 </Link>
@@ -226,7 +228,7 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                         </div>
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-slate-700 dark:text-slate-200 p-2 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95"
+                            className={cn("p-2 sm:p-3 rounded-xl transition-colors active:scale-95", overDarkHero ? "border border-white/20 bg-black/10 text-white hover:bg-white/10" : "text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700")}
                             aria-label="Menú"
                         >
                             <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

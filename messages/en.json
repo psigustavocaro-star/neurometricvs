@@ -62,6 +62,80 @@
         "pricing": "Plans",
         "faq": "Help"
     },
+    "Landing": {
+        "hero": {
+            "eyebrow": "Clinical operating system · Latin America",
+            "title": "Clinical practice, in a state of clarity.",
+            "description": "Neurometrics connects records, assessment, follow-up and reports in one flow designed to bring professional judgment back to the center.",
+            "primary": "Open my clinical workspace",
+            "secondary": "Explore the system",
+            "proof": [
+                "60+ instruments",
+                "Automatic scoring",
+                "Encrypted clinical data"
+            ]
+        },
+        "manifesto": {
+            "index": "01 — One architecture",
+            "eyebrow": "Designed around clinical judgment",
+            "title": "Your attention belongs to the patient. The system handles the rest.",
+            "description": "Neurometrics turns fragmented tasks into clinical continuity: every assessment feeds the record, every result keeps its context and every report grows from work already completed.",
+            "note": "No jumping between spreadsheets, forms, documents and isolated tools. One coherent architecture for professionals who need precision without losing humanity."
+        },
+        "platform": {
+            "index": "02 — The real system",
+            "eyebrow": "A living product, not a promise",
+            "title": "Every piece of context. One surface.",
+            "description": "This is the actual platform: clinical information, recent activity and work tools organized so you can read the state of your practice in seconds.",
+            "live": "System active",
+            "caption": "Actual Neurometrics dashboard · demonstration data",
+            "privacy": "Identities protected",
+            "capabilities": [
+                {
+                    "title": "Living clinical record",
+                    "description": "History, sessions, diagnoses and progress remain connected in a timeline designed to be read."
+                },
+                {
+                    "title": "Automated assessment",
+                    "description": "Apply validated instruments, receive remote answers and obtain immediate scoring without manual transcription."
+                },
+                {
+                    "title": "Reports with context",
+                    "description": "Turn results and observations into professional documents ready to review, sign and share."
+                },
+                {
+                    "title": "Clinical assistance",
+                    "description": "Find tools and contextual support inside the same flow, without replacing professional judgment."
+                }
+            ]
+        },
+        "workflow": {
+            "index": "03 — Continuous flow",
+            "eyebrow": "One session, from start to finish",
+            "title": "The work moves forward without losing the thread."
+        },
+        "presence": {
+            "eyebrow": "Technology disappears",
+            "title": "More presence in session. Less operation between sessions.",
+            "description": "When information is ordered and processes respond, you can return to what matters: listening, observing and deciding with calm.",
+            "note": "Designed for psychology, psychiatry, neurology and related clinical specialties."
+        },
+        "pricing": {
+            "index": "04 — Access",
+            "eyebrow": "A structure that grows with you",
+            "title": "Start simple. Scale when your practice asks for it."
+        },
+        "faq": {
+            "eyebrow": "Before you begin",
+            "title": "Clear answers, as they should be."
+        },
+        "final": {
+            "eyebrow": "Your next session can start differently",
+            "title": "Turn clinical complexity into a clear experience.",
+            "description": "Create your workspace and discover a more connected, precise and human way to run your practice.",
+            "cta": "Start with Neurometrics"
+        }
+    },
     "Hero": {
         "title": "The definitive workstation for",
         "subtitle": "Centralize your clinical practice with precision tools and scientific automation. Tests, clinical records, medical calculators and more.",

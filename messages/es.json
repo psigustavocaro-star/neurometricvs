@@ -62,6 +62,80 @@
         "pricing": "Planes",
         "faq": "Ayuda"
     },
+    "Landing": {
+        "hero": {
+            "eyebrow": "Sistema operativo clínico · Latinoamérica",
+            "title": "La práctica clínica, en estado de claridad.",
+            "description": "Neurometrics conecta ficha, evaluación, seguimiento e informes en un solo flujo diseñado para que el criterio profesional vuelva al centro.",
+            "primary": "Abrir mi espacio clínico",
+            "secondary": "Explorar el sistema",
+            "proof": [
+                "60+ instrumentos",
+                "Corrección automática",
+                "Datos clínicos cifrados"
+            ]
+        },
+        "manifesto": {
+            "index": "01 — Una sola arquitectura",
+            "eyebrow": "Diseñado alrededor del criterio clínico",
+            "title": "Tu atención pertenece al paciente. El sistema se ocupa del resto.",
+            "description": "Neurometrics transforma tareas fragmentadas en una continuidad clínica: cada evaluación alimenta la ficha, cada resultado conserva su contexto y cada informe nace del trabajo ya realizado.",
+            "note": "Sin saltar entre planillas, formularios, documentos y herramientas aisladas. Una arquitectura coherente para profesionales que necesitan precisión sin perder humanidad."
+        },
+        "platform": {
+            "index": "02 — El sistema real",
+            "eyebrow": "Producto vivo, no una promesa",
+            "title": "Todo el contexto. Una sola superficie.",
+            "description": "Esta es la plataforma real: información clínica, actividad reciente y herramientas de trabajo organizadas para leer el estado de tu práctica en segundos.",
+            "live": "Sistema activo",
+            "caption": "Dashboard real de Neurometrics · datos de demostración",
+            "privacy": "Identidades protegidas",
+            "capabilities": [
+                {
+                    "title": "Ficha clínica viva",
+                    "description": "Historia, sesiones, diagnósticos y evolución permanecen conectados en una línea de tiempo legible."
+                },
+                {
+                    "title": "Evaluación automatizada",
+                    "description": "Aplica instrumentos validados, recibe respuestas remotas y obtén corrección inmediata sin transcripción manual."
+                },
+                {
+                    "title": "Informes con contexto",
+                    "description": "Convierte resultados y observaciones en documentos profesionales listos para revisar, firmar y compartir."
+                },
+                {
+                    "title": "Asistencia clínica",
+                    "description": "Encuentra herramientas y apoyo contextual dentro del mismo flujo, sin sustituir tu juicio profesional."
+                }
+            ]
+        },
+        "workflow": {
+            "index": "03 — Flujo continuo",
+            "eyebrow": "Una sesión, de principio a fin",
+            "title": "El trabajo avanza sin perder el hilo."
+        },
+        "presence": {
+            "eyebrow": "La tecnología desaparece",
+            "title": "Más presencia en sesión. Menos operación entre sesiones.",
+            "description": "Cuando la información está ordenada y los procesos responden, puedes volver a lo esencial: escuchar, observar y decidir con calma.",
+            "note": "Diseñado para psicología, psiquiatría, neurología y especialidades clínicas afines."
+        },
+        "pricing": {
+            "index": "04 — Acceso",
+            "eyebrow": "Una estructura que crece contigo",
+            "title": "Empieza simple. Escala cuando tu práctica lo pida."
+        },
+        "faq": {
+            "eyebrow": "Antes de comenzar",
+            "title": "Respuestas claras, como debe ser."
+        },
+        "final": {
+            "eyebrow": "Tu próxima sesión puede empezar distinto",
+            "title": "Convierte la complejidad clínica en una experiencia clara.",
+            "description": "Crea tu espacio de trabajo y descubre una forma más conectada, precisa y humana de llevar tu práctica.",
+            "cta": "Empezar con Neurometrics"
+        }
+    },
     "Hero": {
         "title": "La workstation definitiva para",
         "subtitle": "La estación de trabajo inteligente diseñada para especialistas en salud. Ficha clínica personalizada por profesión, automatización de tests y herramientas de precisión médica.",

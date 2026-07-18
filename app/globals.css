@@ -236,6 +236,47 @@
 }
 
 @layer utilities {
+  .font-editorial {
+    font-family: var(--font-editorial), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-optical-sizing: auto;
+  }
+
+  .observatory-orbit {
+    position: absolute;
+    border: 1px solid rgb(103 213 193 / 0.12);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+
+  .observatory-orbit--one {
+    width: 52rem;
+    height: 52rem;
+    right: -25rem;
+    top: 5rem;
+  }
+
+  .observatory-orbit--two {
+    width: 24rem;
+    height: 24rem;
+    right: -11rem;
+    top: 19rem;
+  }
+
+  .observatory-signal {
+    position: absolute;
+    right: -15vw;
+    bottom: -28vw;
+    width: 66vw;
+    height: 66vw;
+    border: 1px solid rgb(11 36 40 / 0.13);
+    border-radius: 9999px;
+    box-shadow:
+      0 0 0 7vw rgb(11 36 40 / 0.035),
+      0 0 0 14vw rgb(11 36 40 / 0.025),
+      0 0 0 21vw rgb(11 36 40 / 0.018);
+    pointer-events: none;
+  }
+
   .container {
     @apply mx-auto px-4;
   }

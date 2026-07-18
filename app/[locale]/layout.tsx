@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Newsreader, Outfit } from "next/font/google";
 import "../globals.css";
 import "../instant-transitions.css";
 import { Providers } from "@/app/providers";
@@ -20,6 +20,12 @@ const fontSans = Outfit({
   display: "swap",
 });
 
+const fontEditorial = Newsreader({
+  variable: "--font-editorial",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://neurometricslatam.com"),
   title: "Neurometrics",
@@ -30,14 +36,14 @@ export const metadata: Metadata = {
     url: "https://neurometricslatam.com",
     siteName: "Neurometrics",
     locale: "es_ES",
-    images: [{ url: "/neurometrics-clinical-intelligence.png", width: 1672, height: 941, alt: "Neurometrics — Inteligencia clínica" }],
+    images: [{ url: "/og.png", width: 1732, height: 909, alt: "Neurometrics — La práctica clínica, en estado de claridad" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Neurometrics - Gestión Clínica Inteligente",
     description: "Tests, ficha clínica, informes y asistencia IA en una sola plataforma.",
-    images: ["/neurometrics-clinical-intelligence.png"],
+    images: ["/og.png"],
   },
   icons: {
     icon: "/neurometrics-logo-small.png",
@@ -85,7 +91,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} antialiased font-sans`}
+        className={`${fontSans.variable} ${fontEditorial.variable} antialiased font-sans`}
         suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages}>
