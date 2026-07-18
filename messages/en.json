@@ -83,6 +83,9 @@
         "monitoring_value": "Real-time data",
         "protection_label": "Protection",
         "protection_value": "Secure clinical workflow",
+        "product_eyebrow": "Real product, not promises",
+        "product_title": "See how Neurometrics works.",
+        "product_description": "Explore clinical records, automatic scoring and medical tools exactly as they are used inside the platform.",
         "trust_points": [
             "Free plan available",
             "No credit card required",

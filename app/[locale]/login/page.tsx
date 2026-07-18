@@ -24,7 +24,7 @@ export default async function LoginPage(props: {
     return (
         <div className="grid min-h-screen lg:grid-cols-[1.15fr_.85fr] bg-[#eef4f3] dark:bg-[#050a12]">
             <div className="relative hidden overflow-hidden bg-slate-950 lg:block">
-                <Image src="/neurometrics-clinical-intelligence.png" alt="Neurometrics Clinical OS" fill priority className="object-cover object-center" />
+                <Image src="/neurometrics-clinical-intelligence.png" alt="Neurometrics Clinical OS" fill priority className="object-cover object-[72%_center]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/10" />
                 <div className="absolute inset-x-0 bottom-0 p-10 xl:p-14">
                     <div className="inline-flex items-center gap-2 rounded-full border border-teal-300/20 bg-slate-950/50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-teal-200 backdrop-blur-xl">

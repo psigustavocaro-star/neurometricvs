@@ -8,7 +8,6 @@ import { useLocale, useTranslations } from "next-intl"
 import { cn, getUserDisplayData } from "@/lib/utils"
 // ... imports
 import { Button } from "@/components/ui/button"
-import { LoginModal } from "@/components/auth/login-modal"
 
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { LanguageToggle } from "@/components/layout/language-toggle"
@@ -205,11 +204,11 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
                             </div>
                         ) : (
                             <div className="ml-4 flex items-center gap-2">
-                                <LoginModal>
+                                <Link href="/login">
                                     <Button variant="ghost" suppressHydrationWarning={true} className="text-sm font-medium text-slate-600 hover:text-teal-700 transition-colors rounded-full hover:bg-teal-50">
                                         {t('login')}
                                     </Button>
-                                </LoginModal>
+                                </Link>
                                 <Link href="/onboarding">
                                     <Button className="rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-md transition-all hover:scale-105 text-sm font-medium px-6">
                                         {t('register')}
