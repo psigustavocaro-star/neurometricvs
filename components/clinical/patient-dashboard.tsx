@@ -124,7 +124,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
     }
 
     return (
-        <div className="flex flex-col lg:flex-row h-[calc(100vh-6rem)] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-xl overflow-hidden w-full max-w-full">
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-8rem)] bg-white/85 dark:bg-[#07111f] border border-slate-200/70 dark:border-white/[0.08] shadow-[0_35px_100px_-45px_rgba(2,6,23,0.65)] rounded-[2rem] overflow-hidden w-full max-w-full backdrop-blur-xl">
 
             {/* --- MOBILE HEADER: Shows on mobile only --- */}
             <div className="lg:hidden flex flex-col bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -204,7 +204,7 @@ export function PatientDashboard({ patient, clinicalRecord, sessions, testResult
             <aside className="hidden lg:flex w-80 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex-col flex-none z-20 shadow-sm dark:shadow-xl transition-colors duration-300">
 
                 {/* 1. Patient Identity Card - ENHANCED */}
-                <div className="p-5 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 relative z-10 transition-colors duration-300">
+                <div className="p-5 bg-slate-950 text-white border-b border-white/[0.08] relative z-10 transition-colors duration-300">
                     {/* Subtle Top Brand Line */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-cyan-500 dark:from-cyan-600 dark:to-teal-600"></div>
 

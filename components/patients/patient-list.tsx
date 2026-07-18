@@ -122,7 +122,7 @@ export function PatientList({ initialPatients }: PatientListProps) {
 
     return (
         <div className="space-y-4">
-            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-4 rounded-xl border border-slate-200/60 dark:border-slate-700 shadow-sm">
+            <div className="nm-surface flex flex-col md:flex-row gap-4 justify-between items-center p-4">
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <SearchBar
                         value={searchTerm}
@@ -137,9 +137,9 @@ export function PatientList({ initialPatients }: PatientListProps) {
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div className="nm-surface overflow-hidden">
                 <Table>
-                    <TableHeader className="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-800 dark:to-slate-800/50">
+                    <TableHeader className="bg-slate-950/[0.025] dark:bg-white/[0.025]">
                         <TableRow className="border-slate-200/60 dark:border-slate-700">
                             <TableHead className="w-[280px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.patient')}</TableHead>
                             <TableHead className="w-[100px] font-semibold text-slate-700 dark:text-slate-300">{t('table_header.age')}</TableHead>
@@ -155,7 +155,7 @@ export function PatientList({ initialPatients }: PatientListProps) {
                             const genderInfo = getGenderDisplay(patient.gender)
 
                             return (
-                                <TableRow key={patient.id} className="hover:bg-teal-50/30 dark:hover:bg-teal-950/20 cursor-pointer group transition-colors border-slate-100 dark:border-slate-800" onClick={() => window.location.href = `/patients/${patient.id}`}>
+                                <TableRow key={patient.id} className="hover:bg-teal-50/50 dark:hover:bg-teal-300/[0.035] cursor-pointer group transition-colors border-slate-100 dark:border-white/[0.06]" onClick={() => window.location.href = `/patients/${patient.id}`}>
                                     <TableCell className="font-medium py-4">
                                         <div className="flex items-center gap-3">
                                             <Avatar className="h-10 w-10 border-2 border-slate-100 dark:border-slate-700 shadow-sm">

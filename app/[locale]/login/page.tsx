@@ -22,14 +22,25 @@ export default async function LoginPage(props: {
         : null
 
     return (
-        <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-8 pt-28 md:pt-24 relative overflow-x-hidden">
-            <Card className="w-full max-w-md relative z-10 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/60 dark:shadow-black/40 rounded-2xl mx-auto">
+        <div className="grid min-h-screen lg:grid-cols-[1.15fr_.85fr] bg-[#eef4f3] dark:bg-[#050a12]">
+            <div className="relative hidden overflow-hidden bg-slate-950 lg:block">
+                <Image src="/neurometrics-clinical-intelligence.png" alt="Neurometrics Clinical OS" fill priority className="object-cover object-center" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/10" />
+                <div className="absolute inset-x-0 bottom-0 p-10 xl:p-14">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-teal-300/20 bg-slate-950/50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-teal-200 backdrop-blur-xl">
+                        <span className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(94,234,212,0.8)]" /> Clinical intelligence OS
+                    </div>
+                </div>
+            </div>
+            <div className="relative flex items-center justify-center p-5 sm:p-8 md:p-12">
+                <div aria-hidden className="absolute inset-0 opacity-50 [background-image:linear-gradient(rgba(15,23,42,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.035)_1px,transparent_1px)] [background-size:48px_48px] dark:opacity-20" />
+            <Card className="w-full max-w-md relative z-10 border-0 bg-transparent shadow-none backdrop-blur-none mx-auto dark:bg-transparent">
                 <CardHeader className="text-center pb-4 pt-8">
                     {/* Official Neurometrics Logo */}
                     <div className="flex justify-center mb-6">
                         <Link href="/" className="group">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-teal-400 blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full scale-150" />
+                                <div className="absolute inset-0 bg-teal-400 blur-xl opacity-15 group-hover:opacity-30 transition-opacity rounded-full scale-150" />
                                 <Image
                                     src="/logo.png"
                                     alt="Neurometrics"
@@ -41,7 +52,8 @@ export default async function LoginPage(props: {
                             </div>
                         </Link>
                     </div>
-                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
+                    <div className="nm-eyebrow justify-center">Secure clinical access</div>
+                    <CardTitle className="text-3xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white">
                         {t('title')}
                     </CardTitle>
                     <CardDescription className="text-base text-slate-600 dark:text-slate-400 mt-2">
@@ -93,6 +105,7 @@ export default async function LoginPage(props: {
                     </form>
                 </CardFooter>
             </Card>
+            </div>
         </div>
     )
 

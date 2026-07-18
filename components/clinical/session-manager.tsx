@@ -241,10 +241,10 @@ export function SessionManager({ patientId, sessions, patientName, embedded, pre
             )}
 
             {/* 2. Main Workspace (Center) */}
-            <div className="flex flex-col h-full bg-white dark:bg-slate-950 overflow-hidden overflow-x-hidden relative shadow-sm z-0 transition-colors duration-300 w-full max-w-full">
+            <div className="flex flex-col h-full bg-white/75 dark:bg-[#07111f] overflow-hidden overflow-x-hidden relative z-0 transition-colors duration-300 w-full max-w-full backdrop-blur-xl">
                 {/* Mobile Header for Timeline Toggle could go here */}
 
-                <div className="flex-none px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-2 lg:gap-0 justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm sticky top-0 z-20">
+                <div className="flex-none px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100 dark:border-white/[0.08] flex flex-wrap gap-2 lg:gap-0 justify-between items-center bg-white/85 dark:bg-[#07111f]/90 backdrop-blur-xl sticky top-0 z-20">
                     <div className="flex items-center gap-4">
                         <Button
                             size="sm"

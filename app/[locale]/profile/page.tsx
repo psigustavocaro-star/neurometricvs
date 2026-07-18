@@ -31,8 +31,8 @@ export default async function ProfilePage(
         .single()
 
     return (
-        <div className="min-h-screen bg-transparent">
-            <div className="p-4 md:p-8">
+        <div className="bg-transparent">
+            <div>
                 <ProfileForm
                     profile={profile}
                     subscription={subscription}

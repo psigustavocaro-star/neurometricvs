@@ -59,16 +59,17 @@ export default async function PatientsPage() {
         .order('created_at', { ascending: false })
 
     return (
-        <div className="container pt-6 pb-10 md:pt-8">
+        <div className="pb-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('List.title')}</h1>
-                    <p className="text-slate-500 dark:text-slate-400 mt-1">{t('List.subtitle')}</p>
+                    <div className="nm-eyebrow">Neurometrics / Patients</div>
+                    <h1 className="nm-page-title">{t('List.title')}</h1>
+                    <p className="nm-page-subtitle">{t('List.subtitle')}</p>
                 </div>
                 <NewPatientDialog
                     initialSpecialty={profile?.specialty}
                     trigger={
-                        <Button className="bg-teal-600 hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all hover:scale-105">
+                        <Button size="lg">
                             <Plus className="mr-2 h-4 w-4" /> {t('List.new_patient')}
                         </Button>
                     }

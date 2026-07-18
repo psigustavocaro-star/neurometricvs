@@ -122,7 +122,7 @@ export function TestCatalog() {
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col gap-6">
+            <div className="nm-surface flex flex-col gap-6 p-5 md:p-6">
                 <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
                     <SearchBar
                         value={searchTerm}
@@ -192,7 +192,7 @@ export function TestCatalog() {
                         transition={{ duration: 0.3 }}
                         layout
                     >
-                        <Card className="group hover:shadow-xl transition-all duration-300 border-border/60 dark:bg-slate-900/50 hover:border-teal-500/50 overflow-hidden relative h-full flex flex-col ring-1 ring-black/[0.02] dark:ring-white/[0.02]">
+                        <Card className="group hover:-translate-y-1 hover:shadow-[0_28px_65px_-35px_rgba(15,118,110,0.45)] transition-all duration-300 hover:border-teal-500/40 overflow-hidden relative h-full flex flex-col">
                             {/* Accent line */}
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500/20 via-teal-500 to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
@@ -228,7 +228,7 @@ export function TestCatalog() {
                                 </div>
 
                                 <Button
-                                    className="w-full bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all shadow-md group/btn h-10 rounded-xl"
+                                    className="w-full group/btn"
                                     onClick={() => setSelectedTestForStart(test)}
                                 >
                                     <span className="text-xs font-bold uppercase tracking-[0.1em]">Iniciar Protocolo</span>

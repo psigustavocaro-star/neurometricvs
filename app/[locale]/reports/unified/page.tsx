@@ -59,8 +59,8 @@ export default async function UnifiedReportPage({
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-10 print:bg-white print:py-0 transition-colors duration-300">
-            <div className="container max-w-4xl mx-auto print:max-w-none print:p-0">
+        <div className="pb-10 print:bg-white print:py-0 transition-colors duration-300">
+            <div className="max-w-4xl mx-auto print:max-w-none print:p-0">
 
                 {/* Actions Bar - Hidden in Print */}
                 <div className="mb-8 flex justify-between items-center print:hidden">
@@ -73,7 +73,7 @@ export default async function UnifiedReportPage({
                 </div>
 
                 {/* Report Content */}
-                <div className="bg-white dark:bg-slate-900/60 backdrop-blur-xl shadow-lg p-12 md:p-16 rounded-xl print:shadow-none print:rounded-none border border-slate-200/50 dark:border-slate-800/50 transition-all duration-300">
+                <div className="nm-surface p-8 md:p-14 lg:p-16 print:shadow-none print:rounded-none transition-all duration-300">
 
                     {/* Header */}
                     <div className="border-b border-slate-200 dark:border-slate-800 pb-8 mb-8 flex justify-between items-start">

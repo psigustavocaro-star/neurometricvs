@@ -82,21 +82,16 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="w-full max-w-full overflow-hidden"
+            className="w-full max-w-full"
         >
 
-            {/* Condensed Header Section */}
-            <div className="relative px-6 md:px-8 pt-6 md:pt-8 pb-4">
+            <div className="relative mb-7">
                 {/* Welcome & Actions Section */}
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                     <motion.div variants={itemVariants} className="space-y-1">
-                        <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-2 px-2.5 py-1 bg-primary/10 rounded-full border border-primary/20">
-                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">{t('header.system_active')}</span>
-                            </div>
-                        </div>
-                        <div className="text-muted-foreground flex items-center gap-3 text-xs md:text-sm font-medium">
+                        <div className="nm-eyebrow">{t('header.system_active')}</div>
+                        <h1 className="nm-page-title">{t('title')}</h1>
+                        <div className="text-muted-foreground flex items-center gap-2 pt-2 text-xs md:text-sm font-medium">
                             <CalendarDays className="w-3.5 h-3.5 opacity-70" />
                             {format(new Date(), t('header.date_format'), { locale: dateLocale })}
                         </div>
@@ -123,12 +118,12 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
             </div>
 
             {/* Main Content */}
-            <div className="px-4 md:px-8 pb-8">
+            <div className="pb-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
 
                     {/* Top Stats Bar - Spans all columns */}
                     <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/40 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/5 shadow-sm p-5 group hover:border-blue-500/30 transition-all relative overflow-hidden">
+                        <motion.div variants={itemVariants} className="nm-surface p-6 group hover:border-blue-400/30 transition-all relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                                 <Activity className="w-12 h-12 text-blue-500" />
                             </div>
@@ -139,7 +134,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 <p className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-[0.15em]">{t('stats.today_sessions') || 'Sesiones de Hoy'}</p>
                             </div>
                             <div className="flex items-baseline gap-3">
-                                <h3 className="text-3xl font-extrabold text-foreground tracking-tight">{stats.sessionsToday || 0}</h3>
+                                <h3 className="text-4xl font-semibold text-foreground tracking-[-0.05em]">{stats.sessionsToday || 0}</h3>
                                 <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                                     <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">{t('stats.on_schedule') || 'En agenda'}</span>
@@ -147,7 +142,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                             </div>
                         </motion.div>
 
-                        <motion.div variants={itemVariants} className="bg-white/60 dark:bg-slate-900/40 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/5 shadow-sm p-5 group hover:border-teal-500/30 transition-all relative overflow-hidden">
+                        <motion.div variants={itemVariants} className="nm-surface p-6 group hover:border-teal-400/30 transition-all relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
                                 <ClipboardList className="w-12 h-12 text-teal-500" />
                             </div>
@@ -158,7 +153,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                                 <p className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-[0.15em]">{t('stats.tests_to_review') || 'Tests por Revisar'}</p>
                             </div>
                             <div className="flex items-baseline gap-3">
-                                <h3 className="text-3xl font-extrabold text-foreground tracking-tight">{stats.testsToReview || 0}</h3>
+                                <h3 className="text-4xl font-semibold text-foreground tracking-[-0.05em]">{stats.testsToReview || 0}</h3>
                                 {stats.testsToReview && stats.testsToReview > 0 ? (
                                     <Badge variant="secondary" className="bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 text-[9px] font-bold uppercase tracking-wider px-2 py-0">
                                         {t('stats.urgent') || 'Pendiente'}
@@ -175,7 +170,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
 
                     {/* Patient List - Takes 2 columns */}
                     <motion.div variants={itemVariants} className="lg:col-span-2 group/main container-type-inline-size">
-                        <div className="relative overflow-hidden bg-white/60 dark:bg-slate-900/40 backdrop-blur-md rounded-2xl border border-white/20 dark:border-white/5 shadow-sm h-full flex flex-col">
+                        <div className="nm-surface relative overflow-hidden h-full flex flex-col">
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
