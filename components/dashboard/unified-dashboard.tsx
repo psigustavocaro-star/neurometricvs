@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -69,8 +69,14 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
     const t = useTranslations('Dashboard')
     const locale = useLocale()
     const formatIntl = useFormatter()
-    const dateLocale = locale === 'es' ? es : enUS
     const [searchTerm, setSearchTerm] = useState('')
+    const [todayLabel, setTodayLabel] = useState('')
+    const dateFormat = t('header.date_format')
+
+    useEffect(() => {
+        const browserDateLocale = locale === 'es' ? es : enUS
+        setTodayLabel(format(new Date(), dateFormat, { locale: browserDateLocale }))
+    }, [dateFormat, locale])
 
     // Filter patients based on search
     const filteredPatients = (stats.recentPatients || []).filter((p: any) =>
@@ -93,7 +99,7 @@ export function UnifiedDashboard({ stats }: UnifiedDashboardProps) {
                         <h1 className="nm-page-title">{t('title')}</h1>
                         <div className="text-muted-foreground flex items-center gap-2 pt-2 text-xs md:text-sm font-medium">
                             <CalendarDays className="w-3.5 h-3.5 opacity-70" />
-                            {format(new Date(), t('header.date_format'), { locale: dateLocale })}
+                            {todayLabel}
                         </div>
                     </motion.div>
 

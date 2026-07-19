@@ -62,6 +62,111 @@
         "pricing": "Planes",
         "faq": "Ayuda"
     },
+    "SnapLanding": {
+        "nav": {
+            "label": "Navegación principal",
+            "home": "Inicio",
+            "system": "Sistema",
+            "security": "Seguridad",
+            "login": "Ingresar",
+            "cta": "Comenzar"
+        },
+        "progress": "Progreso de la presentación",
+        "heroCta": "Abrir mi espacio",
+        "discover": "Descubrir el sistema",
+        "finalCta": "Empezar con Neurometrics",
+        "securityNote": "Acceso clínico protegido por políticas de fila",
+        "finalProof": [
+            "Plan gratuito",
+            "Sin tarjeta",
+            "Datos cifrados"
+        ],
+        "sections": [
+            {
+                "id": "inicio",
+                "index": "00",
+                "eyebrow": "Clinical operating system",
+                "title": "El futuro",
+                "accent": "de la práctica clínica",
+                "description": "Una estación de trabajo que conecta ficha, evaluación, seguimiento e informes sin separar la tecnología del criterio profesional."
+            },
+            {
+                "id": "sistema",
+                "index": "01",
+                "eyebrow": "Arquitectura unificada",
+                "title": "Una sola",
+                "accent": "estación clínica",
+                "description": "Lee el estado completo de tu práctica desde una superficie continua. Pacientes, sesiones, herramientas y actividad permanecen en contexto.",
+                "metricLabel": "Visión operativa",
+                "metricValue": "360°",
+                "detail": "Todo lo importante, visible en segundos"
+            },
+            {
+                "id": "ficha-clinica",
+                "index": "02",
+                "eyebrow": "Contexto longitudinal",
+                "title": "Ficha",
+                "accent": "clínica viva",
+                "description": "Cada sesión, diagnóstico, instrumento y observación alimenta una historia clínica que conserva su continuidad en el tiempo.",
+                "metricLabel": "Expediente conectado",
+                "metricValue": "1:1",
+                "detail": "Una fuente de verdad por paciente"
+            },
+            {
+                "id": "evaluacion",
+                "index": "03",
+                "eyebrow": "Instrumentos validados",
+                "title": "Evaluación",
+                "accent": "sin fricción",
+                "description": "Aplica instrumentos dentro de la sesión o envíalos mediante un enlace seguro. Las respuestas llegan directamente al expediente.",
+                "metricLabel": "Biblioteca clínica",
+                "metricValue": "60+",
+                "detail": "Psicometría y herramientas médicas"
+            },
+            {
+                "id": "correccion",
+                "index": "04",
+                "eyebrow": "Automatización científica",
+                "title": "Corrección",
+                "accent": "en segundos",
+                "description": "Puntajes, subescalas y niveles de severidad se calculan según el protocolo del instrumento, sin planillas ni transcripción manual.",
+                "metricLabel": "Transcripción manual",
+                "metricValue": "0",
+                "detail": "Menos errores, más tiempo clínico"
+            },
+            {
+                "id": "informes",
+                "index": "05",
+                "eyebrow": "Decisión respaldada",
+                "title": "Informes",
+                "accent": "con contexto",
+                "description": "Transforma los resultados ya registrados en documentos profesionales, revisables y listos para compartir desde el mismo flujo.",
+                "metricLabel": "Del resultado al documento",
+                "metricValue": "<1 min",
+                "detail": "Sin volver a escribir lo que ya sabes",
+                "align": "right"
+            },
+            {
+                "id": "seguridad",
+                "index": "06",
+                "eyebrow": "Privacidad por diseño",
+                "title": "Seguridad",
+                "accent": "desde la base",
+                "description": "Sesiones verificadas, aislamiento por profesional y controles de acceso protegen la información clínica en cada operación.",
+                "metricLabel": "Política de acceso",
+                "metricValue": "RLS",
+                "detail": "Cada profesional accede solo a su información"
+            },
+            {
+                "id": "comenzar",
+                "index": "07",
+                "eyebrow": "Tu práctica, más clara",
+                "title": "Tu próxima sesión",
+                "accent": "empieza aquí",
+                "description": "Convierte la complejidad operativa en una experiencia clínica conectada, precisa y humana."
+            }
+        ]
+    },
     "Landing": {
         "hero": {
             "eyebrow": "Sistema operativo clínico · Latinoamérica",
@@ -1691,6 +1796,7 @@
         "email_placeholder": "tu@email.com",
         "password_label": "Contraseña",
         "submit_button": "Ingresar",
+        "submitting": "Verificando acceso...",
         "continue_with": "O continúa con",
         "create_account": "Crear Cuenta Nueva",
         "resend_confirmation": "¿Olvidaste confirmar tu email? Reenviar",

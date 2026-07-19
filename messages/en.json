@@ -62,6 +62,111 @@
         "pricing": "Plans",
         "faq": "Help"
     },
+    "SnapLanding": {
+        "nav": {
+            "label": "Main navigation",
+            "home": "Home",
+            "system": "System",
+            "security": "Security",
+            "login": "Sign in",
+            "cta": "Get started"
+        },
+        "progress": "Presentation progress",
+        "heroCta": "Open my workspace",
+        "discover": "Discover the system",
+        "finalCta": "Start with Neurometrics",
+        "securityNote": "Clinical access protected by row-level policies",
+        "finalProof": [
+            "Free plan",
+            "No card required",
+            "Encrypted data"
+        ],
+        "sections": [
+            {
+                "id": "home",
+                "index": "00",
+                "eyebrow": "Clinical operating system",
+                "title": "The future",
+                "accent": "of clinical practice",
+                "description": "A workstation connecting records, assessment, follow-up and reporting without separating technology from professional judgment."
+            },
+            {
+                "id": "system",
+                "index": "01",
+                "eyebrow": "Unified architecture",
+                "title": "One clinical",
+                "accent": "workstation",
+                "description": "Read the complete state of your practice from one continuous surface. Patients, sessions, tools and activity remain in context.",
+                "metricLabel": "Operational view",
+                "metricValue": "360°",
+                "detail": "Everything important, visible in seconds"
+            },
+            {
+                "id": "clinical-record",
+                "index": "02",
+                "eyebrow": "Longitudinal context",
+                "title": "Living clinical",
+                "accent": "record",
+                "description": "Every session, diagnosis, instrument and observation feeds a clinical history that preserves continuity over time.",
+                "metricLabel": "Connected record",
+                "metricValue": "1:1",
+                "detail": "One source of truth per patient"
+            },
+            {
+                "id": "assessment",
+                "index": "03",
+                "eyebrow": "Validated instruments",
+                "title": "Assessment",
+                "accent": "without friction",
+                "description": "Apply instruments in-session or send them through a secure link. Answers arrive directly in the record.",
+                "metricLabel": "Clinical library",
+                "metricValue": "60+",
+                "detail": "Psychometrics and medical tools"
+            },
+            {
+                "id": "scoring",
+                "index": "04",
+                "eyebrow": "Scientific automation",
+                "title": "Scoring",
+                "accent": "in seconds",
+                "description": "Scores, subscales and severity levels follow each instrument's protocol, without spreadsheets or manual transcription.",
+                "metricLabel": "Manual transcription",
+                "metricValue": "0",
+                "detail": "Fewer errors, more clinical time"
+            },
+            {
+                "id": "reports",
+                "index": "05",
+                "eyebrow": "Supported decisions",
+                "title": "Reports",
+                "accent": "with context",
+                "description": "Turn registered results into professional, reviewable documents ready to share from the same workflow.",
+                "metricLabel": "From result to document",
+                "metricValue": "<1 min",
+                "detail": "Never rewrite what you already know",
+                "align": "right"
+            },
+            {
+                "id": "security",
+                "index": "06",
+                "eyebrow": "Privacy by design",
+                "title": "Security",
+                "accent": "from the foundation",
+                "description": "Verified sessions, professional isolation and access controls protect clinical information in every operation.",
+                "metricLabel": "Access policy",
+                "metricValue": "RLS",
+                "detail": "Each professional can only access their own information"
+            },
+            {
+                "id": "start",
+                "index": "07",
+                "eyebrow": "Your practice, made clear",
+                "title": "Your next session",
+                "accent": "starts here",
+                "description": "Turn operational complexity into a connected, precise and human clinical experience."
+            }
+        ]
+    },
     "Landing": {
         "hero": {
             "eyebrow": "Clinical operating system · Latin America",
@@ -1691,6 +1796,7 @@
         "email_placeholder": "you@email.com",
         "password_label": "Password",
         "submit_button": "Login",
+        "submitting": "Verifying access...",
         "continue_with": "Or continue with",
         "create_account": "Create New Account",
         "resend_confirmation": "Forgot to confirm your email? Resend",

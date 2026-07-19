@@ -1,512 +1,336 @@
 'use client'
 
-import { useEffect } from "react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useTranslations } from "next-intl"
-import { motion, useReducedMotion } from "framer-motion"
-import {
-  ArrowDownRight,
-  ArrowRight,
-  Check,
-  CircleCheck,
-  LockKeyhole,
-  Quote,
-} from "lucide-react"
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowDown, ArrowRight, Check, LockKeyhole } from 'lucide-react'
 
-import { Link } from "@/i18n/navigation"
-import { Button } from "@/components/ui/button"
-import { Footer } from "@/components/layout/footer"
-import { ScrollProgress } from "@/components/motion/scroll-progress"
-import { PriceDisplay } from "@/components/pricing/price-display"
-import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
-import { cn } from "@/lib/utils"
+import { Link } from '@/i18n/navigation'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-type PlanKey = "free" | "basic" | "clinical" | "pro"
-
-interface LandingPlan {
-  key: PlanKey
-  amount: number
-  priceId?: string
-  featured?: boolean
-  annual?: boolean
-}
-
-const PLANS: ReadonlyArray<LandingPlan> = [
-  { key: "free", amount: 0, priceId: undefined },
-  { key: "basic", amount: 10, priceId: PRICE_ID_BASIC },
-  { key: "clinical", amount: 15, priceId: PRICE_ID_CLINICAL, featured: true },
-  { key: "pro", amount: 65, priceId: PRICE_ID_PRO, annual: true },
+const BACKGROUNDS = [
+  '#061116',
+  '#e2dcd5',
+  '#d7e5df',
+  '#09181d',
+  '#c2eee3',
+  '#e2dcd5',
+  '#07151b',
+  '#b9f4e6',
 ]
 
+const DARK_SECTIONS = new Set([0, 3, 6])
+
+const CANVAS_STATES = [
+  { x: '-18%', y: '-48%', scale: 0.72, rotate: -5 },
+  { x: '-22%', y: '-50%', scale: 0.78, rotate: -3 },
+  { x: '-19%', y: '-47%', scale: 0.94, rotate: 0 },
+  { x: '-11%', y: '-35%', scale: 1.24, rotate: 0 },
+  { x: '-15%', y: '-62%', scale: 1.42, rotate: 0 },
+  { x: '-80%', y: '-48%', scale: 1.02, rotate: 2 },
+  { x: '-8%', y: '-66%', scale: 1.55, rotate: 0 },
+  { x: '-50%', y: '-46%', scale: 0.7, rotate: 0 },
+]
+
+const TARGET_STATES = [
+  { left: '50%', top: '50%' },
+  { left: '50%', top: '13%' },
+  { left: '29%', top: '54%' },
+  { left: '74%', top: '43%' },
+  { left: '51%', top: '23%' },
+  { left: '86%', top: '77%' },
+  { left: '93%', top: '11%' },
+  { left: '50%', top: '50%' },
+]
+
+interface SnapSection {
+  id: string
+  index: string
+  eyebrow: string
+  title: string
+  accent: string
+  description: string
+  metricLabel?: string
+  metricValue?: string
+  detail?: string
+  align?: 'left' | 'right'
+}
+
 export default function LandingPage() {
-  const t = useTranslations("Landing")
-  const tPricing = useTranslations("Pricing")
-  const tFaq = useTranslations("FAQ")
-  const tWorkflow = useTranslations("Workflow")
-  const tTestimonial = useTranslations("TestimonialsList.0")
+  const t = useTranslations('SnapLanding')
+  const sections = t.raw('sections') as SnapSection[]
+  const [activeSection, setActiveSection] = useState(0)
+  const scrollRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
   const router = useRouter()
 
   useEffect(() => {
-    ;["/onboarding", "/login", "/features", "/pricing"].forEach((route) =>
+    ;['/onboarding', '/login', '/pricing', '/features'].forEach((route) =>
       router.prefetch(route),
     )
   }, [router])
 
-  const reveal = (delay = 0) => ({
-    initial: reduceMotion ? false : { opacity: 0, y: 32 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.2 },
-    transition: { duration: 0.85, delay, ease: EASE },
-  })
+  useEffect(() => {
+    const root = scrollRef.current
+    if (!root) return
 
-  const capabilities = t.raw("platform.capabilities") as Array<{
-    title: string
-    description: string
-  }>
-  const proof = t.raw("hero.proof") as string[]
-  const faqItems = tFaq.raw("items") as Array<{ q: string; a: string }>
-  const workflowSteps = tWorkflow.raw("steps") as Array<{
-    title: string
-    desc: string
-  }>
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-snap-section]'))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (visible) {
+          setActiveSection(Number((visible.target as HTMLElement).dataset.snapSection))
+        }
+      },
+      { root, threshold: [0.45, 0.6, 0.75] },
+    )
+
+    panels.forEach((panel) => observer.observe(panel))
+    return () => observer.disconnect()
+  }, [])
+
+  const scrollToSection = (index: number) => {
+    const root = scrollRef.current
+    const target = root?.querySelector<HTMLElement>(`[data-snap-section="${index}"]`)
+    target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+  }
+
+  const activeIsDark = DARK_SECTIONS.has(activeSection)
+  const canvasState = CANVAS_STATES[activeSection]
+  const targetState = TARGET_STATES[activeSection]
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f2efe7] text-[#101c22]">
-      <ScrollProgress />
+    <motion.div
+      animate={{ backgroundColor: BACKGROUNDS[activeSection] }}
+      transition={{ duration: reduceMotion ? 0 : 0.65, ease: EASE }}
+      className="relative h-[100svh] w-screen overflow-hidden text-[#13272c]"
+    >
+      <header
+        className={cn(
+          'fixed inset-x-0 top-0 z-50 flex h-24 items-center justify-between px-5 transition-colors duration-500 sm:px-8 lg:px-12',
+          activeIsDark ? 'text-white' : 'text-[#13272c]',
+        )}
+      >
+        <nav className="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[0.24em] md:flex" aria-label={t('nav.label')}>
+          <button onClick={() => scrollToSection(0)} className="transition-opacity hover:opacity-55">{t('nav.home')}</button>
+          <button onClick={() => scrollToSection(1)} className="transition-opacity hover:opacity-55">{t('nav.system')}</button>
+          <button onClick={() => scrollToSection(6)} className="transition-opacity hover:opacity-55">{t('nav.security')}</button>
+        </nav>
 
-      <main>
-        <section
-          id="hero"
-          className="relative flex min-h-[100svh] items-end overflow-hidden bg-[#07151b] text-white"
+        <button
+          onClick={() => scrollToSection(0)}
+          className="absolute left-5 translate-x-0 font-editorial text-lg font-medium tracking-[-0.04em] sm:left-1/2 sm:-translate-x-1/2 sm:text-3xl"
+          aria-label="Neurometrics"
         >
-          <motion.div
-            aria-hidden
-            initial={reduceMotion ? false : { scale: 1.06 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 2.2, ease: EASE }}
-            className="absolute inset-0"
+          NEUROMETRICS
+        </button>
+
+        <div className="ml-auto flex items-center gap-3">
+          <Link href="/login" className="hidden text-[10px] font-semibold uppercase tracking-[0.22em] transition-opacity hover:opacity-55 sm:block">
+            {t('nav.login')}
+          </Link>
+          <Button
+            asChild
+            variant="outline"
+            className={cn(
+              'h-11 rounded-none bg-transparent px-5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-none',
+              activeIsDark
+                ? 'border-white/45 text-white hover:bg-white hover:text-[#07151b]'
+                : 'border-[#13272c]/50 text-[#13272c] hover:bg-[#13272c] hover:text-white',
+            )}
           >
-            <Image
-              src="/neurometrics-observatory-hero.png"
-              alt="Profesional clínica usando el dashboard real de Neurometrics"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[66%_center]"
-            />
-          </motion.div>
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,12,16,.94)_0%,rgba(3,12,16,.8)_28%,rgba(3,12,16,.18)_67%,rgba(3,12,16,.18)_100%)] max-md:bg-[linear-gradient(0deg,rgba(3,12,16,.96)_0%,rgba(3,12,16,.45)_75%,rgba(3,12,16,.28)_100%)]"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.15),transparent_28%,rgba(0,0,0,.38))]"
-          />
+            <Link href="/onboarding">{t('nav.cta')}</Link>
+          </Button>
+        </div>
+      </header>
 
-          <div className="relative z-10 mx-auto w-full max-w-[1600px] px-5 pb-8 pt-36 sm:px-8 md:pb-10 lg:px-14 xl:px-20">
-            <div className="max-w-[850px] pb-10 md:pb-14">
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-                className="mb-7 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#a8d9cf] sm:text-xs"
-              >
-                <span className="h-px w-10 bg-[#67d5c1]" />
-                {t("hero.eyebrow")}
-              </motion.div>
-
-              <motion.h1
-                initial={reduceMotion ? false : { opacity: 0, y: 26 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.28, ease: EASE }}
-                className="max-w-[780px] text-balance text-[clamp(3.7rem,8vw,8.4rem)] font-medium leading-[0.82] tracking-[-0.065em]"
-              >
-                {t("hero.title")}
-              </motion.h1>
-
-              <motion.p
-                initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.48, ease: EASE }}
-                className="mt-8 max-w-2xl text-balance text-base leading-relaxed text-white/70 sm:text-lg md:text-xl"
-              >
-                {t("hero.description")}
-              </motion.p>
-
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.64, ease: EASE }}
-                className="mt-9 flex flex-col gap-3 sm:flex-row"
-              >
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-14 rounded-none bg-[#b9f4e6] px-7 text-sm font-semibold text-[#07151b] shadow-none transition-colors hover:bg-white"
-                >
-                  <Link href="/onboarding">
-                    {t("hero.primary")}
-                    <ArrowRight className="ml-3 size-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="h-14 rounded-none border-white/35 bg-transparent px-7 text-sm font-medium text-white shadow-none hover:border-white hover:bg-white hover:text-[#07151b]"
-                >
-                  <a href="#platform">
-                    {t("hero.secondary")}
-                    <ArrowDownRight className="ml-3 size-4" />
-                  </a>
-                </Button>
-              </motion.div>
-            </div>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.9 }}
-              className="grid border-t border-white/20 sm:grid-cols-3"
-            >
-              {proof.map((item, index) => (
-                <div
-                  key={item}
-                  className={cn(
-                    "flex items-center gap-3 border-white/20 py-4 text-xs font-medium uppercase tracking-[0.16em] text-white/65 sm:px-5",
-                    index > 0 && "sm:border-l",
-                    index === 0 && "sm:pl-0",
-                  )}
-                >
-                  <CircleCheck className="size-4 text-[#67d5c1]" />
-                  {item}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="relative overflow-hidden bg-[#f2efe7] px-5 py-28 sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div className="mx-auto max-w-[1460px]">
-            <motion.div {...reveal()} className="grid gap-12 lg:grid-cols-[0.34fr_1fr] lg:gap-24">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#567078]">
-                  {t("manifesto.index")}
-                </p>
-              </div>
-              <div>
-                <p className="mb-8 text-xs font-semibold uppercase tracking-[0.24em] text-[#147c70]">
-                  {t("manifesto.eyebrow")}
-                </p>
-                <h2 className="max-w-[1100px] font-editorial text-[clamp(3.4rem,6.6vw,7.2rem)] font-normal leading-[0.92] tracking-[-0.045em] text-[#10262c]">
-                  {t("manifesto.title")}
-                </h2>
-                <div className="mt-12 grid gap-8 border-t border-[#17343b]/20 pt-8 md:grid-cols-2 md:gap-16">
-                  <p className="max-w-xl text-lg leading-relaxed text-[#385159]">
-                    {t("manifesto.description")}
-                  </p>
-                  <p className="max-w-lg text-sm leading-relaxed text-[#5e747a] md:justify-self-end">
-                    {t("manifesto.note")}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="platform" className="relative bg-[#07151b] px-5 py-28 text-white sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div aria-hidden className="observatory-orbit observatory-orbit--one" />
-          <div aria-hidden className="observatory-orbit observatory-orbit--two" />
-          <div className="relative mx-auto max-w-[1460px]">
-            <motion.div {...reveal()} className="grid gap-10 lg:grid-cols-[0.34fr_1fr] lg:gap-24">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-white/40">
-                {t("platform.index")}
-              </p>
-              <div className="max-w-5xl">
-                <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#67d5c1]">
-                  {t("platform.eyebrow")}
-                </p>
-                <h2 className="font-editorial text-[clamp(3.6rem,7vw,7.5rem)] font-normal leading-[0.9] tracking-[-0.045em]">
-                  {t("platform.title")}
-                </h2>
-                <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/55">
-                  {t("platform.description")}
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.figure {...reveal(0.08)} className="mt-16 md:mt-24">
-              <div className="relative overflow-hidden border border-white/15 bg-[#030b10] shadow-[0_60px_160px_-70px_rgba(36,215,190,.38)]">
-                <div className="flex h-11 items-center justify-between border-b border-white/10 px-4 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/35 sm:px-6">
-                  <span>Neurometrics / Clinical OS</span>
-                  <span className="flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-[#67d5c1] shadow-[0_0_12px_rgba(103,213,193,.75)]" />
-                    {t("platform.live")}
-                  </span>
-                </div>
-                <Image
-                  src="/neurometrics-dashboard-real.png"
-                  alt="Dashboard real de Neurometrics"
-                  width={1425}
-                  height={900}
-                  sizes="(max-width: 1536px) 100vw, 1460px"
-                  className="h-auto w-full"
-                />
-              </div>
-              <figcaption className="mt-4 flex flex-col justify-between gap-2 text-[10px] uppercase tracking-[0.18em] text-white/35 sm:flex-row">
-                <span>{t("platform.caption")}</span>
-                <span>{t("platform.privacy")}</span>
-              </figcaption>
-            </motion.figure>
-
-            <div className="mt-20 border-t border-white/15 md:mt-28">
-              {capabilities.map((capability, index) => (
-                <motion.div
-                  key={capability.title}
-                  {...reveal(index * 0.04)}
-                  className="group grid gap-5 border-b border-white/15 py-9 transition-colors hover:bg-white/[0.025] md:grid-cols-[120px_0.72fr_1fr] md:items-baseline md:py-12"
-                >
-                  <span className="font-mono text-xs text-[#67d5c1]">0{index + 1}</span>
-                  <h3 className="text-2xl font-medium tracking-[-0.035em] md:text-4xl">
-                    {capability.title}
-                  </h3>
-                  <p className="max-w-xl text-sm leading-relaxed text-white/50 md:text-base">
-                    {capability.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#b9f4e6] px-5 py-28 text-[#0b2428] sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div className="mx-auto max-w-[1460px]">
-            <motion.div {...reveal()} className="grid gap-10 lg:grid-cols-[0.34fr_1fr] lg:gap-24">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#245c5a]">
-                {t("workflow.index")}
-              </p>
-              <div>
-                <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#147c70]">
-                  {t("workflow.eyebrow")}
-                </p>
-                <h2 className="max-w-5xl font-editorial text-[clamp(3.4rem,6.8vw,7.2rem)] font-normal leading-[0.9] tracking-[-0.045em]">
-                  {t("workflow.title")}
-                </h2>
-              </div>
-            </motion.div>
-
-            <div className="mt-20 border-t border-[#0b2428]/25 md:mt-28">
-              {workflowSteps.map((step, index) => (
-                <motion.article
-                  key={step.title}
-                  {...reveal(index * 0.05)}
-                  className="grid gap-5 border-b border-[#0b2428]/25 py-10 md:grid-cols-[120px_0.72fr_1fr] md:items-start md:py-14"
-                >
-                  <span className="font-mono text-xs text-[#147c70]">0{index + 1}</span>
-                  <h3 className="max-w-lg text-3xl font-medium leading-tight tracking-[-0.04em] md:text-5xl">
-                    {step.title}
-                  </h3>
-                  <p className="max-w-xl text-base leading-relaxed text-[#315c5c] md:text-lg">
-                    {step.desc}
-                  </p>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="relative min-h-[82svh] overflow-hidden bg-[#151d1d] text-white">
+      <div className="pointer-events-none fixed inset-0 z-10 overflow-hidden" aria-hidden>
+        <motion.div
+          initial={false}
+          animate={{ opacity: activeSection === 0 ? 1 : 0, scale: activeSection === 0 ? 1 : 1.05 }}
+          transition={{ duration: reduceMotion ? 0 : 0.8, ease: EASE }}
+          className="absolute inset-0"
+        >
           <Image
-            src="/neurometrics-clinical-presence.png"
-            alt="Profesional clínica conversando con una paciente"
+            src="/neurometrics-observatory-hero.png"
+            alt=""
             fill
+            priority
             sizes="100vw"
-            className="object-cover object-[45%_center]"
+            className="object-cover object-[64%_center]"
           />
-          <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,16,17,.06)_20%,rgba(4,16,17,.38)_55%,rgba(4,16,17,.94)_100%)] max-lg:bg-[linear-gradient(0deg,rgba(4,16,17,.94)_0%,rgba(4,16,17,.08)_70%)]" />
-          <div className="relative z-10 mx-auto flex min-h-[82svh] max-w-[1600px] items-end justify-end px-5 py-14 sm:px-8 md:py-20 lg:items-center lg:px-14 xl:px-20">
-            <motion.div {...reveal()} className="max-w-xl lg:w-[42%]">
-              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#b9f4e6]">
-                {t("presence.eyebrow")}
-              </p>
-              <h2 className="font-editorial text-[clamp(3.25rem,5.6vw,6.5rem)] font-normal leading-[0.92] tracking-[-0.045em]">
-                {t("presence.title")}
-              </h2>
-              <p className="mt-7 max-w-lg text-base leading-relaxed text-white/65 md:text-lg">
-                {t("presence.description")}
-              </p>
-              <div className="mt-10 flex items-start gap-4 border-t border-white/25 pt-6 text-xs uppercase tracking-[0.16em] text-white/55">
-                <LockKeyhole className="mt-0.5 size-4 shrink-0 text-[#b9f4e6]" />
-                {t("presence.note")}
-              </div>
-            </motion.div>
-          </div>
-        </section>
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,12,16,.94)_0%,rgba(3,12,16,.7)_36%,rgba(3,12,16,.08)_72%)]" />
+        </motion.div>
 
-        <section id="testimonials" className="bg-[#f2efe7] px-5 py-28 sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <motion.div {...reveal()} className="mx-auto max-w-[1200px] text-center">
-            <Quote className="mx-auto size-8 text-[#147c70]" strokeWidth={1.3} />
-            <blockquote className="mt-9 font-editorial text-[clamp(2.7rem,5vw,5.6rem)] font-normal leading-[1.02] tracking-[-0.04em] text-[#10262c]">
-              “{tTestimonial("text")}”
-            </blockquote>
-            <div className="mt-10 text-xs font-semibold uppercase tracking-[0.2em] text-[#587078]">
-              {tTestimonial("name")} · {tTestimonial("role")}
-            </div>
-          </motion.div>
-        </section>
-
-        <section id="pricing" className="bg-[#10262c] px-5 py-28 text-white sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div className="mx-auto max-w-[1460px]">
-            <motion.div {...reveal()} className="grid gap-10 lg:grid-cols-[0.34fr_1fr] lg:gap-24">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-white/35">
-                {t("pricing.index")}
-              </p>
-              <div>
-                <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#67d5c1]">
-                  {t("pricing.eyebrow")}
-                </p>
-                <h2 className="max-w-5xl font-editorial text-[clamp(3.4rem,6.8vw,7.2rem)] font-normal leading-[0.9] tracking-[-0.045em]">
-                  {t("pricing.title")}
-                </h2>
-              </div>
-            </motion.div>
-
-            <div className="mt-20 grid border-y border-white/15 md:mt-28 md:grid-cols-2 xl:grid-cols-4">
-              {PLANS.map((plan, index) => {
-                const features = tPricing.raw(`${plan.key}.features`) as string[]
-                return (
-                  <motion.article
-                    key={plan.key}
-                    {...reveal(index * 0.05)}
-                    className={cn(
-                      "relative flex min-h-[520px] flex-col border-white/15 px-6 py-9 md:px-8 md:py-11",
-                      index > 0 && "xl:border-l",
-                      index % 2 === 1 && "md:border-l",
-                      index > 1 && "border-t xl:border-t-0",
-                      plan.featured && "bg-[#b9f4e6] text-[#0b2428]",
-                    )}
-                  >
-                    {plan.featured && (
-                      <span className="absolute right-6 top-6 text-[9px] font-bold uppercase tracking-[0.2em] text-[#147c70]">
-                        {tPricing("clinical.badge")}
-                      </span>
-                    )}
-                    <p className={cn("font-mono text-[10px]", plan.featured ? "text-[#147c70]" : "text-white/35")}>
-                      0{index + 1}
-                    </p>
-                    <h3 className="mt-10 text-2xl font-medium tracking-[-0.04em]">
-                      {tPricing(`${plan.key}.name`)}
-                    </h3>
-                    <p className={cn("mt-2 text-sm", plan.featured ? "text-[#315c5c]" : "text-white/45")}>
-                      {tPricing(`${plan.key}.description`)}
-                    </p>
-                    <div className="mt-8 flex items-baseline gap-1">
-                      {plan.amount === 0 ? (
-                        <span className="text-5xl font-medium tracking-[-0.06em]">$0</span>
-                      ) : (
-                        <PriceDisplay
-                          amount={plan.amount}
-                          period={plan.annual ? tPricing("year") : tPricing("month")}
-                          priceId={plan.priceId}
-                          className="text-5xl font-medium tracking-[-0.06em]"
-                        />
-                      )}
-                    </div>
-                    <ul className="mt-10 space-y-4">
-                      {features.slice(0, 4).map((feature) => (
-                        <li
-                          key={feature}
-                          className={cn("flex gap-3 text-sm leading-relaxed", plan.featured ? "text-[#244d4d]" : "text-white/60")}
-                        >
-                          <Check className="mt-0.5 size-4 shrink-0 text-[#36a894]" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link
-                      href={`/onboarding?plan=${plan.key}`}
-                      className={cn(
-                        "mt-auto flex items-center justify-between border-t pt-5 text-xs font-bold uppercase tracking-[0.16em] transition-colors",
-                        plan.featured
-                          ? "border-[#0b2428]/20 text-[#0b2428] hover:text-[#147c70]"
-                          : "border-white/15 text-white hover:text-[#67d5c1]",
-                      )}
-                    >
-                      {tPricing(`${plan.key}.cta`)}
-                      <ArrowRight className="size-4" />
-                    </Link>
-                  </motion.article>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section id="faq" className="bg-[#f2efe7] px-5 py-28 sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div className="mx-auto max-w-[1460px]">
-            <motion.div {...reveal()} className="grid gap-14 lg:grid-cols-[0.55fr_1fr] lg:gap-28">
-              <div>
-                <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#147c70]">
-                  {t("faq.eyebrow")}
-                </p>
-                <h2 className="font-editorial text-[clamp(3.5rem,6vw,6.8rem)] font-normal leading-[0.9] tracking-[-0.045em] text-[#10262c]">
-                  {t("faq.title")}
-                </h2>
-              </div>
-              <div className="border-t border-[#17343b]/20">
-                {faqItems.slice(0, 6).map((faq, index) => (
-                  <details key={faq.q} className="group border-b border-[#17343b]/20 py-6 open:pb-8">
-                    <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-lg font-medium tracking-[-0.025em] text-[#10262c] marker:hidden md:text-xl">
-                      <span className="flex gap-5">
-                        <span className="mt-1 font-mono text-[10px] text-[#147c70]">0{index + 1}</span>
-                        {faq.q}
-                      </span>
-                      <span className="mt-1 text-2xl font-light leading-none text-[#147c70] transition-transform group-open:rotate-45">+</span>
-                    </summary>
-                    <p className="max-w-2xl pl-10 pt-5 text-sm leading-relaxed text-[#587078] md:text-base">
-                      {faq.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="relative overflow-hidden bg-[#b9f4e6] px-5 py-28 text-[#0b2428] sm:px-8 md:py-40 lg:px-14 xl:px-20">
-          <div aria-hidden className="observatory-signal" />
-          <motion.div {...reveal()} className="relative mx-auto max-w-[1460px]">
-            <p className="mb-8 text-xs font-semibold uppercase tracking-[0.24em] text-[#147c70]">
-              {t("final.eyebrow")}
-            </p>
-            <h2 className="max-w-[1250px] font-editorial text-[clamp(4rem,8vw,9rem)] font-normal leading-[0.84] tracking-[-0.055em]">
-              {t("final.title")}
-            </h2>
-            <div className="mt-12 flex flex-col justify-between gap-8 border-t border-[#0b2428]/25 pt-8 md:flex-row md:items-center">
-              <p className="max-w-xl text-base leading-relaxed text-[#315c5c] md:text-lg">
-                {t("final.description")}
-              </p>
-              <Button
-                asChild
-                size="lg"
-                className="h-16 shrink-0 rounded-none bg-[#0b2428] px-8 text-sm font-semibold text-white shadow-none hover:bg-[#147c70]"
+        <motion.div
+          initial={false}
+          animate={{ opacity: activeSection > 0 && activeSection < 7 ? 1 : 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: EASE }}
+          className="absolute inset-0"
+        >
+          <div className="absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(19,39,44,.14)_1px,transparent_1px),linear-gradient(90deg,rgba(19,39,44,.14)_1px,transparent_1px)] [background-size:72px_72px]" />
+          <motion.div
+            initial={false}
+            animate={canvasState}
+            transition={{ duration: reduceMotion ? 0 : 0.95, ease: EASE }}
+            className="absolute left-1/2 top-1/2 aspect-[1425/900] w-[94vw] md:w-[70vw] xl:w-[66vw]"
+            style={{ transformPerspective: 1500, transformStyle: 'preserve-3d' }}
+          >
+            <div className={cn(
+              'absolute inset-0 overflow-hidden border shadow-[0_60px_140px_-45px_rgba(3,12,16,.58)]',
+              activeIsDark ? 'border-white/20' : 'border-[#13272c]/25',
+            )}>
+              <Image
+                src="/neurometrics-dashboard-real.png"
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 768px) 94vw, 70vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+              <motion.div
+                initial={false}
+                animate={{ left: targetState.left, top: targetState.top }}
+                transition={{ duration: reduceMotion ? 0 : 0.8, ease: EASE }}
+                className="absolute size-14 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#78ffe3]/80 shadow-[0_0_0_10px_rgba(120,255,227,.08),0_0_35px_rgba(120,255,227,.42)]"
               >
-                <Link href="/onboarding">
-                  {t("final.cta")}
-                  <ArrowRight className="ml-3 size-4" />
-                </Link>
-              </Button>
+                <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[#78ffe3]/35" />
+                <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-[#78ffe3]/35" />
+              </motion.div>
             </div>
           </motion.div>
-        </section>
-      </main>
+        </motion.div>
+      </div>
 
-      <Footer />
-    </div>
+      <aside className={cn(
+        'fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 transition-colors duration-500 md:flex',
+        activeIsDark ? 'text-white' : 'text-[#13272c]',
+      )} aria-label={t('progress')}>
+        {sections.map((section, index) => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(index)}
+            className="group flex items-center gap-3"
+            aria-label={section.eyebrow}
+            aria-current={activeSection === index ? 'step' : undefined}
+          >
+            <span className="text-[8px] font-mono opacity-0 transition-opacity group-hover:opacity-60">0{index + 1}</span>
+            <span className={cn(
+              'block rounded-full transition-all duration-500',
+              activeSection === index ? 'h-7 w-1 bg-current' : 'size-1 bg-current opacity-35',
+            )} />
+          </button>
+        ))}
+      </aside>
+
+      <main
+        ref={scrollRef}
+        className="relative z-20 h-full w-full snap-y snap-mandatory overflow-y-auto overflow-x-hidden scroll-smooth overscroll-y-contain"
+      >
+        {sections.map((section, index) => {
+          const isDark = DARK_SECTIONS.has(index)
+          const alignRight = section.align === 'right'
+          const isFinal = index === sections.length - 1
+
+          return (
+            <section
+              key={section.id}
+              id={section.id}
+              data-snap-section={index}
+              className={cn(
+                'relative flex min-h-[100svh] snap-start items-center px-5 pb-12 pt-28 sm:px-8 lg:px-14 xl:px-20',
+                isDark ? 'text-white' : 'text-[#13272c]',
+                alignRight && 'justify-end',
+              )}
+            >
+              <motion.div
+                animate={activeSection === index ? { opacity: 1, y: 0 } : { opacity: 0.12, y: activeSection > index ? -36 : 36 }}
+                transition={{ duration: reduceMotion ? 0 : 0.65, ease: EASE }}
+                className={cn(
+                  'relative z-30 w-full max-w-xl lg:max-w-[610px]',
+                  index > 0 && index < 7 && !alignRight && 'md:max-w-[40vw]',
+                  alignRight && 'md:max-w-[39vw]',
+                  isFinal && 'max-w-5xl md:max-w-6xl',
+                )}
+              >
+                <div className="mb-7 flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.28em] opacity-60">
+                  <span>{section.index}</span>
+                  <span className="h-px w-10 bg-current" />
+                  <span>{section.eyebrow}</span>
+                </div>
+
+                <h1 className={cn(
+                  'text-balance leading-[0.86] tracking-[-0.065em]',
+                  index === 0 || isFinal
+                    ? 'text-[clamp(4rem,8.5vw,9.5rem)]'
+                    : 'text-[clamp(3.7rem,7vw,7.6rem)]',
+                )}>
+                  <span className="block font-sans font-black">{section.title}</span>
+                  <span className="block font-editorial font-normal italic tracking-[-0.045em]">{section.accent}</span>
+                </h1>
+
+                <p className={cn(
+                  'mt-8 max-w-lg text-base leading-relaxed sm:text-lg',
+                  isDark ? 'text-white/58' : 'text-[#314e54]/72',
+                )}>
+                  {section.description}
+                </p>
+
+                {section.metricValue && (
+                  <div className={cn(
+                    'mt-10 border-t pt-5',
+                    isDark ? 'border-white/20' : 'border-[#13272c]/20',
+                  )}>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.22em] opacity-55">{section.metricLabel}</div>
+                    <div className="mt-2 text-[clamp(3.7rem,7vw,7rem)] font-black leading-none tracking-[-0.07em]">{section.metricValue}</div>
+                    {section.detail && <p className="mt-3 max-w-sm text-xs uppercase tracking-[0.15em] opacity-50">{section.detail}</p>}
+                  </div>
+                )}
+
+                {index === 0 && (
+                  <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                    <Button asChild className="h-14 rounded-none bg-[#b9f4e6] px-7 text-xs font-bold uppercase tracking-[0.17em] text-[#07151b] hover:bg-white">
+                      <Link href="/onboarding">{t('heroCta')}<ArrowRight className="ml-3 size-4" /></Link>
+                    </Button>
+                    <button onClick={() => scrollToSection(1)} className="flex h-14 items-center justify-center border border-white/35 px-7 text-xs font-bold uppercase tracking-[0.17em] text-white transition-colors hover:bg-white hover:text-[#07151b]">
+                      {t('discover')}<ArrowDown className="ml-3 size-4" />
+                    </button>
+                  </div>
+                )}
+
+                {isFinal && (
+                  <div className="mt-10 flex flex-col gap-8 border-t border-[#13272c]/25 pt-7 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-wrap gap-x-6 gap-y-3 text-[10px] font-bold uppercase tracking-[0.17em] text-[#315c5c]">
+                      {(t.raw('finalProof') as string[]).map((item) => (
+                        <span key={item} className="flex items-center gap-2"><Check className="size-3.5" />{item}</span>
+                      ))}
+                    </div>
+                    <Button asChild className="h-16 shrink-0 rounded-none bg-[#0b2428] px-8 text-xs font-bold uppercase tracking-[0.17em] text-white hover:bg-[#147c70]">
+                      <Link href="/onboarding">{t('finalCta')}<ArrowRight className="ml-3 size-4" /></Link>
+                    </Button>
+                  </div>
+                )}
+              </motion.div>
+
+              {index === 6 && (
+                <div className="absolute bottom-10 right-8 hidden items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/45 lg:flex">
+                  <LockKeyhole className="size-4 text-[#78ffe3]" />
+                  {t('securityNote')}
+                </div>
+              )}
+            </section>
+          )
+        })}
+      </main>
+    </motion.div>
   )
 }

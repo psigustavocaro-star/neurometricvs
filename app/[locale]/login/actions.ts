@@ -4,9 +4,11 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { mapAuthErrorKey } from '@/lib/auth-errors'
+import { getLocale } from 'next-intl/server'
 
 export async function login(formData: FormData) {
     const supabase = await createClient()
+    const locale = await getLocale()
 
     const email = formData.get('email') as string
     const password = formData.get('password') as string
@@ -18,15 +20,16 @@ export async function login(formData: FormData) {
 
     if (error) {
         console.error('Login error:', error)
-        redirect(`/login?error=${mapAuthErrorKey(error)}`)
+        redirect(`/${locale}/login?error=${mapAuthErrorKey(error)}`)
     }
 
-    revalidatePath('/', 'layout')
-    redirect('/dashboard')
+    revalidatePath(`/${locale}`, 'layout')
+    redirect(`/${locale}/dashboard`)
 }
 
 export async function signup(formData: FormData) {
     const supabase = await createClient()
+    const locale = await getLocale()
 
     const email = formData.get('email') as string
     const password = formData.get('password') as string
@@ -38,15 +41,16 @@ export async function signup(formData: FormData) {
 
     if (error) {
         console.error('Signup error:', error)
-        redirect(`/login?error=${mapAuthErrorKey(error)}`)
+        redirect(`/${locale}/login?error=${mapAuthErrorKey(error)}`)
     }
 
-    revalidatePath('/', 'layout')
-    redirect('/login?message=check_email')
+    revalidatePath(`/${locale}`, 'layout')
+    redirect(`/${locale}/login?message=check_email`)
 }
 
 export async function resendConfirmation(formData: FormData) {
     const supabase = await createClient()
+    const locale = await getLocale()
     const email = formData.get('email') as string
 
     const { error } = await supabase.auth.resend({
@@ -55,8 +59,8 @@ export async function resendConfirmation(formData: FormData) {
     })
 
     if (error) {
-        redirect(`/login?error=${mapAuthErrorKey(error)}`)
+        redirect(`/${locale}/login?error=${mapAuthErrorKey(error)}`)
     }
 
-    redirect('/login?message=confirmation_resent')
+    redirect(`/${locale}/login?message=confirmation_resent`)
 }

@@ -1,13 +1,10 @@
-import { login, signup, resendConfirmation } from './actions'
+import { resendConfirmation } from './actions'
 import { Link } from '@/i18n/navigation'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import { GoogleLoginButton } from '@/components/auth/google-login-button'
-import { PasswordInput } from '@/components/ui/password-input'
 import { LoginPageForm } from '@/components/auth/login-page-form'
 
 export default async function LoginPage(props: {
@@ -22,18 +19,21 @@ export default async function LoginPage(props: {
         : null
 
     return (
-        <div className="grid min-h-screen lg:grid-cols-[1.15fr_.85fr] bg-[#eef4f3] dark:bg-[#050a12]">
-            <div className="relative hidden overflow-hidden bg-slate-950 lg:block">
-                <Image src="/neurometrics-clinical-intelligence.png" alt="Neurometrics Clinical OS" fill priority className="object-cover object-[72%_center]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/10" />
+        <div className="grid min-h-screen bg-[#e2dcd5] lg:grid-cols-[1.08fr_.92fr] dark:bg-[#050a12]">
+            <div className="relative hidden overflow-hidden bg-[#07151b] lg:block">
+                <Image src="/neurometrics-observatory-hero.png" alt="Profesional usando Neurometrics Clinical OS" fill priority className="object-cover object-[66%_center]" />
+                <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(3,12,16,.9)_0%,rgba(3,12,16,.05)_68%),linear-gradient(90deg,rgba(3,12,16,.15),transparent)]" />
                 <div className="absolute inset-x-0 bottom-0 p-10 xl:p-14">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-teal-300/20 bg-slate-950/50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-teal-200 backdrop-blur-xl">
-                        <span className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(94,234,212,0.8)]" /> Clinical intelligence OS
+                    <div className="mb-5 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.25em] text-teal-200">
+                        <span className="h-px w-10 bg-teal-300" /> Clinical operating system
                     </div>
+                    <p className="max-w-xl font-editorial text-5xl font-normal leading-[0.94] tracking-[-0.045em] text-white xl:text-6xl">
+                        El criterio conduce.<br /><em>El sistema conecta.</em>
+                    </p>
                 </div>
             </div>
             <div className="relative flex items-center justify-center p-5 sm:p-8 md:p-12">
-                <div aria-hidden className="absolute inset-0 opacity-50 [background-image:linear-gradient(rgba(15,23,42,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.035)_1px,transparent_1px)] [background-size:48px_48px] dark:opacity-20" />
+                <div aria-hidden className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(15,23,42,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.04)_1px,transparent_1px)] [background-size:64px_64px] dark:opacity-15" />
             <Card className="w-full max-w-md relative z-10 border-0 bg-transparent shadow-none backdrop-blur-none mx-auto dark:bg-transparent">
                 <CardHeader className="text-center pb-4 pt-8">
                     {/* Official Neurometrics Logo */}
@@ -52,7 +52,7 @@ export default async function LoginPage(props: {
                             </div>
                         </Link>
                     </div>
-                    <div className="nm-eyebrow justify-center">Secure clinical access</div>
+                    <div className="nm-eyebrow justify-center">Acceso clínico seguro</div>
                     <CardTitle className="text-3xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white">
                         {t('title')}
                     </CardTitle>

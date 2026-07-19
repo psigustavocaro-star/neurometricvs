@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useFormStatus } from 'react-dom'
+import { Loader2 } from 'lucide-react'
 import { login } from '@/app/[locale]/login/actions'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -73,10 +75,29 @@ export function LoginPageForm() {
                     </Label>
                 </div>
 
-                <Button type="submit" className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white shadow-lg shadow-teal-500/20 border-0 h-11">
-                    {t('submit_button')}
-                </Button>
+                <LoginSubmitButton />
             </div>
         </form>
+    )
+}
+
+function LoginSubmitButton() {
+    const { pending } = useFormStatus()
+    const t = useTranslations('Login')
+
+    return (
+        <Button
+            type="submit"
+            disabled={pending}
+            aria-busy={pending}
+            className="h-12 w-full rounded-none border-0 bg-[#0b2428] text-white shadow-none transition-colors hover:bg-[#147c70] disabled:cursor-wait disabled:opacity-85 dark:bg-teal-300 dark:text-[#07151b] dark:hover:bg-teal-200"
+        >
+            {pending ? (
+                <>
+                    <Loader2 className="mr-2 size-4 animate-spin" />
+                    {t('submitting')}
+                </>
+            ) : t('submit_button')}
+        </Button>
     )
 }
