@@ -1,196 +1,207 @@
 'use client'
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
-import { motion, useReducedMotion } from "framer-motion"
-import { ArrowRight, Check, Play, ShieldCheck } from "lucide-react"
+import { ArrowRight, Check, ChevronDown, Menu, X, ArrowUp, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ProductShowcase } from "@/components/landing/product-showcase"
+import { LoginModal } from "@/components/auth/login-modal"
+import { HeroCarousel } from "@/components/landing/hero-carousel"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
+import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
 import { Footer } from "@/components/layout/footer"
 import { VerticalNavbar } from "@/components/layout/vertical-navbar"
 import { DemoModal } from "@/components/landing/demo-modal"
 import { FeaturesSection } from "@/components/landing/features-section"
 import { PricingSection } from "@/components/landing/pricing-section"
-import { StatsBand } from "@/components/landing/stats-band"
-import { CTASection } from "@/components/landing/cta-section"
-import { NeuroDivider } from "@/components/landing/neuro-divider"
-import { WorkflowSection } from "@/components/landing/workflow-section"
-import { ScrollProgress } from "@/components/motion/scroll-progress"
 import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
+import { FluidBackground } from "@/components/ui/fluid-background"
 import { ProfessionTextLoop } from "@/components/landing/profession-text-loop"
-import { AnimatedWords } from "@/components/motion/animated-words"
-import { Magnetic } from "@/components/motion/magnetic"
-import { Parallax } from "@/components/motion/parallax"
-
-const EASE = [0.16, 1, 0.3, 1] as const
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function LandingPage() {
+  const router = useRouter();
   const tHero = useTranslations('Hero');
+  // ... rest of translations
+
+  const tMobile = useTranslations('MobileSection');
   const tTests = useTranslations('Testimonials');
+  const tTrust = useTranslations('Trust');
+  const tPricing = useTranslations('Pricing');
   const tFAQ = useTranslations('FAQ');
-  const reduce = useReducedMotion()
-  const router = useRouter()
+  const tNav = useTranslations('Navbar');
+  const tGeneral = useTranslations('General');
 
   useEffect(() => {
-    // Prefetch critical routes for instant navigation
+    // Prefetch critical routes for instant feeling
     const routesToPrefetch = ['/onboarding', '/login', '/features', '/pricing', '/testimonials'];
     routesToPrefetch.forEach(route => router.prefetch(route));
   }, [router]);
 
-  const trustPoints = tHero.raw('trust_points') as string[] | undefined
-
-  // Orchestrated hero entrance
-  const heroItem = (delay: number) => ({
-    initial: reduce ? undefined : { opacity: 0, y: 28, filter: 'blur(6px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    transition: { duration: 0.9, delay, ease: EASE }
-  })
-
   return (
     <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
-      <ScrollProgress />
       <VerticalNavbar />
 
-      <main className="flex-1 relative bg-transparent">
+      <main className="flex-1 relative bg-background transition-colors duration-500">
+        {/* Unified Background - Continuous Flow */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Subtle grid only in dark mode if desired, or completely removed as per request */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 dark:opacity-[0.03]" />
+
+          {/* Calipso Blobs for Atmosphere */}
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 dark:bg-primary/5 blur-[120px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute top-[60%] left-[-20%] w-[60%] h-[60%] rounded-full bg-primary/15 dark:bg-primary/10 blur-[130px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob animation-delay-6000 mix-blend-multiply dark:mix-blend-normal filter" />
+        </div>
 
         {/* Hero Section */}
-        <section id="hero" className="w-full pt-32 md:pt-40 lg:pt-44 pb-20 md:pb-28 relative">
-          {/* Hairline dot grid, fades out towards edges */}
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.4] dark:opacity-[0.15] pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_30%,transparent_75%)]"
-            style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(100 116 139 / 0.25) 1px, transparent 0)', backgroundSize: '28px 28px' }}
-          />
+        <section id="hero" className="w-full pt-24 md:pt-32 lg:pt-40 pb-16 md:pb-24 overflow-hidden relative bg-transparent transition-colors duration-300">
+          <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 xl:pl-32 xl:pr-10 relative z-10">
 
-          <div className="container px-4 md:px-6 relative z-10">
+            <div className="grid gap-12 lg:grid-cols-[1.2fr_450px] xl:grid-cols-[1.2fr_650px] items-start">
+              <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
 
-            <div className="grid gap-16 lg:grid-cols-2 items-center">
-              <div className="flex flex-col justify-center space-y-8 items-center text-center lg:items-start lg:text-left">
 
-                <motion.div {...heroItem(0)}>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-xs font-semibold text-teal-700 dark:text-teal-300 tracking-wide">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    {tHero('badge')}
+                <ScrollAnimation animation="fade-up" delay={100}>
+                  <div className="min-h-[140px] sm:min-h-[160px] lg:min-h-[190px] flex items-center lg:items-start relative z-20">
+                    <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm max-w-4xl leading-[1.1]">
+                      {tHero('title')} <ProfessionTextLoop />
+                    </h1>
                   </div>
-                </motion.div>
+                </ScrollAnimation>
 
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white text-balance max-w-3xl leading-[1.08]">
-                  <AnimatedWords text={tHero('title')} onMount delay={0.15} />{' '}
-                  <motion.span {...heroItem(0.6)} className="inline-block">
-                    <ProfessionTextLoop />
-                  </motion.span>
-                </h1>
+                <ScrollAnimation animation="fade-up" delay={200}>
+                  <p className="max-w-[700px] text-slate-500 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
+                    {tHero('subtitle')}
+                  </p>
+                </ScrollAnimation>
 
-                <motion.p {...heroItem(0.45)} className="max-w-[600px] text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0">
-                  {tHero('subtitle')}
-                </motion.p>
-
-                <motion.div {...heroItem(0.6)}>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start w-full sm:w-auto items-center">
-                    <Magnetic>
-                      <Button asChild size="lg" className="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-full px-8 h-12 text-base font-semibold shadow-lg shadow-slate-900/10 dark:shadow-white/10 group">
-                        <Link href="/onboarding">
-                          {tHero('cta_primary')}
-                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                        </Link>
-                      </Button>
-                    </Magnetic>
+                <ScrollAnimation animation="fade-up" delay={300}>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto">
+                    <Button asChild size="lg" className="relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 rounded-full px-8 h-12 text-base group border-0 transition-all">
+                      <Link href="/onboarding">
+                        <span className="relative z-10 flex items-center">{tHero('cta_primary')} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
+                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
+                      </Link>
+                    </Button>
                     <DemoModal>
-                      <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full px-8 h-12 text-base font-medium cursor-pointer">
-                        <Play className="mr-2 h-4 w-4 text-teal-600 dark:text-teal-400 fill-current" />
+                      <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/50 rounded-full px-8 h-12 text-base hover:border-primary/50 transition-all cursor-pointer group shadow-sm">
+                        <Play className="mr-2 h-4 w-4 text-teal-600 dark:text-teal-400 fill-teal-600 dark:fill-teal-400 group-hover:scale-110 transition-transform" />
                         {tHero('cta_secondary')}
                       </Button>
                     </DemoModal>
                   </div>
-                </motion.div>
+                </ScrollAnimation>
 
-                {trustPoints && trustPoints.length > 0 && (
-                  <motion.div {...heroItem(0.75)}>
-                    <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center lg:justify-start text-sm text-slate-500 dark:text-slate-400">
-                      {trustPoints.map((point) => (
-                        <li key={point} className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-teal-600 dark:text-teal-400" strokeWidth={2.5} />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
+                <ScrollAnimation animation="fade-up" delay={400}>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4 justify-center lg:justify-start">
+                    <div className="flex -space-x-3">
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/female-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/male-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/female-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                        <Image src="/assets/v2/male-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    <p className="font-medium text-muted-foreground">{tHero('trusted_by')}</p>
+                  </div>
+                </ScrollAnimation>
               </div>
 
-              <Parallax offset={36} className="w-full">
-                <ProductShowcase />
-              </Parallax>
+              <div className="mx-auto lg:mr-0 relative h-[550px] sm:h-[600px] md:h-[600px] w-full max-w-[800px] flex items-start justify-center mt-4 sm:mt-8 lg:-mt-20">
+                <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
+                  <div className="scale-90 sm:scale-100 md:scale-90 lg:scale-100 transition-transform origin-center">
+                    <HeroCarousel />
+                  </div>
+                </ScrollAnimation>
+                {/* Decorative elements */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[60px] md:blur-[100px] opacity-20 z-0 pointer-events-none"></div>
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* Metrics */}
-        <StatsBand />
-
-        {/* EEG trace drawn by scroll — brand signature */}
-        <NeuroDivider />
-
-        {/* Clinical workflow scrollytelling */}
-        <WorkflowSection />
-
-        {/* Features Section (What We Offer) */}
-        <FeaturesSection />
-
-        {/* Testimonials Section */}
-        <section id="testimonials" className="w-full py-20 md:py-28 relative overflow-hidden">
-          <div className="container px-4 md:px-6 relative z-10">
-            <ScrollAnimation>
-              <div className="text-center mb-12 max-w-2xl mx-auto">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-slate-900 dark:text-white">
-                  <AnimatedWords text={tTests('title')} />
-                </h2>
-                <p className="mt-4 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">{tTests('subtitle')}</p>
-              </div>
-            </ScrollAnimation>
-            <TestimonialsMarquee />
+          <div className="w-full z-20 flex flex-col items-center justify-center gap-2 mt-12 md:absolute md:bottom-8 md:mt-0">
+            <span className="text-sm md:text-base font-medium text-muted-foreground animate-pulse text-center px-4">
+              {tGeneral('discover_services')}
+            </span>
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <PricingSection />
+        {/* Features Section (What We Offer) */}
+        <div className="xl:pl-32 xl:pr-16">
+          <FeaturesSection />
+        </div>
 
-        {/* FAQ Section */}
-        <section id="faq" className="w-full py-20 md:py-28 relative">
+        {/* Testimonials Section (Relatos) */}
+        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
           <div className="container px-4 md:px-6 relative z-10">
             <ScrollAnimation>
-              <div className="text-center mb-12 max-w-2xl mx-auto">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-slate-900 dark:text-white">
-                  <AnimatedWords text={tFAQ('title')} />
-                </h2>
-                <p className="mt-4 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">{tFAQ('subtitle')}</p>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tTests('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed">{tTests('subtitle')}</p>
+              </div >
+            </ScrollAnimation >
+            <div className="mt-12">
+              <TestimonialsMarquee />
+            </div>
+          </div >
+        </section >
+
+        {/* Pricing Section */}
+        <div className="xl:pl-32 xl:pr-16">
+          <PricingSection />
+        </div>
+
+        {/* FAQ Section */}
+        <section id="faq" className="w-full pt-16 md:pt-24 pb-32 md:pb-48 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
+          <div className="container px-4 md:px-8 relative z-10">
+            <ScrollAnimation>
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tFAQ('title')}</h2>
+                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed max-w-2xl mx-auto">{tFAQ('subtitle')}</p>
               </div>
             </ScrollAnimation>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto perspective-1000">
               {Array.isArray(tFAQ.raw('items')) && tFAQ.raw('items').map((faq: any, i: number) => (
                 <ScrollAnimation key={i} delay={i * 50}>
-                  <motion.div whileHover={reduce ? undefined : { y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 24 }} className="h-full">
-                    <Card className="border border-border/60 shadow-sm bg-card transition-colors hover:border-primary/40 h-full">
-                      <CardContent className="p-6">
-                        <h3 className="font-semibold text-foreground mb-2">{faq.q}</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                          {faq.a}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
+                  <Card className="border border-border/50 shadow-sm bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:z-10 hover:bg-card hover:border-primary/30 relative group h-full">
+                    <CardContent className="p-5 sm:p-8">
+                      <h3 className="font-bold text-foreground mb-3 text-lg group-hover:text-primary transition-colors">{faq.q}</h3>
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </CardContent>
+                  </Card>
                 </ScrollAnimation>
               ))}
             </div>
-          </div>
-        </section>
+          </div >
+        </section >
 
-        {/* Final CTA */}
-        <CTASection />
+
+
+        {/* Back to Top Indicator */}
+        <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
+          <Link
+            href="#hero"
+            className="group flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1"
+          >
+            <div className="h-14 w-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-primary/20 transition-all">
+              <ArrowUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
+              {tGeneral('back_to_top')}
+            </span>
+          </Link>
+        </div>
       </main>
       <Footer />
       <NeurometricaSupportBot />

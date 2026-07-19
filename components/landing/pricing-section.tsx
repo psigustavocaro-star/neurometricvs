@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { motion, useReducedMotion } from "framer-motion"
 import { useTranslations } from "next-intl"
 import { Check, Info, X, ShieldCheck, Activity, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,7 @@ import { Link } from "@/i18n/navigation"
 import { PriceDisplay } from "@/components/pricing/price-display"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { PRICE_ID_BASIC, PRICE_ID_CLINICAL, PRICE_ID_PRO } from "@/lib/config"
+import { InstitutionsMarquee } from "./institutions-marquee"
 import {
     Dialog,
     DialogContent,
@@ -24,7 +24,6 @@ export function PricingSection() {
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [activeDetailsPlan, setActiveDetailsPlan] = useState<string | null>(null)
-    const reduce = useReducedMotion()
 
     const handleCardClick = (planKey: string) => {
         setSelectedPlan(planKey)
@@ -45,8 +44,8 @@ export function PricingSection() {
             <div className="container px-4 md:px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <ScrollAnimation animation="fade-up">
-                        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-slate-900 dark:text-white mb-4">{t('title')}</h2>
-                        <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">{t('title')}</h2>
+                        <p className="text-lg text-slate-500 dark:text-slate-400 font-light italic">
                             {t('subtitle')}
                         </p>
                     </ScrollAnimation>
@@ -60,9 +59,7 @@ export function PricingSection() {
 
                         return (
                             <ScrollAnimation key={plan.key} delay={index * 100} className="h-full">
-                                <motion.div
-                                    whileHover={reduce ? undefined : { y: -6 }}
-                                    transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                                <div
                                     onClick={() => handleCardClick(plan.key)}
                                     className={cn(
                                         "group relative flex flex-col p-8 rounded-[2rem] border transition-all duration-500 h-full cursor-pointer bg-white dark:bg-slate-900",
@@ -143,7 +140,7 @@ export function PricingSection() {
                                             <Info className="w-3 h-3" /> {t('view_details')}
                                         </button>
                                     </div>
-                                </motion.div>
+                                </div>
                             </ScrollAnimation>
                         )
                     })}

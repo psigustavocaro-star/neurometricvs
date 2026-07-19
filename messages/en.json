@@ -255,20 +255,6 @@
             "Occupational Therapists",
             "Speech Therapists",
             "Nutritionists"
-        ],
-        "badge": "Clinical practice platform",
-        "platform_label": "Unified clinical intelligence",
-        "monitoring_label": "Monitoring",
-        "monitoring_value": "Real-time data",
-        "protection_label": "Protection",
-        "protection_value": "Secure clinical workflow",
-        "product_eyebrow": "Real product, not promises",
-        "product_title": "See how Neurometrics works.",
-        "product_description": "Explore clinical records, automatic scoring and medical tools exactly as they are used inside the platform.",
-        "trust_points": [
-            "Free plan available",
-            "No credit card required",
-            "Encrypted data"
         ]
     },
     "General": {
@@ -2419,10 +2405,22 @@
         "title": "Less operation. More clinical presence.",
         "description": "Neurometrics brings every part of your practice into one precise, connected workspace. You keep the judgment; the platform handles repetitive work.",
         "capabilities": {
-            "records": { "title": "Living clinical record", "description": "History, progress and context remain connected." },
-            "tests": { "title": "Automated assessment", "description": "Real instruments, delivery and immediate scoring." },
-            "reports": { "title": "Reports, ready", "description": "Clear results that become clinical decisions." },
-            "ai": { "title": "Intelligent assistance", "description": "Contextual support without replacing your judgment." }
+            "records": {
+                "title": "Living clinical record",
+                "description": "History, progress and context remain connected."
+            },
+            "tests": {
+                "title": "Automated assessment",
+                "description": "Real instruments, delivery and immediate scoring."
+            },
+            "reports": {
+                "title": "Reports, ready",
+                "description": "Clear results that become clinical decisions."
+            },
+            "ai": {
+                "title": "Intelligent assistance",
+                "description": "Contextual support without replacing your judgment."
+            }
         }
     }
 }

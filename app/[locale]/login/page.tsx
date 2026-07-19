@@ -1,10 +1,13 @@
-import { resendConfirmation } from './actions'
+import { login, signup, resendConfirmation } from './actions'
 import { Link } from '@/i18n/navigation'
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import { GoogleLoginButton } from '@/components/auth/google-login-button'
+import { PasswordInput } from '@/components/ui/password-input'
 import { LoginPageForm } from '@/components/auth/login-page-form'
 
 export default async function LoginPage(props: {
@@ -19,28 +22,21 @@ export default async function LoginPage(props: {
         : null
 
     return (
-        <div className="grid min-h-screen bg-[#e2dcd5] lg:grid-cols-[1.08fr_.92fr] dark:bg-[#050a12]">
-            <div className="relative hidden overflow-hidden bg-[#07151b] lg:block">
-                <Image src="/neurometrics-observatory-hero.png" alt="Profesional usando Neurometrics Clinical OS" fill priority className="object-cover object-[66%_center]" />
-                <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(3,12,16,.9)_0%,rgba(3,12,16,.05)_68%),linear-gradient(90deg,rgba(3,12,16,.15),transparent)]" />
-                <div className="absolute inset-x-0 bottom-0 p-10 xl:p-14">
-                    <div className="mb-5 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.25em] text-teal-200">
-                        <span className="h-px w-10 bg-teal-300" /> Clinical operating system
-                    </div>
-                    <p className="max-w-xl font-editorial text-5xl font-normal leading-[0.94] tracking-[-0.045em] text-white xl:text-6xl">
-                        El criterio conduce.<br /><em>El sistema conecta.</em>
-                    </p>
-                </div>
+        <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-8 pt-28 md:pt-24 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-x-hidden">
+
+            {/* Enhanced Background Effects */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-[10%] sm:-top-[30%] -left-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-teal-500/15 blur-[80px] sm:blur-[120px] animate-pulse" />
+                <div className="absolute -bottom-[10%] sm:-bottom-[30%] -right-[15%] w-[80%] sm:w-[60%] h-[60%] rounded-full bg-indigo-500/15 blur-[80px] sm:blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
-            <div className="relative flex items-center justify-center p-5 sm:p-8 md:p-12">
-                <div aria-hidden className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(15,23,42,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.04)_1px,transparent_1px)] [background-size:64px_64px] dark:opacity-15" />
-            <Card className="w-full max-w-md relative z-10 border-0 bg-transparent shadow-none backdrop-blur-none mx-auto dark:bg-transparent">
+
+            <Card className="w-full max-w-md relative z-10 bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/50 dark:shadow-black/50 rounded-3xl mx-auto">
                 <CardHeader className="text-center pb-4 pt-8">
                     {/* Official Neurometrics Logo */}
                     <div className="flex justify-center mb-6">
                         <Link href="/" className="group">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-teal-400 blur-xl opacity-15 group-hover:opacity-30 transition-opacity rounded-full scale-150" />
+                                <div className="absolute inset-0 bg-teal-400 blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full scale-150" />
                                 <Image
                                     src="/logo.png"
                                     alt="Neurometrics"
@@ -52,8 +48,7 @@ export default async function LoginPage(props: {
                             </div>
                         </Link>
                     </div>
-                    <div className="nm-eyebrow justify-center">Acceso clínico seguro</div>
-                    <CardTitle className="text-3xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white">
+                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
                         {t('title')}
                     </CardTitle>
                     <CardDescription className="text-base text-slate-600 dark:text-slate-400 mt-2">
@@ -105,7 +100,6 @@ export default async function LoginPage(props: {
                     </form>
                 </CardFooter>
             </Card>
-            </div>
         </div>
     )
 

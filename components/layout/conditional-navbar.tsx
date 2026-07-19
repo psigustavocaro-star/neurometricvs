@@ -11,12 +11,10 @@ interface ConditionalNavbarProps {
 }
 
 // Routes where AppShell provides navigation or full-screen experience (hide the top navbar)
-const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/tests', '/onboarding', '/login', '/forgot-password', '/reset-password']
+const APP_SHELL_ROUTES = ['/dashboard', '/patients', '/profile', '/reports', '/tests', '/onboarding', '/forgot-password', '/reset-password']
 
 export function ConditionalNavbar({ user, plan, profile }: ConditionalNavbarProps) {
     const pathname = usePathname()
-
-    const isLandingPage = pathname === '/' || pathname === '/es' || pathname === '/en'
 
     // Check if the current path should show the AppShell instead of the top Navbar
     const isAppShellRoute = APP_SHELL_ROUTES.some(route =>
@@ -27,7 +25,7 @@ export function ConditionalNavbar({ user, plan, profile }: ConditionalNavbarProp
     )
 
     // Don't render navbar on AppShell routes
-    if (isAppShellRoute || isLandingPage) {
+    if (isAppShellRoute) {
         return null
     }
 
