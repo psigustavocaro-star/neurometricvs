@@ -33,9 +33,9 @@ export function ProductShowcase() {
     }, [isAutoPlaying, tabs.length])
 
     return (
-        <div className="w-full flex flex-col items-center gap-5" style={{ perspective: 1600 }}>
+        <div className="w-full flex flex-col items-center gap-6" style={{ perspective: 1400 }}>
             {/* Tab Switcher with sliding pill */}
-            <div className="inline-flex items-center gap-1 p-1 rounded-full bg-white/75 dark:bg-slate-950/80 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 shadow-lg shadow-slate-900/5" role="tablist">
+            <div className="inline-flex items-center gap-1 p-1 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm" role="tablist">
                 {tabs.map((tab, i) => (
                     <button
                         key={tab.key}
@@ -68,15 +68,12 @@ export function ProductShowcase() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1, filter: 'blur(0px)' }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-5xl will-change-transform rounded-[1.75rem] md:rounded-[2.25rem] border border-white/10 bg-slate-950 p-2.5 md:p-4 shadow-[0_45px_110px_-40px_rgba(2,6,23,0.75)]"
+                className="relative w-full max-w-xl will-change-transform"
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 <Tilt max={4}>
-                    <div aria-hidden className="absolute inset-0 rounded-[1.75rem] md:rounded-[2.25rem] bg-[radial-gradient(circle_at_50%_0%,rgba(45,212,191,0.12),transparent_42%)] pointer-events-none" />
-                    <div className="relative flex items-center justify-between px-3 md:px-4 pb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                        <span>Neurometrics / Clinical OS</span>
-                        <span className="flex items-center gap-2"><i className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" /> Online</span>
-                    </div>
+                    {/* Soft ground shadow */}
+                    <div aria-hidden className="absolute -inset-x-6 -bottom-8 h-16 bg-slate-900/10 dark:bg-black/40 blur-2xl rounded-full -z-10" />
                     <AnimatePresence mode="wait" initial={false}>
                         <motion.div
                             key={active}
@@ -84,7 +81,7 @@ export function ProductShowcase() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -14, scale: 0.99 }}
                             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                            className="relative w-full flex justify-center rounded-[1.25rem] md:rounded-[1.6rem] overflow-hidden ring-1 ring-white/10 bg-white dark:bg-slate-900"
+                            className="w-full flex justify-center"
                         >
                             {tabs[active].component}
                         </motion.div>
