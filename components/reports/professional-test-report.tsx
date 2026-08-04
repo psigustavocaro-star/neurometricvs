@@ -230,6 +230,8 @@ function generateRecommendations(test: TestDefinition, results: TestResults): st
 export function ProfessionalTestReport({
     test,
     results,
+    patientName = "Paciente",
+    patientAge,
     patientGender,
     evaluatorName = "Profesional Evaluador",
     evaluatorSpecialty,

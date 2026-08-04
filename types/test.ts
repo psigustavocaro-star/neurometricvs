@@ -3,6 +3,7 @@ export type QuestionType = 'single_choice' | 'multiple_choice' | 'scale' | 'text
 export interface Option {
     label: string
     value: number | string
+    description?: string
 }
 
 export interface Question {
