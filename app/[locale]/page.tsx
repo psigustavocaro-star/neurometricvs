@@ -65,6 +65,16 @@ export default function LandingPage() {
               <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
 
 
+                <ScrollAnimation animation="fade-up" delay={50}>
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 dark:bg-teal-500/20 border border-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-semibold tracking-wide shadow-sm backdrop-blur-md mb-4">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                    </span>
+                    Plataforma Neuropsicológica Integrada • Algoritmos Clínicos V2
+                  </div>
+                </ScrollAnimation>
+
                 <ScrollAnimation animation="fade-up" delay={100}>
                   <div className="min-h-[140px] sm:min-h-[160px] lg:min-h-[190px] flex items-center lg:items-start relative z-20">
                     <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm max-w-4xl leading-[1.1]">
@@ -97,22 +107,34 @@ export default function LandingPage() {
                 </ScrollAnimation>
 
                 <ScrollAnimation animation="fade-up" delay={400}>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4 justify-center lg:justify-start">
-                    <div className="flex -space-x-3">
-                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                        <Image src="/assets/v2/female-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                  <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mt-4 justify-center lg:justify-start">
+                    <div className="flex items-center gap-4">
+                      <div className="flex -space-x-3">
+                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                          <Image src="/assets/v2/female-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                          <Image src="/assets/v2/male-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                          <Image src="/assets/v2/female-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
+                          <Image src="/assets/v2/male-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                        </div>
                       </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                        <Image src="/assets/v2/male-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      <p className="font-medium text-muted-foreground">{tHero('trusted_by')}</p>
+                    </div>
+
+                    {/* Feature badges */}
+                    <div className="hidden sm:flex items-center gap-4 border-l border-slate-200 dark:border-slate-800 pl-6">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        <Check className="w-4 h-4 text-teal-600" /> +50 Tests Clínicos
                       </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                        <Image src="/assets/v2/female-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                        <Image src="/assets/v2/male-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        <Check className="w-4 h-4 text-teal-600" /> Cifrado RLS Activo
                       </div>
                     </div>
-                    <p className="font-medium text-muted-foreground">{tHero('trusted_by')}</p>
                   </div>
                 </ScrollAnimation>
               </div>
