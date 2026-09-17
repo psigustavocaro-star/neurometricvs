@@ -1,232 +1,45 @@
 'use client'
-import Image from "next/image"
-import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { ArrowRight, Check, ChevronDown, Menu, X, ArrowUp, Play } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { LoginModal } from "@/components/auth/login-modal"
-import { HeroCarousel } from "@/components/landing/hero-carousel"
-import { ScrollAnimation } from "@/components/ui/scroll-animation"
-import { TestimonialsMarquee } from "@/components/landing/testimonials-marquee"
-import { InstitutionsMarquee } from "@/components/landing/institutions-marquee"
-import { Footer } from "@/components/layout/footer"
-import { VerticalNavbar } from "@/components/layout/vertical-navbar"
-import { DemoModal } from "@/components/landing/demo-modal"
-import { FeaturesSection } from "@/components/landing/features-section"
-import { PricingSection } from "@/components/landing/pricing-section"
-import { NeurometricaSupportBot } from "@/components/support/neurometrica-support-bot"
-import { FluidBackground } from "@/components/ui/fluid-background"
-import { ProfessionTextLoop } from "@/components/landing/profession-text-loop"
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+
+import { ArrowRight, FileText, Users, Activity, ChevronRight } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
+import { Button } from '@/components/ui/button'
+import { LoginModal } from '@/components/auth/login-modal'
+import { FeaturesSection } from '@/components/landing/features-section'
+import { PricingSection } from '@/components/landing/pricing-section'
+import { TestimonialsMarquee } from '@/components/landing/testimonials-marquee'
+import { Footer } from '@/components/layout/footer'
+import { NeurometricaSupportBot } from '@/components/support/neurometrica-support-bot'
+
+function ClinicalPreview() {
+  return <div className="relative mx-auto w-full max-w-[640px]">
+    <div className="absolute -left-5 top-16 hidden h-28 w-28 rounded-full border border-[#b9cbbf] lg:block" />
+    <div className="absolute -right-6 bottom-12 hidden h-20 w-20 bg-[#d7a35d] lg:block" />
+    <div className="relative overflow-hidden border border-[#1e342f] bg-[#16352f] p-3 shadow-[14px_16px_0_#d7a35d] sm:p-4">
+      <div className="flex items-center justify-between border-b border-white/15 pb-3 text-[#f7f4ed]"><div className="flex items-center gap-2 text-xs font-semibold tracking-[0.16em] uppercase"><span className="h-2 w-2 rounded-full bg-[#d7a35d]" /> Neurometrics</div><span className="text-[10px] tracking-widest text-white/55 uppercase">Ficha clínica</span></div>
+      <div className="grid gap-3 pt-3 sm:grid-cols-[.9fr_1.5fr]">
+        <aside className="bg-[#20453d] p-4 text-[#e7eee9]"><p className="text-[10px] font-bold tracking-[0.16em] text-[#d7a35d] uppercase">Paciente</p><div className="mt-5 flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-full bg-[#d7a35d] text-sm font-bold text-[#16352f]">MG</div><div><p className="text-sm font-semibold">María G.</p><p className="text-xs text-white/55">34 años</p></div></div><div className="mt-7 space-y-3 border-t border-white/10 pt-4 text-xs"><p className="flex items-center justify-between"><span className="text-white/55">Próxima sesión</span><span>Hoy, 16:30</span></p><p className="flex items-center justify-between"><span className="text-white/55">Profesional</span><span>Dra. Rivera</span></p></div><button className="mt-7 flex w-full items-center justify-between border border-white/20 px-3 py-2 text-left text-xs font-medium">Ver perfil <ChevronRight className="h-3.5 w-3.5" /></button></aside>
+        <section className="bg-[#f7f4ed] p-4 sm:p-5"><div className="flex items-start justify-between"><div><p className="text-[10px] font-bold tracking-[0.15em] text-[#6b776e] uppercase">Sesión 08</p><h3 className="mt-1 font-serif text-xl text-[#16352f]">Seguimiento clínico</h3></div><span className="border border-[#b9cbbf] px-2 py-1 text-[10px] font-semibold text-[#315a50]">EN CURSO</span></div><div className="mt-5 grid grid-cols-3 gap-2">{[['Estado de ánimo', 'Estable'], ['Sueño', '6.5 h'], ['Ansiedad', 'Baja']].map(([label, value]) => <div key={label} className="border-t border-[#b9cbbf] pt-2"><p className="text-[9px] text-[#6b776e]">{label}</p><p className="mt-1 text-xs font-semibold text-[#16352f]">{value}</p></div>)}</div><div className="mt-6 border-t border-[#d5d4ca] pt-4"><p className="text-xs font-semibold text-[#16352f]">Notas de la sesión</p><p className="mt-2 text-xs leading-5 text-[#53635d]">Se observa mayor regulación emocional. Se acuerda continuar con registro de pensamientos y revisar patrones de sueño.</p></div><div className="mt-5 flex gap-2"><span className="bg-[#dce8df] px-2 py-1 text-[10px] font-medium text-[#315a50]">Plan activo</span><span className="bg-[#efe4d2] px-2 py-1 text-[10px] font-medium text-[#89612a]">1 tarea pendiente</span></div></section>
+      </div>
+    </div>
+    <p className="mt-7 text-right text-xs font-medium tracking-[0.14em] text-[#56685f] uppercase">Una jornada clínica, en orden</p>
+  </div>
+}
 
 export default function LandingPage() {
-  const router = useRouter();
-  const tHero = useTranslations('Hero');
-  // ... rest of translations
+  const router = useRouter()
+  const tHero = useTranslations('Hero')
+  const tTests = useTranslations('Testimonials')
+  useEffect(() => { ['/onboarding', '/login', '/features', '/pricing'].forEach((route) => router.prefetch(route)) }, [router])
 
-  const tMobile = useTranslations('MobileSection');
-  const tTests = useTranslations('Testimonials');
-  const tTrust = useTranslations('Trust');
-  const tPricing = useTranslations('Pricing');
-  const tFAQ = useTranslations('FAQ');
-  const tNav = useTranslations('Navbar');
-  const tGeneral = useTranslations('General');
-
-  useEffect(() => {
-    // Prefetch critical routes for instant feeling
-    const routesToPrefetch = ['/onboarding', '/login', '/features', '/pricing', '/testimonials'];
-    routesToPrefetch.forEach(route => router.prefetch(route));
-  }, [router]);
-
-  return (
-    <div className="flex flex-col min-h-screen font-sans overflow-x-hidden">
-      <VerticalNavbar />
-
-      <main className="flex-1 relative bg-background transition-colors duration-500">
-        {/* Unified Background - Continuous Flow */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          {/* Subtle grid only in dark mode if desired, or completely removed as per request */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 dark:opacity-[0.03]" />
-
-          {/* Calipso Blobs for Atmosphere */}
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 dark:bg-primary/5 blur-[120px] animate-blob animation-delay-2000 mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute top-[60%] left-[-20%] w-[60%] h-[60%] rounded-full bg-primary/15 dark:bg-primary/10 blur-[130px] animate-blob animation-delay-4000 mix-blend-multiply dark:mix-blend-normal filter" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 dark:bg-primary/10 blur-[100px] animate-blob animation-delay-6000 mix-blend-multiply dark:mix-blend-normal filter" />
-        </div>
-
-        {/* Hero Section */}
-        <section id="hero" className="w-full pt-24 md:pt-32 lg:pt-40 pb-16 md:pb-24 overflow-hidden relative bg-transparent transition-colors duration-300">
-          <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 xl:pl-32 xl:pr-10 relative z-10">
-
-            <div className="grid gap-12 lg:grid-cols-[1.2fr_450px] xl:grid-cols-[1.2fr_650px] items-start">
-              <div className="flex flex-col justify-center space-y-8 mt-8 md:-mt-12 lg:-mt-20 items-center text-center lg:items-start lg:text-left">
-
-
-                <ScrollAnimation animation="fade-up" delay={50}>
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/10 dark:bg-teal-500/20 border border-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-semibold tracking-wide shadow-sm backdrop-blur-md mb-4">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                    </span>
-                    Plataforma Neuropsicológica Integrada • Algoritmos Clínicos V2
-                  </div>
-                </ScrollAnimation>
-
-                <ScrollAnimation animation="fade-up" delay={100}>
-                  <div className="min-h-[140px] sm:min-h-[160px] lg:min-h-[190px] flex items-center lg:items-start relative z-20">
-                    <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-slate-900 dark:text-white drop-shadow-sm max-w-4xl leading-[1.1]">
-                      {tHero('title')} <ProfessionTextLoop />
-                    </h1>
-                  </div>
-                </ScrollAnimation>
-
-                <ScrollAnimation animation="fade-up" delay={200}>
-                  <p className="max-w-[700px] text-slate-500 text-lg md:text-xl leading-relaxed text-balance mx-auto lg:mx-0 font-light mt-4">
-                    {tHero('subtitle')}
-                  </p>
-                </ScrollAnimation>
-
-                <ScrollAnimation animation="fade-up" delay={300}>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto">
-                    <Button asChild size="lg" className="relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 rounded-full px-8 h-12 text-base group border-0 transition-all">
-                      <Link href="/onboarding">
-                        <span className="relative z-10 flex items-center">{tHero('cta_primary')} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
-                        <div className="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent z-0" />
-                      </Link>
-                    </Button>
-                    <DemoModal>
-                      <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/50 rounded-full px-8 h-12 text-base hover:border-primary/50 transition-all cursor-pointer group shadow-sm">
-                        <Play className="mr-2 h-4 w-4 text-teal-600 dark:text-teal-400 fill-teal-600 dark:fill-teal-400 group-hover:scale-110 transition-transform" />
-                        {tHero('cta_secondary')}
-                      </Button>
-                    </DemoModal>
-                  </div>
-                </ScrollAnimation>
-
-                <ScrollAnimation animation="fade-up" delay={400}>
-                  <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mt-4 justify-center lg:justify-start">
-                    <div className="flex items-center gap-4">
-                      <div className="flex -space-x-3">
-                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                          <Image src="/assets/v2/female-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                          <Image src="/assets/v2/male-1.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                          <Image src="/assets/v2/female-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden shadow-md ring-2 ring-transparent hover:ring-primary/50 transition-all hover:scale-110 hover:z-10 relative">
-                          <Image src="/assets/v2/male-2.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
-                        </div>
-                      </div>
-                      <p className="font-medium text-muted-foreground">{tHero('trusted_by')}</p>
-                    </div>
-
-                    {/* Feature badges */}
-                    <div className="hidden sm:flex items-center gap-4 border-l border-slate-200 dark:border-slate-800 pl-6">
-                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        <Check className="w-4 h-4 text-teal-600" /> +50 Tests Clínicos
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        <Check className="w-4 h-4 text-teal-600" /> Cifrado RLS Activo
-                      </div>
-                    </div>
-                  </div>
-                </ScrollAnimation>
-              </div>
-
-              <div className="mx-auto lg:mr-0 relative h-[550px] sm:h-[600px] md:h-[600px] w-full max-w-[800px] flex items-start justify-center mt-4 sm:mt-8 lg:-mt-20">
-                <ScrollAnimation animation="scale-up" delay={200} duration={0.8} className="w-full h-full flex items-center justify-center">
-                  <div className="scale-90 sm:scale-100 md:scale-90 lg:scale-100 transition-transform origin-center">
-                    <HeroCarousel />
-                  </div>
-                </ScrollAnimation>
-                {/* Decorative elements */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-[60px] md:blur-[100px] opacity-20 z-0 pointer-events-none"></div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full z-20 flex flex-col items-center justify-center gap-2 mt-12 md:absolute md:bottom-8 md:mt-0">
-            <span className="text-sm md:text-base font-medium text-muted-foreground animate-pulse text-center px-4">
-              {tGeneral('discover_services')}
-            </span>
-          </div>
-        </section>
-
-        {/* Features Section (What We Offer) */}
-        <div className="xl:pl-32 xl:pr-16">
-          <FeaturesSection />
-        </div>
-
-        {/* Testimonials Section (Relatos) */}
-        <section id="testimonials" className="w-full py-12 md:py-24 pb-24 md:pb-32 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
-          <div className="container px-4 md:px-6 relative z-10">
-            <ScrollAnimation>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tTests('title')}</h2>
-                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed">{tTests('subtitle')}</p>
-              </div >
-            </ScrollAnimation >
-            <div className="mt-12">
-              <TestimonialsMarquee />
-            </div>
-          </div >
-        </section >
-
-        {/* Pricing Section */}
-        <div className="xl:pl-32 xl:pr-16">
-          <PricingSection />
-        </div>
-
-        {/* FAQ Section */}
-        <section id="faq" className="w-full pt-16 md:pt-24 pb-32 md:pb-48 bg-transparent relative overflow-hidden xl:pl-32 xl:pr-16">
-          <div className="container px-4 md:px-8 relative z-10">
-            <ScrollAnimation>
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">{tFAQ('title')}</h2>
-                <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg font-light leading-relaxed max-w-2xl mx-auto">{tFAQ('subtitle')}</p>
-              </div>
-            </ScrollAnimation>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto perspective-1000">
-              {Array.isArray(tFAQ.raw('items')) && tFAQ.raw('items').map((faq: any, i: number) => (
-                <ScrollAnimation key={i} delay={i * 50}>
-                  <Card className="border border-border/50 shadow-sm bg-card/80 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:z-10 hover:bg-card hover:border-primary/30 relative group h-full">
-                    <CardContent className="p-5 sm:p-8">
-                      <h3 className="font-bold text-foreground mb-3 text-lg group-hover:text-primary transition-colors">{faq.q}</h3>
-                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                        {faq.a}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </ScrollAnimation>
-              ))}
-            </div>
-          </div >
-        </section >
-
-
-
-        {/* Back to Top Indicator */}
-        <div className="absolute bottom-6 left-0 w-full flex justify-center z-20">
-          <Link
-            href="#hero"
-            className="group flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1"
-          >
-            <div className="h-14 w-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-primary/20 transition-all">
-              <ArrowUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
-            </div>
-            <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
-              {tGeneral('back_to_top')}
-            </span>
-          </Link>
-        </div>
-      </main>
-      <Footer />
-      <NeurometricaSupportBot />
-    </div>
-  )
+  return <div className="min-h-screen overflow-x-hidden bg-[#f7f4ed] text-[#16352f]"><main>
+    <section className="relative overflow-hidden border-b border-[#cfd6cf] pt-32 pb-20 md:pt-40 md:pb-28"><div className="absolute left-0 top-0 h-full w-[34%] border-r border-[#d9ded8]" /><div className="relative mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-[1fr_.95fr] lg:items-center lg:px-10"><div className="max-w-2xl"><p className="mb-7 flex items-center gap-3 text-[11px] font-bold tracking-[0.19em] text-[#756342] uppercase"><span className="h-px w-10 bg-[#d7a35d]" /> Plataforma clínica integral</p><h1 className="font-serif text-5xl leading-[.98] tracking-[-0.045em] text-[#16352f] sm:text-6xl lg:text-7xl">{tHero('title')} <em className="font-normal text-[#a66f2c]">personas.</em></h1><p className="mt-8 max-w-xl text-lg leading-8 text-[#506057]">{tHero('subtitle')}</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-13 rounded-none bg-[#16352f] px-7 text-sm font-semibold text-[#f7f4ed] shadow-none hover:bg-[#285044]"><Link href="/onboarding">{tHero('cta_primary')} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button><LoginModal><Button variant="outline" size="lg" className="h-13 rounded-none border-[#7b9388] bg-transparent px-7 text-sm font-semibold text-[#16352f] hover:bg-[#e8ece5]">Ingresar a mi espacio</Button></LoginModal></div><div className="mt-12 grid max-w-lg grid-cols-3 border-y border-[#cfd6cf] py-5">{[['50+', 'tests clínicos'], ['1', 'ficha integrada'], ['100%', 'tu información']].map(([number, label]) => <div key={label} className="border-r border-[#cfd6cf] px-3 first:pl-0 last:border-0"><p className="font-serif text-2xl text-[#16352f]">{number}</p><p className="mt-1 text-[10px] font-semibold tracking-[.1em] text-[#687870] uppercase">{label}</p></div>)}</div></div><ClinicalPreview /></div></section>
+    <section className="border-b border-[#cfd6cf] bg-[#e7ece4] py-7"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-6 lg:px-10"><p className="text-xs font-bold tracking-[.15em] text-[#506057] uppercase">Diseñado para la práctica, no para la pantalla</p><div className="flex items-center gap-6 text-xs font-semibold text-[#506057]"><span className="flex items-center gap-2"><FileText className="h-4 w-4 text-[#a66f2c]" /> Registro claro</span><span className="flex items-center gap-2"><Users className="h-4 w-4 text-[#a66f2c]" /> Atención cercana</span><span className="flex items-center gap-2"><Activity className="h-4 w-4 text-[#a66f2c]" /> Decisiones informadas</span></div></div></section>
+    <div className="bg-[#f7f4ed]"><FeaturesSection /></div>
+    <section id="testimonials" className="border-y border-[#cfd6cf] bg-[#16352f] py-20 text-[#f7f4ed]"><div className="mx-auto max-w-7xl px-6 lg:px-10"><p className="text-[11px] font-bold tracking-[.18em] text-[#d7a35d] uppercase">La práctica primero</p><div className="mt-5 flex flex-col justify-between gap-6 md:flex-row md:items-end"><h2 className="max-w-xl font-serif text-4xl leading-tight sm:text-5xl">{tTests('title')}</h2><p className="max-w-sm text-sm leading-6 text-white/65">{tTests('subtitle')}</p></div><div className="mt-12"><TestimonialsMarquee /></div></div></section>
+    <div className="bg-[#f7f4ed]"><PricingSection /></div>
+    <section className="bg-[#d7a35d] px-6 py-16 text-[#16352f]"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 md:flex-row md:items-end lg:px-4"><div><p className="text-[11px] font-bold tracking-[.18em] uppercase">Tu consulta merece tiempo</p><h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">Vuelve a centrarte en tus pacientes.</h2></div><Button asChild size="lg" className="h-13 rounded-none bg-[#16352f] px-7 text-[#f7f4ed] hover:bg-[#285044]"><Link href="/onboarding">Comenzar ahora <ArrowRight className="ml-2 h-4 w-4" /></Link></Button></div></section>
+  </main><Footer /><NeurometricaSupportBot /></div>
 }
