@@ -111,19 +111,20 @@ export function Navbar({ user, plan, profile }: { user?: User | null, plan?: str
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
                 scrolled
-                    ? "bg-[#f7f4ed]/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-[#cfd6cf] dark:border-slate-800 py-1"
-                    : "bg-[#f7f4ed] dark:bg-slate-950 py-3 border-b border-[#d9ded8] dark:border-slate-800"
+                    ? "bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-b border-slate-200/50 dark:border-slate-800/50 py-1"
+                    : "bg-transparent py-4 shadow-none border-b-transparent"
             )}
         >
             <div className="w-full max-w-[1600px] mx-auto px-6 md:pl-32 lg:pl-36 md:pr-10 lg:pr-16">
                 <div className={cn(
                     "flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-                    scrolled ? "h-14" : "h-16"
+                    scrolled ? "h-14" : "h-20"
                 )}>
                     {/* Logo */}
                     <Link href="/" className="flex-shrink-0 flex items-center gap-2 group min-w-0">
                         <div className="relative">
-                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-7 w-auto sm:h-9 relative z-10 transition-transform group-hover:opacity-75 dark:brightness-0 dark:invert" priority />
+                            <div className="absolute inset-0 bg-teal-400 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                            <Image src="/logo.png" alt="Neurometrics Logo" width={150} height={48} className="h-7 w-auto sm:h-10 md:h-12 relative z-10 transition-transform group-hover:scale-105 dark:brightness-0 dark:invert" priority />
                         </div>
                     </Link>
 

@@ -80,28 +80,28 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.97 0.012 90);
-  --foreground: oklch(0.25 0.04 160);
+  --radius: 0.85rem;
+  --background: oklch(0.98 0.005 200);
+  --foreground: oklch(0.12 0.01 200);
   /* Near-black for maximum contrast */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.12 0.01 200);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.12 0.01 200);
-  --primary: oklch(0.34 0.06 160);
-  --primary-foreground: oklch(0.97 0.012 90);
-  --secondary: oklch(0.92 0.025 145);
-  --secondary-foreground: oklch(0.25 0.04 160);
-  --muted: oklch(0.93 0.015 145);
-  --muted-foreground: oklch(0.42 0.03 155);
+  --primary: oklch(0.65 0.14 195);
+  --primary-foreground: oklch(0.98 0.01 195);
+  --secondary: oklch(0.95 0.01 200);
+  --secondary-foreground: oklch(0.15 0.02 200);
+  --muted: oklch(0.95 0.01 200);
+  --muted-foreground: oklch(0.22 0.01 200);
   /* Dark slate for muted text */
-  --accent: oklch(0.83 0.08 75);
-  --accent-foreground: oklch(0.3 0.05 155);
+  --accent: oklch(0.9 0.03 195);
+  --accent-foreground: oklch(0.15 0.02 200);
   --destructive: oklch(0.6 0.18 25);
   --destructive-foreground: oklch(0.98 0.01 200);
-  --border: oklch(0.84 0.025 150);
-  --input: oklch(0.84 0.025 150);
-  --ring: oklch(0.34 0.06 160);
+  --border: oklch(0.92 0.01 200);
+  --input: oklch(0.92 0.01 200);
+  --ring: oklch(0.65 0.14 195);
 
   /* Gradiente Palette for Fluid BG */
   --chart-1: oklch(0.65 0.14 195);
@@ -175,7 +175,7 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-amber-300/50;
+    @apply bg-background text-foreground antialiased selection:bg-teal-500/30;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

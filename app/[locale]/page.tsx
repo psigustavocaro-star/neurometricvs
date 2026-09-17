@@ -13,6 +13,7 @@ import { PricingSection } from '@/components/landing/pricing-section'
 import { TestimonialsMarquee } from '@/components/landing/testimonials-marquee'
 import { Footer } from '@/components/layout/footer'
 import { NeurometricaSupportBot } from '@/components/support/neurometrica-support-bot'
+import { HeroCarousel } from '@/components/landing/hero-carousel'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -39,32 +40,41 @@ function ScrollNarrative() {
   const sectionRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] })
-  const cardY = useTransform(scrollYProgress, [0, 0.38, 0.75], [80, 0, -52])
-  const cardScale = useTransform(scrollYProgress, [0, 0.45, 1], [0.86, 1, 0.94])
-  const firstOpacity = useTransform(scrollYProgress, [0, 0.18, 0.31], [1, 1, 0])
-  const secondOpacity = useTransform(scrollYProgress, [0.28, 0.45, 0.62], [0, 1, 0])
-  const thirdOpacity = useTransform(scrollYProgress, [0.58, 0.75, 1], [0, 1, 1])
-  const auraOpacity = useTransform(scrollYProgress, [0, 1], [0.9, 0.25])
+  // The product starts above the frame and physically settles as the visitor scrolls.
+  // This deliberately uses a long travel distance so the effect stays visible on trackpads too.
+  const cardY = useTransform(scrollYProgress, [0, 0.2, 0.62, 1], [-180, 0, 30, 100])
+  const cardScale = useTransform(scrollYProgress, [0, 0.42, 1], [0.72, 1.05, 0.92])
+  const cardRotate = useTransform(scrollYProgress, [0, 0.42, 1], [10, 0, -4])
+  const cardOpacity = useTransform(scrollYProgress, [0, 0.03, 1], [0.55, 1, 1])
+  const firstOpacity = useTransform(scrollYProgress, [0, 0.04, 0.34, 0.43], [1, 1, 1, 0])
+  const secondOpacity = useTransform(scrollYProgress, [0.32, 0.43, 0.7, 0.8], [0, 1, 1, 0])
+  const thirdOpacity = useTransform(scrollYProgress, [0.69, 0.8, 1], [0, 1, 1])
+  const auraOpacity = useTransform(scrollYProgress, [0, 1], [0.95, 0.2])
   const insightX = useTransform(scrollYProgress, [0.28, 0.5], [80, 0])
   const shieldX = useTransform(scrollYProgress, [0.58, 0.76], [-80, 0])
 
-  return <section ref={sectionRef} className="relative h-[280vh] bg-[#102f2a] text-[#f7f4ed]">
+  const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1])
+
+  return <section ref={sectionRef} className="relative h-[330vh] bg-[#071d32] text-[#eff9f8]">
     <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-      <motion.div style={reduceMotion ? undefined : { opacity: auraOpacity }} className="absolute -left-[20vw] top-[8vh] h-[46vw] w-[46vw] rounded-full border border-[#e4af63]/20" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(21,190,185,.2),transparent_28%),radial-gradient(circle_at_18%_20%,rgba(41,163,215,.18),transparent_32%)]" />
+      <motion.div style={reduceMotion ? undefined : { opacity: auraOpacity }} className="absolute -left-[20vw] top-[8vh] h-[46vw] w-[46vw] rounded-full border border-cyan-200/25" />
       <div className="absolute right-0 top-0 h-full w-[35%] border-l border-white/10" />
+      <div className="absolute bottom-0 left-[7%] top-0 hidden w-px bg-white/10 lg:block" />
       <div className="relative mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[.9fr_1.1fr] lg:px-10">
         <div className="relative min-h-[280px]">
-          <motion.div style={reduceMotion ? undefined : { opacity: firstOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-[#e4af63] uppercase">01 — Empieza por escuchar</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">Menos pestañas. Más presencia.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">Todo lo importante de una persona aparece en el momento justo, sin convertir la consulta en una hoja de cálculo.</p></motion.div>
-          <motion.div style={reduceMotion ? undefined : { opacity: secondOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-[#e4af63] uppercase">02 — El contexto se ordena</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">La historia toma forma.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">Fichas, sesiones, instrumentos y evolución se conectan en un único recorrido clínico.</p></motion.div>
-          <motion.div style={reduceMotion ? undefined : { opacity: thirdOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-[#e4af63] uppercase">03 — Decide con claridad</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">El tiempo vuelve a ser tuyo.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">Automatiza lo repetitivo para dedicar atención a lo que ninguna plataforma puede reemplazar.</p></motion.div>
+          <motion.div style={reduceMotion ? undefined : { opacity: firstOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-cyan-300 uppercase">01 — Empieza por escuchar</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">Menos pestañas. Más presencia.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">El producto entra en escena y deja a la vista lo esencial de cada persona, justo cuando lo necesitas.</p></motion.div>
+          <motion.div style={reduceMotion ? undefined : { opacity: secondOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-cyan-300 uppercase">02 — El contexto se ordena</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">La historia toma forma.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">Fichas, sesiones, instrumentos y evolución se conectan en un único recorrido clínico.</p></motion.div>
+          <motion.div style={reduceMotion ? undefined : { opacity: thirdOpacity }} className="absolute inset-0"><p className="text-[11px] font-bold tracking-[.2em] text-cyan-300 uppercase">03 — Decide con claridad</p><h2 className="mt-5 max-w-md font-editorial text-5xl leading-[.94] sm:text-6xl">El tiempo vuelve a ser tuyo.</h2><p className="mt-6 max-w-sm text-base leading-7 text-white/65">Automatiza lo repetitivo para dedicar atención a lo que ninguna plataforma puede reemplazar.</p></motion.div>
         </div>
         <div className="relative flex min-h-[400px] items-center justify-center lg:min-h-[520px]">
-          <motion.div style={reduceMotion ? undefined : { y: cardY, scale: cardScale }} className="relative z-10 w-full"><PatientCard /></motion.div>
-          <motion.div style={reduceMotion ? undefined : { opacity: secondOpacity, x: insightX }} className="absolute -right-5 bottom-6 z-20 hidden w-56 border border-[#d1dfd1] bg-[#f7f4ed] p-5 text-[#16342e] shadow-[14px_14px_0_#e4af63] md:block"><p className="text-[9px] font-bold tracking-[.16em] text-[#8b622c] uppercase">Evolución</p><p className="mt-3 font-editorial text-2xl leading-tight">Una lectura que acompaña.</p><div className="mt-5 flex items-end gap-1">{[35, 48, 41, 70, 58, 82].map((height, index) => <span key={index} className="w-5 bg-[#315a50]" style={{ height }} />)}</div></motion.div>
-          <motion.div style={reduceMotion ? undefined : { opacity: thirdOpacity, x: shieldX }} className="absolute -left-5 top-8 z-20 hidden border border-white/15 bg-[#1b443b] px-5 py-4 text-sm shadow-xl md:block"><span className="flex items-center gap-2 text-[#e4af63]"><ShieldCheck className="h-4 w-4" /> Información protegida</span></motion.div>
+          <div className="absolute inset-x-[10%] top-[9%] bottom-[4%] border border-cyan-100/20 bg-white/[.035] shadow-[0_30px_100px_rgba(0,0,0,.25)]" />
+          <motion.div style={reduceMotion ? undefined : { y: cardY, scale: cardScale, rotateX: cardRotate, opacity: cardOpacity }} className="relative z-10 w-full [transform-style:preserve-3d]"><PatientCard /></motion.div>
+          <motion.div style={reduceMotion ? undefined : { opacity: secondOpacity, x: insightX }} className="absolute -right-5 bottom-6 z-20 hidden w-56 border border-cyan-100/60 bg-[#eaf8f6] p-5 text-[#082537] shadow-[14px_14px_0_#16b8b1] md:block"><p className="text-[9px] font-bold tracking-[.16em] text-[#118985] uppercase">Evolución</p><p className="mt-3 font-editorial text-2xl leading-tight">Una lectura que acompaña.</p><div className="mt-5 flex items-end gap-1">{[35, 48, 41, 70, 58, 82].map((height, index) => <span key={index} className="w-5 bg-[#087f82]" style={{ height }} />)}</div></motion.div>
+          <motion.div style={reduceMotion ? undefined : { opacity: thirdOpacity, x: shieldX }} className="absolute -left-5 top-8 z-20 hidden border border-cyan-200/25 bg-[#0b3b52] px-5 py-4 text-sm shadow-xl md:block"><span className="flex items-center gap-2 text-cyan-200"><ShieldCheck className="h-4 w-4" /> Información protegida</span></motion.div>
         </div>
       </div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-[.2em] text-white/45 uppercase">Desliza para explorar</div>
+      <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-3 text-[10px] font-bold tracking-[.2em] text-white/55 uppercase"><span>Desliza para explorar</span><span className="h-px w-12 overflow-hidden bg-white/20"><motion.i style={reduceMotion ? undefined : { scaleX: progressScale }} className="block h-full origin-left bg-cyan-300" /></span></div>
     </div>
   </section>
 }
@@ -77,12 +87,12 @@ export default function LandingPage() {
   useEffect(() => { ['/onboarding', '/login', '/features', '/pricing'].forEach((route) => router.prefetch(route)) }, [router])
 
   return <div className="min-h-screen overflow-x-hidden bg-[#f7f4ed] text-[#16342e]"><main>
-    <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#eef1eb] pt-28">
-      <motion.div animate={reduceMotion ? undefined : { y: [0, -20, 0], rotate: [0, 2, 0] }} transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }} className="absolute -right-[18vw] top-[8vh] h-[65vw] w-[65vw] rounded-full bg-[#d9e6dc]" />
-      <motion.div animate={reduceMotion ? undefined : { x: [0, 30, 0], y: [0, 16, 0] }} transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }} className="absolute -left-[12vw] bottom-[-32vw] h-[56vw] w-[56vw] rounded-full border border-[#b8cbbd]" />
+    <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#e8f5f4] pt-28">
+      <motion.div animate={reduceMotion ? undefined : { y: [0, -20, 0], rotate: [0, 2, 0] }} transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }} className="absolute -right-[18vw] top-[8vh] h-[65vw] w-[65vw] rounded-full bg-cyan-200/60" />
+      <motion.div animate={reduceMotion ? undefined : { x: [0, 30, 0], y: [0, 16, 0] }} transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }} className="absolute -left-[12vw] bottom-[-32vw] h-[56vw] w-[56vw] rounded-full border border-cyan-500/30" />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-20 pt-16 lg:grid-cols-[1fr_.92fr] lg:items-center lg:px-10 lg:pb-28">
         <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .9, ease }} className="max-w-2xl"><p className="flex items-center gap-3 text-[11px] font-bold tracking-[.2em] text-[#856534] uppercase"><span className="h-px w-10 bg-[#d7a35d]" /> Plataforma clínica integral</p><h1 className="mt-7 font-editorial text-6xl leading-[.9] tracking-[-.045em] sm:text-7xl lg:text-[5.7rem]">{tHero('title')} <em className="font-normal text-[#a56f2d]">personas.</em></h1><p className="mt-8 max-w-xl text-lg leading-8 text-[#55655d]">{tHero('subtitle')}</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-13 rounded-none bg-[#16342e] px-7 text-[#f7f4ed] shadow-none transition-transform hover:-translate-y-1 hover:bg-[#285147]"><Link href="/onboarding">{tHero('cta_primary')} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button><LoginModal><Button variant="outline" size="lg" className="h-13 rounded-none border-[#769085] bg-transparent px-7 text-[#16342e] transition-colors hover:bg-white">Ingresar a mi espacio</Button></LoginModal></div></motion.div>
-        <motion.div initial={{ opacity: 0, scale: .94, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1.1, delay: .18, ease }} className="relative lg:justify-self-end"><PatientCard /><div className="absolute -bottom-8 -left-4 hidden max-w-56 bg-[#e4af63] p-5 text-[#16342e] shadow-xl sm:block"><HeartPulse className="h-5 w-5" /><p className="mt-4 font-editorial text-xl leading-tight">Una interfaz que baja el ruido.</p></div></motion.div>
+        <motion.div initial={{ opacity: 0, scale: .94, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1.1, delay: .18, ease }} className="relative mx-auto h-[500px] w-full max-w-[440px] lg:justify-self-end"><HeroCarousel /><div className="absolute -bottom-3 -left-4 z-20 hidden max-w-56 bg-cyan-500 p-5 text-[#06283b] shadow-xl sm:block"><HeartPulse className="h-5 w-5" /><p className="mt-4 font-editorial text-xl leading-tight">Una interfaz que baja el ruido.</p></div></motion.div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 border-t border-[#c9d4ca]"><div className="mx-auto flex max-w-7xl flex-wrap gap-x-9 gap-y-3 px-6 py-5 text-[10px] font-bold tracking-[.15em] text-[#53665d] uppercase lg:px-10"><span className="flex items-center gap-2"><FileText className="h-4 w-4 text-[#a56f2d]" /> Registro claro</span><span className="flex items-center gap-2"><Users className="h-4 w-4 text-[#a56f2d]" /> Atención cercana</span><span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#a56f2d]" /> Privacidad primero</span></div></div>
     </section>
